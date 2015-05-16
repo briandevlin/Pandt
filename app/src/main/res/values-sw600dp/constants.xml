@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Boolean value indicating whether the tablet UI should be used. -->
+    <integer name="use_tablet_ui">1</integer>
+</resources>

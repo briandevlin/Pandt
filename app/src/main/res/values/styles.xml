@@ -1,0 +1,16 @@
+<resources>
+
+    <style name="FrameworkRoot.Theme" parent="Theme.AppCompat.Light" />
+
+    <style name="Theme" parent="FrameworkRoot.Theme">
+
+    </style>
+
+    <!-- Base application theme. -->
+    <style name="Theme.IOSched.Base" parent="Theme">
+        <item name="actionBarOverlayTopOffset">?android:actionBarSize</item>
+    </style>
+
+    <style name="Theme.IOSched" parent="Theme.IOSched.Base" />
+
+</resources>

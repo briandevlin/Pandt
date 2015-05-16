@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.bdevlin.apps.pandt" >
+
+    <uses-sdk
+        tools:node="replace" />
+
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- required for GCM -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission
+        android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <permission
+        android:name="com.bdevlin.apps.pandt.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission
+        android:name="com.bdevlin.apps.pandt.permission.C2D_MESSAGE" />
+
+    <application
+
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.IOSched" >
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:label="@string/app_name"
+            android:name="com.bdevlin.apps.pandt.MailActivityEmail"
+            android:theme="@style/Theme.IOSched"
+            android:windowSoftInputMode="adjustPan|stateUnspecified" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="content"/>
+
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+        </activity>
+        <activity-alias android:name="com.android.email.activity.Welcome"
+            android:targetActivity="com.bdevlin.apps.pandt.MailActivityEmail"
+            android:label="@string/app_name" >
+
+            <intent-filter >
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <data
+                    android:scheme="content"
+                    android:host="ui.email.android.com"
+                    android:path="/view/mailbox"
+                    />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <data
+                    android:scheme="content"
+                    android:host="ui.email.android.com"
+                    android:path="/view/mailbox"
+                    />
+            </intent-filter>
+        </activity-alias>
+
+        <activity
+            android:name="com.bdevlin.apps.authenticator.AuthenticatorActivity"
+            android:configChanges="orientation"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:label="authenticator" >
+        </activity>
+
+        <activity
+            android:name="com.bdevlin.apps.pandt.chooseAccountActivity"
+            android:label="choose account"
+            >
+        </activity>
+
+        <activity
+            android:name="com.bdevlin.apps.ui.activity.setup.AccountSetupType"
+            android:label="account setup"
+            >
+        </activity>
+
+        <activity
+            android:name="com.bdevlin.apps.ui.activity.setup.AccountSetupIncoming"
+            android:label="setup incoming title"
+            >
+        </activity>
+
+        <activity
+            android:name="com.bdevlin.apps.ui.activity.setup.AccountSetupOptions"
+            android:label="setup_options_title"
+            >
+        </activity>
+        <activity
+            android:name="com.bdevlin.apps.ui.activity.setup.AccountSetupNames"
+            android:label="setup_names_title"
+            >
+        </activity>
+
+        <activity
+            android:name="com.bdevlin.apps.ui.activity.setup.AccountSetupOutgoing"
+            android:label="setup outgoing title"
+            >
+        </activity>
+
+        <service
+            android:name="com.bdevlin.apps.authenticator.AuthenticatorService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
+
+        <!--
+        BroadcastReceiver that will receive the C2DM messages from GCM
+        services and handle them to the custom IntentService.
+
+        The com.google.android.c2dm.permission.SEND permission is necessary
+        so only GCM services can send data messages for the app.
+      -->
+        <receiver
+            android:name="com.bdevlin.mymodule.lib.gcm.GCMRedirectedBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="com.bdevlin.apps.pandt" />
+            </intent-filter>
+        </receiver>
+
+
+          <!--
+            Application-specific subclass of GCMBaseIntentService that will
+            handle received messages.
+
+            By default, it must be named .GCMIntentService, unless the
+            application uses a custom BroadcastReceiver that redefines its name.
+          -->
+        <service android:name="com.bdevlin.mymodule.lib.gcm.GCMIntentService" />
+
+        <!-- a simple receiver that triggers a sync for any message it receives. used by our
+        GCM implementation -->
+        <receiver android:name="com.bdevlin.mymodule.lib.gcm.TriggerSyncReceiver" />
+
+        <!-- This provider only has one query to return the cashed  accounts retrieving the data initially from the
+        com.bdevlin.apps.providers2.MockUiProvider
+
+        <provider
+            android:authorities="com.bdevlin.apps.pandt.Provider2.accountcache"
+            android:label="UnifiedAccountCacheProvider"
+            android:multiprocess="false"
+            android:name="com.bdevlin.apps.providers2.UnifiedAccountCacheProvider" >
+            <grant-uri-permission android:pathPattern=".*" />
+        </provider>
+-->
+        <provider
+            android:authorities="com.bdevlin.apps.pandt.MockUiProvider"
+            android:label="MockUiProvider"
+            android:multiprocess="false"
+            android:name="com.bdevlin.apps.providers2.MockUiProvider" >
+            <grant-uri-permission android:pathPattern=".*" />
+        </provider>
+<!--
+        <provider
+            android:name="com.bdevlin.apps.provider.MockUiProvider"
+            android:authorities="com.bdevlin.apps.pandt"
+            android:syncable="true"
+            android:label="@string/app_name"
+            android:exported="true" />
+            -->
+    </application>
+    <!--          android:writePermission="com.bdevlin.apps.pandt.permission.WRITE_SCHEDULE" -->
+
+</manifest>
+

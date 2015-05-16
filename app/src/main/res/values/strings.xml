@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Pandt</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="PaneText">One pane text</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_section1">Folder 1</string>
+    <string name="title_section2">Folder 2</string>
+    <string name="title_section3">Folder 3</string>
+    <string name="listItem1">Item 1</string>
+    <string name="listItem2">Item 2</string>
+    <string name="listItem3">Item 3</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="add_account">Add Account</string>
+    <!--
+  Error message that shows when the user tries to use the app without a Google account
+  configured on their device.
+    -->
+    <string name="google_account_required_message">To use this application, you must have at least one Google account on your device.</string>
+
+    <!--
+    Title for an error message that appears when the user tries to use the app without
+    a Google account configured on their device.
+    -->
+    <string name="google_account_required_title">Google Account Required</string>
+    <string name="not_now">Not now</string>
+    <string name="account_manager_type" translatable="false">com.bdevlin.pandt</string>
+    <string name="account_settings_action">Account settings</string>
+    <string name="account_settings_summary">Sync frequency, notifications, etc.</string>
+    <string name="intent_account_manager_entry" translatable="false">com.android.email.activity.setup.ACCOUNT_MANAGER_ENTRY</string>
+    <string name="error_unsupported_account_type">Unsupported account type.</string>
+    <string name="error_unsupported_auth_token_type">Unsupported auth token type.</string>
+    <string name="login_username_label">User Name: </string>
+    <string name="login_password_label">Password: </string>
+    <string name="login_activity_loginfail_text_both">Enter User Name/Password: </string>
+    <string name="login_activity_loginfail_text_pwonly">Enter Password: </string>
+    <string name="cancel_action">Cancel</string>
+    <!-- On check-settings screen, this is the initially-displayed message. -->
+    <string name="account_setup_check_settings_retr_info_msg">    Retrieving account information\u2026</string>
+    <!-- Appears on screen while system is checking incoming server settings -->
+    <string name="account_setup_check_settings_check_incoming_msg">    Validating server settings\u2026</string>
+    <!-- Appears on screen while system is checking outgoing server settings -->
+    <string name="account_setup_check_settings_check_outgoing_msg">    Validating smtp settings\u2026</string>
+    <!-- Appears on screen while system is creating the account -->
+    <string name="account_setup_creating_account_msg">    Creating account\u2026</string>
+
+    <!-- Title of "Set up email" screen after success [CHAR LIMIT=45] -->
+    <string name="account_setup_names_title">Account setup</string>
+    <string name="account_setup_failed_dlg_title">Couldn\'t finish</string>
+    <string name="account_setup_failed_dlg_edit_details_action">Edit details</string>
+    <string name="title_activity_google_play_services">GooglePlayServicesActivity</string>
+
+</resources>
