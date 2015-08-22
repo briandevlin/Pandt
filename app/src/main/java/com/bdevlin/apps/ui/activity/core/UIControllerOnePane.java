@@ -49,6 +49,9 @@ public class UIControllerOnePane extends UIControllerBase
    //   Cursor c =  mActivity.getContentResolver().query(MockContract.Accounts.CONTENT_URI, new String[] {MockContract.AccountColumns.ACCOUNT_NAME}, null,null,null);
 //String foldename = c.getString(1);
 
+        if (isDrawerEnabled()) {
+            SetupDrawerLayout();
+        }
         // The parent class sets the correct viewmode and starts the application off.
         return super.onCreate(savedInstanceState);
     }

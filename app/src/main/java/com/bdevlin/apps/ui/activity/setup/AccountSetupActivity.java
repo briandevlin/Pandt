@@ -5,13 +5,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 
 import com.bdevlin.apps.authenticator.SetupData;
 
 /**
  * Created by brian on 10/19/2014.
  */
-public class AccountSetupActivity extends ActionBarActivity  implements SetupData.SetupDataContainer {
+public class AccountSetupActivity extends AppCompatActivity implements SetupData.SetupDataContainer {
     protected SetupData mSetupData;
 
     @Override

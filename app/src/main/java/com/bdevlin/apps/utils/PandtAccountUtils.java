@@ -33,7 +33,7 @@ public class PandtAccountUtils {
     public static boolean isAuthenticated(final Context context) {
 
         // return !TextUtils.isEmpty(getActiveAccountName(context));
-        return false;
+        return true;
 
     }
 

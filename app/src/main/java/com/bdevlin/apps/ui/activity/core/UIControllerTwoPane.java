@@ -27,7 +27,6 @@ public class UIControllerTwoPane extends UIControllerBase {
 
         mActivity.setContentView(R.layout.activity_twopane);
 
-        /// SetupDrawerLayout();
 
         return super.onCreate(savedInstanceState);
     }

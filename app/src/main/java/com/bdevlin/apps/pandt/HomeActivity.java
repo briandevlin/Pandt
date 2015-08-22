@@ -4,8 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
+//import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -13,7 +14,7 @@ import android.view.MenuItem;
 
 import com.bdevlin.apps.Config;
 import com.bdevlin.apps.utils.PandtAccountUtils;
-import com.bdevlin.mymodule.lib.gcm.ServerUtilities;
+//import com.bdevlin.mymodule.lib.gcm.ServerUtilities;
 import com.bdevlin.apps.pandt.accounts.AccountController;
 import com.bdevlin.apps.pandt.folders.FolderChangeListener;
 import com.bdevlin.apps.pandt.folders.FolderController;
@@ -26,7 +27,7 @@ import com.bdevlin.apps.utils.Utils;
 import com.google.android.gcm.GCMRegistrar;
 
 
-public class HomeActivity extends ActionBarActivity implements ControllableActivity {
+public class HomeActivity extends AppCompatActivity implements ControllableActivity {
 
     // <editor-fold desc="Fields">
     private static final String TAG = HomeActivity.class.getSimpleName();
@@ -64,7 +65,7 @@ public class HomeActivity extends ActionBarActivity implements ControllableActiv
         if (savedInstanceState == null) {
             Log.d(TAG,"Trigger refresh");
             // triggerRefresh();
-            registerGCMClient();
+           // registerGCMClient();
         }
     }
 
@@ -254,8 +255,9 @@ public class HomeActivity extends ActionBarActivity implements ControllableActiv
                     @Override
                     protected Void doInBackground(Void... params) {
                         Log.d(TAG, "ServerUtilities.register");
-                        boolean registered = ServerUtilities.register(
-                                HomeActivity.this, regId);
+                        //boolean registered = ServerUtilities.register(
+                        //        HomeActivity.this, regId);
+                        boolean registered = true;
                         if (!registered) {
                             // At this point all attempts to register with the
                             // app

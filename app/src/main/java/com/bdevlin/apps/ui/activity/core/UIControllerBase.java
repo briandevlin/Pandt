@@ -15,7 +15,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActionBarDrawerToggle;
+//import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
@@ -25,6 +25,9 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
+
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -161,8 +164,9 @@ public abstract class UIControllerBase implements ActivityController {
         mPagerController = new PagerController(mActivity, this, mFragmentManager);
 
        // mImageLoader = new ImageLoader(mActivity);
+
         // set up the drawer
-        SetupDrawerLayout();
+        //SetupDrawerLayout();
 
         mViewMode.addListener(this);
        // mViewMode.enterConversationListMode();
@@ -228,6 +232,7 @@ public abstract class UIControllerBase implements ActivityController {
     @Override
     public void onStart() {
         Log.d(TAG, "onStart");
+        /*
        String accountName =  accountManager.getActiveAccount(mActivity);
 
         if (mLoginAndAuthHelper != null && mLoginAndAuthHelper.getAccountName().equals(accountName)) {
@@ -239,6 +244,7 @@ public abstract class UIControllerBase implements ActivityController {
         Log.d(TAG, "Creating and starting new mLoginAndAuthHelper with account: " + accountName);
         mLoginAndAuthHelper = new LoginAndAuthHelper(mActivity, this,  accountName);
         mLoginAndAuthHelper.start();
+        */
     }
 
     @Override
@@ -251,8 +257,9 @@ public abstract class UIControllerBase implements ActivityController {
 
     @Override
     public void onPostCreate(Bundle savedInstanceState) {
-
-        mDrawerToggle.setDrawerIndicatorEnabled(isDrawerEnabled());
+        if (mDrawerToggle != null) {
+            mDrawerToggle.setDrawerIndicatorEnabled(isDrawerEnabled());
+        }
 
         new Thread(new Runnable()
         {
@@ -263,7 +270,9 @@ public abstract class UIControllerBase implements ActivityController {
                 opened = prefs.getBoolean(OPENED_KEY, false);
                 if(!opened)
                 {
-                    mDrawerLayout.openDrawer(mFragmentContainerView);
+                    if (mDrawerLayout != null) {
+                        mDrawerLayout.openDrawer(mFragmentContainerView);
+                    }
                 }
             }
         }).start();
@@ -290,8 +299,10 @@ public abstract class UIControllerBase implements ActivityController {
 
         if (isDrawerEnabled()) {
            // final boolean isTopLevel = (mFolder == null) || (mFolder.parent == Uri.EMPTY);
-            mDrawerToggle.setDrawerIndicatorEnabled(
-                    getShouldShowDrawerIndicator(newMode, true));
+            if (mDrawerToggle != null) {
+                mDrawerToggle.setDrawerIndicatorEnabled(
+                        getShouldShowDrawerIndicator(newMode, true));
+            }
         }
         closeDrawerIfOpen();
     }
@@ -299,9 +310,11 @@ public abstract class UIControllerBase implements ActivityController {
     @Override
     public boolean onBackPressed(boolean isSystemBackKey) {
 
-        if (isDrawerEnabled() && mDrawerLayout.isDrawerVisible(mFragmentContainerView)) {
-            mDrawerLayout.closeDrawers();
-            return true;
+        if (mDrawerLayout != null) {
+            if (isDrawerEnabled() && mDrawerLayout.isDrawerVisible(mFragmentContainerView)) {
+                mDrawerLayout.closeDrawers();
+                return true;
+            }
         }
         return handleBackPress(isSystemBackKey);
     }
@@ -345,7 +358,7 @@ public abstract class UIControllerBase implements ActivityController {
 
 
     public ActionBar getActionBar() {
-        return ((ActionBarActivity) mActivity).getSupportActionBar();
+        return ((AppCompatActivity) mActivity).getSupportActionBar();
     }
 
 
@@ -426,7 +439,9 @@ public abstract class UIControllerBase implements ActivityController {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open, hide action items related to the name view
-        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mFragmentContainerView);
+        if (mDrawerLayout != null) {
+            boolean drawerOpen = mDrawerLayout.isDrawerOpen(mFragmentContainerView);
+        }
         // menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
         return true;
     }
@@ -764,9 +779,9 @@ public abstract class UIControllerBase implements ActivityController {
 
     // <editor-fold desc="Drawer ">
 
-    private void SetupDrawerLayout() {
+    public void SetupDrawerLayout() {
 
-        mFragmentContainerView = mActivity.findViewById(R.id.navdrawer);
+        mFragmentContainerView =  mActivity.findViewById(R.id.navdrawer);
 
         mDrawerLayout = (DrawerLayout) mActivity.findViewById(R.id.drawer_layout);
         if (mDrawerLayout == null) {
@@ -792,7 +807,7 @@ public abstract class UIControllerBase implements ActivityController {
         mDrawerToggle = new ActionBarDrawerToggle(
                 mActivity,                    /* host Activity */
                 mDrawerLayout,                    /* DrawerLayout object */
-                R.drawable.ic_drawer,             /* nav drawer image to replace 'Up' caret */
+              //  R.drawable.ic_drawer,             /* nav drawer image to replace 'Up' caret */
                 R.string.navigation_drawer_open,  /* "open drawer" description for accessibility */
                 R.string.navigation_drawer_close  /* "close drawer" description for accessibility */
         ) {
