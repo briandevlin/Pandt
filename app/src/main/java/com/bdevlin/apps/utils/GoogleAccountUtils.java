@@ -58,7 +58,6 @@ public class GoogleAccountUtils {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-
     public static boolean hasActiveAccount(final Context context) {
         return !TextUtils.isEmpty(getActiveAccountName(context));
     }

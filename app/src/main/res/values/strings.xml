@@ -53,4 +53,16 @@
     <string name="account_setup_failed_dlg_edit_details_action">Edit details</string>
     <string name="title_activity_google_play_services">GooglePlayServicesActivity</string>
 
+    <string-array name="new_items_entry">
+        <item msgid="7546335612189115615">"Work"</item>
+        <item msgid="4378074129049520373">"Other"</item>
+        <item msgid="3455047468583965104">"Custom"</item>
+    </string-array>
+
+    <string-array name="new_items_entry_values">
+        <item msgid="7546335612189115615">"1"</item>
+        <item msgid="4378074129049520373">"2"</item>
+        <item msgid="3455047468583965104">"3"</item>
+    </string-array>
+
 </resources>

@@ -51,7 +51,6 @@ public class GoogleDriveManager implements GoogleApiClient.ConnectionCallbacks, 
         return mGoogleApiClient;
     }
 
-
     // <editor-fold desc="Google Drive">
 
 

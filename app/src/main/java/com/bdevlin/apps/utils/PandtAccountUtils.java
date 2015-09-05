@@ -64,7 +64,6 @@ public class PandtAccountUtils {
         return true;
     }
 
-
     public static void startAuthenticationFlow(final Context context,
                                                final Intent finishIntent) {
         Log.w(TAG, "starting authentication flow. Choose Account!");
@@ -75,5 +74,4 @@ public class PandtAccountUtils {
                 finishIntent);
         context.startActivity(loginFlowIntent);
     }
-
 }

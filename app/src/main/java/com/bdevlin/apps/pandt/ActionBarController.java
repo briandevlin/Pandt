@@ -9,7 +9,7 @@ import android.support.v7.app.ActionBar;
  */
 public interface ActionBarController {
 
-    ActionBar getActionBar();
+    ActionBar getSupportActionBar();
     /**
      * Registers to receive changes upon drawer closing when a changeAccount is called.
      */

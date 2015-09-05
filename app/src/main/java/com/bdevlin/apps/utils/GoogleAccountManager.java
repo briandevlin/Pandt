@@ -30,7 +30,6 @@ public class GoogleAccountManager {
      */
     private GoogleAccountManager(AccountManager accountManager) {
         this.manager = accountManager;
-
     }
 
     /**
@@ -38,8 +37,6 @@ public class GoogleAccountManager {
      */
     public GoogleAccountManager(Context context) {
         this(AccountManager.get(context));
-
-
     }
 
     /**
@@ -90,11 +87,11 @@ public class GoogleAccountManager {
     }
 
 
-    String getDefaultAccount() {
+   public  String getDefaultAccount() {
         // Choose first account on device.
         Log.d(TAG, "Choosing default account (first account on device)");
         // AccountManager am = AccountManager.get(mActivity);
-        android.accounts.Account[] accounts = manager.getAccountsByType(ACCOUNT_TYPE);
+        android.accounts.Account[] accounts = manager.getAccounts();
         if (accounts.length == 0) {
             // No Google accounts on device.
             Log.w(TAG, "No Google accounts on device; not setting default account.");
@@ -103,7 +100,6 @@ public class GoogleAccountManager {
 
         Log.d(TAG, "Default account is: " + accounts[0].name);
         return accounts[0].name;
-        // return null;
     }
 
 
@@ -131,9 +127,5 @@ public class GoogleAccountManager {
         }
 
         return GoogleAccountUtils.getActiveAccountName(activity);
-
-
     }
-
-
 }

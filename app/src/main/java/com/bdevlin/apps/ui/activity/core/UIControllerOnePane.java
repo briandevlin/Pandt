@@ -60,6 +60,7 @@ public class UIControllerOnePane extends UIControllerBase
     public void onStart() {
        // GenericListContext viewContext =  GenericListContext.forFolder(null);
        // showConversationList(viewContext);
+        super.onStart();
 
     }
 
@@ -68,7 +69,6 @@ public class UIControllerOnePane extends UIControllerBase
         super.onSaveInstanceState(outState);
 
     }
-
 
     @Override
     protected boolean isConversationListVisible() {
@@ -96,8 +96,6 @@ public class UIControllerOnePane extends UIControllerBase
         }
         mPagerController.show(position, listItem);
     }
-
-
 
     /* implements NavigationDrawerFragment.NavigationDrawerCallbacks*/
     @Override
@@ -230,8 +228,6 @@ public class UIControllerOnePane extends UIControllerBase
 
     }
 
-
-
     private void transitionBackToConversationListMode() {
         final int mode = mViewMode.getMode();
 //        enableCabMode();
@@ -249,8 +245,6 @@ public class UIControllerOnePane extends UIControllerBase
        // onConversationListVisibilityChanged(true);
 
     }
-
-
 
     @Override
     public void showConversationList(GenericListContext listContext) {

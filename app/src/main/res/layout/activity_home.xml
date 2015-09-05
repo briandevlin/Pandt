@@ -12,6 +12,10 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
+
+        <include
+            android:id="@+id/toolbar_container"
+            layout="@layout/settings_toolbar" />
         <!-- As the main name view, the view below consumes the entire
              space available using match_parent in both dimensions. -->
         <FrameLayout

@@ -27,6 +27,7 @@ import com.bdevlin.apps.utils.Utils;
 import com.google.android.gcm.GCMRegistrar;
 
 
+
 public class HomeActivity extends AppCompatActivity implements ControllableActivity {
 
     // <editor-fold desc="Fields">
@@ -38,12 +39,15 @@ public class HomeActivity extends AppCompatActivity implements ControllableActiv
     private ViewMode mViewMode;
     private AsyncTask<Void, Void, Void> mGCMRegisterTask;
 
+
     // </editor-fold>
 
     // <editor-fold desc="life cycle methods">
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         Log.d(TAG,"Starting HomeActivity");
         // just testing the lib module
         //Intent intent = new Intent(this, Libactivity.class);
