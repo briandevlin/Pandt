@@ -45,4 +45,5 @@ public interface ActivityController extends ActionBarController,
     Account getCurrentAccount();
     GenericListContext getCurrentListContext();
     void showConversationList(GenericListContext listContext);
+    void onActivityResult(int requestCode, int resultCode, Intent data);
 }

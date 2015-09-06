@@ -79,6 +79,11 @@ public class HomeActivity extends AppCompatActivity implements ControllableActiv
         mUIController.onConfigurationChanged(newConfig);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+        mUIController.onActivityResult(requestCode, resultCode, data);
+    }
 
   //  @Override
     public Context getActivityContext() {
@@ -141,6 +146,12 @@ public class HomeActivity extends AppCompatActivity implements ControllableActiv
         mUIController.onStart();
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mUIController.onResume();
     }
 
     @Override

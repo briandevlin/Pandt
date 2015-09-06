@@ -28,10 +28,10 @@ public class SimpleAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
 
         if(cursor.getPosition()%2==1) {
-            view.setBackgroundColor(context.getResources().getColor(R.color.wallet_holo_blue_light));
+            view.setBackgroundColor(context.getResources().getColor(R.color.accent_material_light));
         }
         else {
-            view.setBackgroundColor(context.getResources().getColor(R.color.wallet_bright_foreground_holo_dark));
+            view.setBackgroundColor(context.getResources().getColor(R.color.accent));
         }
 
         TextView content = (TextView) view.findViewById(R.id.profile_email_text);

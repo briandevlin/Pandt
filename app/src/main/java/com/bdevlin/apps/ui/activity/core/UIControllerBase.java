@@ -23,6 +23,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -31,7 +32,6 @@ import  android.support.design.widget.AppBarLayout;
 
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -90,6 +90,7 @@ public abstract class UIControllerBase implements ActivityController {
     private static final int ADD_ACCOUNT_REQUEST_CODE = 1;
     private static final String OPENED_KEY = "OPENED_KEY";
     private static final int ACCOUNT_BOX_EXPAND_ANIM_DURATION = 200;
+    private static final int MAIN_CONTENT_FADEIN_DURATION = 250;
 
     private final GoogleAccountManager accountManager;
     private final GoogleDriveManager   driveManager;
@@ -99,7 +100,7 @@ public abstract class UIControllerBase implements ActivityController {
     protected final Context mContext;
     private final FragmentManager mFragmentManager;
 
-    private DrawerLayout mDrawerLayout;
+
     protected View mSliderLayout;
     private ViewGroup mDrawerItemsListContainer;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -127,6 +128,7 @@ public abstract class UIControllerBase implements ActivityController {
 
     protected GenericListContext mConvListContext;
 
+    // the LoginAndAuthHelper handles signing in to Google Play Services and OAuth
     private LoginAndAuthHelper mLoginAndAuthHelper;
 
     private CharSequence mDrawerTitle;
@@ -136,8 +138,9 @@ public abstract class UIControllerBase implements ActivityController {
     private ImageView mExpandAccountBoxIndicator;
 
    // private String mNextPageToken;
+   private DrawerLayout mDrawerLayout;
    private Toolbar mToolbar;
-    AppBarLayout appBarLayout;
+   private  AppBarLayout appBarLayout;
     private ViewGroup mRootView;
     protected boolean mActionBarDrawerToggleEnabled = true;
     protected boolean mAnimateActionBarDrawerToggle = false;
@@ -163,6 +166,9 @@ public abstract class UIControllerBase implements ActivityController {
     }
     // </editor-fold>
 
+
+    // <editor-fold desc="life cycle methods">
+
     // method defined in ActivityController
     @Override
     public boolean onCreate(Bundle savedInstanceState) {
@@ -173,44 +179,19 @@ public abstract class UIControllerBase implements ActivityController {
         mViewMode.addListener(this);
         mPagerController = new PagerController(mActivity, this, mFragmentManager);
 
-       // mImageLoader = new ImageLoader(mActivity);
-
-        // set up the drawer
-        //SetupDrawerLayout();
-
         mViewMode.addListener(this);
-       // mViewMode.enterConversationListMode();
-
         final Intent intent = mActivity.getIntent();
-
-        if (savedInstanceState != null) {
-            if (savedInstanceState.containsKey(SAVED_ACCOUNT)) {
-                setAccount((Account) savedInstanceState.getParcelable(SAVED_ACCOUNT));
-            }
-
-            if (savedInstanceState.containsKey(SAVED_FOLDER)) {
-                final Folder folder = savedInstanceState.getParcelable(SAVED_FOLDER);
-               // final String query = savedInstanceState.getString(SAVED_QUERY, null);
-               // setListContext(folder, query);
-            }
-
-            mViewMode.handleRestore(savedInstanceState);
-        } else if (intent != null) {
-            handleIntent(intent);
-        }
-
-//        mActivity.getSupportLoaderManager().initLoader(LOADER_ACCOUNT_CURSOR, Bundle.EMPTY,
-//                mAccountCallbacks);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(mActivity);
         prefs.registerOnSharedPreferenceChangeListener(this);
 
-
+        ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
 
         return true;
     }
-
-    // <editor-fold desc="life cycle methods">
 
 
     @Override
@@ -243,17 +224,6 @@ public abstract class UIControllerBase implements ActivityController {
     public void onStart() {
         Log.d(TAG, "onStart");
         startGooglePlayLoginProcess();
-      /* String accountName =  accountManager.getActiveAccount(mActivity);
-
-        if (mLoginAndAuthHelper != null && mLoginAndAuthHelper.getAccountName().equals(accountName)) {
-            Log.d(TAG, "Helper already set up; simply starting it.");
-            mLoginAndAuthHelper.start();
-            return;
-        }
-
-        Log.d(TAG, "Creating and starting new mLoginAndAuthHelper with account: " + accountName);
-        mLoginAndAuthHelper = new LoginAndAuthHelper(mActivity, this,  accountName);
-        mLoginAndAuthHelper.start();*/
     }
 
     @Override
@@ -269,7 +239,13 @@ public abstract class UIControllerBase implements ActivityController {
         if (mDrawerToggle != null) {
             mDrawerToggle.setDrawerIndicatorEnabled(isDrawerEnabled());
         }
-
+        View mainContent = mActivity.findViewById(R.id.main_content);
+        if (mainContent != null) {
+            ViewCompat.setAlpha(mainContent,0f);
+            ViewCompat.animate(mainContent).alpha(1f).setDuration(MAIN_CONTENT_FADEIN_DURATION).start();
+        } else {
+            Log.d(TAG, "No view with ID main_content to fade in.");
+        }
         new Thread(new Runnable()
         {
             @Override
@@ -292,6 +268,15 @@ public abstract class UIControllerBase implements ActivityController {
        // Invalidating the options menu so that when we make changes in settings,
         // the changes will always be updated in the action bar/options menu/
         mActivity.supportInvalidateOptionsMenu();
+        // Verifies the proper version of Google Play Services exists on the device.
+        PlayServicesUtils.checkGooglePlaySevices(mActivity);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (mLoginAndAuthHelper != null) {
+            mLoginAndAuthHelper.onActivityResult(requestCode,resultCode,data );
+        }
     }
 
     @Override
@@ -349,19 +334,13 @@ public abstract class UIControllerBase implements ActivityController {
 
     // <editor-fold desc="ActionBar ">
 
-
-
-    /**
-     * Per the navigation drawer design guidelines, updates the action bar to show the global app
-     * 'context', rather than just what's in the current screen.
-     */
     private void showGlobalContextActionBar() {
-        ActionBar actionBar = ((AppCompatActivity) mActivity).getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         if (actionBar == null) {
             return;
         }
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+       // actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setTitle(mTitle);
     }
 
@@ -437,10 +416,8 @@ public abstract class UIControllerBase implements ActivityController {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // If the drawer is open, show the global app actions in the action bar. See also
-        // showGlobalContextActionBar, which controls the top-left area of the action bar.
+
         if (mDrawerLayout != null && !isDrawerOpen()) {
-            //inflater.inflate(R.menu.home, menu);
             mActivity.getMenuInflater().inflate(R.menu.home, (Menu) menu);
             showGlobalContextActionBar();
         }
@@ -518,7 +495,7 @@ public abstract class UIControllerBase implements ActivityController {
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-
+        mActivity.supportInvalidateOptionsMenu();
     }
     // </editor-fold>
 
@@ -911,33 +888,42 @@ public abstract class UIControllerBase implements ActivityController {
         }
     }
 
+    protected Toolbar getActionBarToolbar() {
+        if (mToolbar == null) {
+            mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
+            if (mToolbar != null) {
+                mActivity.setSupportActionBar(mToolbar);
+            }
+        }
+        return mToolbar;
+    }
+
     public void SetupDrawerLayout() {
-
-        View originalContentView = mRootView.getChildAt(0);
-
 
         mDrawerLayout = (DrawerLayout) mActivity.findViewById(R.id.drawer_layout);
         if (mDrawerLayout == null) {
             return;
         }
+        getActionBarToolbar();
+
         appBarLayout = (AppBarLayout) mActivity.findViewById(R.id.toolbar_container);
-        mToolbar = (Toolbar) appBarLayout.findViewById(R.id.toolbar);
         mSliderLayout = mActivity.findViewById(R.id.navdrawer);
-        mActivity.setSupportActionBar(mToolbar);
-        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-       // mSliderLayout.setBackgroundColor(mActivity.getResources().getColor(R.color.accent_material_light));
+       // mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+//        mDrawerLayout.setStatusBarBackgroundColor(
+//                mActivity.getResources().getColor(R.color.materialize_primary_light));
+//        mDrawerLayout.setBackgroundColor(mActivity.getResources().getColor(R.color.accent_material_light));
        // mSliderLayout.setBackgroundResource(R.drawable.default_cover);
         mTitle = mDrawerTitle = mActivity.getTitle();
         ActionBar actionBar = getSupportActionBar();
-        // actionBar.setDisplayHomeAsUpEnabled(true);
-        //actionBar.setHomeButtonEnabled(false);
-        // actionBar.setDisplayShowHomeEnabled(true);
+        if (actionBar != null) {
+             actionBar.setDisplayHomeAsUpEnabled(true);
+            //actionBar.setHomeButtonEnabled(false);
+            // actionBar.setDisplayShowHomeEnabled(true);
+        }
 
         handleDrawerNavigation();
-
         handleShowOnFirstLaunch();
     }
-
 
     boolean isDrawerOpen() {
         return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mSliderLayout);
@@ -966,7 +952,6 @@ public abstract class UIControllerBase implements ActivityController {
             mDrawerLayout.openDrawer(mSliderLayout);
         }
     }
-
 
     protected void closeDrawerIfOpen() {
         if (!isDrawerEnabled()) {
@@ -999,29 +984,7 @@ public abstract class UIControllerBase implements ActivityController {
     private void startGooglePlayLoginProcess() {
         Log.d(TAG, "Starting login process.");
        // AccountUtils.setActiveAccount(mActivity, null); test only
-       String accountName =  accountManager.getActiveAccount(mActivity);
-//        if (!GoogleAccountUtils.hasActiveAccount(mActivity)) {
-//            Log.d(TAG, "No active account, attempting to pick a default.");
-//           String defaultAccount = accountManager.getDefaultAccount();
-//            if (defaultAccount == null) {
-//                Log.e(TAG, "Failed to pick default account (no accounts). Failing.");
-//                PlayServicesUtils.complainMustHaveGoogleAccount(mActivity);
-//                return;
-//            }
-//            Log.d(TAG, "Default to: " + defaultAccount);
-//            GoogleAccountUtils.setActiveAccount(mActivity, defaultAccount);
-//        }
-
-//        if (!GoogleAccountUtils.hasActiveAccount(mActivity)) {
-//            Log.d(TAG, "Can't proceed with login -- no account chosen.");
-//            return;
-//        } else {
-//            Log.d(TAG, "Chosen account: " + GoogleAccountUtils.getActiveAccountName(mActivity));
-//        }
-//
-//        String accountName = GoogleAccountUtils.getActiveAccountName(mActivity);
-
-
+       String accountName =  accountManager.getActiveOrDefaultAccount(mActivity);
 
         if (mLoginAndAuthHelper != null && mLoginAndAuthHelper.getAccountName().equals(accountName)) {
             Log.d(TAG, "Helper already set up; simply starting it.");
@@ -1224,12 +1187,7 @@ public abstract class UIControllerBase implements ActivityController {
 
     // </editor-fold>
 
-
-// end drive methods
-    // <editor-fold desc=" ">
+    // <editor-fold desc="Folding template">
     // </editor-fold>
-
-
-
 
 }

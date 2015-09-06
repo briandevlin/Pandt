@@ -36,23 +36,23 @@ public class GoogleAccountUtils {
     private static final String PREFIX_PREF_PLUS_COVER_URL = "plus_cover_url_";
     private static final String PREFIX_PREF_GCM_KEY = "gcm_key_";
 
-    public static final String AUTH_SCOPES[] = {
-            Scopes.PLUS_LOGIN//,
-           // Scopes.DRIVE_APPFOLDER,
-           // "https://www.googleapis.com/auth/userinfo.email"
-    };
-
-    static final String AUTH_TOKEN_TYPE;
-
-    static {
-        StringBuilder sb = new StringBuilder();
-        sb.append("oauth2:");
-        for (String scope : AUTH_SCOPES) {
-            sb.append(scope);
-            sb.append(" ");
-        }
-        AUTH_TOKEN_TYPE = sb.toString();
-    }
+//    public static final String AUTH_SCOPES[] = {
+//            Scopes.PLUS_LOGIN//,
+//           // Scopes.DRIVE_APPFOLDER,
+//           // "https://www.googleapis.com/auth/userinfo.email"
+//    };
+//
+//    static final String AUTH_TOKEN_TYPE;
+//
+//    static {
+//        StringBuilder sb = new StringBuilder();
+//        sb.append("oauth2:");
+//        for (String scope : AUTH_SCOPES) {
+//            sb.append(scope);
+//            sb.append(" ");
+//        }
+//        AUTH_TOKEN_TYPE = sb.toString();
+//    }
 
     private static SharedPreferences getSharedPreferences(final Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
@@ -187,28 +187,28 @@ public class GoogleAccountUtils {
                 PREFIX_PREF_PLUS_COVER_URL), null) : null;
     }
 
-    static void tryAuthenticateWithErrorNotification(Context context, String syncAuthority) {
-        try {
-            String accountName = getActiveAccountName(context);
-            if (accountName != null) {
-                Log.i(TAG, "Requesting new auth token (with notification)");
-                final String token = GoogleAuthUtil.getTokenWithNotification(context, accountName, AUTH_TOKEN_TYPE,
-                        null, syncAuthority, null);
-                setAuthToken(context, token);
-            } else {
-                Log.e(TAG, "Can't try authentication because no account is chosen.");
-            }
-
-        } catch (UserRecoverableNotifiedException e) {
-            // Notification has already been pushed.
-            Log.w(TAG, "User recoverable exception. Check notification.", e);
-        } catch (GoogleAuthException e) {
-            // This is likely unrecoverable.
-            Log.e(TAG, "Unrecoverable authentication exception: " + e.getMessage(), e);
-        } catch (IOException e) {
-            Log.e(TAG, "transient error encountered: " + e.getMessage());
-        }
-    }
+//    static void tryAuthenticateWithErrorNotification(Context context, String syncAuthority) {
+//        try {
+//            String accountName = getActiveAccountName(context);
+//            if (accountName != null) {
+//                Log.i(TAG, "Requesting new auth token (with notification)");
+//                final String token = GoogleAuthUtil.getTokenWithNotification(context, accountName, AUTH_TOKEN_TYPE,
+//                        null, syncAuthority, null);
+//                setAuthToken(context, token);
+//            } else {
+//                Log.e(TAG, "Can't try authentication because no account is chosen.");
+//            }
+//
+//        } catch (UserRecoverableNotifiedException e) {
+//            // Notification has already been pushed.
+//            Log.w(TAG, "User recoverable exception. Check notification.", e);
+//        } catch (GoogleAuthException e) {
+//            // This is likely unrecoverable.
+//            Log.e(TAG, "Unrecoverable authentication exception: " + e.getMessage(), e);
+//        } catch (IOException e) {
+//            Log.e(TAG, "transient error encountered: " + e.getMessage());
+//        }
+//    }
 
     public static void setGcmKey(final Context context, final String accountName, final String gcmKey) {
         SharedPreferences sp = getSharedPreferences(context);
