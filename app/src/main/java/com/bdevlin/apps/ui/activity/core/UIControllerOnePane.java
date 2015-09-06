@@ -1,9 +1,11 @@
 package com.bdevlin.apps.ui.activity.core;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.bdevlin.apps.pandt.accounts.Account;
@@ -43,15 +45,19 @@ public class UIControllerOnePane extends UIControllerBase
     // <editor-fold desc="life cycle methods">
     @Override
     public boolean onCreate(Bundle savedInstanceState) {
+
         // gets the one pane activity layout
         mActivity.setContentView(R.layout.activity_home);
 
    //   Cursor c =  mActivity.getContentResolver().query(MockContract.Accounts.CONTENT_URI, new String[] {MockContract.AccountColumns.ACCOUNT_NAME}, null,null,null);
 //String foldename = c.getString(1);
 
+        Toolbar toolbar = getActionBarToolbar();
+
         if (isDrawerEnabled()) {
             SetupDrawerLayout();
         }
+        toolbar.setSubtitle("This is the main screen");
         // The parent class sets the correct viewmode and starts the application off.
         return super.onCreate(savedInstanceState);
     }
@@ -63,6 +69,21 @@ public class UIControllerOnePane extends UIControllerBase
         super.onStart();
 
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

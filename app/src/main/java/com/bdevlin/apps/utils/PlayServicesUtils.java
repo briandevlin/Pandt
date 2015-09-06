@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.bdevlin.apps.pandt.R;
 import com.google.android.gms.common.ConnectionResult;
@@ -22,6 +23,9 @@ public class PlayServicesUtils {
         final int googlePlayServicesCheck = GooglePlayServicesUtil.isGooglePlayServicesAvailable(activity);
         switch (googlePlayServicesCheck) {
             case ConnectionResult.SUCCESS:
+                Toast.makeText(activity,
+                    "isGooglePlayServicesAvailable SUCCESS",
+                    Toast.LENGTH_LONG).show();
                 return true;
             case ConnectionResult.SERVICE_DISABLED:
             case ConnectionResult.SERVICE_INVALID:
@@ -38,8 +42,6 @@ public class PlayServicesUtils {
         }
         return false;
     }
-
-
 
     public static void complainMustHaveGoogleAccount(final Activity activity) {
 
@@ -60,7 +62,6 @@ public class PlayServicesUtils {
                 })
                 .show();
     }
-
 
     private static void promptAddAccount(final Activity activity) {
         Intent intent = new Intent(Settings.ACTION_ADD_ACCOUNT);

@@ -103,7 +103,7 @@ public class GoogleAccountManager {
     }
 
 
-    public String getActiveAccount(Activity activity) {
+    public String getActiveOrDefaultAccount(Activity activity) {
         Log.d(TAG, "gets the active or set default as the active account.");
         // AccountUtils.setActiveAccount(mActivity, null); test only
 

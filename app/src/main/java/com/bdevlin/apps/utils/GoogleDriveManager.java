@@ -93,10 +93,10 @@ public class GoogleDriveManager implements GoogleApiClient.ConnectionCallbacks, 
 
 
 
-    final private ResultCallback<DriveApi.ContentsResult> contentsCallback = new
-            ResultCallback<DriveApi.ContentsResult>() {
+    final private ResultCallback<DriveApi.DriveContentsResult> contentsCallback = new
+            ResultCallback<DriveApi.DriveContentsResult>() {
                 @Override
-                public void onResult(DriveApi.ContentsResult result) {
+                public void onResult(DriveApi.DriveContentsResult result) {
                     if (!result.getStatus().isSuccess()) {
                         showMessage("Error while trying to create new file contents");
                         return;
@@ -108,7 +108,7 @@ public class GoogleDriveManager implements GoogleApiClient.ConnectionCallbacks, 
                             .setStarred(true).build();
                     // create a file on root folder
                     Drive.DriveApi.getRootFolder(getGoogleApiClient())
-                            .createFile(getGoogleApiClient(), changeSet, result.getContents())
+                            .createFile(getGoogleApiClient(), changeSet, result.getDriveContents())
                             .setResultCallback(fileCallback);
                 }
             };
@@ -129,7 +129,7 @@ public class GoogleDriveManager implements GoogleApiClient.ConnectionCallbacks, 
 
 
     private void AddDriveFile() {
-        Drive.DriveApi.newContents(getGoogleApiClient())
+        Drive.DriveApi.newDriveContents(getGoogleApiClient())
                 .setResultCallback(contentsCallback);
     }
 

@@ -23,6 +23,7 @@ import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Scope;
 
+import com.google.android.gms.drive.Drive;
 import com.google.android.gms.plus.People;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
@@ -34,7 +35,8 @@ import java.io.IOException;
 /**
  * Created by brian on 9/21/2014.
  */
-public class LoginAndAuthHelper  implements GoogleApiClient.ConnectionCallbacks,
+public class LoginAndAuthHelper  implements
+        GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         ResultCallback<People.LoadPeopleResult> {
 
@@ -109,72 +111,20 @@ public class LoginAndAuthHelper  implements GoogleApiClient.ConnectionCallbacks,
         return mAccountName;
     }
 
-    public static boolean checkGooglePlaySevices(final Activity activity) {
-        final int googlePlayServicesCheck = GooglePlayServicesUtil.isGooglePlayServicesAvailable(activity);
-        switch (googlePlayServicesCheck) {
-            case ConnectionResult.SUCCESS:
-                Toast.makeText(activity,
-                    "isGooglePlayServicesAvailable SUCCESS",
-                    Toast.LENGTH_LONG).show();
-                return true;
-            case ConnectionResult.SERVICE_DISABLED:
-            case ConnectionResult.SERVICE_INVALID:
-            case ConnectionResult.SERVICE_MISSING:
-            case ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED:
-                Dialog dialog = GooglePlayServicesUtil.getErrorDialog(googlePlayServicesCheck, activity, 0);
-                dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialogInterface) {
-                        activity.finish();
-                    }
-                });
-                dialog.show();
-        }
-        return false;
-    }
 
     public void start() {
         if (mStarted) {
             Log.w(TAG, "Helper already started. Ignoring redundant call.");
             return;
         }
-        checkGooglePlaySevices(mActivity);
 
-//        int googlePlayServicesCheck  = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity);
-//        if (googlePlayServicesCheck == ConnectionResult.SUCCESS){
-//            Toast.makeText(mActivity,
-//                    "isGooglePlayServicesAvailable SUCCESS",
-//                    Toast.LENGTH_LONG).show();
-//        }else{
-//            GooglePlayServicesUtil.getErrorDialog(googlePlayServicesCheck, mActivity, 0);
-//        }
-
-//        switch (googlePlayServicesCheck) {
-//            case ConnectionResult.SUCCESS:
-//                Toast.makeText(mActivity,
-//                        "isGooglePlayServicesAvailable SUCCESS",
-//                        Toast.LENGTH_LONG).show();
-//            case ConnectionResult.SERVICE_DISABLED:
-//            case ConnectionResult.SERVICE_INVALID:
-//            case ConnectionResult.SERVICE_MISSING:
-//            case ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED:
-//                Dialog dialog = GooglePlayServicesUtil.getErrorDialog(googlePlayServicesCheck, mActivity, 0);
-//                if (dialog != null) {
-//                    dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-//                        @Override
-//                        public void onCancel(DialogInterface dialogInterface) {
-//                            mActivity.finish();
-//                        }
-//                    });
-//                    dialog.show();
-//                }
-//        }
         mStarted = true;
         if (mResolving) {
             // if resolving, don't reconnect the plus client
             Log.d(TAG, "Helper ignoring signal to start because we're resolving a failure.");
             return;
         }
+
         Log.d(TAG, "Helper starting. Connecting [" + mAccountName + "]");
         if (mGoogleApiClient == null) {
             Log.d(TAG, "Creating client.");
@@ -185,7 +135,7 @@ public class LoginAndAuthHelper  implements GoogleApiClient.ConnectionCallbacks,
             }
             mGoogleApiClient = builder
                     .addApi(Plus.API)
-                     //.addApi(Drive.API)
+                     .addApi(Drive.API)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
                     .setAccountName(mAccountName)
@@ -230,33 +180,9 @@ public class LoginAndAuthHelper  implements GoogleApiClient.ConnectionCallbacks,
     @Override
     public void onConnected(Bundle bundle) {
         Log.d(TAG, "Helper connected, account " + mAccountName);
-// Retrieve the oAuth 2.0 access token.
-        final Context context = mActivity.getApplicationContext();
-        AsyncTask task = new AsyncTask() {
-            @Override
-            protected Object doInBackground(Object... params) {
-                String scope = "oauth2:" + Scopes.PLUS_LOGIN;
-                try {
-                    // We can retrieve the token to check via
-                    // tokeninfo or to pass to a service-side
-                    // application.
-                    String token = GoogleAuthUtil.getToken(
-                            context,
-                            GoogleAccountUtils.getActiveAccountName(context),
-                            scope);
-                } catch (UserRecoverableAuthException e) {
-                    // This error is recoverable, so we could fix this
-                    // by displaying the intent to the user.
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (GoogleAuthException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-        };
-        task.execute((Void) null);
+        // onConnected indicates that an account was selected on the device, that the selected
+        // account has granted any requested permissions to our app and that we were able to
+        // establish a service connection to Google Play services.
 
         // load user's Google+ profile, if we don't have it yet
         if (!GoogleAccountUtils.hasPlusInfo(mActivity, mAccountName)) {
@@ -375,6 +301,8 @@ public class LoginAndAuthHelper  implements GoogleApiClient.ConnectionCallbacks,
         }
     }
 
+
+    // Called asynchronously -- result of loadPeople() call
     @Override
     public void onResult(People.LoadPeopleResult loadPeopleResult) {
 
@@ -418,6 +346,7 @@ public class LoginAndAuthHelper  implements GoogleApiClient.ConnectionCallbacks,
     }
 
     public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.v(TAG, "ActivityResult: " + requestCode);
 
         if (requestCode == REQUEST_AUTHENTICATE ||
                 requestCode == REQUEST_RECOVER_FROM_AUTH_ERROR ||
