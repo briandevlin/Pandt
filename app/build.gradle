@@ -4,12 +4,12 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.+'
+        classpath 'com.android.tools.build:gradle:1.0.0-rc2'
     }
 }
 
 
-lpreview = hasProperty('lpreview')
+//lpreview = hasProperty('lpreview')
 
 //project.ext.set("lpreview", "lpreview")
 
@@ -30,7 +30,7 @@ android {
     }
     buildTypes {
         release {
-            runProguard false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
