@@ -22,7 +22,7 @@ public class MailActivityEmail extends HomeActivity {
         final Intent intent = getIntent();
         final Uri data = intent != null ? intent.getData() : null;
         Intent ViewIntent = createViewFolderIntent(this,null, null);
-        setIntent(ViewIntent);
+       // setIntent(ViewIntent);
         super.onCreate(savedInstanceState);
     }
 

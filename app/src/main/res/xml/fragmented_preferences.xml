@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="inline_preferences">
+
+        <CheckBoxPreference
+            android:key="listAnimation_preference"
+            android:title="title_listAnimation_preference"
+            android:summary="summary_listAnimation_preference" />
+
+        <CheckBoxPreference
+            android:key="clear_chosenaccount"
+            android:title="Clear Chosen Account"
+            android:summary="this will remove the default authorisation account" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="AddingItems"
+        android:key="pref_key_storage_settings">
+
+        <ListPreference
+            android:key="pref_key_new_items"
+            android:title="LocationOfNewItems"
+            android:summary="LocationOfNewItemsSummary"
+            android:entries="@array/new_items_entry"
+            android:entryValues="@array/new_items_entry_values"
+            android:defaultValue="1"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="dialog_based_preferences">
+
+        <EditTextPreference
+            android:key="edittext_preference"
+            android:title="title_edittext_preference"
+            android:summary="summary_edittext_preference"
+            android:dialogTitle="dialog_title_edittext_preference" />
+
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="launch_preferences">
+
+        <!-- This PreferenceScreen tag sends the user to a new fragment of
+             preferences.  If running in a large screen, they can be embedded
+             inside of the overall preferences UI. -->
+
+
+        <!-- This PreferenceScreen tag sends the user to a completely different
+             activity, switching out of the current preferences UI. -->
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="preference_attributes">
+
+        <CheckBoxPreference
+            android:key="parent_checkbox_preference"
+            android:title="title_parent_preference"
+            android:summary="summary_parent_preference" />
+
+
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

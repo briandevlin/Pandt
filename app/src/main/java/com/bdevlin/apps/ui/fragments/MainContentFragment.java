@@ -166,8 +166,8 @@ public  class MainContentFragment extends ListFragment implements ViewMode.ModeC
         }
         mActivity = (ControllableActivity) activity;
         actionBarController = mActivity.getActionBarController();
-       ActionBar ab =  actionBarController.getActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+       ActionBar ab =  actionBarController.getSupportActionBar();
+       // ab.setDisplayHomeAsUpEnabled(true);
 
         mCallbacks = mActivity.getMainContentCallbacks();
 
@@ -179,7 +179,8 @@ public  class MainContentFragment extends ListFragment implements ViewMode.ModeC
 
 
        ArrayAdapter<Items.ListItem> adapter  =  new ArrayAdapter<Items.ListItem>(
-                actionBarController.getActionBar().getThemedContext(),
+               // actionBarController.getSupportActionBar().getThemedContext(),
+               mActivity.getApplicationContext(),
                 android.R.layout.simple_list_item_1,
                 android.R.id.text1,
               Items.ITEMS

@@ -10,12 +10,13 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.DataSetObservable;
 import android.database.DataSetObserver;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActionBarDrawerToggle;
+//import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
@@ -24,7 +25,11 @@ import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
+import android.support.v7.app.ActionBarDrawerToggle;
+import  android.support.design.widget.AppBarLayout;
+
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -35,7 +40,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.bdevlin.apps.pandt.accounts.Account;
@@ -64,6 +68,7 @@ import com.bdevlin.apps.utils.LoginAndAuthHelper;
 
 import com.bdevlin.apps.utils.Utils;
 import com.google.android.gms.auth.GoogleAuthUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 
 import java.util.ArrayList;
@@ -95,7 +100,7 @@ public abstract class UIControllerBase implements ActivityController {
     private final FragmentManager mFragmentManager;
 
     private DrawerLayout mDrawerLayout;
-    protected View mFragmentContainerView;
+    protected View mSliderLayout;
     private ViewGroup mDrawerItemsListContainer;
     private ActionBarDrawerToggle mDrawerToggle;
     protected CharSequence mTitle;
@@ -131,6 +136,13 @@ public abstract class UIControllerBase implements ActivityController {
     private ImageView mExpandAccountBoxIndicator;
 
    // private String mNextPageToken;
+   private Toolbar mToolbar;
+    AppBarLayout appBarLayout;
+    private ViewGroup mRootView;
+    protected boolean mActionBarDrawerToggleEnabled = true;
+    protected boolean mAnimateActionBarDrawerToggle = false;
+    private boolean mShowDrawerOnFirstLaunch = true;
+    protected Drawable mSliderBackgroundDrawable = null;
 
 
 // </editor-fold>
@@ -140,6 +152,7 @@ public abstract class UIControllerBase implements ActivityController {
     public UIControllerBase(HomeActivity activity, ViewMode viewMode) {
         mActivity = activity;
         mContext = activity.getApplicationContext();
+        mRootView = (ViewGroup) activity.findViewById(android.R.id.content);
         mFragmentManager = activity.getSupportFragmentManager();
         final Resources r = mContext.getResources();
         boolean mIsTablet = Utils.useTabletUI(r);
@@ -161,8 +174,9 @@ public abstract class UIControllerBase implements ActivityController {
         mPagerController = new PagerController(mActivity, this, mFragmentManager);
 
        // mImageLoader = new ImageLoader(mActivity);
+
         // set up the drawer
-        SetupDrawerLayout();
+        //SetupDrawerLayout();
 
         mViewMode.addListener(this);
        // mViewMode.enterConversationListMode();
@@ -228,7 +242,8 @@ public abstract class UIControllerBase implements ActivityController {
     @Override
     public void onStart() {
         Log.d(TAG, "onStart");
-       String accountName =  accountManager.getActiveAccount(mActivity);
+        startGooglePlayLoginProcess();
+      /* String accountName =  accountManager.getActiveAccount(mActivity);
 
         if (mLoginAndAuthHelper != null && mLoginAndAuthHelper.getAccountName().equals(accountName)) {
             Log.d(TAG, "Helper already set up; simply starting it.");
@@ -238,12 +253,12 @@ public abstract class UIControllerBase implements ActivityController {
 
         Log.d(TAG, "Creating and starting new mLoginAndAuthHelper with account: " + accountName);
         mLoginAndAuthHelper = new LoginAndAuthHelper(mActivity, this,  accountName);
-        mLoginAndAuthHelper.start();
+        mLoginAndAuthHelper.start();*/
     }
 
     @Override
     public void onStop() {
-        Log.d(TAG, "onStart");
+        Log.d(TAG, "onStop");
         if (mLoginAndAuthHelper != null) {
             mLoginAndAuthHelper.stop();
         }
@@ -251,8 +266,9 @@ public abstract class UIControllerBase implements ActivityController {
 
     @Override
     public void onPostCreate(Bundle savedInstanceState) {
-
-        mDrawerToggle.setDrawerIndicatorEnabled(isDrawerEnabled());
+        if (mDrawerToggle != null) {
+            mDrawerToggle.setDrawerIndicatorEnabled(isDrawerEnabled());
+        }
 
         new Thread(new Runnable()
         {
@@ -263,7 +279,9 @@ public abstract class UIControllerBase implements ActivityController {
                 opened = prefs.getBoolean(OPENED_KEY, false);
                 if(!opened)
                 {
-                    mDrawerLayout.openDrawer(mFragmentContainerView);
+                    if (mDrawerLayout != null) {
+                        mDrawerLayout.openDrawer(mSliderLayout);
+                    }
                 }
             }
         }).start();
@@ -290,8 +308,10 @@ public abstract class UIControllerBase implements ActivityController {
 
         if (isDrawerEnabled()) {
            // final boolean isTopLevel = (mFolder == null) || (mFolder.parent == Uri.EMPTY);
-            mDrawerToggle.setDrawerIndicatorEnabled(
-                    getShouldShowDrawerIndicator(newMode, true));
+            if (mDrawerToggle != null) {
+                mDrawerToggle.setDrawerIndicatorEnabled(
+                        getShouldShowDrawerIndicator(newMode, true));
+            }
         }
         closeDrawerIfOpen();
     }
@@ -299,9 +319,11 @@ public abstract class UIControllerBase implements ActivityController {
     @Override
     public boolean onBackPressed(boolean isSystemBackKey) {
 
-        if (isDrawerEnabled() && mDrawerLayout.isDrawerVisible(mFragmentContainerView)) {
-            mDrawerLayout.closeDrawers();
-            return true;
+        if (mDrawerLayout != null) {
+            if (isDrawerEnabled() && mDrawerLayout.isDrawerVisible(mSliderLayout)) {
+                mDrawerLayout.closeDrawers();
+                return true;
+            }
         }
         return handleBackPress(isSystemBackKey);
     }
@@ -334,7 +356,7 @@ public abstract class UIControllerBase implements ActivityController {
      * 'context', rather than just what's in the current screen.
      */
     private void showGlobalContextActionBar() {
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = ((AppCompatActivity) mActivity).getSupportActionBar();
         if (actionBar == null) {
             return;
         }
@@ -344,13 +366,13 @@ public abstract class UIControllerBase implements ActivityController {
     }
 
 
-    public ActionBar getActionBar() {
-        return ((ActionBarActivity) mActivity).getSupportActionBar();
+    public ActionBar getSupportActionBar() {
+        return ((AppCompatActivity) mActivity).getSupportActionBar();
     }
 
 
     private void initializeActionBar() {
-        final ActionBar actionBar = getActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         if (actionBar == null) {
             return;
         }
@@ -399,7 +421,10 @@ public abstract class UIControllerBase implements ActivityController {
 //                return true;
 
             case R.id.action_settings:
-                Toast.makeText(mActivity, "Example action.", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(mActivity, "Example action.", Toast.LENGTH_SHORT).show();
+                Intent intentPrefs = new Intent(mActivity,
+                        PreferencesActivity.class);
+                mActivity.startActivity(intentPrefs);
                 return true;
             case  android.R.id.home:
                 onUpPressed();
@@ -426,7 +451,9 @@ public abstract class UIControllerBase implements ActivityController {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open, hide action items related to the name view
-        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mFragmentContainerView);
+        if (mDrawerLayout != null) {
+            boolean drawerOpen = isDrawerOpen();
+        }
         // menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
         return true;
     }
@@ -449,7 +476,7 @@ public abstract class UIControllerBase implements ActivityController {
     }
     public void setTitle(CharSequence title) {
         mTitle = title;
-        getActionBar().setTitle(mTitle);
+        getSupportActionBar().setTitle(mTitle);
     }
 
     /** Returns the context. */
@@ -764,114 +791,157 @@ public abstract class UIControllerBase implements ActivityController {
 
     // <editor-fold desc="Drawer ">
 
-    private void SetupDrawerLayout() {
+    protected void handleDrawerNavigation() {
 
-        mFragmentContainerView = mActivity.findViewById(R.id.navdrawer);
+        final View.OnClickListener toolbarNavigationListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean handled = false;
+
+              //  if (mOnDrawerNavigationListener != null && (mDrawerToggle != null && !mDrawerToggle.isDrawerIndicatorEnabled())) {
+              //      handled = mOnDrawerNavigationListener.onNavigationClickListener(v);
+              //  }
+                if (!handled) {
+                    if (isDrawerOpen()) {
+                        mDrawerLayout.closeDrawer(mSliderLayout);
+                    } else {
+                        mDrawerLayout.openDrawer(mSliderLayout);
+                    }
+                }
+            }
+        };
+
+
+        // create the ActionBarDrawerToggle if not set and enabled and if we have a toolbar
+        if (mActionBarDrawerToggleEnabled && mDrawerToggle == null && mToolbar != null) {
+            this.mDrawerToggle = new ActionBarDrawerToggle(
+                    mActivity,
+                    mDrawerLayout,
+                    mToolbar,
+                    R.string.navigation_drawer_open,
+                    R.string.navigation_drawer_close) {
+                @Override
+                public void onDrawerOpened(View drawerView) {
+                 /*   if (mOnDrawerListener != null) {
+                        mOnDrawerListener.onDrawerOpened(drawerView);
+                    }*/
+                    super.onDrawerOpened(drawerView);
+                }
+
+                @Override
+                public void onDrawerClosed(View drawerView) {
+                   /* if (mOnDrawerListener != null) {
+                        mOnDrawerListener.onDrawerClosed(drawerView);
+                    }*/
+                    super.onDrawerClosed(drawerView);
+                }
+
+                @Override
+                public void onDrawerSlide(View drawerView, float slideOffset) {
+                   /* if (mOnDrawerListener != null) {
+                        mOnDrawerListener.onDrawerSlide(drawerView, slideOffset);
+                    }*/
+
+                    if (!mAnimateActionBarDrawerToggle) {
+                        super.onDrawerSlide(drawerView, 0);
+                    } else {
+                        super.onDrawerSlide(drawerView, slideOffset);
+                    }
+                }
+            };
+            this.mDrawerToggle.syncState();
+        }
+
+        if (mToolbar != null) {
+            this.mToolbar.setNavigationOnClickListener(toolbarNavigationListener);
+        }
+
+        //handle the ActionBarDrawerToggle
+        if (mDrawerToggle != null) {
+            mDrawerToggle.setToolbarNavigationClickListener(toolbarNavigationListener);
+            mDrawerLayout.setDrawerListener(mDrawerToggle);
+        } else {
+            mDrawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
+                @Override
+                public void onDrawerSlide(View drawerView, float slideOffset) {
+                   /* if (mOnDrawerListener != null) {
+                        mOnDrawerListener.onDrawerSlide(drawerView, slideOffset);
+                    }*/
+                }
+
+                @Override
+                public void onDrawerOpened(View drawerView) {
+                   /* if (mOnDrawerListener != null) {
+                        mOnDrawerListener.onDrawerOpened(drawerView);
+                    }*/
+                }
+
+                @Override
+                public void onDrawerClosed(View drawerView) {
+                   /* if (mOnDrawerListener != null) {
+                        mOnDrawerListener.onDrawerClosed(drawerView);
+                    }*/
+                }
+
+                @Override
+                public void onDrawerStateChanged(int newState) {
+
+                }
+            });
+        }
+
+
+    }
+
+
+    private void handleShowOnFirstLaunch() {
+        //check if it should be shown on first launch (and we have a drawerLayout)
+        if (mActivity != null && mDrawerLayout != null && mShowDrawerOnFirstLaunch) {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
+            //if it was not shown yet
+            if (!preferences.getBoolean(OPENED_KEY, false)) {
+                //open the drawer
+                mDrawerLayout.openDrawer(mSliderLayout);
+
+                //save that it showed up once ;)
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putBoolean(OPENED_KEY, true);
+                editor.apply();
+            }
+        }
+    }
+
+    public void SetupDrawerLayout() {
+
+        View originalContentView = mRootView.getChildAt(0);
+
 
         mDrawerLayout = (DrawerLayout) mActivity.findViewById(R.id.drawer_layout);
         if (mDrawerLayout == null) {
             return;
         }
-
+        appBarLayout = (AppBarLayout) mActivity.findViewById(R.id.toolbar_container);
+        mToolbar = (Toolbar) appBarLayout.findViewById(R.id.toolbar);
+        mSliderLayout = mActivity.findViewById(R.id.navdrawer);
+        mActivity.setSupportActionBar(mToolbar);
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+       // mSliderLayout.setBackgroundColor(mActivity.getResources().getColor(R.color.accent_material_light));
+       // mSliderLayout.setBackgroundResource(R.drawable.default_cover);
+        mTitle = mDrawerTitle = mActivity.getTitle();
+        ActionBar actionBar = getSupportActionBar();
+        // actionBar.setDisplayHomeAsUpEnabled(true);
+        //actionBar.setHomeButtonEnabled(false);
+        // actionBar.setDisplayShowHomeEnabled(true);
 
-        mTitle = mDrawerTitle =  mActivity.getTitle();
+        handleDrawerNavigation();
 
-        // this will be the ListFragment for navigation
-        NavigationDrawerFragment mNavigationDrawerFragment = (NavigationDrawerFragment)
-                mActivity.getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
-
-
-        // ActionBarDrawerToggle ties together the the proper interactions
-        // between the navigation drawer and the action bar app icon.
-        mDrawerToggle = new ActionBarDrawerToggle(
-                mActivity,                    /* host Activity */
-                mDrawerLayout,                    /* DrawerLayout object */
-                R.drawable.ic_drawer,             /* nav drawer image to replace 'Up' caret */
-                R.string.navigation_drawer_open,  /* "open drawer" description for accessibility */
-                R.string.navigation_drawer_close  /* "close drawer" description for accessibility */
-        ) {
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-//                if (!isAdded()) {
-//                    return;
-//                }
-                getActionBar().setTitle(mTitle);
-
-                // When closed, we want to use either the burger, or up, based on where we are
-                final int mode = mViewMode.getMode();
-                // final boolean isTopLevel = (mFolder == null) || (mFolder.parent == Uri.EMPTY);
-                mDrawerToggle.setDrawerIndicatorEnabled(getShouldShowDrawerIndicator(mode, true));
-
-
-                mActivity.supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
-                if (opened != null && !opened) {
-                    opened = true;
-                    if (prefs != null) {
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putBoolean(OPENED_KEY, true);
-                        editor.apply();
-                    }
-                }
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-//                if (!isAdded()) {
-//                    return;
-//                }
-
-//                if (!mUserLearnedDrawer) {
-//                    // The user manually opened the drawer; store this flag to prevent auto-showing
-//                    // the navigation drawer automatically in the future.
-//                    mUserLearnedDrawer = true;
-//                    SharedPreferences sp = PreferenceManager
-//                            .getDefaultSharedPreferences(getActivity());
-//                    sp.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true).apply();
-//                }
-                getActionBar().setTitle(mDrawerTitle);
-                mActivity.supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
-            }
-
-            @Override
-            public void onDrawerStateChanged(int newState) {
-                mActivity.supportInvalidateOptionsMenu();
-                //onNavDrawerStateChanged(isNavDrawerOpen(), newState != DrawerLayout.STATE_IDLE);
-            }
-
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-                //  updateStatusBarForNavDrawerSlide(slideOffset);
-                //  onNavDrawerSlide(slideOffset);
-                // If we're sliding, we always want to show the burger
-                mDrawerToggle.setDrawerIndicatorEnabled(true /* enable */);
-            }
-        };
-
-        // Defer code dependent on restoration of previous instance state.
-        mDrawerLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mDrawerToggle.syncState();
-            }
-        });
-
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-
+        handleShowOnFirstLaunch();
     }
 
 
     boolean isDrawerOpen() {
-        return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);
+        return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mSliderLayout);
     }
-
 
     @Override
     public  void closeDrawer(boolean hasNewFolderOrAccount, Account nextAccount, Folder nextFolder) {
@@ -890,10 +960,10 @@ public abstract class UIControllerBase implements ActivityController {
         if (!isDrawerEnabled()) {
             return;
         }
-        if (mDrawerLayout.isDrawerOpen(mFragmentContainerView)) {
+        if (isDrawerOpen()) {
             mDrawerLayout.closeDrawers();
         } else {
-            mDrawerLayout.openDrawer(mFragmentContainerView);
+            mDrawerLayout.openDrawer(mSliderLayout);
         }
     }
 
@@ -902,7 +972,7 @@ public abstract class UIControllerBase implements ActivityController {
         if (!isDrawerEnabled()) {
             return;
         }
-        if(mDrawerLayout.isDrawerOpen(mFragmentContainerView)) {
+        if(isDrawerOpen()) {
             mDrawerLayout.closeDrawers();
         }
     }
@@ -913,26 +983,26 @@ public abstract class UIControllerBase implements ActivityController {
 
 
     /** Returns the Google account manager. */
-   // public final GoogleAccountManager getGoogleAccountManager() {
-//        return accountManager;
-//    }
+    public final GoogleAccountManager getGoogleAccountManager() {
+        return accountManager;
+    }
 
     /** Returns all Google accounts or {@code null} for none. */
-//    public final android.accounts.Account[] getAllAccounts() {
-//        return accountManager.getAccounts();
-//    }
+    public final android.accounts.Account[] getAllAccounts() {
+        return accountManager.getAccounts();
+    }
 
-//    public GoogleApiClient getGoogleApiClient() {
-//        return mLoginAndAuthHelper.getGoogleApiClient();
-//    }
+    public GoogleApiClient getGoogleApiClient() {
+        return mLoginAndAuthHelper.getGoogleApiClient();
+    }
 
-//    private void startGooglePlayLoginProcess() {
-//        Log.d(TAG, "Starting login process.");
-//       // AccountUtils.setActiveAccount(mActivity, null); test only
-//
+    private void startGooglePlayLoginProcess() {
+        Log.d(TAG, "Starting login process.");
+       // AccountUtils.setActiveAccount(mActivity, null); test only
+       String accountName =  accountManager.getActiveAccount(mActivity);
 //        if (!GoogleAccountUtils.hasActiveAccount(mActivity)) {
 //            Log.d(TAG, "No active account, attempting to pick a default.");
-//            String defaultAccount = accountManager.getDefaultAccount();
+//           String defaultAccount = accountManager.getDefaultAccount();
 //            if (defaultAccount == null) {
 //                Log.e(TAG, "Failed to pick default account (no accounts). Failing.");
 //                PlayServicesUtils.complainMustHaveGoogleAccount(mActivity);
@@ -941,7 +1011,7 @@ public abstract class UIControllerBase implements ActivityController {
 //            Log.d(TAG, "Default to: " + defaultAccount);
 //            GoogleAccountUtils.setActiveAccount(mActivity, defaultAccount);
 //        }
-//
+
 //        if (!GoogleAccountUtils.hasActiveAccount(mActivity)) {
 //            Log.d(TAG, "Can't proceed with login -- no account chosen.");
 //            return;
@@ -950,20 +1020,20 @@ public abstract class UIControllerBase implements ActivityController {
 //        }
 //
 //        String accountName = GoogleAccountUtils.getActiveAccountName(mActivity);
-//
-//
-//
-//        if (mLoginAndAuthHelper != null && mLoginAndAuthHelper.getAccountName().equals(accountName)) {
-//            Log.d(TAG, "Helper already set up; simply starting it.");
-//            mLoginAndAuthHelper.start();
-//            return;
-//        }
-//
-//        Log.d(TAG, "Creating and starting new mLoginAndAuthHelper with account: " + accountName);
-//        mLoginAndAuthHelper = new LoginAndAuthHelper(mActivity, this,  accountName);
-//        mLoginAndAuthHelper.start();
-//
-//    }
+
+
+
+        if (mLoginAndAuthHelper != null && mLoginAndAuthHelper.getAccountName().equals(accountName)) {
+            Log.d(TAG, "Helper already set up; simply starting it.");
+            mLoginAndAuthHelper.start();
+            return;
+        }
+
+        Log.d(TAG, "Creating and starting new mLoginAndAuthHelper with account: " + accountName);
+        mLoginAndAuthHelper = new LoginAndAuthHelper(mActivity, this,  accountName);
+        mLoginAndAuthHelper.start();
+
+    }
 
 
 
@@ -1127,7 +1197,7 @@ public abstract class UIControllerBase implements ActivityController {
                         // if there's no network, don't try to change the selected account
 //                        Toast.makeText(BaseActivity.this, R.string.no_connection_cant_login,
 //                                Toast.LENGTH_SHORT).show();
-                        mDrawerLayout.closeDrawer(Gravity.START);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                     } else {
                         Log.d(TAG, "User requested switch to account: " + accountName);
 //                        AccountUtils.setActiveAccount(mActivity, accountName);
@@ -1135,7 +1205,7 @@ public abstract class UIControllerBase implements ActivityController {
 //                        startLoginProcess();
                         mAccountBoxExpanded = false;
                         setupAccountBoxToggle();
-                        mDrawerLayout.closeDrawer(Gravity.START);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
 //                        setupAccountBox();
                     }
                 }

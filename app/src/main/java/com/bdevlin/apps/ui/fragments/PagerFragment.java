@@ -83,7 +83,7 @@ public class PagerFragment extends Fragment {
         }
         mActivity = (ControllableActivity) activity;
         controller = mActivity.getActionBarController();
-        ActionBar ab = controller.getActionBar();
+        ActionBar ab = controller.getSupportActionBar();
        // ab.setDisplayHomeAsUpEnabled(true);
       //  ab.setDisplayShowHomeEnabled(true);
 

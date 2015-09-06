@@ -123,7 +123,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         final StringBuilder strBuilder = new StringBuilder();
         String url = "http://pmos-restseerver.appspot.com/rest/m/saymore/";
 
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+    /*    JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null,
                         new Response.Listener<JSONObject>() {
 
@@ -140,10 +140,10 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
                         Log.d("testing","Response: FAILED" );
                         strBuilder.append("FAILED");
                     }
-                });
+                });*/
 
 // Access the RequestQueue through your singleton class.
-        VolleyController.getInstance(this.getSystemContext()).addToRequestQueue(jsObjRequest);
+      /*  VolleyController.getInstance(this.getSystemContext()).addToRequestQueue(jsObjRequest);
         try {
             signal.await(10, TimeUnit.SECONDS); // wait for callback
         } catch (InterruptedException e) {
@@ -152,7 +152,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
 
         Log.d("testing","Response: " + strBuilder.toString());
 
-        Assert.assertEquals("{\"data", strBuilder.substring(0,6));
+        Assert.assertEquals("{\"data", strBuilder.substring(0,6));*/
 
 
 

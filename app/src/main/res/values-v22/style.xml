@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-<style name="FrameworkRoot.Theme" parent="Theme.AppCompat.Light" />
+<style name="FrameworkRoot.Theme" parent="Theme.AppCompat.Light.NoActionBar" />
 
 <style name="Theme" parent="FrameworkRoot.Theme">
 

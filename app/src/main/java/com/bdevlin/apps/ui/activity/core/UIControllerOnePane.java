@@ -49,6 +49,9 @@ public class UIControllerOnePane extends UIControllerBase
    //   Cursor c =  mActivity.getContentResolver().query(MockContract.Accounts.CONTENT_URI, new String[] {MockContract.AccountColumns.ACCOUNT_NAME}, null,null,null);
 //String foldename = c.getString(1);
 
+        if (isDrawerEnabled()) {
+            SetupDrawerLayout();
+        }
         // The parent class sets the correct viewmode and starts the application off.
         return super.onCreate(savedInstanceState);
     }
@@ -57,6 +60,7 @@ public class UIControllerOnePane extends UIControllerBase
     public void onStart() {
        // GenericListContext viewContext =  GenericListContext.forFolder(null);
        // showConversationList(viewContext);
+        super.onStart();
 
     }
 
@@ -65,7 +69,6 @@ public class UIControllerOnePane extends UIControllerBase
         super.onSaveInstanceState(outState);
 
     }
-
 
     @Override
     protected boolean isConversationListVisible() {
@@ -93,8 +96,6 @@ public class UIControllerOnePane extends UIControllerBase
         }
         mPagerController.show(position, listItem);
     }
-
-
 
     /* implements NavigationDrawerFragment.NavigationDrawerCallbacks*/
     @Override
@@ -227,8 +228,6 @@ public class UIControllerOnePane extends UIControllerBase
 
     }
 
-
-
     private void transitionBackToConversationListMode() {
         final int mode = mViewMode.getMode();
 //        enableCabMode();
@@ -246,8 +245,6 @@ public class UIControllerOnePane extends UIControllerBase
        // onConversationListVisibilityChanged(true);
 
     }
-
-
 
     @Override
     public void showConversationList(GenericListContext listContext) {
