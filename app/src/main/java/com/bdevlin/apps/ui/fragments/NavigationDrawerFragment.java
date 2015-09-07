@@ -10,6 +10,8 @@ import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +26,7 @@ import com.bdevlin.apps.pandt.DrawerClosedObserver;
 import com.bdevlin.apps.pandt.MyObjectCursorLoader;
 import com.bdevlin.apps.pandt.ObjectCursor;
 import com.bdevlin.apps.pandt.R;
+import com.bdevlin.apps.pandt.RecyclerViewAdapter;
 import com.bdevlin.apps.pandt.accounts.Account;
 import com.bdevlin.apps.pandt.accounts.AccountController;
 import com.bdevlin.apps.pandt.accounts.AccountObserver;
@@ -95,6 +98,10 @@ public class NavigationDrawerFragment extends ListFragment
     private FolderObserver mFolderObserver = null;
     private AccountObserver mAccountObserver = null;
 
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
     // </editor-fold>
 
     // <editor-fold desc="Interfaces">
@@ -156,6 +163,21 @@ public class NavigationDrawerFragment extends ListFragment
         final View rootView = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
 
         mDrawerListView = (ListView) rootView.findViewById(android.R.id.list);
+
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(mActivity.getApplicationContext());
+        mLayoutManager.scrollToPosition(0);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        // specify an adapter (see also next example)
+        mAdapter = new RecyclerViewAdapter(new String[] {"string1", "string2"});
+        mRecyclerView.setAdapter(mAdapter);
 
 
         if (savedInstanceState != null

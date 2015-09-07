@@ -1,12 +1,9 @@
 <resources>
 
-    <style name="FrameworkRoot.Theme" parent="Theme.AppCompat" >
+    <style name="FrameworkRoot.Theme" parent="Theme.AppCompat.Light.NoActionBar" >
 
         <item name="toolbarStyle">@style/MyToolBar</item>
 
-        <!--
-              <item name="drawerArrowStyle">@style/Material.DrawerArrowStyle</item>
-      -->
         <!-- ...and here we setting appcompat’s color theming attrs -->
         <item name="colorPrimary">@color/materialize_primary</item>
         <item name="colorPrimaryDark">@color/materialize_primary_dark</item>
@@ -17,42 +14,34 @@
 
     </style>
 
-    <!-- Base application theme.
+    Base application theme.
     <style name="Theme.IOSched.Base" parent="Theme">
-        <item name="actionBarOverlayTopOffset">?android:actionBarSize</item>
-
+        <!--<item name="actionBarOverlayTopOffset">?android:actionBarSize</item>-->
     </style>
 
     <style name="Theme.IOSched" parent="Theme.IOSched.Base" />
--->
+
 
     <!-- general styles for the tool bar-->
-    <style name="MyToolBar"
-        parent="@style/Widget.AppCompat.Toolbar">
-        
-<!--
+    <style name="MyToolBar" parent="Theme.AppCompat.NoActionBar">
         <item name="drawerArrowStyle">@style/Material.DrawerArrowStyle</item>
-
-        <item name="colorPrimary">@color/materialize_primary</item>
-        <item name="colorPrimaryDark">@color/materialize_primary_dark</item>
-        <item name="colorAccent">@color/materialize_accent</item>
-
-
-        <item name="titleTextStyle">@style/TitleTextStyle</item>
--->
+        <item name="titleTextStyle">@style/Material.titleTextStyle</item>
+        <item name="subtitleTextStyle">@style/Material.subtitleTextStyle</item>
+        <item name="actionMenuTextColor">@color/abc_primary_text_material_light</item>
+        <item name="colorControlNormal">#FFff11</item>
     </style>
-    -->
 
-    <!-- action bar title text
-    <style name="TitleTextStyle"
-        parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textColor">#FFFFFF</item>
+    <style name="Material.titleTextStyle" parent="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">#FFff00</item>
+    </style>
 
+    <style name="Material.subtitleTextStyle" parent="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
+        <item name="android:textColor">#FF3433</item>
     </style>
 
     <style name="Material.DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
-        <item name="color">@android:color/black</item>
+        <item name="color">@android:color/white</item>
     </style>
--->
+
 </resources>

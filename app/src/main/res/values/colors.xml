@@ -5,11 +5,12 @@
     <color name="body_text_1_inverse">#deffffff</color>
     <color name="session_photo_scrim">#6000</color>
 
-    <!-- Material DEFAULT colors -->
+    <!-- Material DEFAULT colors  <color name="colorPrimary">#2196F3</color>-->
     <color name="colorPrimary">#2196F3</color>
     <color name="colorPrimaryDark">#1976D2</color>
     <color name="colorPrimaryLight">#BBDEFB</color>
     <color name="colorAccent">#FF4081</color>
+    <!--<color name="textColorPrimary">#FFFFFF</color>-->
 
     <!-- Material DEFAULT colors -->
     <!-- chained the primary, primaryDark, primaryLight, accent colors for greater compatibility -->
@@ -17,6 +18,7 @@
     <color name="primary_dark">@color/colorPrimaryDark</color>
     <color name="primary_light">@color/colorPrimaryLight</color>
     <color name="accent">@color/colorAccent</color>
+    <!--<color name="textPrimary">@color/textColorPrimary</color>-->
 
     <!-- Material DEFAULT colors -->
     <!-- chained the primary, primaryDark, primaryLight, accent colors for greater compatibility -->
@@ -24,4 +26,5 @@
     <color name="materialize_primary_dark">@color/primary_dark</color>
     <color name="materialize_primary_light">@color/primary_light</color>
     <color name="materialize_accent">@color/accent</color>
+    <!--<color name="materialize_textColorPrimary">@color/textPrimary</color>-->
 </resources>
