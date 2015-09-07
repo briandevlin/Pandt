@@ -2,27 +2,19 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 22
-    buildToolsVersion "23"
+    buildToolsVersion "23.0.1"
 
     defaultConfig {
-<<<<<<< HEAD
-        minSdkVersion 9
-        targetSdkVersion 19
-=======
+
         /*applicationId "com.bdevlin.mymodule.lib"*/
         minSdkVersion 10
         targetSdkVersion 22
->>>>>>> 90fd31b12068295bcac263d59a48272bd583f48e
         versionCode 1
         versionName "1.0"
     }
     buildTypes {
         release {
-<<<<<<< HEAD
             minifyEnabled false
-=======
-
->>>>>>> 90fd31b12068295bcac263d59a48272bd583f48e
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

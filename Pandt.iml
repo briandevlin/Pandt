@@ -8,22 +8,12 @@
       </configuration>
     </facet>
   </component>
-<<<<<<< HEAD
-  <component name="NewModuleRootManager" inherit-compiler-output="false">
-    <output url="file://$MODULE_DIR$/build/classes/main" />
-    <output-test url="file://$MODULE_DIR$/build/classes/test" />
-=======
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7" inherit-compiler-output="true">
->>>>>>> 90fd31b12068295bcac263d59a48272bd583f48e
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/.gradle" />
     </content>
-<<<<<<< HEAD
-    <orderEntry type="jdk" jdkName="1.7" jdkType="JavaSDK" />
-=======
-    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
->>>>>>> 90fd31b12068295bcac263d59a48272bd583f48e
+    <orderEntry type="jdk" jdkName="Android API 10 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
