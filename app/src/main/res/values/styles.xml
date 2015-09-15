@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="FrameworkRoot.Theme" parent="Theme.AppCompat" >
+    <style name="FrameworkRoot.Theme" parent="Theme.AppCompat.NoActionBar" >
 
         <item name="toolbarStyle">@style/MyToolBar</item>
 

@@ -911,8 +911,8 @@ public abstract class UIControllerBase implements ActivityController {
        // mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 //        mDrawerLayout.setStatusBarBackgroundColor(
 //                mActivity.getResources().getColor(R.color.materialize_primary_light));
-//        mDrawerLayout.setBackgroundColor(mActivity.getResources().getColor(R.color.accent_material_light));
-       // mSliderLayout.setBackgroundResource(R.drawable.default_cover);
+        mDrawerLayout.setBackgroundColor(mActivity.getResources().getColor(R.color.accent_material_light));
+        mSliderLayout.setBackgroundResource(R.drawable.default_cover);
         mTitle = mDrawerTitle = mActivity.getTitle();
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -983,7 +983,7 @@ public abstract class UIControllerBase implements ActivityController {
 
     private void startGooglePlayLoginProcess() {
         Log.d(TAG, "Starting login process.");
-       // AccountUtils.setActiveAccount(mActivity, null); test only
+        //GoogleAccountUtils.setActiveAccount(mActivity, null); //test only
        String accountName =  accountManager.getActiveOrDefaultAccount(mActivity);
 
         if (mLoginAndAuthHelper != null && mLoginAndAuthHelper.getAccountName().equals(accountName)) {
