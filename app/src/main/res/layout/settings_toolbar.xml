@@ -12,6 +12,9 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    app:theme="@style/MyToolBar"
+    app:popupTheme="@style/Theme.AppCompat.NoActionBar"
+
     />
     <!--
      app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"

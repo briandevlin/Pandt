@@ -1,5 +1,6 @@
 package com.bdevlin.apps.pandt;
 
+
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,12 +11,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+
 /**
  * Created by bdevlin on 9/7/2015.
  */
 
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ListItemViewHolder> {
+
     private static final String TAG = RecyclerViewAdapter.class.getSimpleName();
     private String[] mDataset;
     /***** Creating OnItemClickListener *****/
@@ -31,9 +40,48 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         this.listener = listener;
     }
 
+    // Provide a suitable constructor (depends on the kind of dataset)
+    // in this case just a string[]
+    public RecyclerViewAdapter(String[] myDataset) {
+        mDataset = myDataset;
+    }
+
+    @Override
+    public ListItemViewHolder onCreateViewHolder(ViewGroup parent,
+                                                 int viewType) {
+        // create a new view
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.textview, parent, false);
+        // set the view's size, margins, paddings and layout parameters
+
+        // TextView vt =  (TextView)v.findViewById(R.id.textView);
+
+
+        // ListItemViewHolder vh = new ListItemViewHolder(parent.getContext(), v);
+        ListItemViewHolder vh = new ListItemViewHolder(parent.getContext(), v,
+                new RecyclerViewAdapter.ListItemViewHolder.IMyViewHolderClicks() {
+                    public void onPotato(View caller) { Log.d(TAG,"Poh-tah-tos"); };
+                    public void onTomato(ImageView callerImage) { Log.d(TAG,"To-m8-tohs"); }
+                });
+
+        return vh;
+    }
+
+    @Override
+    public void onBindViewHolder(ListItemViewHolder holder, int position) {
+        // - get element from your dataset at this position
+        // - replace the contents of the view with that element
+        holder.mTextView.setText(mDataset[position]);
+        holder.mLabel.setText(mDataset[position]);
+    }
+    @Override
+    public int getItemCount() {
+        return mDataset.length;
+    }
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
+
     public static class ListItemViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
         // each data item is just a string in this case
@@ -60,8 +108,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         @Override
         public void onClick(View v) {
             int position = getLayoutPosition(); // gets item position
-            if (v instanceof ImageView){
-                mListener.onTomato((ImageView)v);
+            if (v instanceof ImageView) {
+                mListener.onTomato((ImageView) v);
             } else {
                 mListener.onPotato(v);
             }
@@ -73,54 +121,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         public static interface IMyViewHolderClicks {
             public void onPotato(View caller);
+
             public void onTomato(ImageView callerImage);
         }
-    }
-
-    // Provide a suitable constructor (depends on the kind of dataset)
-    // in this case just a string[]
-    public RecyclerViewAdapter(String[] myDataset) {
-        mDataset = myDataset;
-    }
-
-    // Create new views (invoked by the layout manager)
-    @Override
-    public ListItemViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
-        // create a new view
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.textview, parent, false);
-        // set the view's size, margins, paddings and layout parameters
-
-      // TextView vt =  (TextView)v.findViewById(R.id.textView);
-
-       // ListItemViewHolder vh = new ListItemViewHolder(parent.getContext(), v);
-        ListItemViewHolder vh = new ListItemViewHolder(parent.getContext(), v,
-                new RecyclerViewAdapter.ListItemViewHolder.IMyViewHolderClicks() {
-                    public void onPotato(View caller) { Log.d(TAG,"Poh-tah-tos"); };
-                    public void onTomato(ImageView callerImage) { Log.d(TAG,"To-m8-tohs"); }
-        });
-        return vh;
-    }
-
-    // Replace the contents of a view (invoked by the layout manager)
-    @Override
-    public void onBindViewHolder(ListItemViewHolder holder, int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-        holder.mTextView.setText(mDataset[position]);
-        holder.mLabel.setText(mDataset[position]);
 
     }
+
+
+
+
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
-    @Override
-    public int getItemCount() {
-        return mDataset.length;
-    }
 }

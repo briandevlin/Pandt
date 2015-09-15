@@ -167,17 +167,17 @@ public class ChooseAccountFragment extends ListFragment {
 //            super(context, R.layout.account_list_item, accounts);
 //        }
 //
-//        public class ViewHolder {
+//        public class ListItemViewHolder {
 //            TextView name;
 //            ImageView icon;
 //            Account account;
 //        }
 //
 //        public View getView(int position, View convertView, ViewGroup parent) {
-//            // A ViewHolder keeps references to children views to avoid
+//            // A ListItemViewHolder keeps references to children views to avoid
 //            // unneccessary calls
 //            // to findViewById() on each row.
-//            ViewHolder holder;
+//            ListItemViewHolder holder;
 //
 //            // When convertView is not null, we can reuse it directly, there is
 //            // no need
@@ -188,10 +188,10 @@ public class ChooseAccountFragment extends ListFragment {
 //                convertView = getLayoutInflater(null).inflate(LAYOUT_RESOURCE,
 //                        null);
 //
-//                // Creates a ViewHolder and store references to the children
+//                // Creates a ListItemViewHolder and store references to the children
 //                // views
 //                // we want to bind data to.
-//                holder = new ViewHolder();
+//                holder = new ListItemViewHolder();
 //                holder.name = (TextView) convertView
 //                        .findViewById(R.id.accounts_tester_account_name);
 //                holder.icon = (ImageView) convertView
@@ -199,8 +199,8 @@ public class ChooseAccountFragment extends ListFragment {
 //
 //                convertView.setTag(holder);
 //            } else {
-//                // Get the ViewHolder back to get fast access to the TextView
-//                holder = (ViewHolder) convertView.getTag();
+//                // Get the ListItemViewHolder back to get fast access to the TextView
+//                holder = (ListItemViewHolder) convertView.getTag();
 //            }
 //
 //            final Account account = getItem(position);
@@ -248,7 +248,7 @@ public class ChooseAccountFragment extends ListFragment {
         }
 
         public View getView(int position, View convertView, ViewGroup parent) {
-            // A ViewHolder keeps references to children views to avoid
+            // A ListItemViewHolder keeps references to children views to avoid
             // unneccessary calls
             // to findViewById() on each row.
             ViewHolder holder;
@@ -262,7 +262,7 @@ public class ChooseAccountFragment extends ListFragment {
                 convertView = getLayoutInflater(null).inflate(LAYOUT_RESOURCE,
                         null);
 
-                // Creates a ViewHolder and store references to the children
+                // Creates a ListItemViewHolder and store references to the children
                 // views
                 // we want to bind data to.
                 holder = new ViewHolder();
@@ -273,7 +273,7 @@ public class ChooseAccountFragment extends ListFragment {
 
                 convertView.setTag(holder);
             } else {
-                // Get the ViewHolder back to get fast access to the TextView
+                // Get the ListItemViewHolder back to get fast access to the TextView
                 holder = (ViewHolder) convertView.getTag();
             }
 

@@ -170,6 +170,7 @@ public class NavigationDrawerFragment extends ListFragment
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
 
+
         mRecyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
 
             @Override
@@ -183,6 +184,9 @@ public class NavigationDrawerFragment extends ListFragment
             }
 
         });
+
+
+
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(mActivity.getApplicationContext());
         mLayoutManager.scrollToPosition(0);
@@ -191,8 +195,10 @@ public class NavigationDrawerFragment extends ListFragment
         // specify an adapter (see also next example)
         mAdapter = new RecyclerViewAdapter(new String[] {"string1", "string2"});
         mRecyclerView.setAdapter(mAdapter);
+
 //        RecyclerView.ItemDecoration itemDecoration =
 //                new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST);
+
 
 
         if (savedInstanceState != null

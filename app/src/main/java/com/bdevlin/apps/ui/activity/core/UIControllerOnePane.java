@@ -5,9 +5,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
+import com.bdevlin.apps.pandt.RecyclerViewAdapter;
 import com.bdevlin.apps.pandt.accounts.Account;
 import com.bdevlin.apps.pandt.folders.Folder;
 import com.bdevlin.apps.pandt.GenericListContext;
@@ -36,6 +39,10 @@ public class UIControllerOnePane extends UIControllerBase
 
     private boolean mConversationListVisible = false;
 
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
    // </editor-fold>
 
     public UIControllerOnePane(HomeActivity activity, ViewMode viewMode) {
@@ -48,6 +55,7 @@ public class UIControllerOnePane extends UIControllerBase
 
         // gets the one pane activity layout
         mActivity.setContentView(R.layout.activity_home);
+
 
    //   Cursor c =  mActivity.getContentResolver().query(MockContract.Accounts.CONTENT_URI, new String[] {MockContract.AccountColumns.ACCOUNT_NAME}, null,null,null);
 //String foldename = c.getString(1);
@@ -282,4 +290,6 @@ public class UIControllerOnePane extends UIControllerBase
                 R.id.main_content);
 
     }
+
+
 }
