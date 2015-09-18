@@ -14,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -170,6 +171,22 @@ public class NavigationDrawerFragment extends ListFragment
         mRecyclerView.setHasFixedSize(true);
 
 
+        mRecyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+
+            @Override
+            public void onTouchEvent(RecyclerView recycler, MotionEvent event) {
+                // Handle on touch events here
+            }
+
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView recycler, MotionEvent event) {
+                return false;
+            }
+
+        });
+
+
+
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(mActivity.getApplicationContext());
         mLayoutManager.scrollToPosition(0);
@@ -178,6 +195,10 @@ public class NavigationDrawerFragment extends ListFragment
         // specify an adapter (see also next example)
         mAdapter = new RecyclerViewAdapter(new String[] {"string1", "string2"});
         mRecyclerView.setAdapter(mAdapter);
+
+//        RecyclerView.ItemDecoration itemDecoration =
+//                new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST);
+
 
 
         if (savedInstanceState != null
@@ -210,51 +231,51 @@ public class NavigationDrawerFragment extends ListFragment
         folderController = mActivity.getFolderController();
         actionBarController = mActivity.getActionBarController();
 
-        mFolderObserver = new FolderObserver() {
-            @Override
-            public void onChanged(Folder newFolder) {
-                setSelectedFolder(newFolder);
-                Log.d(TAG, "onFolderChanged");
-            }
-        };
-        final Folder currentFolder;
-        if (folderController != null) {
-            // Only register for selected folder updates if we have a controller.
-            currentFolder = mFolderObserver.initialize(folderController);
-           // mCurrentFolderForUnreadCheck = currentFolder;
-        } else {
-            currentFolder = null;
-        }
-        final Folder selectedFolder;
-        selectedFolder = currentFolder;
+//        mFolderObserver = new FolderObserver() {
+//            @Override
+//            public void onChanged(Folder newFolder) {
+//                setSelectedFolder(newFolder);
+//                Log.d(TAG, "onFolderChanged");
+//            }
+//        };
+//        final Folder currentFolder;
+//        if (folderController != null) {
+//            // Only register for selected folder updates if we have a controller.
+//            currentFolder = mFolderObserver.initialize(folderController);
+//           // mCurrentFolderForUnreadCheck = currentFolder;
+//        } else {
+//            currentFolder = null;
+//        }
+//        final Folder selectedFolder;
+//        selectedFolder = currentFolder;
 
-        if (selectedFolder != null) {
-            setSelectedFolder(selectedFolder);
-        }
-
-        mDrawerObserver = new DrawerClosedObserver() {
-            @Override
-            public void onDrawerClosed() {
-                Log.d(TAG, "onDrawerClosed");
-            }
-        };
-        mDrawerObserver.initialize(actionBarController);
+//        if (selectedFolder != null) {
+//            setSelectedFolder(selectedFolder);
+//        }
+//
+//        mDrawerObserver = new DrawerClosedObserver() {
+//            @Override
+//            public void onDrawerClosed() {
+//                Log.d(TAG, "onDrawerClosed");
+//            }
+//        };
+//        mDrawerObserver.initialize(actionBarController);
 
         final AccountController accountController = mActivity.getAccountController();
 
-        mAccountObserver = new AccountObserver() {
-            @Override
-            public void onChanged(Account newAccount) {
-                Log.d(TAG, "onAccountChanged");
-                setSelectedAccount(newAccount);
-            }
-        };
-
-        if (accountController != null) {
-            setSelectedAccount(mAccountObserver.initialize(accountController));
-            mAccountController = accountController;
-
-        }
+//        mAccountObserver = new AccountObserver() {
+//            @Override
+//            public void onChanged(Account newAccount) {
+//                Log.d(TAG, "onAccountChanged");
+//                setSelectedAccount(newAccount);
+//            }
+//        };
+//
+//        if (accountController != null) {
+//            setSelectedAccount(mAccountObserver.initialize(accountController));
+//            mAccountController = accountController;
+//
+//        }
 
         //  String[] projection = new String[] { MockContract.Folders._ID, MockContract.FolderColumns.FOLDER_NAME };
 
@@ -264,7 +285,7 @@ public class NavigationDrawerFragment extends ListFragment
         // THE DESIRED COLUMNS TO BE BOUND
         // String[] columns = new String[] { MockContract.Folders._ID,   MockContract.FolderColumns.FOLDER_NAME };
         // THE XML DEFINED VIEWS WHICH THE DATA WILL BE BOUND TO. ACTUALLY USING ANDROID DEFINED IDs
-        int[] to = new int[]{android.R.id.text1, android.R.id.text2};
+        //int[] to = new int[]{android.R.id.text1, android.R.id.text2};
 
         // Initialize the mCursorAdapter. Note that we pass a 'null' Cursor as the
         // third argument. We will pass the mCursorAdapter a Cursor only when the
@@ -273,13 +294,13 @@ public class NavigationDrawerFragment extends ListFragment
         // that we have passed the '0' flag as the last argument. This
         // prevents the mCursorAdapter from registering a ContentObserver for the
         // Cursor (the CursorLoader will do this for us!).
-        mCursorAdapter = new MyCursorAdapter(
-                getActivity().getApplicationContext(),
-                android.R.layout.simple_list_item_2, null,
-                MockContract.FOLDERS_PROJECTION, to, 0);
-
-        // SET THIS ADAPTER AS YOUR LISTACTIVITY'S ADAPTER
-        this.setListAdapter(mCursorAdapter);
+//        mCursorAdapter = new MyCursorAdapter(
+//                getActivity().getApplicationContext(),
+//                android.R.layout.simple_list_item_2, null,
+//                MockContract.FOLDERS_PROJECTION, to, 0);
+//
+//        // SET THIS ADAPTER AS YOUR LISTACTIVITY'S ADAPTER
+//        this.setListAdapter(mCursorAdapter);
 
 
 //        mCursorAdapter = new ArrayAdapter<Folder>(
@@ -294,8 +315,8 @@ public class NavigationDrawerFragment extends ListFragment
         setHasOptionsMenu(true);
 
 
-        LoaderManager lm = getLoaderManager();
-        lm.initLoader(LOADER_ID, null, this);
+//        LoaderManager lm = getLoaderManager();
+//        lm.initLoader(LOADER_ID, null, this);
     }
 
 

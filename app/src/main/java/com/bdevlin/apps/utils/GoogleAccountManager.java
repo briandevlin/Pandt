@@ -91,7 +91,7 @@ public class GoogleAccountManager {
         // Choose first account on device.
         Log.d(TAG, "Choosing default account (first account on device)");
         // AccountManager am = AccountManager.get(mActivity);
-        android.accounts.Account[] accounts = manager.getAccounts();
+        android.accounts.Account[] accounts = getGoogleAccountByType();
         if (accounts.length == 0) {
             // No Google accounts on device.
             Log.w(TAG, "No Google accounts on device; not setting default account.");

@@ -10,7 +10,7 @@
 <!-- Base application theme. -->
 <style name="Theme.IOSched.Base" parent="Theme">
     <item name="actionBarOverlayTopOffset">?android:actionBarSize</item>
-    <item name="android:colorPrimary">#2196F3</item>
+
 </style>
 
 <style name="Theme.IOSched" parent="Theme.IOSched.Base" />
