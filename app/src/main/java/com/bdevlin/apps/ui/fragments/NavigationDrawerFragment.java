@@ -280,7 +280,7 @@ public class NavigationDrawerFragment extends ListFragment
         //  String[] projection = new String[] { MockContract.Folders._ID, MockContract.FolderColumns.FOLDER_NAME };
 
         // call our MockUiProvider toge the folders list using th eprojection defined above
-       // Cursor cursor = activity.getContentResolver().query(MockContract.Folders.CONTENT_URI, MockContract.FOLDERS_PROJECTION, null, null, null);
+        Cursor cursor = activity.getContentResolver().query(MockContract.Folders.CONTENT_URI, MockContract.FOLDERS_PROJECTION, null, null, null);
 
         // THE DESIRED COLUMNS TO BE BOUND
         // String[] columns = new String[] { MockContract.Folders._ID,   MockContract.FolderColumns.FOLDER_NAME };
