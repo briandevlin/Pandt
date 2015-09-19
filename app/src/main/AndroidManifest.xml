@@ -189,7 +189,7 @@
             <grant-uri-permission android:pathPattern=".*" />
         </provider>
 -->
-        <!--
+
         <provider
             android:authorities="com.bdevlin.apps.pandt.MockUiProvider"
             android:label="MockUiProvider"
@@ -197,7 +197,7 @@
             android:name="com.bdevlin.apps.providers2.MockUiProvider" >
             <grant-uri-permission android:pathPattern=".*" />
         </provider>
-        -->
+
 <!--
         <provider
             android:name="com.bdevlin.apps.provider.MockUiProvider"

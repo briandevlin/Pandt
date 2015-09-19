@@ -94,8 +94,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public ListItemViewHolder(Context context, View itemLayoutView, IMyViewHolderClicks listener) {
             super(itemLayoutView);
             this.mListener = listener;
-            this.mTextView = (TextView) itemLayoutView.findViewById(R.id.textView);
-            this.mLabel = (TextView) itemLayoutView.findViewById(R.id.label);
+            this.mTextView = (TextView) itemLayoutView.findViewById(R.id.id);
+            this.mLabel = (TextView) itemLayoutView.findViewById(R.id.name);
             this.mImage = (ImageView) itemLayoutView.findViewById(R.id.imageView2);
             this.context = context;
             mImage.setOnClickListener(this);

@@ -2,6 +2,7 @@ package com.bdevlin.apps.ui.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+//import android.content.CursorLoader;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v4.content.CursorLoader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,12 +24,10 @@ import android.widget.Toast;
 
 import com.bdevlin.apps.pandt.ActionBarController;
 import com.bdevlin.apps.pandt.ControllableActivity;
-import com.bdevlin.apps.pandt.CursorCreator;
 import com.bdevlin.apps.pandt.DrawerClosedObserver;
-import com.bdevlin.apps.pandt.MyObjectCursorLoader;
-import com.bdevlin.apps.pandt.ObjectCursor;
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.pandt.RecyclerViewAdapter;
+import com.bdevlin.apps.pandt.SimpleCursorRecyclerAdapter;
 import com.bdevlin.apps.pandt.accounts.Account;
 import com.bdevlin.apps.pandt.accounts.AccountController;
 import com.bdevlin.apps.pandt.accounts.AccountObserver;
@@ -39,7 +39,8 @@ import com.bdevlin.apps.provider.MockContract;
 
 
 public class NavigationDrawerFragment extends ListFragment
-        implements LoaderManager.LoaderCallbacks<ObjectCursor<Folder>> {
+        implements LoaderManager.LoaderCallbacks<Cursor>
+        /*implements LoaderManager.LoaderCallbacks<ObjectCursor<Folder>>*/ {
 
     // <editor-fold desc="Fields">
 
@@ -102,6 +103,8 @@ public class NavigationDrawerFragment extends ListFragment
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private SimpleCursorRecyclerAdapter mRecycleCursorAdapter;
+
 
     // </editor-fold>
 
@@ -191,10 +194,16 @@ public class NavigationDrawerFragment extends ListFragment
         mLayoutManager = new LinearLayoutManager(mActivity.getApplicationContext());
         mLayoutManager.scrollToPosition(0);
         mRecyclerView.setLayoutManager(mLayoutManager);
+        Cursor cursor = getActivity().getContentResolver().query(MockContract.Folders.CONTENT_URI, MockContract.FOLDERS_PROJECTION, null, null, null);
 
         // specify an adapter (see also next example)
-        mAdapter = new RecyclerViewAdapter(new String[] {"string1", "string2"});
-        mRecyclerView.setAdapter(mAdapter);
+        mAdapter = new RecyclerViewAdapter(new String[] {"id", "name"});
+
+        int[] to = new int[]{R.id.id, R.id.name};
+        mRecycleCursorAdapter = new SimpleCursorRecyclerAdapter(R.layout.textview, null, MockContract.FOLDERS_PROJECTION, to);
+
+        //mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(mRecycleCursorAdapter);
 
 //        RecyclerView.ItemDecoration itemDecoration =
 //                new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST);
@@ -280,7 +289,7 @@ public class NavigationDrawerFragment extends ListFragment
         //  String[] projection = new String[] { MockContract.Folders._ID, MockContract.FolderColumns.FOLDER_NAME };
 
         // call our MockUiProvider toge the folders list using th eprojection defined above
-        Cursor cursor = activity.getContentResolver().query(MockContract.Folders.CONTENT_URI, MockContract.FOLDERS_PROJECTION, null, null, null);
+        //Cursor cursor = activity.getContentResolver().query(MockContract.Folders.CONTENT_URI, MockContract.FOLDERS_PROJECTION, null, null, null);
 
         // THE DESIRED COLUMNS TO BE BOUND
         // String[] columns = new String[] { MockContract.Folders._ID,   MockContract.FolderColumns.FOLDER_NAME };
@@ -315,8 +324,8 @@ public class NavigationDrawerFragment extends ListFragment
         setHasOptionsMenu(true);
 
 
-//        LoaderManager lm = getLoaderManager();
-//        lm.initLoader(LOADER_ID, null, this);
+        LoaderManager lm = getLoaderManager();
+        lm.initLoader(LOADER_ID, null, this);
     }
 
 
@@ -512,53 +521,82 @@ public class NavigationDrawerFragment extends ListFragment
     // <editor-fold desc="Loader callbacks">
 
     @Override
-    public Loader<ObjectCursor<Folder>> onCreateLoader(int id, Bundle bundle) {
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         final String[] mProjection = MockContract.FOLDERS_PROJECTION;
-        final CursorCreator<Folder> mFactory = Folder.FACTORY;
-        final Uri folderListUri;
-        switch (id) {
+        final Uri uri = MockContract.Folders.CONTENT_URI;
 
-            case LOADER_ID:
-                final Uri folderUri = MockContract.Folders.CONTENT_URI;
-
-                // I have disabled the account loader: this needs the account loaders to run
-                // folderListUri = mCurrentAccount.folderListUri;
-
-                return new MyObjectCursorLoader<Folder>(getActivity().getApplicationContext(),
-                        folderUri, mProjection, mFactory);
-        }
-
-        return null;
+        return new CursorLoader(getActivity().getApplicationContext(), uri,
+                mProjection, null, null, null);
     }
 
     @Override
-    public void onLoadFinished(Loader<ObjectCursor<Folder>> loader, ObjectCursor<Folder> data) {
-
-        if (data == null || data.getCount() <=0 || !data.moveToFirst()) {
-            Log.e(TAG, String.format(
-                    "Received null cursor from loader id: %d",
-                    loader.getId()));
-            return;
-        }
-
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         switch (loader.getId()) {
             case LOADER_ID:
                 // The asynchronous load is complete and the data
                 // is now available for use. Only now can we associate
                 // the queried Cursor with the SimpleCursorAdapter.
-                mCursorAdapter.swapCursor(data);
+                mRecycleCursorAdapter.swapCursor(data);
                 break;
         }
     }
 
-
     @Override
-    public void onLoaderReset(Loader<ObjectCursor<Folder>> loader) {
-        // For whatever reason, the Loader's data is now unavailable.
-        // Remove any references to the old data by replacing it with
-        // a null Cursor.
-        mCursorAdapter.swapCursor(null);
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mRecycleCursorAdapter.swapCursor(null);
     }
+
+
+
+//    @Override
+//    public Loader<ObjectCursor<Folder>> onCreateLoader(int id, Bundle bundle) {
+//        final String[] mProjection = MockContract.FOLDERS_PROJECTION;
+//        final CursorCreator<Folder> mFactory = Folder.FACTORY;
+//        final Uri folderListUri;
+//        switch (id) {
+//
+//            case LOADER_ID:
+//                final Uri folderUri = MockContract.Folders.CONTENT_URI;
+//
+//                // I have disabled the account loader: this needs the account loaders to run
+//                // folderListUri = mCurrentAccount.folderListUri;
+//
+//                return new MyObjectCursorLoader<Folder>(getActivity().getApplicationContext(),
+//                        folderUri, mProjection, mFactory);
+//        }
+//
+//        return null;
+//    }
+
+//    @Override
+//    public void onLoadFinished(Loader<ObjectCursor<Folder>> loader, ObjectCursor<Folder> data) {
+//
+//        if (data == null || data.getCount() <=0 || !data.moveToFirst()) {
+//            Log.e(TAG, String.format(
+//                    "Received null cursor from loader id: %d",
+//                    loader.getId()));
+//            return;
+//        }
+//
+//        switch (loader.getId()) {
+//            case LOADER_ID:
+//                // The asynchronous load is complete and the data
+//                // is now available for use. Only now can we associate
+//                // the queried Cursor with the SimpleCursorAdapter.
+//              //  mCursorAdapter.swapCursor(data);
+//                break;
+//        }
+//    }
+
+
+//    @Override
+//    public void onLoaderReset(Loader<ObjectCursor<Folder>> loader) {
+//        // For whatever reason, the Loader's data is now unavailable.
+//        // Remove any references to the old data by replacing it with
+//        // a null Cursor.
+//       // mCursorAdapter.swapCursor(null);
+//    }
+
 // </editor-fold>
 
 

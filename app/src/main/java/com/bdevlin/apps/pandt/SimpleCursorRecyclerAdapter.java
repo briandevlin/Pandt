@@ -1,15 +1,20 @@
 package com.bdevlin.apps.pandt;
+import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by brian on 9/15/2015.
  */
-public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<SimpleViewHolder> {
+public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<ListItemViewHolder> {
+    private static final String TAG = SimpleCursorRecyclerAdapter.class.getSimpleName();
     private int mLayout;
     private int[] mFrom;
     private int[] mTo;
@@ -24,14 +29,17 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<SimpleVie
     }
 
     @Override
-    public SimpleViewHolder onCreateViewHolder (ViewGroup parent, int viewType) {
+    public ListItemViewHolder onCreateViewHolder (ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(mLayout, parent, false);
-        return new SimpleViewHolder(v, mTo);
+        return new ListItemViewHolder(parent.getContext(),v, mTo, new ListItemViewHolder.IMyViewHolderClicks() {
+            public void onPotato(View caller) { Log.d(TAG, "Poh-tah-tos"); };
+            public void onTomato(ImageView callerImage) { Log.d(TAG,"To-m8-tohs"); }
+        });
     }
 
     @Override
-    public void onBindViewHolder (SimpleViewHolder holder, Cursor cursor) {
+    public void onBindViewHolder (ListItemViewHolder holder, Cursor cursor) {
         final int count = mTo.length;
         final int[] from = mFrom;
 
@@ -68,16 +76,44 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<SimpleVie
     }
 }
 
-class SimpleViewHolder extends RecyclerView.ViewHolder
+class ListItemViewHolder extends RecyclerView.ViewHolder
+        implements View.OnClickListener
 {
     public TextView[] views;
+    public ImageView mImage;
+    private Context context;
+    public IMyViewHolderClicks mListener;
 
-    public SimpleViewHolder (View itemView, int[] to)
+    public ListItemViewHolder(Context context, View itemLayoutView, int[] to, IMyViewHolderClicks listener)
     {
-        super(itemView);
+        super(itemLayoutView);
+        this.mListener = listener;
+        // Attach a click listener to the entire row view
+        itemLayoutView.setOnClickListener(this);
+
         views = new TextView[to.length];
         for(int i = 0 ; i < to.length ; i++) {
             views[i] = (TextView) itemView.findViewById(to[i]);
         }
+
+        this.mImage = (ImageView) itemLayoutView.findViewById(R.id.imageView2);
+        mImage.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        int position = getLayoutPosition(); // gets item position
+        if (v instanceof ImageView) {
+            mListener.onTomato((ImageView) v);
+        } else {
+            mListener.onPotato(v);
+        }
+        Toast.makeText(v.getContext(), "Id: " + getAdapterPosition(), Toast.LENGTH_LONG).show();
+    }
+
+    public  interface IMyViewHolderClicks {
+        public void onPotato(View caller);
+
+        public void onTomato(ImageView callerImage);
     }
 }

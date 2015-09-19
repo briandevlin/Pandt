@@ -13,7 +13,7 @@
         android:padding="8dp"
         android:textSize="30sp"
 
-        android:id="@+id/label" />
+        android:id="@+id/id" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
         android:padding="8dp"
         android:textSize="30sp"
         android:text="New Text"
-        android:id="@+id/textView" />
+        android:id="@+id/name" />
 
     <ImageView
         android:layout_width="wrap_content"
