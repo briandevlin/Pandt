@@ -119,7 +119,7 @@ public final class MockContract {
         public static final String TABLE_NAME = "folders";
 
         public static final Uri CONTENT_URI3 = BASE_CONTENT_URI.buildUpon().appendPath("folders").build();
-        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, "account/0/folders");
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, "folders");
         public static final Uri CONTENT_URI2 = BASE_CONTENT_URI.buildUpon().appendPath("folders").build();
 
         public static final String CONTENT_TYPE = "vnd.android.cursor.dir/folder";

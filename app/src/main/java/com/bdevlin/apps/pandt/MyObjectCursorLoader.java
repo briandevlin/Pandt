@@ -57,6 +57,7 @@ public class MyObjectCursorLoader<T> extends AsyncTaskLoader<ObjectCursor<T>>{
         }
 
         inner.getCount();
+        // ObjectCursor<T> extends Cursor (actually via CursorWrapper) and adds method getModel()
         final ObjectCursor<T> cursor = getObjectCursor(inner);
 
         return cursor;

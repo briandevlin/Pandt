@@ -20,6 +20,7 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.MatrixCursor;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.provider.BaseColumns;
 import android.text.Html;
@@ -29,6 +30,8 @@ import com.bdevlin.apps.pandt.folders.Folder;
 //import  com.bdevlin.apps.pandt.FolderList;
 //import  com.bdevlin.apps.pandt.MessageInfo;
 //import  com.bdevlin.apps.pandt.ReplyFromAccount;
+import com.bdevlin.apps.provider.MockContract;
+import com.bdevlin.apps.provider.MockDatabaseHelper;
 import  com.bdevlin.apps.providers2.UIProvider.AccountCapabilities;
 import  com.bdevlin.apps.providers2.UIProvider.AccountColumns;
 import  com.bdevlin.apps.providers2.UIProvider.AccountColumns.SettingsColumns;
@@ -64,6 +67,8 @@ public final class MockUiProvider extends ContentProvider {
     // A map of query result for uris
     // TODO(pwestbro) read this map from an external file
     private static Map<String, List<Map<String, Object>>> MOCK_QUERY_RESULTS = Maps.newHashMap();
+
+    private static MockDatabaseHelper database;
 
     private static void initializeAccount(int accountId,
             Map<String, List<Map<String, Object>>> resultMap) {
@@ -405,38 +410,44 @@ public final class MockUiProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        MockUiProvider.initializeMockProvider();
-        return true;
+       // MockUiProvider.initializeMockProvider();
+        database = new MockDatabaseHelper(getContext());
+        return false;
     }
 
     @Override
     public Cursor query(Uri url, String[] projection, String selection, String[] selectionArgs,
             String sortOrder) {
 
-        final List<Map<String, Object>> queryResults = MOCK_QUERY_RESULTS.get(url.toString());
+        //final List<Map<String, Object>> queryResults = MOCK_QUERY_RESULTS.get(url.toString());
 
-        if (queryResults != null && queryResults.size() > 0) {
-            // Get the projection.  If there are rows in the result set, pick the first item to
-            // generate the projection
-            // TODO (pwestbro): handle the case where we want to return an empty result.\
-            if (projection == null) {
-                Set<String> keys = queryResults.get(0).keySet();
-                projection = keys.toArray(new String[keys.size()]);
-            }
+        SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+        // Set the table
+        queryBuilder.setTables("folders");
+       // int uriType = sUriMatcher.match(uri);
+
+//        if (queryResults != null && queryResults.size() > 0) {
+//            // Get the projection.  If there are rows in the result set, pick the first item to
+//            // generate the projection
+//            // TODO (pwestbro): handle the case where we want to return an empty result.\
+//            if (projection == null) {
+//                Set<String> keys = queryResults.get(0).keySet();
+//                projection = keys.toArray(new String[keys.size()]);
+//            }
+////            final MatrixCursor matrixCursor =
+////                    new MockRespondMatrixCursor(projection, queryResults.size(), queryResults);
 //            final MatrixCursor matrixCursor =
-//                    new MockRespondMatrixCursor(projection, queryResults.size(), queryResults);
-            final MatrixCursor matrixCursor =
-                    new MatrixCursor(projection, queryResults.size());
-
-            for (Map<String, Object> queryResult : queryResults) {
-                MatrixCursor.RowBuilder rowBuilder = matrixCursor.newRow();
-
-                for (String key : projection) {
-                    rowBuilder.add(queryResult.get(key));
-                }
-            }
-            return matrixCursor;
-        }
+//                    new MatrixCursor(projection, queryResults.size());
+//
+//            for (Map<String, Object> queryResult : queryResults) {
+//                MatrixCursor.RowBuilder rowBuilder = matrixCursor.newRow();
+//
+//                for (String key : projection) {
+//                    rowBuilder.add(queryResult.get(key));
+//                }
+//            }
+//            return matrixCursor;
+//        }
 
         return null;
     }
