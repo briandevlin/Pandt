@@ -14,28 +14,63 @@ import android.widget.Toast;
  * Created by brian on 9/15/2015.
  */
 public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<ListItemViewHolder> {
+    Context mContext;
     private static final String TAG = SimpleCursorRecyclerAdapter.class.getSimpleName();
     private int mLayout;
     private int[] mFrom;
     private int[] mTo;
     private String[] mOriginalFrom;
+    private ListItemViewHolder.IMyViewHolderClicks viewHolederClicks;
 
-    public SimpleCursorRecyclerAdapter (int layout, Cursor c, String[] from, int[] to) {
+    public SimpleCursorRecyclerAdapter (Context context, int layout, Cursor c, String[] from, int[] to) {
         super(c);
+        mContext = context;
         mLayout = layout;
         mTo = to;
         mOriginalFrom = from;
         findColumns(c, from);
+        viewHolederClicks = new ListItemViewHolder.IMyViewHolderClicks() {
+            public void onPotato(View caller) { Log.d(TAG, "Poh-tah-tos"); };
+            public void onTomato(ImageView callerImage) { Log.d(TAG,"To-m8-tohs"); }
+        };
+//        this.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+//            @Override
+//            public void onChanged() {
+//                Toast.makeText(mContext, "onChanged() ", Toast.LENGTH_LONG).show();
+//               // notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onItemRangeChanged(int positionStart, int itemCount) {
+//                Toast.makeText(mContext, "onItemRangeChanged() ", Toast.LENGTH_LONG).show();
+//                notifyItemRangeChanged(positionStart, itemCount);
+//            }
+//
+//            @Override
+//            public void onItemRangeInserted(int positionStart, int itemCount) {
+//                Toast.makeText(mContext, "onItemRangeInserted() ", Toast.LENGTH_LONG).show();
+//                notifyItemRangeInserted(positionStart, itemCount);
+//            }
+//
+//            @Override
+//            public void onItemRangeRemoved(int positionStart, int itemCount) {
+//                Toast.makeText(mContext, "onItemRangeRemoved() ", Toast.LENGTH_LONG).show();
+//                notifyItemRangeRemoved(positionStart, itemCount);
+//            }
+//        });
     }
 
     @Override
     public ListItemViewHolder onCreateViewHolder (ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(mLayout, parent, false);
-        return new ListItemViewHolder(parent.getContext(),v, mTo, new ListItemViewHolder.IMyViewHolderClicks() {
-            public void onPotato(View caller) { Log.d(TAG, "Poh-tah-tos"); };
-            public void onTomato(ImageView callerImage) { Log.d(TAG,"To-m8-tohs"); }
-        });
+
+        return new ListItemViewHolder(
+                parent.getContext(),
+                v,
+                mTo,
+                viewHolederClicks
+        );
     }
 
     @Override

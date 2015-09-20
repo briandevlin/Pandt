@@ -60,6 +60,10 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder> 
         }
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return 0;
+    }
     /**
      * Change the underlying cursor to a new cursor. If there is an existing cursor it will be
      * closed.

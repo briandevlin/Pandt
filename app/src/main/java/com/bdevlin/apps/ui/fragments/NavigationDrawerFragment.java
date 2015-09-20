@@ -24,7 +24,10 @@ import android.widget.Toast;
 
 import com.bdevlin.apps.pandt.ActionBarController;
 import com.bdevlin.apps.pandt.ControllableActivity;
+import com.bdevlin.apps.pandt.CursorCreator;
 import com.bdevlin.apps.pandt.DrawerClosedObserver;
+import com.bdevlin.apps.pandt.MyObjectCursorLoader;
+import com.bdevlin.apps.pandt.ObjectCursor;
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.pandt.RecyclerViewAdapter;
 import com.bdevlin.apps.pandt.SimpleCursorRecyclerAdapter;
@@ -39,7 +42,7 @@ import com.bdevlin.apps.provider.MockContract;
 
 
 public class NavigationDrawerFragment extends ListFragment
-        implements LoaderManager.LoaderCallbacks<Cursor>
+        implements LoaderManager.LoaderCallbacks<ObjectCursor<Folder>>
         /*implements LoaderManager.LoaderCallbacks<ObjectCursor<Folder>>*/ {
 
     // <editor-fold desc="Fields">
@@ -74,9 +77,9 @@ public class NavigationDrawerFragment extends ListFragment
      */
     private NavigationDrawerCallbacks mCallbacks;
 
-    private ListView mDrawerListView;
+    //private ListView mDrawerListView;
     private View mFragmentContainerView;
-    private MyCursorAdapter mCursorAdapter;
+    //private MyCursorAdapter mCursorAdapter;
 
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
@@ -166,7 +169,7 @@ public class NavigationDrawerFragment extends ListFragment
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
 
-        mDrawerListView = (ListView) rootView.findViewById(android.R.id.list);
+        //mDrawerListView = (ListView) rootView.findViewById(android.R.id.list);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
         // use this setting to improve performance if you know that changes
@@ -191,16 +194,16 @@ public class NavigationDrawerFragment extends ListFragment
 
 
         // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(mActivity.getApplicationContext());
+        mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         mLayoutManager.scrollToPosition(0);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        Cursor cursor = getActivity().getContentResolver().query(MockContract.Folders.CONTENT_URI, MockContract.FOLDERS_PROJECTION, null, null, null);
+        //Cursor cursor = getActivity().getContentResolver().query(MockContract.Folders.CONTENT_URI, MockContract.FOLDERS_PROJECTION, null, null, null);
 
         // specify an adapter (see also next example)
-        mAdapter = new RecyclerViewAdapter(new String[] {"id", "name"});
+       // mAdapter = new RecyclerViewAdapter(new String[] {"id", "name"});
 
         int[] to = new int[]{R.id.id, R.id.name};
-        mRecycleCursorAdapter = new SimpleCursorRecyclerAdapter(R.layout.textview, null, MockContract.FOLDERS_PROJECTION, to);
+        mRecycleCursorAdapter = new SimpleCursorRecyclerAdapter(getActivity().getApplicationContext(), R.layout.textview, null, MockContract.FOLDERS_PROJECTION, to);
 
         //mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setAdapter(mRecycleCursorAdapter);
@@ -212,8 +215,8 @@ public class NavigationDrawerFragment extends ListFragment
 
         if (savedInstanceState != null
                 && savedInstanceState.containsKey(BUNDLE_LIST_STATE)) {
-            mDrawerListView.onRestoreInstanceState(savedInstanceState
-                    .getParcelable(BUNDLE_LIST_STATE));
+//            mDrawerListView.onRestoreInstanceState(savedInstanceState
+//                    .getParcelable(BUNDLE_LIST_STATE));
         }
         // Restore the previously serialized activated item position.
         if (savedInstanceState != null) {
@@ -237,8 +240,8 @@ public class NavigationDrawerFragment extends ListFragment
             return;
         }
         mActivity = (ControllableActivity) activity;
-        folderController = mActivity.getFolderController();
-        actionBarController = mActivity.getActionBarController();
+      //  folderController = mActivity.getFolderController();
+      //  actionBarController = mActivity.getActionBarController();
 
 //        mFolderObserver = new FolderObserver() {
 //            @Override
@@ -270,7 +273,7 @@ public class NavigationDrawerFragment extends ListFragment
 //        };
 //        mDrawerObserver.initialize(actionBarController);
 
-        final AccountController accountController = mActivity.getAccountController();
+        //final AccountController accountController = mActivity.getAccountController();
 
 //        mAccountObserver = new AccountObserver() {
 //            @Override
@@ -334,84 +337,84 @@ public class NavigationDrawerFragment extends ListFragment
 
     // <editor-fold desc="Misc">
 
-    private void setSelectedFolder(Folder folder) {
-        if (folder == null) {
-           mSelectedFolderUri = FolderUri.EMPTY;
-          //  mCurrentFolderForUnreadCheck = null;
-
-            return;
-        }
-
-      //  mSelectedFolderUri = folder.folderUri;
-        if (mCursorAdapter != null) {
-            mCursorAdapter.notifyDataSetChanged();
-        }
-
-    }
-
-    @Override
-    public void onListItemClick(ListView listView, View view, int position,
-                                long id) {
-        Cursor cursor = (Cursor) listView.getItemAtPosition(position);
-        // Folder folder = (Folder)listView.getAdapter().getItem(position);
-
-        int folderId = cursor.getInt(cursor.getColumnIndex(MockContract.Folders._ID));
-        String folderName = cursor.getString(cursor.getColumnIndex(MockContract.Folders.FOLDER_NAME));
-
-        Folder folder = new Folder(folderId, folderName);
-
-        selectItem(position, folder);
-
-        Toast.makeText(getActivity(),
-                listView.getItemAtPosition(position).toString(),
-                Toast.LENGTH_SHORT).show();
-
-//        final Object item = getListAdapter().getItem(position);
-//        Log.d(TAG, String.format("viewFolder(%d): %s", position,
-//                folder));
-    }
-
-
-    private void selectItem(int position, Folder folder) {
-        mCurrentSelectedPosition = position;
-        if (mDrawerListView != null) {
-            mDrawerListView.setItemChecked(position, true);
-        }
-
-//        if (actionBarController != null) {
-//            actionBarController.closeDrawer(true, folder);
+//    private void setSelectedFolder(Folder folder) {
+//        if (folder == null) {
+//           mSelectedFolderUri = FolderUri.EMPTY;
+//          //  mCurrentFolderForUnreadCheck = null;
+//
+//            return;
 //        }
 //
-//        if (folderController != null) {
-//            folderController.closeDrawer(folder);
+//      //  mSelectedFolderUri = folder.folderUri;
+//        if (mCursorAdapter != null) {
+//            mCursorAdapter.notifyDataSetChanged();
 //        }
+//
+//    }
 
-        if (mCallbacks != null) {
-            mCallbacks.onNavigationDrawerItemSelected(position, folder);
-        }
-    }
+//    @Override
+//    public void onListItemClick(ListView listView, View view, int position,
+//                                long id) {
+//        Cursor cursor = (Cursor) listView.getItemAtPosition(position);
+//        // Folder folder = (Folder)listView.getAdapter().getItem(position);
+//
+//        int folderId = cursor.getInt(cursor.getColumnIndex(MockContract.Folders._ID));
+//        String folderName = cursor.getString(cursor.getColumnIndex(MockContract.Folders.FOLDER_NAME));
+//
+//        Folder folder = new Folder(folderId, folderName);
+//
+//        selectItem(position, folder);
+//
+//        Toast.makeText(getActivity(),
+//                listView.getItemAtPosition(position).toString(),
+//                Toast.LENGTH_SHORT).show();
+//
+////        final Object item = getListAdapter().getItem(position);
+////        Log.d(TAG, String.format("viewFolder(%d): %s", position,
+////                folder));
+//    }
 
 
-    private Uri getCurrentAccountUri() {
-        return mCurrentAccount == null ? Uri.EMPTY : mCurrentAccount.uri;
-    }
+//    private void selectItem(int position, Folder folder) {
+//        mCurrentSelectedPosition = position;
+//        if (mDrawerListView != null) {
+//            mDrawerListView.setItemChecked(position, true);
+//        }
+//
+////        if (actionBarController != null) {
+////            actionBarController.closeDrawer(true, folder);
+////        }
+////
+////        if (folderController != null) {
+////            folderController.closeDrawer(folder);
+////        }
+//
+//        if (mCallbacks != null) {
+//            mCallbacks.onNavigationDrawerItemSelected(position, folder);
+//        }
+//    }
 
-    private void setSelectedAccount(Account account) {
-        Log.d(TAG,"setSelectedAccount");
-        final boolean changed = (account != null) && (mCurrentAccount == null
-                || !mCurrentAccount.uri.equals(account.uri));
 
-        mCurrentAccount = account;
+//    private Uri getCurrentAccountUri() {
+//        return mCurrentAccount == null ? Uri.EMPTY : mCurrentAccount.uri;
+//    }
 
-        if (changed) {
-            LoaderManager lm = getLoaderManager();
-            lm.destroyLoader(LOADER_ID);
-              lm.restartLoader(LOADER_ID, Bundle.EMPTY, this);
-        }
-
-
-
-    }
+//    private void setSelectedAccount(Account account) {
+//        Log.d(TAG,"setSelectedAccount");
+//        final boolean changed = (account != null) && (mCurrentAccount == null
+//                || !mCurrentAccount.uri.equals(account.uri));
+//
+//        mCurrentAccount = account;
+//
+//        if (changed) {
+//            LoaderManager lm = getLoaderManager();
+//            lm.destroyLoader(LOADER_ID);
+//              lm.restartLoader(LOADER_ID, Bundle.EMPTY, this);
+//        }
+//
+//
+//
+//    }
 
     // </editor-fold>
 
@@ -419,47 +422,47 @@ public class NavigationDrawerFragment extends ListFragment
     // <editor-fold desc="Life Cycle">
 
 
-    @Override
-    public void onDestroyView() {
-        if (mCursorAdapter != null) {
-            // mCursorAdapter.destroy();
-        }
-        // Clear the mCursorAdapter.
-        setListAdapter(null);
+//    @Override
+//    public void onDestroyView() {
+//        if (mCursorAdapter != null) {
+//            // mCursorAdapter.destroy();
+//        }
+//        // Clear the mCursorAdapter.
+//        setListAdapter(null);
+//
+//        super.onDestroyView();
+//    }
 
-        super.onDestroyView();
-    }
 
-
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            if (!(activity instanceof ControllableActivity)) {
-                // log something here
-            }
-            mActivity = (ControllableActivity) activity;
-            folderController = mActivity.getFolderController();
-            mCallbacks = mActivity.getNavigationDrawerCallbacks();
-        } catch (ClassCastException e) {
-            throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
-        }
-    }
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//    }
+//
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//    }
+//
+//    @Override
+//    public void onAttach(Activity activity) {
+//        super.onAttach(activity);
+//        try {
+//            if (!(activity instanceof ControllableActivity)) {
+//                // log something here
+//            }
+//            mActivity = (ControllableActivity) activity;
+//            folderController = mActivity.getFolderController();
+//            mCallbacks = mActivity.getNavigationDrawerCallbacks();
+//        } catch (ClassCastException e) {
+//            throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
+//        }
+//    }
 
     @Override
     public void onDetach() {
@@ -475,10 +478,10 @@ public class NavigationDrawerFragment extends ListFragment
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (mDrawerListView != null) {
-            outState.putParcelable(BUNDLE_LIST_STATE,
-                    mDrawerListView.onSaveInstanceState());
-        }
+//        if (mDrawerListView != null) {
+//            outState.putParcelable(BUNDLE_LIST_STATE,
+//                    mDrawerListView.onSaveInstanceState());
+//        }
 
 //        if (mSelectedFolderUri != null) {
 //            outState.putString(BUNDLE_SELECTED_FOLDER,
@@ -492,110 +495,111 @@ public class NavigationDrawerFragment extends ListFragment
 
     // <editor-fold desc="MyCursorAdapter">
 
-    private class MyCursorAdapter extends SimpleCursorAdapter {
-
-        public MyCursorAdapter(Context context, int layout, Cursor c,
-                               String[] from, int[] to, int flags) {
-            super(context, layout, c, from, to, flags);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            //get reference to the row
-            View view = super.getView(position, convertView, parent);
-            //check for odd or even to set alternate colors to the row background
-            if (position % 2 == 0) {
-                view.setBackgroundColor(Color.rgb(238, 233, 233));
-            } else {
-                view.setBackgroundColor(Color.rgb(238, 233, 233));
-               // view.setBackgroundColor(Color.rgb(255, 255, 255));
-            }
-            return view;
-        }
-    }
+//    private class MyCursorAdapter extends SimpleCursorAdapter {
+//
+//        public MyCursorAdapter(Context context, int layout, Cursor c,
+//                               String[] from, int[] to, int flags) {
+//            super(context, layout, c, from, to, flags);
+//        }
+//
+//        @Override
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//
+//            //get reference to the row
+//            View view = super.getView(position, convertView, parent);
+//            //check for odd or even to set alternate colors to the row background
+//            if (position % 2 == 0) {
+//                view.setBackgroundColor(Color.rgb(238, 233, 233));
+//            } else {
+//                view.setBackgroundColor(Color.rgb(238, 233, 233));
+//               // view.setBackgroundColor(Color.rgb(255, 255, 255));
+//            }
+//            return view;
+//        }
+//    }
 
     // </editor-fold>
 
 
     // <editor-fold desc="Loader callbacks">
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        final String[] mProjection = MockContract.FOLDERS_PROJECTION;
-        final Uri uri = MockContract.Folders.CONTENT_URI;
-
-        return new CursorLoader(getActivity().getApplicationContext(), uri,
-                mProjection, null, null, null);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        switch (loader.getId()) {
-            case LOADER_ID:
-                // The asynchronous load is complete and the data
-                // is now available for use. Only now can we associate
-                // the queried Cursor with the SimpleCursorAdapter.
-                mRecycleCursorAdapter.swapCursor(data);
-                break;
-        }
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        mRecycleCursorAdapter.swapCursor(null);
-    }
-
-
-
 //    @Override
-//    public Loader<ObjectCursor<Folder>> onCreateLoader(int id, Bundle bundle) {
+//    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 //        final String[] mProjection = MockContract.FOLDERS_PROJECTION;
-//        final CursorCreator<Folder> mFactory = Folder.FACTORY;
-//        final Uri folderListUri;
-//        switch (id) {
+//        final Uri uri = MockContract.Folders.CONTENT_URI;
 //
-//            case LOADER_ID:
-//                final Uri folderUri = MockContract.Folders.CONTENT_URI;
-//
-//                // I have disabled the account loader: this needs the account loaders to run
-//                // folderListUri = mCurrentAccount.folderListUri;
-//
-//                return new MyObjectCursorLoader<Folder>(getActivity().getApplicationContext(),
-//                        folderUri, mProjection, mFactory);
-//        }
-//
-//        return null;
+//        return new CursorLoader(getActivity().getApplicationContext(), uri,
+//                mProjection, null, null, null);
 //    }
-
+//
 //    @Override
-//    public void onLoadFinished(Loader<ObjectCursor<Folder>> loader, ObjectCursor<Folder> data) {
-//
-//        if (data == null || data.getCount() <=0 || !data.moveToFirst()) {
-//            Log.e(TAG, String.format(
-//                    "Received null cursor from loader id: %d",
-//                    loader.getId()));
-//            return;
-//        }
-//
+//    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 //        switch (loader.getId()) {
 //            case LOADER_ID:
 //                // The asynchronous load is complete and the data
 //                // is now available for use. Only now can we associate
 //                // the queried Cursor with the SimpleCursorAdapter.
-//              //  mCursorAdapter.swapCursor(data);
+//                mRecycleCursorAdapter.swapCursor(data);
 //                break;
 //        }
 //    }
-
-
+//
 //    @Override
-//    public void onLoaderReset(Loader<ObjectCursor<Folder>> loader) {
-//        // For whatever reason, the Loader's data is now unavailable.
-//        // Remove any references to the old data by replacing it with
-//        // a null Cursor.
-//       // mCursorAdapter.swapCursor(null);
+//    public void onLoaderReset(Loader<Cursor> loader) {
+//        mRecycleCursorAdapter.swapCursor(null);
 //    }
+
+
+
+    @Override
+    public Loader<ObjectCursor<Folder>> onCreateLoader(int id, Bundle bundle) {
+        final String[] mProjection = MockContract.FOLDERS_PROJECTION;
+        final CursorCreator<Folder> mFactory = Folder.FACTORY;
+        final Uri folderListUri;
+        // we only have one loader but...
+        switch (id) {
+
+            case LOADER_ID:
+                final Uri folderUri = MockContract.Folders.CONTENT_URI;
+
+                // I have disabled the account loader: this needs the account loaders to run
+                // folderListUri = mCurrentAccount.folderListUri;
+
+                return new MyObjectCursorLoader<Folder>(getActivity().getApplicationContext(),
+                        folderUri, mProjection, mFactory);
+        }
+
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<ObjectCursor<Folder>> loader, ObjectCursor<Folder> data) {
+
+        if (data == null || data.getCount() <=0 || !data.moveToFirst()) {
+            Log.e(TAG, String.format(
+                    "Received null cursor from loader id: %d",
+                    loader.getId()));
+            return;
+        }
+
+        switch (loader.getId()) {
+            case LOADER_ID:
+                // The asynchronous load is complete and the data
+                // is now available for use. Only now can we associate
+                // the queried Cursor with the SimpleCursorRecyclerAdapter.
+                mRecycleCursorAdapter.swapCursor(data);
+                break;
+        }
+    }
+
+
+    @Override
+    public void onLoaderReset(Loader<ObjectCursor<Folder>> loader) {
+        // For whatever reason, the Loader's data is now unavailable.
+        // Remove any references to the old data by replacing it with
+        // a null Cursor.
+        mRecycleCursorAdapter.swapCursor(null);
+    }
 
 // </editor-fold>
 
