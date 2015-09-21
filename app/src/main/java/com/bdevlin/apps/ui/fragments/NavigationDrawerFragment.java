@@ -14,6 +14,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import com.bdevlin.apps.pandt.ActionBarController;
 import com.bdevlin.apps.pandt.ControllableActivity;
 import com.bdevlin.apps.pandt.CursorCreator;
+import com.bdevlin.apps.pandt.DividerItemDecoration;
 import com.bdevlin.apps.pandt.DrawerClosedObserver;
 import com.bdevlin.apps.pandt.MyObjectCursorLoader;
 import com.bdevlin.apps.pandt.ObjectCursor;
@@ -38,11 +40,14 @@ import com.bdevlin.apps.pandt.folders.Folder;
 import com.bdevlin.apps.pandt.folders.FolderController;
 import com.bdevlin.apps.pandt.folders.FolderObserver;
 import com.bdevlin.apps.pandt.folders.FolderUri;
+import com.bdevlin.apps.pandt.helper.OnStartDragListener;
+import com.bdevlin.apps.pandt.helper.SimpleItemTouchHelperCallback;
 import com.bdevlin.apps.provider.MockContract;
 
 
 public class NavigationDrawerFragment extends ListFragment
-        implements LoaderManager.LoaderCallbacks<ObjectCursor<Folder>>
+        implements LoaderManager.LoaderCallbacks<ObjectCursor<Folder>>,
+        OnStartDragListener
         /*implements LoaderManager.LoaderCallbacks<ObjectCursor<Folder>>*/ {
 
     // <editor-fold desc="Fields">
@@ -107,6 +112,12 @@ public class NavigationDrawerFragment extends ListFragment
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private SimpleCursorRecyclerAdapter mRecycleCursorAdapter;
+    private ItemTouchHelper mItemTouchHelper;
+
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        mItemTouchHelper.startDrag(viewHolder);
+    }
 
 
     // </editor-fold>
@@ -177,19 +188,19 @@ public class NavigationDrawerFragment extends ListFragment
         mRecyclerView.setHasFixedSize(true);
 
 
-        mRecyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-
-            @Override
-            public void onTouchEvent(RecyclerView recycler, MotionEvent event) {
-                // Handle on touch events here
-            }
-
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView recycler, MotionEvent event) {
-                return false;
-            }
-
-        });
+//        mRecyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+//
+//            @Override
+//            public void onTouchEvent(RecyclerView recycler, MotionEvent event) {
+//                // Handle on touch events here
+//            }
+//
+//            @Override
+//            public boolean onInterceptTouchEvent(RecyclerView recycler, MotionEvent event) {
+//                return false;
+//            }
+//
+//        });
 
 
 
@@ -208,14 +219,18 @@ public class NavigationDrawerFragment extends ListFragment
         //mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setAdapter(mRecycleCursorAdapter);
 
-//        RecyclerView.ItemDecoration itemDecoration =
-//                new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST);
+        RecyclerView.ItemDecoration itemDecoration =
+                new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST);
 
+        mRecyclerView.addItemDecoration(itemDecoration);
 
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mRecycleCursorAdapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
 
         if (savedInstanceState != null
                 && savedInstanceState.containsKey(BUNDLE_LIST_STATE)) {
-//            mDrawerListView.onRestoreInstanceState(savedInstanceState
+//            mRecyclerView.onRestoreInstanceState(savedInstanceState
 //                    .getParcelable(BUNDLE_LIST_STATE));
         }
         // Restore the previously serialized activated item position.
@@ -493,62 +508,10 @@ public class NavigationDrawerFragment extends ListFragment
 
     // </editor-fold>
 
-    // <editor-fold desc="MyCursorAdapter">
 
-//    private class MyCursorAdapter extends SimpleCursorAdapter {
-//
-//        public MyCursorAdapter(Context context, int layout, Cursor c,
-//                               String[] from, int[] to, int flags) {
-//            super(context, layout, c, from, to, flags);
-//        }
-//
-//        @Override
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//
-//            //get reference to the row
-//            View view = super.getView(position, convertView, parent);
-//            //check for odd or even to set alternate colors to the row background
-//            if (position % 2 == 0) {
-//                view.setBackgroundColor(Color.rgb(238, 233, 233));
-//            } else {
-//                view.setBackgroundColor(Color.rgb(238, 233, 233));
-//               // view.setBackgroundColor(Color.rgb(255, 255, 255));
-//            }
-//            return view;
-//        }
-//    }
-
-    // </editor-fold>
 
 
     // <editor-fold desc="Loader callbacks">
-
-//    @Override
-//    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-//        final String[] mProjection = MockContract.FOLDERS_PROJECTION;
-//        final Uri uri = MockContract.Folders.CONTENT_URI;
-//
-//        return new CursorLoader(getActivity().getApplicationContext(), uri,
-//                mProjection, null, null, null);
-//    }
-//
-//    @Override
-//    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-//        switch (loader.getId()) {
-//            case LOADER_ID:
-//                // The asynchronous load is complete and the data
-//                // is now available for use. Only now can we associate
-//                // the queried Cursor with the SimpleCursorAdapter.
-//                mRecycleCursorAdapter.swapCursor(data);
-//                break;
-//        }
-//    }
-//
-//    @Override
-//    public void onLoaderReset(Loader<Cursor> loader) {
-//        mRecycleCursorAdapter.swapCursor(null);
-//    }
-
 
 
     @Override

@@ -10,10 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bdevlin.apps.pandt.helper.ItemTouchHelperAdapter;
+
 /**
  * Created by brian on 9/15/2015.
  */
-public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<ListItemViewHolder> {
+public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<ListItemViewHolder>
+        implements ItemTouchHelperAdapter {
     Context mContext;
     private static final String TAG = SimpleCursorRecyclerAdapter.class.getSimpleName();
     private int mLayout;
@@ -109,6 +112,16 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<ListItemV
         findColumns(c, mOriginalFrom);
         return super.swapCursor(c);
     }
+
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        return false;
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+
+    }
 }
 
 class ListItemViewHolder extends RecyclerView.ViewHolder
@@ -138,12 +151,15 @@ class ListItemViewHolder extends RecyclerView.ViewHolder
     @Override
     public void onClick(View v) {
         int position = getLayoutPosition(); // gets item position
+        int pos = getAdapterPosition();
+        //ListItemViewHolder holder = (ListItemViewHolder )(v.getTag());
+
         if (v instanceof ImageView) {
             mListener.onTomato((ImageView) v);
         } else {
             mListener.onPotato(v);
         }
-        Toast.makeText(v.getContext(), "Id: " + getAdapterPosition(), Toast.LENGTH_LONG).show();
+        Toast.makeText(v.getContext(), "Id: " + pos, Toast.LENGTH_LONG).show();
     }
 
     public  interface IMyViewHolderClicks {
