@@ -1,6 +1,7 @@
 package com.bdevlin.apps.pandt;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,10 +11,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bdevlin.apps.pandt.folders.Folder;
+import com.bdevlin.apps.pandt.helper.ItemTouchHelperAdapter;
+import com.bdevlin.apps.pandt.helper.OnStartDragListener;
+import com.bdevlin.apps.pandt.helper.ItemTouchHelperViewHolder;
+
+
 /**
  * Created by brian on 9/15/2015.
  */
-public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<ListItemViewHolder> {
+public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<ListItemViewHolder>
+        implements ItemTouchHelperAdapter {
+    // <editor-fold desc="Fields">
     Context mContext;
     private static final String TAG = SimpleCursorRecyclerAdapter.class.getSimpleName();
     private int mLayout;
@@ -21,11 +30,16 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<ListItemV
     private int[] mTo;
     private String[] mOriginalFrom;
     private ListItemViewHolder.IMyViewHolderClicks viewHolederClicks;
+    private final OnStartDragListener mDragStartListener;
+    // </editor-fold>
 
-    public SimpleCursorRecyclerAdapter (Context context, int layout, Cursor c, String[] from, int[] to) {
+    // <editor-fold desc="Constructor">
+    public SimpleCursorRecyclerAdapter (Context context, int layout, ObjectCursor<Folder> c, String[] from, int[] to, OnStartDragListener dragStartListener) {
         super(c);
+
+        mDragStartListener = dragStartListener;
         mContext = context;
-        mLayout = layout;
+        mLayout = layout;  // the textview
         mTo = to;
         mOriginalFrom = from;
         findColumns(c, from);
@@ -60,11 +74,15 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<ListItemV
 //        });
     }
 
+    // </editor-fold>
+
+    // <editor-fold desc="Adapter methods">
     @Override
     public ListItemViewHolder onCreateViewHolder (ViewGroup parent, int viewType) {
+        // inflate the itemview (in this case the textview to keep it simple)
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(mLayout, parent, false);
-
+       Log.d(TAG,"onCreateViewHolder");
         return new ListItemViewHolder(
                 parent.getContext(),
                 v,
@@ -74,14 +92,17 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<ListItemV
     }
 
     @Override
-    public void onBindViewHolder (ListItemViewHolder holder, Cursor cursor) {
+    public void onBindViewHolder (ListItemViewHolder holder, ObjectCursor<Folder> cursor) {
         final int count = mTo.length;
         final int[] from = mFrom;
-
+        Log.d(TAG,"onBindViewHolder");
         for (int i = 0; i < count; i++) {
             holder.views[i].setText(cursor.getString(from[i]));
         }
     }
+
+    // </editor-fold>
+
     /**
      * Create a map from an array of strings to an array of column-id integers in cursor c.
      * If c is null, the array will be discarded.
@@ -89,7 +110,7 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<ListItemV
      * @param c the cursor to find the columns from
      * @param from the Strings naming the columns of interest
      */
-    private void findColumns(Cursor c, String[] from) {
+    private void findColumns(ObjectCursor<Folder> c, String[] from) {
         if (c != null) {
             int i;
             int count = from.length;
@@ -105,14 +126,34 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<ListItemV
     }
 
     @Override
-    public Cursor swapCursor(Cursor c) {
+    public Cursor swapCursor(ObjectCursor<Folder> c) {
         findColumns(c, mOriginalFrom);
+        final Folder f = c.getModel();
         return super.swapCursor(c);
     }
+
+    // <editor-fold desc="DragDrop">
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+
+        Toast.makeText(mContext, "onItemMove: fromPosition " + fromPosition + " toPosition " + toPosition , Toast.LENGTH_LONG).show();
+        notifyItemMoved(fromPosition, toPosition);
+        return true;
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        Toast.makeText(mContext, "onItemDismiss " , Toast.LENGTH_LONG).show();
+        notifyItemRemoved(position);
+    }
+
+    // </editor-fold>
 }
 
+// <editor-fold desc="ListItemViewHolder">
+
 class ListItemViewHolder extends RecyclerView.ViewHolder
-        implements View.OnClickListener
+        implements View.OnClickListener, ItemTouchHelperViewHolder
 {
     public TextView[] views;
     public ImageView mImage;
@@ -138,12 +179,25 @@ class ListItemViewHolder extends RecyclerView.ViewHolder
     @Override
     public void onClick(View v) {
         int position = getLayoutPosition(); // gets item position
+        int pos = getAdapterPosition();
+        //ListItemViewHolder holder = (ListItemViewHolder )(v.getTag());
+
         if (v instanceof ImageView) {
             mListener.onTomato((ImageView) v);
         } else {
             mListener.onPotato(v);
         }
-        Toast.makeText(v.getContext(), "Id: " + getAdapterPosition(), Toast.LENGTH_LONG).show();
+        Toast.makeText(v.getContext(), "Id: " + pos, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onItemSelected() {
+        itemView.setBackgroundColor(Color.LTGRAY);
+    }
+
+    @Override
+    public void onItemClear() {
+        itemView.setBackgroundColor(0);
     }
 
     public  interface IMyViewHolderClicks {
@@ -152,3 +206,7 @@ class ListItemViewHolder extends RecyclerView.ViewHolder
         public void onTomato(ImageView callerImage);
     }
 }
+
+// </editor-fold>
+
+

@@ -2,25 +2,36 @@ package com.bdevlin.apps.pandt;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 
+import com.bdevlin.apps.pandt.folders.Folder;
+
 /**
  * Created by brian on 9/15/2015.
  */
-public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
-    protected boolean mDataValid;
-    protected Cursor mCursor;
-    protected int mRowIDColumn;
+public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
+        extends RecyclerView.Adapter<VH> {
 
-    public CursorRecyclerAdapter(Cursor c) {
+    // <editor-fold desc="Fields">
+    protected boolean mDataValid;
+    protected ObjectCursor<Folder> mCursor;
+    protected int mRowIDColumn;
+    // </editor-fold>
+
+    // <editor-fold desc="Constructor">
+    public CursorRecyclerAdapter(ObjectCursor<Folder> c) {
         init(c);
     }
+    // </editor-fold>
 
-    void init(Cursor c) {
+    void init(ObjectCursor<Folder> c) {
         boolean cursorPresent = c != null;
         mCursor = c;
         mDataValid = cursorPresent;
         mRowIDColumn = cursorPresent ? c.getColumnIndexOrThrow("_id") : -1;
         setHasStableIds(true);
     }
+
+    // <editor-fold desc="Adaptor methods">
+
     @Override
     public final void onBindViewHolder (VH holder, int position) {
         if (!mDataValid) {
@@ -33,11 +44,8 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder> 
         onBindViewHolder(holder, mCursor);
     }
 
-    public abstract void onBindViewHolder(VH holder, Cursor cursor);
+    public abstract void onBindViewHolder(VH holder, ObjectCursor<Folder> cursor);
 
-    public Cursor getCursor() {
-        return mCursor;
-    }
     @Override
     public int getItemCount () {
         if (mDataValid && mCursor != null) {
@@ -64,17 +72,28 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder> 
     public int getItemViewType(int position) {
         return 0;
     }
+
+
+    // </editor-fold>
+
+    // <editor-fold desc="Cursor">
+
     /**
      * Change the underlying cursor to a new cursor. If there is an existing cursor it will be
      * closed.
      *
      * @param cursor The new cursor to be used
      */
-    public void changeCursor(Cursor cursor) {
+    public void changeCursor(ObjectCursor<Folder> cursor) {
         Cursor old = swapCursor(cursor);
         if (old != null) {
             old.close();
         }
+    }
+
+
+    public Cursor getCursor() {
+        return mCursor;
     }
 
     /**
@@ -83,14 +102,15 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder> 
      * closed.
      *
      * @param newCursor The new cursor to be used.
-     * @return Returns the previously set Cursor, or null if there wasa not one.
+     * @return Returns the previously set Cursor, or null if there was not one.
      * If the given new Cursor is the same instance is the previously set
      * Cursor, null is also returned.
      */
-    public Cursor swapCursor(Cursor newCursor) {
+    public Cursor swapCursor(ObjectCursor<Folder> newCursor) {
         if (newCursor == mCursor) {
             return null;
         }
+       // final Folder f = mCursor.getModel();
         Cursor oldCursor = mCursor;
         mCursor = newCursor;
         if (newCursor != null) {
@@ -116,7 +136,10 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder> 
      * @param cursor the cursor to convert to a CharSequence
      * @return a CharSequence representing the value
      */
-    public CharSequence convertToString(Cursor cursor) {
+    public CharSequence convertToString(ObjectCursor<Folder> cursor) {
         return cursor == null ? "" : cursor.toString();
     }
+
+    // </editor-fold>
+
 }

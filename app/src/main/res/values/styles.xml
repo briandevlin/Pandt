@@ -7,9 +7,9 @@
         <item name="toolbarStyle">@style/MyToolBar</item>
 
         <!-- ...and here we setting appcompat’s color theming attrs -->
-        <item name="colorPrimary">@color/materialize_primary</item>
-        <item name="colorPrimaryDark">@color/materialize_primary_dark</item>
-        <item name="colorAccent">@color/materialize_accent</item>
+        <!--<item name="colorPrimary">@color/materialize_primary</item>-->
+        <!--<item name="colorPrimaryDark">@color/materialize_primary_dark</item>-->
+        <!--<item name="colorAccent">@color/materialize_accent</item>-->
     </style>
 
     <style name="Theme" parent="FrameworkRoot.Theme">

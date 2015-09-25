@@ -23,14 +23,20 @@ import android.widget.TextView;
  */
 
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ListItemViewHolder> {
+public class RecyclerViewAdapter
+        extends RecyclerView.Adapter<RecyclerViewAdapter.ListItemViewHolder> {
 
+    // <editor-fold desc="Fields">
     private static final String TAG = RecyclerViewAdapter.class.getSimpleName();
     private String[] mDataset;
     /***** Creating OnItemClickListener *****/
 
     // Define listener member variable
     public  OnItemClickListener listener;
+
+    // </editor-fold>
+
+    // <editor-fold desc="Interfaces">
     // Define the listener interface
     public interface OnItemClickListener {
         void onItemClick(View itemView, int position);
@@ -39,6 +45,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
+    // </editor-fold>
 
     // Provide a suitable constructor (depends on the kind of dataset)
     // in this case just a string[]

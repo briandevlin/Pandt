@@ -5,6 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.bdevlin.apps.pandt.CursorCreator;
+import com.bdevlin.apps.provider.MockUiProvider;
 
 /**
  * Created by brian on 8/26/2014.
@@ -48,7 +49,7 @@ public class Folder   implements Parcelable, Comparable<Folder> {
     }
 
     public Folder(Cursor cursor) {
-
+        id = cursor.getInt(MockUiProvider.FOLDER_ID_COLUMN);
     }
 
     public static Folder newUnsafeInstance() {
