@@ -16,6 +16,9 @@ import com.bdevlin.apps.pandt.helper.ItemTouchHelperAdapter;
 import com.bdevlin.apps.pandt.helper.OnStartDragListener;
 import com.bdevlin.apps.pandt.helper.ItemTouchHelperViewHolder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Created by brian on 9/15/2015.
@@ -23,6 +26,7 @@ import com.bdevlin.apps.pandt.helper.ItemTouchHelperViewHolder;
 public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<ListItemViewHolder>
         implements ItemTouchHelperAdapter {
     // <editor-fold desc="Fields">
+    private List<IDrawerItem> mDrawerItems = new ArrayList<>();
     Context mContext;
     private static final String TAG = SimpleCursorRecyclerAdapter.class.getSimpleName();
     private int mLayout;
@@ -34,7 +38,7 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<ListItemV
     // </editor-fold>
 
     // <editor-fold desc="Constructor">
-    public SimpleCursorRecyclerAdapter (Context context, int layout, ObjectCursor<Folder> c, String[] from, int[] to, OnStartDragListener dragStartListener) {
+    public SimpleCursorRecyclerAdapter (Context context, int layout, ObjectCursor<PrimaryDrawerItem> c, String[] from, int[] to, OnStartDragListener dragStartListener) {
         super(c);
 
         mDragStartListener = dragStartListener;
@@ -95,7 +99,7 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<ListItemV
     }
 
     @Override
-    public void onBindViewHolder (ListItemViewHolder holder, ObjectCursor<Folder> cursor, int position ) {
+    public void onBindViewHolder (ListItemViewHolder holder, ObjectCursor<PrimaryDrawerItem> cursor, int position ) {
         final int count = mTo.length;
         final int[] from = mFrom;
         Log.d(TAG,"onBindViewHolder");
@@ -113,7 +117,7 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<ListItemV
      * @param c the cursor to find the columns from
      * @param from the Strings naming the columns of interest
      */
-    private void findColumns(ObjectCursor<Folder> c, String[] from) {
+    private void findColumns(ObjectCursor<PrimaryDrawerItem> c, String[] from) {
         if (c != null) {
             int i;
             int count = from.length;
@@ -129,9 +133,9 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<ListItemV
     }
 
     @Override
-    public Cursor swapCursor(ObjectCursor<Folder> c) {
+    public Cursor swapCursor(ObjectCursor<PrimaryDrawerItem> c) {
         findColumns(c, mOriginalFrom);
-        final Folder f = c.getModel();
+       // final Folder f = c.getModel();
         return super.swapCursor(c);
     }
 

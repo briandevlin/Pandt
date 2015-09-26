@@ -4,6 +4,9 @@ import android.support.v7.widget.RecyclerView;
 
 import com.bdevlin.apps.pandt.folders.Folder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by brian on 9/15/2015.
  */
@@ -12,18 +15,18 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
 
     // <editor-fold desc="Fields">
     protected boolean mDataValid;
-    protected ObjectCursor<Folder> mCursor;
+    protected ObjectCursor<PrimaryDrawerItem> mCursor;
     protected int mRowIDColumn;
     // </editor-fold>
 
     // <editor-fold desc="Constructor">
-    public CursorRecyclerAdapter(ObjectCursor<Folder> c) {
+    public CursorRecyclerAdapter(ObjectCursor<PrimaryDrawerItem> c) {
         // cursor will be null at construction the loader will swap in the cursor when loaded
         init(c);
     }
     // </editor-fold>
 
-    void init(ObjectCursor<Folder> c) {
+    void init(ObjectCursor<PrimaryDrawerItem> c) {
         boolean cursorPresent = c != null;
         mCursor = c;
         mDataValid = cursorPresent;
@@ -45,7 +48,7 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
         onBindViewHolder(holder, mCursor, position);
     }
 
-    public abstract void onBindViewHolder(VH holder, ObjectCursor<Folder> cursor, int position);
+    public abstract void onBindViewHolder(VH holder, ObjectCursor<PrimaryDrawerItem> cursor, int position);
 
     @Override
     public int getItemCount () {
@@ -85,29 +88,24 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
      *
      * @param cursor The new cursor to be used
      */
-    public void changeCursor(ObjectCursor<Folder> cursor) {
+    public void changeCursor(ObjectCursor<PrimaryDrawerItem> cursor) {
         Cursor old = swapCursor(cursor);
         if (old != null) {
             old.close();
         }
     }
 
+    private boolean isCursorInvalid() {
+        return mCursor == null || mCursor.isClosed()
+                || mCursor.getCount() <= 0 || !mCursor.moveToFirst();
+    }
 
     public Cursor getCursor() {
         return mCursor;
     }
 
-    /**
-     * Swap in a new Cursor, returning the old Cursor.  Unlike
-     * {@link #changeCursor(Cursor)}, the returned old Cursor is <em>not</em>
-     * closed.
-     *
-     * @param newCursor The new cursor to be used.
-     * @return Returns the previously set Cursor, or null if there was not one.
-     * If the given new Cursor is the same instance is the previously set
-     * Cursor, null is also returned.
-     */
-    public Cursor swapCursor(ObjectCursor<Folder> newCursor) {
+
+    public Cursor swapCursor(ObjectCursor<PrimaryDrawerItem> newCursor) {
         if (newCursor == mCursor) {
             return null;
         }
@@ -117,6 +115,7 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
         if (newCursor != null) {
             mRowIDColumn = newCursor.getColumnIndexOrThrow("_id");
             mDataValid = true;
+            recalculateList();
             // notify the observers about the new cursor
             notifyDataSetChanged();
         } else {
@@ -140,7 +139,20 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
     public CharSequence convertToString(ObjectCursor<Folder> cursor) {
         return cursor == null ? "" : cursor.toString();
     }
+    private void recalculateList() {
+        final List<IDrawerItem> newFolderList = new ArrayList<>();
+        recalculateListFolders(newFolderList);
+    }
 
+    private void recalculateListFolders(List<IDrawerItem> itemList) {
+        if (isCursorInvalid()) {
+            return;
+        }
+         do {
+        // final Folder f = mCursor.getModel();
+
+         } while (mCursor.moveToNext());
+    }
     // </editor-fold>
 
 }
