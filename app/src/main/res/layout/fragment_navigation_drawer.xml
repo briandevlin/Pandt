@@ -6,13 +6,13 @@
     android:paddingLeft="0dip"
     android:paddingRight="0dip" >
 
-    <ListView android:id="@android:id/list"
+   <!-- <ListView android:id="@android:id/list"
         android:layout_width="240dp"
         android:layout_height="match_parent"
 
         android:choiceMode="singleChoice"
         android:layout_gravity="start"
-        android:background="#fff"/>
+        android:background="#fff"/>-->
 
 
     <android.support.v7.widget.RecyclerView

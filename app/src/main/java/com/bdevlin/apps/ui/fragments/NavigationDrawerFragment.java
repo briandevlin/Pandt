@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -46,7 +47,7 @@ import com.bdevlin.apps.provider.MockContract;
 
 
 public class NavigationDrawerFragment
-        extends ListFragment
+        extends Fragment
         implements LoaderManager.LoaderCallbacks<ObjectCursor<Folder>>,
         OnStartDragListener {
 
@@ -178,12 +179,11 @@ public class NavigationDrawerFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
-
-        //mDrawerListView = (ListView) rootView.findViewById(android.R.id.list);
-
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
+
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
@@ -193,9 +193,6 @@ public class NavigationDrawerFragment
         mLayoutManager.scrollToPosition(0);
         mRecyclerView.setLayoutManager(mLayoutManager);
         //Cursor cursor = getActivity().getContentResolver().query(MockContract.Folders.CONTENT_URI, MockContract.FOLDERS_PROJECTION, null, null, null);
-
-        // specify an adapter (see also next example)
-       // mAdapter = new RecyclerViewAdapter(new String[] {"id", "name"});
 
         int[] to = new int[]{R.id.id, R.id.name};
         mRecycleCursorAdapter = new SimpleCursorRecyclerAdapter(getActivity().getApplicationContext(),

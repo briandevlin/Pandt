@@ -18,6 +18,7 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
 
     // <editor-fold desc="Constructor">
     public CursorRecyclerAdapter(ObjectCursor<Folder> c) {
+        // cursor will be null at construction the loader will swap in the cursor when loaded
         init(c);
     }
     // </editor-fold>
@@ -41,10 +42,10 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
             throw new IllegalStateException("couldn't move cursor to position " + position);
         }
 
-        onBindViewHolder(holder, mCursor);
+        onBindViewHolder(holder, mCursor, position);
     }
 
-    public abstract void onBindViewHolder(VH holder, ObjectCursor<Folder> cursor);
+    public abstract void onBindViewHolder(VH holder, ObjectCursor<Folder> cursor, int position);
 
     @Override
     public int getItemCount () {

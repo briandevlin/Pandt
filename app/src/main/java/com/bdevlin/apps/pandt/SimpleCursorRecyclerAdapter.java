@@ -79,10 +79,13 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<ListItemV
     // <editor-fold desc="Adapter methods">
     @Override
     public ListItemViewHolder onCreateViewHolder (ViewGroup parent, int viewType) {
+
         // inflate the itemview (in this case the textview to keep it simple)
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(mLayout, parent, false);
+
        Log.d(TAG,"onCreateViewHolder");
+
         return new ListItemViewHolder(
                 parent.getContext(),
                 v,
@@ -92,7 +95,7 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<ListItemV
     }
 
     @Override
-    public void onBindViewHolder (ListItemViewHolder holder, ObjectCursor<Folder> cursor) {
+    public void onBindViewHolder (ListItemViewHolder holder, ObjectCursor<Folder> cursor, int position ) {
         final int count = mTo.length;
         final int[] from = mFrom;
         Log.d(TAG,"onBindViewHolder");

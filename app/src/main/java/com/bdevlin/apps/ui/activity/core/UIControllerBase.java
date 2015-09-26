@@ -99,6 +99,7 @@ public abstract class UIControllerBase implements ActivityController {
     protected final HomeActivity mActivity;
     protected final Context mContext;
     private final FragmentManager mFragmentManager;
+    private final LoaderManager mLoaderManager;
 
 
     protected View mSliderLayout;
@@ -157,6 +158,8 @@ public abstract class UIControllerBase implements ActivityController {
         mContext = activity.getApplicationContext();
         mRootView = (ViewGroup) activity.findViewById(android.R.id.content);
         mFragmentManager = activity.getSupportFragmentManager();
+        mLoaderManager = mActivity.getSupportLoaderManager();
+        mResolver = mActivity.getContentResolver();
         final Resources r = mContext.getResources();
         boolean mIsTablet = Utils.useTabletUI(r);
         mViewMode = viewMode;
@@ -175,7 +178,7 @@ public abstract class UIControllerBase implements ActivityController {
         initializeActionBar();
         // Allow shortcut keys to function for the ActionBar and menus.
         mActivity.setDefaultKeyMode(Activity.DEFAULT_KEYS_SHORTCUT);
-        mResolver = mActivity.getContentResolver();
+
         mViewMode.addListener(this);
         mPagerController = new PagerController(mActivity, this, mFragmentManager);
 
