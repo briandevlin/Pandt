@@ -89,6 +89,8 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<ListItemV
                 .inflate(mLayout, parent, false);
 
        Log.d(TAG,"onCreateViewHolder");
+        PrimaryDrawerItem item = new PrimaryDrawerItem(null);
+         item.getViewHolder(parent);
 
         return new ListItemViewHolder(
                 parent.getContext(),
@@ -100,6 +102,7 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<ListItemV
 
     @Override
     public void onBindViewHolder (ListItemViewHolder holder, ObjectCursor<PrimaryDrawerItem> cursor, int position ) {
+        getItem(position).bindView(holder);
         final int count = mTo.length;
         final int[] from = mFrom;
         Log.d(TAG,"onBindViewHolder");
@@ -135,7 +138,6 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<ListItemV
     @Override
     public Cursor swapCursor(ObjectCursor<PrimaryDrawerItem> c) {
         findColumns(c, mOriginalFrom);
-       // final Folder f = c.getModel();
         return super.swapCursor(c);
     }
 
@@ -159,7 +161,7 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<ListItemV
 
 // <editor-fold desc="ListItemViewHolder">
 
-class ListItemViewHolder extends RecyclerView.ViewHolder
+class ListItemViewHolder extends PrimaryDrawerItem.ViewHolder   //RecyclerView.ViewHolder
         implements View.OnClickListener, ItemTouchHelperViewHolder
 {
     public TextView[] views;
@@ -169,10 +171,12 @@ class ListItemViewHolder extends RecyclerView.ViewHolder
 
     public ListItemViewHolder(Context context, View itemLayoutView, int[] to, IMyViewHolderClicks listener)
     {
-        super(itemLayoutView);
+        super(itemLayoutView, context);
+
+        this.context = context;
         this.mListener = listener;
         // Attach a click listener to the entire row view
-        itemLayoutView.setOnClickListener(this);
+       itemLayoutView.setOnClickListener(this);
 
         views = new TextView[to.length];
         for(int i = 0 ; i < to.length ; i++) {

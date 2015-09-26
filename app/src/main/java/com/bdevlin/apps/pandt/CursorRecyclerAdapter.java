@@ -17,6 +17,7 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
     protected boolean mDataValid;
     protected ObjectCursor<PrimaryDrawerItem> mCursor;
     protected int mRowIDColumn;
+    private List<IDrawerItem> mDrawerItems = new ArrayList<>();
     // </editor-fold>
 
     // <editor-fold desc="Constructor">
@@ -109,7 +110,6 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
         if (newCursor == mCursor) {
             return null;
         }
-       // final Folder f = mCursor.getModel();
         Cursor oldCursor = mCursor;
         mCursor = newCursor;
         if (newCursor != null) {
@@ -139,6 +139,15 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
     public CharSequence convertToString(ObjectCursor<Folder> cursor) {
         return cursor == null ? "" : cursor.toString();
     }
+
+    public IDrawerItem getItem(int position) {
+        if (position < 0 || position >= getItemCount()) {
+            return null;
+        }
+            return mDrawerItems.get(position);
+    }
+
+
     private void recalculateList() {
         final List<IDrawerItem> newFolderList = new ArrayList<>();
         recalculateListFolders(newFolderList);
@@ -148,10 +157,30 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
         if (isCursorInvalid()) {
             return;
         }
+        int length = mDrawerItems.size();
          do {
-        // final Folder f = mCursor.getModel();
-
+             final PrimaryDrawerItem f = mCursor.getModel();
+             mDrawerItems.add(f);
          } while (mCursor.moveToNext());
+
+        notifyItemRangeInserted(length, mDrawerItems.size());
+
+    }
+
+    public void addDrawerItem(int position, IDrawerItem drawerItem) {
+        mDrawerItems.add(position, drawerItem);
+        notifyItemInserted(position);
+    }
+
+    public void clearDrawerItems() {
+        int count = mDrawerItems.size();
+        mDrawerItems.clear();
+        notifyItemRangeRemoved(0, count);
+    }
+
+    public void removeDrawerItem(int position) {
+        mDrawerItems.remove(position);
+        notifyItemRemoved(position);
     }
     // </editor-fold>
 

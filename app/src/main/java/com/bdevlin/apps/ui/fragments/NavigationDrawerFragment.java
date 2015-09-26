@@ -547,7 +547,8 @@ public class NavigationDrawerFragment
                 if (mRecycleCursorAdapter != null) {
                     mRecycleCursorAdapter.swapCursor(data);
                 }
-                //final Folder f = data.getModel();
+                final PrimaryDrawerItem f = data.getModel();
+
                 Log.e(TAG, String.format(
                         "Received cursor from loader id: %d",
                         loader.getId()));
