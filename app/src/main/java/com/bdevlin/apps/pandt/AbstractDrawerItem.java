@@ -10,11 +10,21 @@ import android.view.ViewGroup;
  */
 public abstract class AbstractDrawerItem<T> implements IDrawerItem<T> {
 
-    @Override
-    public RecyclerView.ViewHolder getViewHolder(ViewGroup parent) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(getLayoutRes(), parent, false);
 
-        //return getFactory().factory(LayoutInflater.from(parent.getContext()).inflate(getLayoutRes(), parent, false));
-        return null;
+
+    public abstract PrimaryDrawerItem.ItemFactory getFactory();
+
+    @Override
+    public PrimaryDrawerItem.ListItemViewHolder getViewHolder(ViewGroup parent) {
+
+//        View v = LayoutInflater.from(parent.getContext()).inflate(getLayoutRes(), parent, false);
+
+//        PrimaryDrawerItem.ItemFactory factory = getFactory();
+//
+//        PrimaryDrawerItem.ListItemViewHolder factory1 = factory.factory(v);
+//
+//return factory1;
+        return getFactory().factory(LayoutInflater.from(parent.getContext()).inflate(getLayoutRes(), parent, false));
+
     }
 }

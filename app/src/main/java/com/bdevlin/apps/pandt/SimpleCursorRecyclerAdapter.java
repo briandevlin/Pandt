@@ -3,6 +3,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +24,7 @@ import java.util.List;
 /**
  * Created by brian on 9/15/2015.
  */
-public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<ListItemViewHolder>
+public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<PrimaryDrawerItem.ListItemViewHolder>
         implements ItemTouchHelperAdapter {
     // <editor-fold desc="Fields">
     private List<IDrawerItem> mDrawerItems = new ArrayList<>();
@@ -33,24 +34,29 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<ListItemV
     private int[] mFrom;
     private int[] mTo;
     private String[] mOriginalFrom;
-    private ListItemViewHolder.IMyViewHolderClicks viewHolederClicks;
+    //private PrimaryDrawerItem.ListItemViewHolder.IMyViewHolderClicks viewHolederClicks;
     private final OnStartDragListener mDragStartListener;
     // </editor-fold>
 
     // <editor-fold desc="Constructor">
-    public SimpleCursorRecyclerAdapter (Context context, int layout, ObjectCursor<PrimaryDrawerItem> c, String[] from, int[] to, OnStartDragListener dragStartListener) {
+    public SimpleCursorRecyclerAdapter (Context context,
+                                        int layout,
+                                        ObjectCursor<PrimaryDrawerItem> c,
+                                        String[] from,
+                                        int[] to,
+                                        OnStartDragListener dragStartListener) {
         super(c);
 
         mDragStartListener = dragStartListener;
         mContext = context;
-        mLayout = layout;  // the textview
+       mLayout = layout;  // the textview
         mTo = to;
         mOriginalFrom = from;
         findColumns(c, from);
-        viewHolederClicks = new ListItemViewHolder.IMyViewHolderClicks() {
+       /* viewHolederClicks = new ListItemViewHolder.IMyViewHolderClicks() {
             public void onPotato(View caller) { Log.d(TAG, "Poh-tah-tos"); };
             public void onTomato(ImageView callerImage) { Log.d(TAG,"To-m8-tohs"); }
-        };
+        };*/
 //        this.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
 //            @Override
 //            public void onChanged() {
@@ -82,33 +88,33 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<ListItemV
 
     // <editor-fold desc="Adapter methods">
     @Override
-    public ListItemViewHolder onCreateViewHolder (ViewGroup parent, int viewType) {
+    public  PrimaryDrawerItem.ListItemViewHolder onCreateViewHolder (ViewGroup parent, int viewType) {
 
         // inflate the itemview (in this case the textview to keep it simple)
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(mLayout, parent, false);
+//        View v = LayoutInflater.from(parent.getContext())
+//                .inflate(mLayout, parent, false);
 
        Log.d(TAG,"onCreateViewHolder");
         PrimaryDrawerItem item = new PrimaryDrawerItem(null);
-         item.getViewHolder(parent);
+      return   item.getViewHolder(parent);
 
-        return new ListItemViewHolder(
-                parent.getContext(),
-                v,
-                mTo,
-                viewHolederClicks
-        );
+//        return new PrimaryDrawerItem.ListItemViewHolder(
+//              /*  parent.getContext(),*/
+//                v/*,
+//                mTo,
+//                viewHolederClicks*/
+//        );
     }
 
     @Override
-    public void onBindViewHolder (ListItemViewHolder holder, ObjectCursor<PrimaryDrawerItem> cursor, int position ) {
+    public void onBindViewHolder (PrimaryDrawerItem.ListItemViewHolder holder, ObjectCursor<PrimaryDrawerItem> cursor, int position ) {
         getItem(position).bindView(holder);
         final int count = mTo.length;
         final int[] from = mFrom;
         Log.d(TAG,"onBindViewHolder");
-        for (int i = 0; i < count; i++) {
-            holder.views[i].setText(cursor.getString(from[i]));
-        }
+//        for (int i = 0; i < count; i++) {
+//            holder.views[i].setText(cursor.getString(from[i]));
+//        }
     }
 
     // </editor-fold>
@@ -160,7 +166,7 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<ListItemV
 }
 
 // <editor-fold desc="ListItemViewHolder">
-
+/*
 class ListItemViewHolder extends PrimaryDrawerItem.ViewHolder   //RecyclerView.ViewHolder
         implements View.OnClickListener, ItemTouchHelperViewHolder
 {
@@ -216,7 +222,7 @@ class ListItemViewHolder extends PrimaryDrawerItem.ViewHolder   //RecyclerView.V
 
         public void onTomato(ImageView callerImage);
     }
-}
+}*/
 
 // </editor-fold>
 

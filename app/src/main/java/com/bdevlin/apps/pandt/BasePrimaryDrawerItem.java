@@ -17,7 +17,7 @@ public abstract class BasePrimaryDrawerItem<T> extends BaseDrawerItem<T> {
         protected TextView name;
         protected TextView description;
 
-        public BaseViewHolder(View view, Context ctx) {
+        public BaseViewHolder(View view) {
             super(view);
 
             this.view = view;
