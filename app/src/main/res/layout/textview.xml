@@ -18,7 +18,6 @@
         android:text="New label"
         android:padding="8dp"
         android:textSize="20sp"
-
         android:id="@+id/id" />
     <TextView
         android:layout_width="wrap_content"

@@ -194,6 +194,7 @@ public class NavigationDrawerFragment
 
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
 
         // use this setting to improve performance if you know that changes
@@ -208,7 +209,7 @@ public class NavigationDrawerFragment
 
         int[] to = new int[]{R.id.id, R.id.name};
         mRecycleCursorAdapter = new SimpleCursorRecyclerAdapter(getActivity().getApplicationContext(),
-                R.layout.textview,
+               /* R.layout.textview,*/
                 null,
                 MockContract.FOLDERS_PROJECTION,
                 to,

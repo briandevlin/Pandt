@@ -22,7 +22,7 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
 
     // <editor-fold desc="Constructor">
     public CursorRecyclerAdapter(ObjectCursor<PrimaryDrawerItem> c) {
-        // cursor will be null at construction the loader will swap in the cursor when loaded
+        // cursor will be null at construction; the loader will swap in the cursor when loaded
         init(c);
     }
     // </editor-fold>
@@ -37,6 +37,7 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
 
     // <editor-fold desc="Adaptor methods">
 
+    // Called by RecyclerView to display the data at the specified position.
     @Override
     public final void onBindViewHolder (VH holder, int position) {
         if (!mDataValid) {

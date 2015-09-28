@@ -100,6 +100,7 @@ public abstract class UIControllerBase implements ActivityController {
     protected final Context mContext;
     private final FragmentManager mFragmentManager;
     private final LoaderManager mLoaderManager;
+    private final ActionBar mActionBar;
 
 
     protected View mSliderLayout;
@@ -163,6 +164,7 @@ public abstract class UIControllerBase implements ActivityController {
         final Resources r = mContext.getResources();
         boolean mIsTablet = Utils.useTabletUI(r);
         mViewMode = viewMode;
+        mActionBar = getSupportActionBar();
         accountManager = new GoogleAccountManager(mContext);
         driveManager = new GoogleDriveManager(mContext);//FIXME - not really implemented fully
 
@@ -241,6 +243,7 @@ public abstract class UIControllerBase implements ActivityController {
     public void onPostCreate(Bundle savedInstanceState) {
         if (mDrawerToggle != null) {
             mDrawerToggle.setDrawerIndicatorEnabled(isDrawerEnabled());
+            mDrawerToggle.syncState();
         }
         View mainContent = mActivity.findViewById(R.id.main_content);
         if (mainContent != null) {
@@ -911,15 +914,15 @@ public abstract class UIControllerBase implements ActivityController {
 
         appBarLayout = (AppBarLayout) mActivity.findViewById(R.id.toolbar_container);
         mSliderLayout = mActivity.findViewById(R.id.navdrawer);
-       // mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 //        mDrawerLayout.setStatusBarBackgroundColor(
 //                mActivity.getResources().getColor(R.color.materialize_primary_light));
         //mDrawerLayout.setBackgroundColor(mActivity.getResources().getColor(R.color.accent_material_light));
         //mSliderLayout.setBackgroundResource(R.drawable.default_cover);
         mTitle = mDrawerTitle = mActivity.getTitle();
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-             actionBar.setDisplayHomeAsUpEnabled(true);
+       // ActionBar actionBar = getSupportActionBar();
+        if (mActionBar != null) {
+            mActionBar.setDisplayHomeAsUpEnabled(true);
             //actionBar.setHomeButtonEnabled(false);
             // actionBar.setDisplayShowHomeEnabled(true);
         }

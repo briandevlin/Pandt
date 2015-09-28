@@ -40,7 +40,7 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<PrimaryDr
 
     // <editor-fold desc="Constructor">
     public SimpleCursorRecyclerAdapter (Context context,
-                                        int layout,
+                                       /* int layout,*/
                                         ObjectCursor<PrimaryDrawerItem> c,
                                         String[] from,
                                         int[] to,
@@ -49,7 +49,7 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<PrimaryDr
 
         mDragStartListener = dragStartListener;
         mContext = context;
-       mLayout = layout;  // the textview
+      /* mLayout = layout; */ // the textview
         mTo = to;
         mOriginalFrom = from;
         findColumns(c, from);
@@ -87,6 +87,7 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<PrimaryDr
     // </editor-fold>
 
     // <editor-fold desc="Adapter methods">
+    //// Create new views (invoked by the layout manager)
     @Override
     public  PrimaryDrawerItem.ListItemViewHolder onCreateViewHolder (ViewGroup parent, int viewType) {
 
@@ -106,6 +107,7 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<PrimaryDr
 //        );
     }
 
+    // // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder (PrimaryDrawerItem.ListItemViewHolder holder, ObjectCursor<PrimaryDrawerItem> cursor, int position ) {
         getItem(position).bindView(holder);

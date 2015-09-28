@@ -22,16 +22,40 @@ public class PrimaryDrawerItem extends BasePrimaryDrawerItem<PrimaryDrawerItem> 
     private static final String TAG = PrimaryDrawerItem.class.getSimpleName();
     private static PrimaryDrawerItem.ListItemViewHolder.IMyViewHolderClicks viewHolederClicks;
 
+//private OnPostBindViewListener postBindViewListener;
+
     public interface ViewHolderFactory<T> {
         T factory(View v);
     }
 
     public PrimaryDrawerItem(Cursor c)
     {
+
+//        postBindViewListener = new OnPostBindViewListener() {
+//
+//            public void onBindView(IDrawerItem drawerItem, View view)
+//            {
+//                Log.d(TAG, "Post bind View ");
+//            }
+//        };
+
+        setPostOnBindViewListener(new OnPostBindViewListener() {
+
+            public void onBindView(IDrawerItem drawerItem, View view)
+            {
+                Log.d(TAG, "Post bind View ");
+            }
+        });
+
    viewHolederClicks = new ListItemViewHolder.IMyViewHolderClicks() {
             public void onPotato(View caller) { Log.d(TAG, "Poh-tah-tos"); };
             public void onTomato(ImageView callerImage) { Log.d(TAG,"To-m8-tohs"); }
         };
+    }
+
+    @Override
+    public String getType() {
+        return "PRIMARY_ITEM";
     }
 
     @Override
@@ -43,6 +67,10 @@ public class PrimaryDrawerItem extends BasePrimaryDrawerItem<PrimaryDrawerItem> 
     @Override
     public void bindView(RecyclerView.ViewHolder holder) {
         Context ctx = holder.itemView.getContext();
+
+        ListItemViewHolder viewHolder = (ListItemViewHolder) holder;
+
+        onPostBindView(this, holder.itemView);
     }
 
     @Override
@@ -84,7 +112,7 @@ public class PrimaryDrawerItem extends BasePrimaryDrawerItem<PrimaryDrawerItem> 
             super(itemLayoutView);
 
            /* this.context = context;*/
-//            this.mListener = listener;
+            this.mListener = listener;
             // Attach a click listener to the entire row view
             itemLayoutView.setOnClickListener(this);
 

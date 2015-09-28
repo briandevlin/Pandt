@@ -15,7 +15,7 @@ public abstract class BasePrimaryDrawerItem<T> extends BaseDrawerItem<T> {
         protected View view;
         protected ImageView icon;
         protected TextView name;
-        protected TextView description;
+        protected TextView id;
 
         public BaseViewHolder(View view) {
             super(view);
@@ -23,8 +23,8 @@ public abstract class BasePrimaryDrawerItem<T> extends BaseDrawerItem<T> {
             this.view = view;
 
             this.icon = (ImageView) view.findViewById(R.id.imageView2);
-//            this.name = (TextView) view.findViewById(R.id.material_drawer_name);
-//            this.description = (TextView) view.findViewById(R.id.material_drawer_description);
+            this.name = (TextView) view.findViewById(R.id.name);
+            this.id = (TextView) view.findViewById(R.id.id);
         }
     }
 }
