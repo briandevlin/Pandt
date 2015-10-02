@@ -26,15 +26,14 @@ import java.util.List;
  */
 public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<PrimaryDrawerItem.ListItemViewHolder>
         implements ItemTouchHelperAdapter {
-    // <editor-fold desc="Fields">
-    private List<IDrawerItem> mDrawerItems = new ArrayList<>();
-    Context mContext;
     private static final String TAG = SimpleCursorRecyclerAdapter.class.getSimpleName();
-    private int mLayout;
-    private int[] mFrom;
-    private int[] mTo;
-    private String[] mOriginalFrom;
-    //private PrimaryDrawerItem.ListItemViewHolder.IMyViewHolderClicks viewHolederClicks;
+
+    // <editor-fold desc="Fields">
+   // private List<IDrawerItem> mDrawerItems = new ArrayList<>();
+    Context mContext;
+    protected  int[] mFrom;
+    protected  int[] mTo;
+    protected  String[] mOriginalFrom;
     private final OnStartDragListener mDragStartListener;
     // </editor-fold>
 
@@ -46,42 +45,11 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<PrimaryDr
                                         int[] to,
                                         OnStartDragListener dragStartListener) {
         super(c);
-
         mDragStartListener = dragStartListener;
         mContext = context;
-      /* mLayout = layout; */ // the textview
         mTo = to;
         mOriginalFrom = from;
         findColumns(c, from);
-       /* viewHolederClicks = new ListItemViewHolder.IMyViewHolderClicks() {
-            public void onPotato(View caller) { Log.d(TAG, "Poh-tah-tos"); };
-            public void onTomato(ImageView callerImage) { Log.d(TAG,"To-m8-tohs"); }
-        };*/
-//        this.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-//            @Override
-//            public void onChanged() {
-//                Toast.makeText(mContext, "onChanged() ", Toast.LENGTH_LONG).show();
-//               // notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onItemRangeChanged(int positionStart, int itemCount) {
-//                Toast.makeText(mContext, "onItemRangeChanged() ", Toast.LENGTH_LONG).show();
-//                notifyItemRangeChanged(positionStart, itemCount);
-//            }
-//
-//            @Override
-//            public void onItemRangeInserted(int positionStart, int itemCount) {
-//                Toast.makeText(mContext, "onItemRangeInserted() ", Toast.LENGTH_LONG).show();
-//                notifyItemRangeInserted(positionStart, itemCount);
-//            }
-//
-//            @Override
-//            public void onItemRangeRemoved(int positionStart, int itemCount) {
-//                Toast.makeText(mContext, "onItemRangeRemoved() ", Toast.LENGTH_LONG).show();
-//                notifyItemRangeRemoved(positionStart, itemCount);
-//            }
-//        });
     }
 
     // </editor-fold>
@@ -90,33 +58,18 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<PrimaryDr
     //// Create new views (invoked by the layout manager)
     @Override
     public  PrimaryDrawerItem.ListItemViewHolder onCreateViewHolder (ViewGroup parent, int viewType) {
-
-        // inflate the itemview (in this case the textview to keep it simple)
-//        View v = LayoutInflater.from(parent.getContext())
-//                .inflate(mLayout, parent, false);
-
-       Log.d(TAG,"onCreateViewHolder");
+        Log.d(TAG,"onCreateViewHolder");
         PrimaryDrawerItem item = new PrimaryDrawerItem(null);
-      return   item.getViewHolder(parent);
-
-//        return new PrimaryDrawerItem.ListItemViewHolder(
-//              /*  parent.getContext(),*/
-//                v/*,
-//                mTo,
-//                viewHolederClicks*/
-//        );
+        //AbstractDrawerItem.getViewHolder inflates the view item and returns the ListItemViewHolder(view)
+      return item.getViewHolder(parent);
     }
 
     // // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder (PrimaryDrawerItem.ListItemViewHolder holder, ObjectCursor<PrimaryDrawerItem> cursor, int position ) {
-        getItem(position).bindView(holder);
-        final int count = mTo.length;
-        final int[] from = mFrom;
         Log.d(TAG,"onBindViewHolder");
-//        for (int i = 0; i < count; i++) {
-//            holder.views[i].setText(cursor.getString(from[i]));
-//        }
+        // gets the IDrawerItem at this position then bind the viewholder to it
+        getItem(position).bindView(holder);
     }
 
     // </editor-fold>
@@ -145,7 +98,9 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<PrimaryDr
 
     @Override
     public Cursor swapCursor(ObjectCursor<PrimaryDrawerItem> c) {
+        //called by navigationDrawerFragment Loader
         findColumns(c, mOriginalFrom);
+        // sawp cursor on the base class will use the cursor to generate the drawerItems
         return super.swapCursor(c);
     }
 
@@ -166,7 +121,7 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<PrimaryDr
 
     // </editor-fold>
 }
-
+// not used here
 // <editor-fold desc="ListItemViewHolder">
 /*
 class ListItemViewHolder extends PrimaryDrawerItem.ViewHolder   //RecyclerView.ViewHolder

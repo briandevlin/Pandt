@@ -23,6 +23,7 @@ public abstract class BasePrimaryDrawerItem<T> extends BaseDrawerItem<T> {
             this.view = view;
 
             this.icon = (ImageView) view.findViewById(R.id.imageView2);
+
             this.name = (TextView) view.findViewById(R.id.name);
             this.id = (TextView) view.findViewById(R.id.id);
         }

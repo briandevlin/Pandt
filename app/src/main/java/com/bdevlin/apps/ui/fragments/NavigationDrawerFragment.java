@@ -3,6 +3,7 @@ package com.bdevlin.apps.ui.fragments;
 import android.app.Activity;
 import android.content.Context;
 //import android.content.CursorLoader;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -18,6 +19,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +50,7 @@ import com.bdevlin.apps.pandt.helper.OnStartDragListener;
 import com.bdevlin.apps.pandt.helper.SimpleItemTouchHelperCallback;
 import com.bdevlin.apps.provider.MockContract;
 
-
+// instantiated from the navdrawer_content.xml  <fragment android:id="@+id/navigation_drawer"
 public class NavigationDrawerFragment
         extends Fragment
         implements LoaderManager.LoaderCallbacks<ObjectCursor<PrimaryDrawerItem>>,
@@ -76,9 +80,6 @@ public class NavigationDrawerFragment
 
     private static final int LOADER_ID = 1;
 
-    private String mParam1;
-    private String mParam2;
-    private int mSectionNumber = 0;
     /**
      * A pointer to the current callbacks instance (the Activity).
      */
@@ -158,6 +159,7 @@ public class NavigationDrawerFragment
     private static NavigationDrawerCallbacks sDummyCallbacks = new NavigationDrawerCallbacks() {
         @Override
         public void onNavigationDrawerItemSelected(int position, Folder folder) {
+
         }
     };
 
@@ -186,6 +188,11 @@ public class NavigationDrawerFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Restore the previously serialized activated item position.
+        if (savedInstanceState != null) {
+            mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
+            mFromSavedInstanceState = true;
+        }
     }
 
     @Override
@@ -207,16 +214,21 @@ public class NavigationDrawerFragment
         mRecyclerView.setLayoutManager(mLayoutManager);
         //Cursor cursor = getActivity().getContentResolver().query(MockContract.Folders.CONTENT_URI, MockContract.FOLDERS_PROJECTION, null, null, null);
 
-        int[] to = new int[]{R.id.id, R.id.name};
+        int[] toId = new int[]{
+                R.id.id,
+                R.id.name
+        };
+
         mRecycleCursorAdapter = new SimpleCursorRecyclerAdapter(getActivity().getApplicationContext(),
                /* R.layout.textview,*/
                 null,
-                MockContract.FOLDERS_PROJECTION,
-                to,
+                MockContract.FOLDERS_PROJECTION, // string[] column names
+                toId,// resource id's from the itemview
                 this);
 
         //mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setAdapter(mRecycleCursorAdapter);
+
 
         RecyclerView.ItemDecoration itemDecoration =
                 new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST);
@@ -232,11 +244,11 @@ public class NavigationDrawerFragment
 //            mRecyclerView.onRestoreInstanceState(savedInstanceState
 //                    .getParcelable(BUNDLE_LIST_STATE));
         }
-        // Restore the previously serialized activated item position.
-        if (savedInstanceState != null) {
-            mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
-            mFromSavedInstanceState = true;
-        }
+//        // Restore the previously serialized activated item position.
+//        if (savedInstanceState != null) {
+//            mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
+//            mFromSavedInstanceState = true;
+//        }
 
         // Select either the default item (0) or the last selected item.
         //selectItem(mCurrentSelectedPosition, Folders.ITEMS.get(mCurrentSelectedPosition));
@@ -340,7 +352,6 @@ public class NavigationDrawerFragment
         // Indicate that this fragment would like to influence the set of actions in the action bar.
         setHasOptionsMenu(true);
 
-
         LoaderManager lm = getLoaderManager();
         lm.initLoader(LOADER_ID, null, this);
     }
@@ -434,48 +445,20 @@ public class NavigationDrawerFragment
 
     // <editor-fold desc="Life Cycle">
 
-
-//    @Override
-//    public void onDestroyView() {
-//        if (mCursorAdapter != null) {
-//            // mCursorAdapter.destroy();
-//        }
-//        // Clear the mCursorAdapter.
-//        setListAdapter(null);
-//
-//        super.onDestroyView();
-//    }
-
-
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//    }
-//
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//    }
-//
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//    }
-//
-//    @Override
-//    public void onAttach(Activity activity) {
-//        super.onAttach(activity);
-//        try {
-//            if (!(activity instanceof ControllableActivity)) {
-//                // log something here
-//            }
-//            mActivity = (ControllableActivity) activity;
-//            folderController = mActivity.getFolderController();
-//            mCallbacks = mActivity.getNavigationDrawerCallbacks();
-//        } catch (ClassCastException e) {
-//            throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
-//        }
-//    }
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            if (!(activity instanceof ControllableActivity)) {
+                // log something here
+            }
+            mActivity = (ControllableActivity) activity;
+            folderController = mActivity.getFolderController();
+            mCallbacks = mActivity.getNavigationDrawerCallbacks();
+        } catch (ClassCastException e) {
+            throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
+        }
+    }
 
     @Override
     public void onDetach() {
@@ -503,6 +486,18 @@ public class NavigationDrawerFragment
 
         outState.putInt(STATE_SELECTED_POSITION, mCurrentSelectedPosition);
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
+
 
     // </editor-fold>
 
@@ -548,7 +543,6 @@ public class NavigationDrawerFragment
                 if (mRecycleCursorAdapter != null) {
                     mRecycleCursorAdapter.swapCursor(data);
                 }
-                final PrimaryDrawerItem f = data.getModel();
 
                 Log.e(TAG, String.format(
                         "Received cursor from loader id: %d",
