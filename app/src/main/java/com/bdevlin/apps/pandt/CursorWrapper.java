@@ -114,6 +114,11 @@ public class CursorWrapper implements Cursor {
         return mCursor.getWantsAllOnMoveCalls();
     }
 
+    @Override
+    public void setExtras(Bundle extras) {
+
+    }
+
     public boolean isAfterLast() {
         return mCursor.isAfterLast();
     }
