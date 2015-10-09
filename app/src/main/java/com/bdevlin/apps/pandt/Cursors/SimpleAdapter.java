@@ -1,4 +1,4 @@
-package com.bdevlin.apps.pandt;
+package com.bdevlin.apps.pandt.Cursors;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.provider.MockContract;
 import com.bdevlin.apps.provider.MockUiProvider;
 

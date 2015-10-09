@@ -1,4 +1,4 @@
-package com.bdevlin.apps.pandt;
+package com.bdevlin.apps.ui.activity;
 
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
@@ -11,6 +11,7 @@ import android.util.Log;
 import android.widget.Toast;
 import android.support.v4.app.FragmentManager;
 
+import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.ui.activity.setup.AccountSetupActivity;
 import com.bdevlin.apps.ui.fragments.ChooseAccountFragment;
 import com.bdevlin.apps.utils.PandtAccountUtils;

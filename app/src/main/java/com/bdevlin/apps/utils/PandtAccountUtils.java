@@ -8,7 +8,7 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.bdevlin.apps.pandt.chooseAccountActivity;
+import com.bdevlin.apps.ui.activity.chooseAccountActivity;
 import com.google.android.gms.auth.GoogleAuthUtil;
 
 /**

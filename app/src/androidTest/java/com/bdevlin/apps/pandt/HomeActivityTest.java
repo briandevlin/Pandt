@@ -1,7 +1,5 @@
 package com.bdevlin.apps.pandt;
 
-import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
@@ -10,6 +8,7 @@ import android.widget.ImageView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.bdevlin.apps.ui.activity.core.MailActivityEmail;
 import com.bdevlin.apps.utils.VolleyController;
 
 import junit.framework.Assert;

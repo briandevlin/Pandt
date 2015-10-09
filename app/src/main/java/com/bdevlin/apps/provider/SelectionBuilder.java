@@ -1,4 +1,4 @@
-package com.bdevlin.apps.pandt;
+package com.bdevlin.apps.provider;
 
 import android.content.ContentValues;
 import android.database.Cursor;

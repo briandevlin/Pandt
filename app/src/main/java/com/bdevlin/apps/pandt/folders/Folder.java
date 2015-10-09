@@ -4,7 +4,7 @@ import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.bdevlin.apps.pandt.CursorCreator;
+import com.bdevlin.apps.pandt.Cursors.CursorCreator;
 import com.bdevlin.apps.provider.MockUiProvider;
 
 /**

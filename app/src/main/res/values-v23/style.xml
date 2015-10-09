@@ -5,14 +5,14 @@
 
     <item name="toolbarStyle">@style/MyToolBar</item>
 
-    <item name="android:colorPrimary">@color/materialize_primary</item>
+  <!--  <item name="android:colorPrimary">@color/materialize_primary</item>
     <item name="android:colorPrimaryDark">@color/materialize_primary_dark</item>
     <item name="android:colorAccent">@color/materialize_accent</item>
-    <!--<item name="android:textColorPrimary">@color/materialize_textColorPrimary</item>-->
+    &lt;!&ndash;<item name="android:textColorPrimary">@color/materialize_textColorPrimary</item>&ndash;&gt;
 
     <item name="colorPrimary">@color/materialize_primary</item>
     <item name="colorPrimaryDark">@color/materialize_primary_dark</item>
-    <item name="colorAccent">@color/materialize_accent</item>
+    <item name="colorAccent">@color/materialize_accent</item>-->
 
     <!--<item name="drawerArrowStyle">@style/Material.DrawerArrowStyle</item>-->
     <!--<item name="subtitleTextColor">#FF96FF</item>-->

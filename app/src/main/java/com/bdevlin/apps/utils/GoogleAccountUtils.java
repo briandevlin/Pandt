@@ -2,18 +2,14 @@ package com.bdevlin.apps.utils;
 
 import android.accounts.Account;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 
 
-import com.bdevlin.apps.pandt.chooseAccountActivity;
 import com.google.android.gms.auth.*;
-import com.google.android.gms.common.Scopes;
 
-import java.io.IOException;
 import java.util.UUID;
 
 

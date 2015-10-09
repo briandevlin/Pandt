@@ -1,4 +1,4 @@
-package com.bdevlin.apps.pandt;
+package com.bdevlin.apps.ui.activity.core;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,13 +13,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.bdevlin.apps.Config;
-import com.bdevlin.apps.utils.PandtAccountUtils;
+import com.bdevlin.apps.pandt.Controllers.ActionBarController;
+import com.bdevlin.apps.pandt.Controllers.ActivityController;
+import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
+import com.bdevlin.apps.pandt.ViewMode;
 //import com.bdevlin.mymodule.lib.gcm.ServerUtilities;
 import com.bdevlin.apps.pandt.accounts.AccountController;
 import com.bdevlin.apps.pandt.folders.FolderChangeListener;
 import com.bdevlin.apps.pandt.folders.FolderController;
-import com.bdevlin.apps.ui.activity.core.UIControllerOnePane;
-import com.bdevlin.apps.ui.activity.core.UIControllerTwoPane;
 import com.bdevlin.apps.ui.fragments.MainContentFragment;
 import com.bdevlin.apps.ui.fragments.NavigationDrawerFragment;
 import com.bdevlin.apps.utils.Utils;
@@ -112,6 +113,7 @@ public class HomeActivity extends AppCompatActivity implements ControllableActiv
     public AccountController getAccountController() {
         return mUIController;
     }
+
     @Override
     public NavigationDrawerFragment.NavigationDrawerCallbacks getNavigationDrawerCallbacks() {
         return mUIController;

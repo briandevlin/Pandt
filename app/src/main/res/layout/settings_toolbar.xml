@@ -11,17 +11,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="?actionBarSize"
     app:theme="@style/MyToolBar"
     app:popupTheme="@style/Theme.AppCompat.NoActionBar"
 
-    />
-    <!--
-     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-    android:minHeight="?attr/actionBarSize"
-    app:navigationContentDescription="abc_action_bar_up_description"
-    android:background="?attr/colorPrimary"
-    app:navigationIcon="?attr/homeAsUpIndicator"
-    app:title="action_settings"-->
+    >
+<!--      <ImageView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:id="@+id/imageView"
+              android:layout_gravity="center"
+              android:background="@drawable/person_image_empty" />-->
+    </android.support.v7.widget.Toolbar>
+
 </android.support.design.widget.AppBarLayout>
+
+

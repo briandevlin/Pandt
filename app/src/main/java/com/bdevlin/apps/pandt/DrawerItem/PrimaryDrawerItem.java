@@ -1,67 +1,99 @@
-package com.bdevlin.apps.pandt;
+package com.bdevlin.apps.pandt.DrawerItem;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.StringRes;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
+import com.bdevlin.apps.pandt.Cursors.CursorRecyclerAdapter;
+import com.bdevlin.apps.pandt.Interfaces.OnPostBindViewListener;
+import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.pandt.helper.ItemTouchHelperViewHolder;
 import com.bdevlin.apps.provider.MockUiProvider;
+import com.bdevlin.apps.ui.fragments.NavigationDrawerFragment;
 
 /**
  * Created by brian on 9/26/2015.
  */
-public class PrimaryDrawerItem extends BasePrimaryDrawerItem<PrimaryDrawerItem>  {
+public class PrimaryDrawerItem
+        extends BasePrimaryDrawerItem<PrimaryDrawerItem> {
 
     private static final String TAG = PrimaryDrawerItem.class.getSimpleName();
 
+
     // <editor-fold desc="Fields">
-   // private static PrimaryDrawerItem.ListItemViewHolder.IMyViewHolderClicks viewHolederClicks;
-    private static PrimaryDrawerItem.IMyViewHolderClicks viewHolederClicks;
+    private NavigationDrawerFragment.NavigationDrawerCallbacks mCallbacks;
+    private static IViewHolderClicked viewHolderClicked;
+    private static CursorRecyclerAdapter.OnItemClickListener itemClicked;
     public int id;
     public String name;
-    protected  int[] mTo;
-    protected  int[] mFrom;
+    protected int[] mTo;
+    protected int[] mFrom;
+    private ControllableActivity mActivity;
     // </editor-fold>
 
     // <editor-fold desc="Interfaces">
-    public  interface IMyViewHolderClicks {
-        public void onPotato(View caller);
+    public interface IViewHolderClicked {
+        public void onTextClicked(View caller);
 
-        public void onTomato(ImageView callerImage);
+        public void onImageClicked(ImageView callerImage);
     }
+
     public interface ViewHolderFactory<T> {
         T factory(View v);
     }
     // </editor-fold>
 
     // <editor-fold desc="Constructor">
-    public PrimaryDrawerItem(Cursor c)
-    {
+    public PrimaryDrawerItem(ControllableActivity activity, Cursor c) {
+        if (activity != null) {
+            this.mActivity = activity;
+        }
+
         if (c != null) {
             id = c.getInt(MockUiProvider.FOLDER_ID_COLUMN);
             name = c.getString(MockUiProvider.FOLDER_NAME_COLUMN);
         }
         setPostOnBindViewListener(new OnPostBindViewListener() {
 
-            public void onBindView(IDrawerItem drawerItem, View view)
-            {
+            public void onBindView(IDrawerItem drawerItem, View view) {
                 Log.d(TAG, "Post bind View ");
             }
         });
 
-   viewHolederClicks = new IMyViewHolderClicks() {
-            public void onPotato(View caller) { Log.d(TAG, "Poh-tah-tos"); };
-            public void onTomato(ImageView callerImage) { Log.d(TAG,"To-m8-tohs"); }
+        viewHolderClicked = new IViewHolderClicked() {
+            public void onTextClicked(View caller) {
+                Log.d(TAG, "Poh-tah-tos");
+            }
+
+            public void onImageClicked(ImageView callerImage) {
+                Log.d(TAG, "To-m8-tohs");
+            }
         };
+
+        itemClicked = new CursorRecyclerAdapter.OnItemClickListener() {
+
+            public void onItemClick(View itemView, int position) {
+                Log.d(TAG, "onItemView: " + position);
+                if (mActivity != null) {
+                    mCallbacks = mActivity.getNavigationDrawerCallbacks();
+                    mCallbacks.onNavigationDrawerItemSelected(1, null);
+                }
+            }
+
+            ;
+
+        };
+
     }
+
+
     // </editor-fold>
 
     @Override
@@ -82,11 +114,6 @@ public class PrimaryDrawerItem extends BasePrimaryDrawerItem<PrimaryDrawerItem> 
 
         ListItemViewHolder viewHolder = (ListItemViewHolder) holder;
 
-//        for (int i = 0; i < count; i++) {
-//            viewHolder.views[i].setText(cursor.getString(from[i]));
-//        }
-//       viewHolder.views[0].setText(String.valueOf(id));
-//        viewHolder.views[1].setText(name);
         viewHolder.id.setText(String.valueOf(id));
         viewHolder.name.setText(name);
 
@@ -98,27 +125,28 @@ public class PrimaryDrawerItem extends BasePrimaryDrawerItem<PrimaryDrawerItem> 
         return new ItemFactory();
     }
 
-    public   class ItemFactory implements ViewHolderFactory<ListItemViewHolder> {
+    public class ItemFactory implements ViewHolderFactory<ListItemViewHolder> {
 
         public ListItemViewHolder factory(View v) {
 
             return new ListItemViewHolder(
                     v,
-                    viewHolederClicks
+                    viewHolderClicked,
+                    itemClicked
             );
         }
     }
 
-    protected    class ListItemViewHolder extends BaseViewHolder
-            implements View.OnClickListener, ItemTouchHelperViewHolder
-    {
-        public IMyViewHolderClicks mListener;
+    public class ListItemViewHolder extends BaseViewHolder
+            implements View.OnClickListener, ItemTouchHelperViewHolder {
+        public IViewHolderClicked mListener;
+        CursorRecyclerAdapter.OnItemClickListener otherListener;
 
-        public ListItemViewHolder( View itemLayoutView, IMyViewHolderClicks listener)
-        {
+        public ListItemViewHolder(View itemLayoutView, IViewHolderClicked listener, CursorRecyclerAdapter.OnItemClickListener itemClicked) {
             super(itemLayoutView);
 
             this.mListener = listener;
+            this.otherListener = itemClicked;
             // Attach a click listener to the entire row view
             itemLayoutView.setOnClickListener(this);
 
@@ -127,15 +155,22 @@ public class PrimaryDrawerItem extends BasePrimaryDrawerItem<PrimaryDrawerItem> 
 
         @Override
         public void onClick(View v) {
+
             int position = getLayoutPosition(); // gets item position
             int pos = getAdapterPosition();
             //ListItemViewHolder holder = (ListItemViewHolder )(v.getTag());
 
             if (v instanceof ImageView) {
-                mListener.onTomato((ImageView) v);
+                mListener.onImageClicked((ImageView) v);
             } else {
-                mListener.onPotato(v);
+                mListener.onTextClicked(v);
             }
+
+            if (otherListener == null) {
+                throw new NullPointerException("mOnItemClickListener is null in ");
+            }
+            otherListener.onItemClick(v, getAdapterPosition());
+
             Toast.makeText(v.getContext(), "Id: " + pos, Toast.LENGTH_LONG).show();
         }
 
@@ -149,10 +184,5 @@ public class PrimaryDrawerItem extends BasePrimaryDrawerItem<PrimaryDrawerItem> 
             itemView.setBackgroundColor(0);
         }
 
- /*       public  interface IMyViewHolderClicks {
-            public void onPotato(View caller);
-
-            public void onTomato(ImageView callerImage);
-        }*/
     }
 }

@@ -1,10 +1,12 @@
-package com.bdevlin.apps.pandt;
+package com.bdevlin.apps.pandt.DrawerItem;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bdevlin.apps.pandt.DrawerItem.BaseDrawerItem;
+import com.bdevlin.apps.pandt.R;
 
 /**
  * Created by brian on 9/26/2015.

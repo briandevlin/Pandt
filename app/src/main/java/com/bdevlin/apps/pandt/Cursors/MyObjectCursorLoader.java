@@ -1,4 +1,4 @@
-package com.bdevlin.apps.pandt;
+package com.bdevlin.apps.pandt.Cursors;
 
 //import android.content.AsyncTaskLoader;
 import android.content.Context;
@@ -8,9 +8,8 @@ import android.net.Uri;
 
 import android.support.v4.content.AsyncTaskLoader;
 
-import java.io.FileDescriptor;
-import java.io.PrintWriter;
-import java.util.Arrays;
+import com.bdevlin.apps.pandt.Cursors.CursorCreator;
+import com.bdevlin.apps.pandt.Cursors.ObjectCursor;
 
 public class MyObjectCursorLoader<T> extends AsyncTaskLoader<ObjectCursor<T>>{
 
