@@ -1,7 +1,11 @@
-package com.bdevlin.apps.pandt;
+package com.bdevlin.apps.pandt.Cursors;
+import android.app.Application;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
+import com.bdevlin.apps.pandt.DrawerItem.IDrawerItem;
+import com.bdevlin.apps.pandt.DrawerItem.PrimaryDrawerItem;
 import com.bdevlin.apps.pandt.folders.Folder;
 
 import java.util.ArrayList;
@@ -11,17 +15,25 @@ import java.util.List;
  * Created by brian on 9/15/2015.
  */
 public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
-        extends RecyclerView.Adapter<VH> {
+        extends RecyclerView.Adapter<VH>   {
 
     // <editor-fold desc="Fields">
     protected boolean mDataValid;
     protected ObjectCursor<PrimaryDrawerItem> mCursor;
     protected int mRowIDColumn;
     private List<IDrawerItem> mDrawerItems = new ArrayList<>();
+    public  OnItemClickListener mOnItemClickListener ;
+    private Application application;
     // </editor-fold>
 
+    public interface OnItemClickListener {
+        void onItemClick(View itemView, int position);
+    }
+
     // <editor-fold desc="Constructor">
-    public CursorRecyclerAdapter(ObjectCursor<PrimaryDrawerItem> c) {
+    public CursorRecyclerAdapter(/*HomeActivity activity,*/ ObjectCursor<PrimaryDrawerItem> c) {
+       /* Context applicationContext = activity.getApplicationContext();
+         application = activity.getApplication();*/
         // cursor will be null at construction; the loader will swap in the cursor when loaded
         init(c);
     }
@@ -37,6 +49,10 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
 
     // <editor-fold desc="Adaptor methods">
 
+    public void setOnItemClickListener(OnItemClickListener listener)
+    {
+        this.mOnItemClickListener  = listener;
+    }
     // Called by RecyclerView to display the data at the specified position.
     @Override
     public final void onBindViewHolder (VH holder, int position) {

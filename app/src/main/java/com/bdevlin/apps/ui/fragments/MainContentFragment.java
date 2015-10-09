@@ -23,13 +23,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.bdevlin.apps.pandt.ActionBarController;
-import com.bdevlin.apps.pandt.ControllableActivity;
+import com.bdevlin.apps.pandt.Controllers.ActionBarController;
+import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
 import com.bdevlin.apps.pandt.GenericListContext;
 import com.bdevlin.apps.pandt.Items;
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.pandt.ViewMode;
-import com.bdevlin.apps.pandt.folders.Folder;
 import com.bdevlin.apps.pandt.folders.FolderController;
 import com.bdevlin.apps.provider.MockContract;
 
@@ -100,11 +99,11 @@ public  class MainContentFragment extends ListFragment implements ViewMode.ModeC
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static MainContentFragment newInstance(GenericListContext viewContext,int sectionNumber) {
+    public static MainContentFragment newInstance(/*GenericListContext viewContext,int sectionNumber*/) {
         MainContentFragment fragment = new MainContentFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-        args.putBundle(CONVERSATION_LIST_KEY, viewContext.toBundle());
+        /*args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        args.putBundle(CONVERSATION_LIST_KEY, viewContext.toBundle());*/
         fragment.setArguments(args);
         return fragment;
     }
@@ -127,7 +126,7 @@ public  class MainContentFragment extends ListFragment implements ViewMode.ModeC
         // Get the context from the arguments
         if (getArguments() != null) {
              final Bundle args = getArguments();
-            mViewContext = GenericListContext.forBundle(args.getBundle(CONVERSATION_LIST_KEY));
+           // mViewContext = GenericListContext.forBundle(args.getBundle(CONVERSATION_LIST_KEY));
             //mAccount = mViewContext.account;
         }
 
@@ -166,7 +165,7 @@ public  class MainContentFragment extends ListFragment implements ViewMode.ModeC
         }
         mActivity = (ControllableActivity) activity;
         actionBarController = mActivity.getActionBarController();
-       ActionBar ab =  actionBarController.getSupportActionBar();
+      // ActionBar ab =  actionBarController.getSupportActionBar();
        // ab.setDisplayHomeAsUpEnabled(true);
 
         mCallbacks = mActivity.getMainContentCallbacks();
@@ -213,12 +212,12 @@ public  class MainContentFragment extends ListFragment implements ViewMode.ModeC
                 listView.getItemAtPosition(position).toString(),
                 Toast.LENGTH_LONG).show();
 
-        Items.ListItem listItem = (Items.ListItem)listView.getAdapter().getItem(position);
+      //  Items.ListItem listItem = (Items.ListItem)listView.getAdapter().getItem(position);
        // Object item = listView.getAdapter().getItem(position);
 //        final Object item = getListAdapter().getItem(position);
-        Log.d(TAG, String.format("view item (%d): %s", position,
-                listItem));
-        selectItem(position, listItem);
+//        Log.d(TAG, String.format("view item (%d): %s", position,
+//                listItem));
+      //  selectItem(position, listItem);
 
     }
 

@@ -22,10 +22,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bdevlin.apps.pandt.R;
-import com.bdevlin.apps.pandt.chooseAccountActivity;
+import com.bdevlin.apps.ui.activity.chooseAccountActivity;
 import com.bdevlin.apps.provider.MockUiProvider;
 
 import java.util.Arrays;

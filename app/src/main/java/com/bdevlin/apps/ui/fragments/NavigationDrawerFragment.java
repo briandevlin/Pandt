@@ -1,19 +1,13 @@
 package com.bdevlin.apps.ui.fragments;
 
 import android.app.Activity;
-import android.content.Context;
 //import android.content.CursorLoader;
-import android.content.res.Configuration;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -22,23 +16,21 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.Toast;
 
-import com.bdevlin.apps.pandt.ActionBarController;
-import com.bdevlin.apps.pandt.ControllableActivity;
-import com.bdevlin.apps.pandt.CursorCreator;
+import com.bdevlin.apps.pandt.Controllers.ActionBarController;
+import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
+import com.bdevlin.apps.pandt.Cursors.CursorCreator;
+import com.bdevlin.apps.pandt.Cursors.CursorRecyclerAdapter;
 import com.bdevlin.apps.pandt.DividerItemDecoration;
 import com.bdevlin.apps.pandt.DrawerClosedObserver;
-import com.bdevlin.apps.pandt.MyObjectCursorLoader;
-import com.bdevlin.apps.pandt.ObjectCursor;
-import com.bdevlin.apps.pandt.PrimaryDrawerItem;
+import com.bdevlin.apps.ui.activity.core.HomeActivity;
+import com.bdevlin.apps.pandt.Cursors.MyObjectCursorLoader;
+import com.bdevlin.apps.pandt.Cursors.ObjectCursor;
+import com.bdevlin.apps.pandt.DrawerItem.PrimaryDrawerItem;
 import com.bdevlin.apps.pandt.R;
-import com.bdevlin.apps.pandt.RecyclerViewAdapter;
-import com.bdevlin.apps.pandt.SimpleCursorRecyclerAdapter;
+import com.bdevlin.apps.pandt.Cursors.SimpleCursorRecyclerAdapter;
 import com.bdevlin.apps.pandt.accounts.Account;
 import com.bdevlin.apps.pandt.accounts.AccountController;
 import com.bdevlin.apps.pandt.accounts.AccountObserver;
@@ -93,7 +85,8 @@ public class NavigationDrawerFragment
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
 
-    private ControllableActivity mActivity;
+    private static ControllableActivity mActivity;
+   //private static HomeActivity mActivity;
     private FolderController folderController = null;
     private ActionBarController actionBarController = null;
     private AccountController mAccountController;
@@ -128,10 +121,12 @@ public class NavigationDrawerFragment
 
     // <editor-fold desc="Interfaces">
 
+
+
     public static final CursorCreator<PrimaryDrawerItem> FACTORY = new CursorCreator<PrimaryDrawerItem>() {
         @Override
         public PrimaryDrawerItem createFromCursor(Cursor c) {
-            return new PrimaryDrawerItem(c);
+            return new PrimaryDrawerItem((HomeActivity)mActivity, c);
         }
 
         @Override
@@ -188,6 +183,7 @@ public class NavigationDrawerFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         // Restore the previously serialized activated item position.
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
@@ -214,21 +210,6 @@ public class NavigationDrawerFragment
         mRecyclerView.setLayoutManager(mLayoutManager);
         //Cursor cursor = getActivity().getContentResolver().query(MockContract.Folders.CONTENT_URI, MockContract.FOLDERS_PROJECTION, null, null, null);
 
-        int[] toId = new int[]{
-                R.id.id,
-                R.id.name
-        };
-
-        mRecycleCursorAdapter = new SimpleCursorRecyclerAdapter(getActivity().getApplicationContext(),
-               /* R.layout.textview,*/
-                null,
-                MockContract.FOLDERS_PROJECTION, // string[] column names
-                toId,// resource id's from the itemview
-                this);
-
-        //mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setAdapter(mRecycleCursorAdapter);
-
 
         RecyclerView.ItemDecoration itemDecoration =
                 new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST);
@@ -244,14 +225,6 @@ public class NavigationDrawerFragment
 //            mRecyclerView.onRestoreInstanceState(savedInstanceState
 //                    .getParcelable(BUNDLE_LIST_STATE));
         }
-//        // Restore the previously serialized activated item position.
-//        if (savedInstanceState != null) {
-//            mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
-//            mFromSavedInstanceState = true;
-//        }
-
-        // Select either the default item (0) or the last selected item.
-        //selectItem(mCurrentSelectedPosition, Folders.ITEMS.get(mCurrentSelectedPosition));
 
         return rootView;
     }
@@ -265,7 +238,36 @@ public class NavigationDrawerFragment
         if (!(activity instanceof ControllableActivity)) {
             return;
         }
-        mActivity = (ControllableActivity) activity;
+        int[] toId = new int[]{
+                R.id.id,
+                R.id.name
+        };
+        mActivity = (HomeActivity) activity;
+
+        mRecycleCursorAdapter = new SimpleCursorRecyclerAdapter(mActivity,
+               /* R.layout.textview,*/
+                null,
+                MockContract.FOLDERS_PROJECTION, // string[] column names
+                toId,// resource id's from the itemview
+                this);
+
+        mRecycleCursorAdapter.setOnItemClickListener(
+                new CursorRecyclerAdapter.OnItemClickListener() {
+                    public void onItemClick(View itemView, int position)
+                    {
+                        Log.d(TAG,"onItemClick");
+                        mCallbacks = mActivity.getNavigationDrawerCallbacks();
+                        mCallbacks.onNavigationDrawerItemSelected(position, null);
+                    }
+
+                });
+
+
+
+        //mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(mRecycleCursorAdapter);
+//        mCallbacks = mActivity.getNavigationDrawerCallbacks();
+//        mCallbacks.onNavigationDrawerItemSelected(1, null);
       //  folderController = mActivity.getFolderController();
       //  actionBarController = mActivity.getActionBarController();
 
@@ -445,26 +447,26 @@ public class NavigationDrawerFragment
 
     // <editor-fold desc="Life Cycle">
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            if (!(activity instanceof ControllableActivity)) {
-                // log something here
-            }
-            mActivity = (ControllableActivity) activity;
-            folderController = mActivity.getFolderController();
-            mCallbacks = mActivity.getNavigationDrawerCallbacks();
-        } catch (ClassCastException e) {
-            throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
-        }
-    }
+//    @Override
+//    public void onAttach(Activity activity) {
+//        super.onAttach(activity);
+//        try {
+//            if (!(activity instanceof ControllableActivity)) {
+//                // log something here
+//            }
+//            mActivity = (ControllableActivity) activity;
+//            folderController = mActivity.getFolderController();
+//          //  mCallbacks = mActivity.getNavigationDrawerCallbacks();
+//        } catch (ClassCastException e) {
+//            throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
+//        }
+//    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mCallbacks = sDummyCallbacks;
-    }
+//    @Override
+//    public void onDetach() {
+//        super.onDetach();
+//        mCallbacks = sDummyCallbacks;
+//    }
 
 
     // </editor-fold>

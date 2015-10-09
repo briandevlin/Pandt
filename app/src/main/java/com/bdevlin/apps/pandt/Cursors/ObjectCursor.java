@@ -1,9 +1,9 @@
-package com.bdevlin.apps.pandt;
+package com.bdevlin.apps.pandt.Cursors;
 
 import android.database.Cursor;
 //import android.database.CursorWrapper;
 
-public class ObjectCursor<T> extends  CursorWrapper {
+public class ObjectCursor<T> extends CursorWrapper {
 
     CursorCreator<T> mFactory;
 

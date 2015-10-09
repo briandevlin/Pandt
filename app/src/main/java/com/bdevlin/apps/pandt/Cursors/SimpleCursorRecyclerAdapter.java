@@ -1,31 +1,22 @@
-package com.bdevlin.apps.pandt;
+package com.bdevlin.apps.pandt.Cursors;
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bdevlin.apps.pandt.folders.Folder;
+import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
+import com.bdevlin.apps.pandt.DrawerItem.PrimaryDrawerItem;
 import com.bdevlin.apps.pandt.helper.ItemTouchHelperAdapter;
 import com.bdevlin.apps.pandt.helper.OnStartDragListener;
-import com.bdevlin.apps.pandt.helper.ItemTouchHelperViewHolder;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
  * Created by brian on 9/15/2015.
  */
-public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<PrimaryDrawerItem.ListItemViewHolder>
-        implements ItemTouchHelperAdapter {
+public class SimpleCursorRecyclerAdapter
+        extends CursorRecyclerAdapter<PrimaryDrawerItem.ListItemViewHolder>
+        implements /*CursorRecyclerAdapter.OnItemClickListener,*/ ItemTouchHelperAdapter {
+
     private static final String TAG = SimpleCursorRecyclerAdapter.class.getSimpleName();
 
     // <editor-fold desc="Fields">
@@ -35,31 +26,36 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<PrimaryDr
     protected  int[] mTo;
     protected  String[] mOriginalFrom;
     private final OnStartDragListener mDragStartListener;
+    private ControllableActivity mActivity;
+
     // </editor-fold>
 
     // <editor-fold desc="Constructor">
-    public SimpleCursorRecyclerAdapter (Context context,
+    public SimpleCursorRecyclerAdapter (ControllableActivity activity,
                                        /* int layout,*/
                                         ObjectCursor<PrimaryDrawerItem> c,
                                         String[] from,
                                         int[] to,
                                         OnStartDragListener dragStartListener) {
-        super(c);
+        super( /*activity,*/ c);
+        this.mActivity = activity;
         mDragStartListener = dragStartListener;
-        mContext = context;
+        mContext = mActivity.getActivityContext();
         mTo = to;
         mOriginalFrom = from;
         findColumns(c, from);
+
     }
 
     // </editor-fold>
 
     // <editor-fold desc="Adapter methods">
+
     //// Create new views (invoked by the layout manager)
     @Override
     public  PrimaryDrawerItem.ListItemViewHolder onCreateViewHolder (ViewGroup parent, int viewType) {
         Log.d(TAG,"onCreateViewHolder");
-        PrimaryDrawerItem item = new PrimaryDrawerItem(null);
+        PrimaryDrawerItem item = new PrimaryDrawerItem(mActivity, null);
         //AbstractDrawerItem.getViewHolder inflates the view item and returns the ListItemViewHolder(view)
       return item.getViewHolder(parent);
     }
@@ -71,6 +67,12 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<PrimaryDr
         // gets the IDrawerItem at this position then bind the viewholder to it
         getItem(position).bindView(holder);
     }
+
+
+//    public void onItemClick(View itemView, int position)
+//    {
+//
+//    }
 
     // </editor-fold>
 
@@ -108,14 +110,14 @@ public class SimpleCursorRecyclerAdapter extends CursorRecyclerAdapter<PrimaryDr
     @Override
     public boolean onItemMove(int fromPosition, int toPosition) {
 
-        Toast.makeText(mContext, "onItemMove: fromPosition " + fromPosition + " toPosition " + toPosition , Toast.LENGTH_LONG).show();
+      //  Toast.makeText(mContext, "onItemMove: fromPosition " + fromPosition + " toPosition " + toPosition , Toast.LENGTH_LONG).show();
         notifyItemMoved(fromPosition, toPosition);
         return true;
     }
 
     @Override
     public void onItemDismiss(int position) {
-        Toast.makeText(mContext, "onItemDismiss " , Toast.LENGTH_LONG).show();
+      //  Toast.makeText(mContext, "onItemDismiss " , Toast.LENGTH_LONG).show();
         notifyItemRemoved(position);
     }
 
@@ -157,9 +159,9 @@ class ListItemViewHolder extends PrimaryDrawerItem.ViewHolder   //RecyclerView.V
         //ListItemViewHolder holder = (ListItemViewHolder )(v.getTag());
 
         if (v instanceof ImageView) {
-            mListener.onTomato((ImageView) v);
+            mListener.onImageClicked((ImageView) v);
         } else {
-            mListener.onPotato(v);
+            mListener.onTextClicked(v);
         }
         Toast.makeText(v.getContext(), "Id: " + pos, Toast.LENGTH_LONG).show();
     }
@@ -175,9 +177,9 @@ class ListItemViewHolder extends PrimaryDrawerItem.ViewHolder   //RecyclerView.V
     }
 
     public  interface IMyViewHolderClicks {
-        public void onPotato(View caller);
+        public void onTextClicked(View caller);
 
-        public void onTomato(ImageView callerImage);
+        public void onImageClicked(ImageView callerImage);
     }
 }*/
 

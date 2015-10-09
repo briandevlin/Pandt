@@ -1,20 +1,6 @@
 package com.bdevlin.apps.gcm;
 
 
-
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.support.v4.app.NotificationCompat;
-import android.util.Log;
-
-
-import com.bdevlin.apps.Config;
-import com.bdevlin.apps.pandt.HomeActivity;
-import com.bdevlin.apps.pandt.R;
-import com.google.android.gcm.GCMBaseIntentService;
-
 /**
 // * Created by brian on 9/28/2014.
 // */

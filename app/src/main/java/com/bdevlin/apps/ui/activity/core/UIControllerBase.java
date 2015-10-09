@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 //import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
@@ -43,15 +44,14 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.bdevlin.apps.pandt.accounts.Account;
-import com.bdevlin.apps.pandt.ActivityController;
-import com.bdevlin.apps.pandt.CursorCreator;
+import com.bdevlin.apps.pandt.Controllers.ActivityController;
+import com.bdevlin.apps.pandt.Cursors.CursorCreator;
 import com.bdevlin.apps.pandt.folders.Folder;
 import com.bdevlin.apps.pandt.GenericListContext;
-import com.bdevlin.apps.pandt.HomeActivity;
 import com.bdevlin.apps.pandt.Items;
-import com.bdevlin.apps.pandt.MyObjectCursorLoader;
+import com.bdevlin.apps.pandt.Cursors.MyObjectCursorLoader;
 import com.bdevlin.apps.ui.fragments.NavigationDrawerFragment;
-import com.bdevlin.apps.pandt.ObjectCursor;
+import com.bdevlin.apps.pandt.Cursors.ObjectCursor;
 import com.bdevlin.apps.pandt.PagerController;
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.pandt.ViewMode;
@@ -184,17 +184,14 @@ public abstract class UIControllerBase implements ActivityController {
         mViewMode.addListener(this);
         mPagerController = new PagerController(mActivity, this, mFragmentManager);
 
-        mViewMode.addListener(this);
         final Intent intent = mActivity.getIntent();
 
         prefs = PreferenceManager.getDefaultSharedPreferences(mActivity);
         prefs.registerOnSharedPreferenceChangeListener(this);
 
-        ActionBar ab = getSupportActionBar();
-        if (ab != null) {
-            ab.setDisplayHomeAsUpEnabled(true);
+        if (mActionBar != null) {
+            mActionBar.setDisplayHomeAsUpEnabled(true);
         }
-
         return true;
     }
 
@@ -221,7 +218,7 @@ public abstract class UIControllerBase implements ActivityController {
 
     @Override
     public void onPause() {
-        mHaveAccountList = false;
+       // mHaveAccountList = false;
 
     }
 
@@ -341,13 +338,13 @@ public abstract class UIControllerBase implements ActivityController {
     // <editor-fold desc="ActionBar ">
 
     private void showGlobalContextActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar == null) {
+        //ActionBar actionBar = getSupportActionBar();
+        if (mActionBar == null) {
             return;
         }
-        actionBar.setDisplayShowTitleEnabled(true);
+        mActionBar.setDisplayShowTitleEnabled(true);
        // actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setTitle(mTitle);
+        mActionBar.setTitle(mTitle);
     }
 
 
@@ -357,12 +354,12 @@ public abstract class UIControllerBase implements ActivityController {
 
 
     private void initializeActionBar() {
-        final ActionBar actionBar = getSupportActionBar();
-        if (actionBar == null) {
+       // final ActionBar actionBar = getSupportActionBar();
+        if (mActionBar == null) {
             return;
         }
 
-        final LayoutInflater inflater = LayoutInflater.from(actionBar.getThemedContext());
+        final LayoutInflater inflater = LayoutInflater.from(mActionBar.getThemedContext());
 
     }
     // </editor-fold>
@@ -446,20 +443,20 @@ public abstract class UIControllerBase implements ActivityController {
 
     // <editor-fold desc="Misc ">
 
-    protected abstract boolean isConversationListVisible();
+   // protected abstract boolean isConversationListVisible();
 
     @Override
     public GenericListContext getCurrentListContext() {
         return mConvListContext;
     }
 
-    @Override
-    public void showConversationList(GenericListContext listContext) {
-
-    }
+//    @Override
+//    public void showConversationList(GenericListContext listContext) {
+//
+//    }
     public void setTitle(CharSequence title) {
         mTitle = title;
-        getSupportActionBar().setTitle(mTitle);
+        mActionBar.setTitle(mTitle);
     }
 
     /** Returns the context. */
@@ -496,7 +493,7 @@ public abstract class UIControllerBase implements ActivityController {
     private void changeFolder(Folder folder, final boolean force) {
 
         GenericListContext viewContext =  GenericListContext.forFolder(folder);
-        showConversationList(viewContext);
+       // showConversationList(viewContext);
     }
 
     @Override
@@ -797,6 +794,7 @@ public abstract class UIControllerBase implements ActivityController {
 
         // create the ActionBarDrawerToggle if not set and enabled and if we have a toolbar
         if (mActionBarDrawerToggleEnabled && mDrawerToggle == null && mToolbar != null) {
+
             this.mDrawerToggle = new ActionBarDrawerToggle(
                     mActivity,
                     mDrawerLayout,
@@ -857,6 +855,7 @@ public abstract class UIControllerBase implements ActivityController {
                    /* if (mOnDrawerListener != null) {
                         mOnDrawerListener.onDrawerOpened(drawerView);
                     }*/
+                    Log.d(TAG,"onDrawerOpened");
                 }
 
                 @Override
@@ -864,18 +863,18 @@ public abstract class UIControllerBase implements ActivityController {
                    /* if (mOnDrawerListener != null) {
                         mOnDrawerListener.onDrawerClosed(drawerView);
                     }*/
+                    Log.d(TAG,"onDrawerClosed");
                 }
 
                 @Override
                 public void onDrawerStateChanged(int newState) {
-
+                    Log.d(TAG,"onDrawerStateChanged");
                 }
             });
         }
 
 
     }
-
 
     private void handleShowOnFirstLaunch() {
         //check if it should be shown on first launch (and we have a drawerLayout)
@@ -911,7 +910,7 @@ public abstract class UIControllerBase implements ActivityController {
             return;
         }
         getActionBarToolbar();
-
+       // CoordinatorLayout coordLayout = (CoordinatorLayout) mDrawerLayout.findViewById(R.id.CoordinatorLayout_container);
         appBarLayout = (AppBarLayout) mActivity.findViewById(R.id.toolbar_container);
         mSliderLayout = mActivity.findViewById(R.id.navdrawer);
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);

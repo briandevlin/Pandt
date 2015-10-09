@@ -5,7 +5,6 @@
 
         <item name="toolbarStyle">@style/MyToolBar</item>
 
-
         <item name="colorPrimary">@color/materialize_primary</item>
         <item name="colorPrimaryDark">@color/materialize_primary_dark</item>
         <item name="colorAccent">@color/materialize_accent</item>
@@ -24,13 +23,13 @@
     <style name="Theme.IOSched" parent="Theme.IOSched.Base" />
 
     <style name="MyToolBar" parent="Theme.AppCompat.NoActionBar">
-        <!--<item name="drawerArrowStyle">@style/Material.DrawerArrowStyle</item>-->
+        <item name="drawerArrowStyle">@style/Material.DrawerArrowStyle</item>
         <!--<item name="subtitleTextColor">#FF96FF</item>-->
         <!--<item name="android:titleTextStyle">@style/Material.titleTextStyle</item>-->
         <!--<item name="android:subtitleTextStyle">@style/Material.subtitleTextStyle</item>-->
         <!--<item name="titleTextStyle">@style/Material.titleTextStyle</item>-->
         <!--<item name="subtitleTextStyle">@style/Material.subtitleTextStyle</item>-->
-        <!--<item name="android:textColorPrimary">#00FF33</item>-->
+        <item name="android:textColorPrimary">#00FF33</item>
         <!--<item name="android:textColorSecondary">#ffaa00</item>-->
         <!--<item name="android:textColorPrimaryInverse">#ff33ff</item>-->
         <!--<item name="actionMenuTextColor">@color/abc_primary_text_material_light</item>-->
@@ -48,7 +47,7 @@
 
     <style name="Material.DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
-        <item name="color">@android:color/white</item>
+        <item name="color">#FF3433</item>
     </style>
 
 </resources>

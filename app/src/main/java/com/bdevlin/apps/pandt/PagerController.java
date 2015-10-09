@@ -4,6 +4,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
+import com.bdevlin.apps.pandt.Controllers.ActivityController;
+import com.bdevlin.apps.ui.activity.core.HomeActivity;
+
 /**
  * Created by brian on 7/26/2014.
  */

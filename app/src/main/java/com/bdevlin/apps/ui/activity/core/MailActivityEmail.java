@@ -1,4 +1,4 @@
-package com.bdevlin.apps.pandt;
+package com.bdevlin.apps.ui.activity.core;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import com.bdevlin.apps.pandt.accounts.Account;
+import com.bdevlin.apps.ui.activity.core.HomeActivity;
 
 /**
  * Created by brian on 9/9/2014.

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 
 import com.bdevlin.apps.pandt.folders.Folder;
-import com.bdevlin.apps.pandt.HomeActivity;
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.pandt.ViewMode;
 
@@ -32,10 +31,10 @@ public class UIControllerTwoPane extends UIControllerBase {
     }
 
 
-    @Override
-    protected boolean isConversationListVisible() {
-        return mConversationListVisible;
-    }
+//    @Override
+//    protected boolean isConversationListVisible() {
+//        return mConversationListVisible;
+//    }
 
     @Override
     public boolean isDrawerEnabled() {

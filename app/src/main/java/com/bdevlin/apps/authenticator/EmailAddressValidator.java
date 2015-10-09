@@ -1,4 +1,4 @@
-package com.bdevlin.apps.pandt;
+package com.bdevlin.apps.authenticator;
 
 import android.widget.AutoCompleteTextView.Validator;
 

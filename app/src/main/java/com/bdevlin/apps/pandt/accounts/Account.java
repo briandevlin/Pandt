@@ -8,8 +8,8 @@ import android.util.Log;
 
 //import com.bdevlin.apps.provider.MockContract.Accounts;
 
-import com.bdevlin.apps.pandt.CursorCreator;
-import com.bdevlin.apps.pandt.ObjectCursor;
+import com.bdevlin.apps.pandt.Cursors.CursorCreator;
+import com.bdevlin.apps.pandt.Cursors.ObjectCursor;
 import com.bdevlin.apps.providers2.UIProvider.AccountColumns;
 import org.json.JSONObject;
 import org.json.JSONException;

@@ -8,34 +8,21 @@
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
 
-
-    <FrameLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <include
-            android:id="@+id/toolbar_container"
             layout="@layout/settings_toolbar" />
         <!-- As the main name view, the view below consumes the entire
              space available using match_parent in both dimensions. -->
         <FrameLayout
             android:id="@+id/main_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="wrap_content"
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView"
-                android:layout_gravity="center"
-                android:background="@drawable/person_image_empty" />
-        </FrameLayout>
-
-        <!--<android.support.v7.widget.RecyclerView-->
-            <!--android:id="@+id/my_recycler_view"-->
-            <!--android:scrollbars="vertical"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"/>-->
+            />
 
         <!-- the viewpager must come after the main container-->
         <android.support.v4.view.ViewPager
@@ -45,7 +32,7 @@
             android:layout_height="match_parent"
             android:visibility="gone" >
         </android.support.v4.view.ViewPager>
-    </FrameLayout>
+    </LinearLayout>
 
     <!-- Nav drawer-->
     <include layout="@layout/navigation_drawer" />

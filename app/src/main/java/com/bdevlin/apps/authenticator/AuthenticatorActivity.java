@@ -21,7 +21,6 @@ import android.widget.TextView;
 
 import com.bdevlin.apps.pandt.ForwardingIntent;
 import com.bdevlin.apps.ui.activity.setup.AccountSetupType;
-import com.bdevlin.apps.pandt.EmailAddressValidator;
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.ui.fragments.AccountCheckSettingsFragment;
 

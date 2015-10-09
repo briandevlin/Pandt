@@ -5,17 +5,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.FrameLayout;
 
-import com.bdevlin.apps.pandt.RecyclerViewAdapter;
-import com.bdevlin.apps.pandt.accounts.Account;
-import com.bdevlin.apps.pandt.folders.Folder;
+import com.bdevlin.apps.pandt.Controllers.ActivityController;
 import com.bdevlin.apps.pandt.GenericListContext;
-import com.bdevlin.apps.pandt.HomeActivity;
-import com.bdevlin.apps.pandt.Items;
+import com.bdevlin.apps.pandt.folders.Folder;
 import com.bdevlin.apps.ui.fragments.MainContentFragment;
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.pandt.ViewMode;
@@ -32,16 +29,16 @@ public class UIControllerOnePane extends UIControllerBase
 
    // private NavigationDrawerFragment mNavigationDrawerFragment;
    // private CharSequence mDrawerTitle;
-    private CharSequence mTitle;
+   // private CharSequence mTitle;
 //    private static final String OPENED_KEY = "OPENED_KEY";
    // private SharedPreferences prefs = null;
-    private Boolean opened = null;
+    //private Boolean opened = null;
 
-    private boolean mConversationListVisible = false;
+    //private boolean mConversationListVisible = false;
 
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+//    private RecyclerView mRecyclerView;
+//    private RecyclerView.Adapter mAdapter;
+//    private RecyclerView.LayoutManager mLayoutManager;
 
    // </editor-fold>
 
@@ -56,16 +53,20 @@ public class UIControllerOnePane extends UIControllerBase
         // gets the one pane activity layout
         mActivity.setContentView(R.layout.activity_home);
 
+        View v = (FrameLayout)mActivity.findViewById(R.id.main_content);
 
-   //   Cursor c =  mActivity.getContentResolver().query(MockContract.Accounts.CONTENT_URI, new String[] {MockContract.AccountColumns.ACCOUNT_NAME}, null,null,null);
-//String foldename = c.getString(1);
+        final MainContentFragment itemListFragment = MainContentFragment.newInstance();
+
+        replaceFragment(itemListFragment, FragmentTransaction.TRANSIT_FRAGMENT_OPEN,
+                TAG_MAIN_LIST, R.id.main_content);
 
         Toolbar toolbar = getActionBarToolbar();
+        toolbar.setSubtitle("This is the main screen");
 
         if (isDrawerEnabled()) {
             SetupDrawerLayout();
         }
-        toolbar.setSubtitle("This is the main screen");
+
         // The parent class sets the correct viewmode and starts the application off.
         return super.onCreate(savedInstanceState);
     }
@@ -83,15 +84,11 @@ public class UIControllerOnePane extends UIControllerBase
         super.onResume();
     }
 
-
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
     }
-
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -99,53 +96,54 @@ public class UIControllerOnePane extends UIControllerBase
 
     }
 
-    @Override
-    protected boolean isConversationListVisible() {
-        return mConversationListVisible;
-    }
+//    @Override
+//    protected boolean isConversationListVisible() {
+//        return mConversationListVisible;
+//    }
 
     // </editor-fold>
 
     // when the main content fragment list item is selected we end up here
-    @Override
-    protected void showConversation(final int position, Items.ListItem listItem) {
-        super.showConversation(position, listItem);
-
-        mViewMode.enterConversationMode();
-
-        final FragmentManager fm = mActivity.getSupportFragmentManager();
-        final FragmentTransaction ft = fm.beginTransaction();
-       // remove main content fragment to reveal the viewpager
-        final Fragment f = fm.findFragmentById(R.id.main_content);
-        if (f != null && f.isAdded()) {
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            ft.remove(f);
-            ft.commitAllowingStateLoss();
-            fm.executePendingTransactions();
-        }
-        mPagerController.show(position, listItem);
-    }
+//    @Override
+//    protected void showConversation(final int position, Items.ListItem listItem) {
+//        super.showConversation(position, listItem);
+//
+//        mViewMode.enterConversationMode();
+//
+//        final FragmentManager fm = mActivity.getSupportFragmentManager();
+//        final FragmentTransaction ft = fm.beginTransaction();
+//       // remove main content fragment to reveal the viewpager
+//        final Fragment f = fm.findFragmentById(R.id.main_content);
+//        if (f != null && f.isAdded()) {
+//            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//            ft.remove(f);
+//            ft.commitAllowingStateLoss();
+//            fm.executePendingTransactions();
+//        }
+//        mPagerController.show(position, listItem);
+//    }
 
     /* implements NavigationDrawerFragment.NavigationDrawerCallbacks*/
     @Override
     public void onNavigationDrawerItemSelected(int position, Folder folder) {
-
+            Log.d(TAG,"onNavigationDrawerItemSelected");
+        toggleDrawerState();
         // FIXME
-        GenericListContext viewContext =  GenericListContext.forFolder(folder);
-
-        // update the main name (R.id.container) by replacing fragments
-        Fragment mainFragment = MainContentFragment.newInstance(viewContext, position + 1);
-       // Fragment mainFragment = AccountSetupIncomingFragment.newInstance(viewContext, position + 1);
-
-        replaceFragment(mainFragment, FragmentTransaction.TRANSIT_FRAGMENT_OPEN, TAG_MAIN_LIST,
-                R.id.main_content);
-
-        mFolder = folder;
+//        GenericListContext viewContext =  GenericListContext.forFolder(folder);
+//
+//        // update the main name (R.id.container) by replacing fragments
+//        Fragment mainFragment = MainContentFragment.newInstance(viewContext, position + 1);
+//       // Fragment mainFragment = AccountSetupIncomingFragment.newInstance(viewContext, position + 1);
+//
+//        replaceFragment(mainFragment, FragmentTransaction.TRANSIT_FRAGMENT_OPEN, TAG_MAIN_LIST,
+//                R.id.main_content);
+//
+//        mFolder = folder;
     }
 
     /**
      * Replace the content_pane with the fragment specified here. The tag is specified so that
-     * the {@link com.bdevlin.apps.pandt.ActivityController} can look up the fragments through the
+     * the {@link ActivityController} can look up the fragments through the
      * {@link android.app.FragmentManager}.
      * @param fragment the new fragment to put
      * @param transition the transition to show
@@ -177,16 +175,12 @@ public class UIControllerOnePane extends UIControllerBase
     public void onViewModeChanged(int newMode) {
         super.onViewModeChanged(newMode);
 
-
-        // When entering conversation list mode, hide and clean up any currently visible
-        // conversation.
         if (ViewMode.isListMode(newMode)) {
             mPagerController.hide(true /* changeVisibility */);
         }
-        // When we step away from the conversation mode, we don't have a current conversation
-        // anymore. Let's blank it out so clients calling getCurrentConversation are not misled.
+
         if (!ViewMode.isConversationMode(newMode)) {
-          //  setCurrentConversation(null);
+
         }
 
     }
@@ -197,12 +191,6 @@ public class UIControllerOnePane extends UIControllerBase
         return true;
     }
 
-    @Override
-    public void changeAccount(Account account) {
-        super.changeAccount(account);
-     //   mConversationListNeverShown = true;
-      //  closeDrawerIfOpen();
-    }
     @Override
     protected boolean handleBackPress(boolean isSystemBackKey) {
         final int mode = mViewMode.getMode();
@@ -215,7 +203,7 @@ public class UIControllerOnePane extends UIControllerBase
             mActivity.finish();
         } else if (mViewMode.isConversationMode() ) {
             Log.d(TAG, "isConversationMode");
-            transitionBackToConversationListMode();
+           // transitionBackToConversationListMode();
             mViewMode.enterConversationListMode();
         } else {
             Log.d(TAG, "default mode");
@@ -257,39 +245,6 @@ public class UIControllerOnePane extends UIControllerBase
 
     }
 
-    private void transitionBackToConversationListMode() {
-        final int mode = mViewMode.getMode();
-//        enableCabMode();
-        mConversationListVisible = true;
-        if (mode == ViewMode.SEARCH_RESULTS_CONVERSATION) {
-            mViewMode.enterSearchResultsListMode();
-        } else {
-            mViewMode.enterConversationListMode();
-        }
-
-        final Folder folder = mFolder != null ? mFolder : null;
-        onFolderChanged(folder, true /* force */);
-
-       // onConversationVisibilityChanged(false);
-       // onConversationListVisibilityChanged(true);
-
-    }
-
-    @Override
-    public void showConversationList(GenericListContext listContext) {
-        super.showConversationList(listContext);
-        mViewMode.enterConversationListMode();
-
-
-        GenericListContext viewContext =  GenericListContext.forFolder(null);
-// update the main name (R.id.container) by replacing fragments
-        Fragment mainFragment = MainContentFragment.newInstance(viewContext, 0);
-        // Fragment mainFragment = AccountSetupIncomingFragment.newInstance(viewContext, position + 1);
-
-        replaceFragment(mainFragment, FragmentTransaction.TRANSIT_FRAGMENT_OPEN, TAG_MAIN_LIST,
-                R.id.main_content);
-
-    }
 
 
 }

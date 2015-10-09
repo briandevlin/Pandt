@@ -1,4 +1,4 @@
-package com.bdevlin.apps.pandt;
+package com.bdevlin.apps.pandt.DrawerItem;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;

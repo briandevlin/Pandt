@@ -1,4 +1,4 @@
-package com.bdevlin.apps.pandt;
+package com.bdevlin.apps.pandt.Controllers;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.bdevlin.apps.pandt.Controllers.ActionBarController;
+import com.bdevlin.apps.pandt.GenericListContext;
+import com.bdevlin.apps.pandt.ViewMode;
 import com.bdevlin.apps.pandt.accounts.Account;
 import com.bdevlin.apps.pandt.accounts.AccountController;
 import com.bdevlin.apps.pandt.folders.FolderChangeListener;
@@ -20,8 +23,10 @@ import com.bdevlin.apps.utils.LoginAndAuthHelper;
  */
 public interface ActivityController extends ActionBarController,
         FolderChangeListener,AccountController,
-        FolderController, ViewMode.ModeChangeListener,
+        FolderController,
+        ViewMode.ModeChangeListener,
         NavigationDrawerFragment.NavigationDrawerCallbacks,
+
         MainContentFragment.MainContentCallbacks,
         SharedPreferences.OnSharedPreferenceChangeListener,
         LoginAndAuthHelper.Callbacks
@@ -44,6 +49,6 @@ public interface ActivityController extends ActionBarController,
     void onPostCreate(Bundle savedInstanceState);
     Account getCurrentAccount();
     GenericListContext getCurrentListContext();
-    void showConversationList(GenericListContext listContext);
+   // void showConversationList(GenericListContext listContext);
     void onActivityResult(int requestCode, int resultCode, Intent data);
 }

@@ -22,7 +22,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.support.v4.view.ViewCompat;
 
-import com.bdevlin.apps.pandt.SimpleCursorRecyclerAdapter;
+import com.bdevlin.apps.pandt.Cursors.SimpleCursorRecyclerAdapter;
 
 /**
  * An implementation of {@link ItemTouchHelper.Callback} that enables basic drag & drop and
