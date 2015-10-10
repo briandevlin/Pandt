@@ -130,10 +130,10 @@ public  class MainContentFragment extends ListFragment implements ViewMode.ModeC
             //mAccount = mViewContext.account;
         }
 
-        onViewModeChanged(mActivity.getViewMode().getMode());
-        mActivity.getViewMode().addListener(this);
+//        onViewModeChanged(mActivity.getViewMode().getMode());
+//        mActivity.getViewMode().addListener(this);
 
-        setRetainInstance(false);
+       // setRetainInstance(false);
     }
 
 

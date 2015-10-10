@@ -25,16 +25,16 @@
     <style name="MyToolBar" parent="Theme.AppCompat.NoActionBar">
         <item name="drawerArrowStyle">@style/Material.DrawerArrowStyle</item>
         <!--<item name="subtitleTextColor">#FF96FF</item>-->
-        <!--<item name="android:titleTextStyle">@style/Material.titleTextStyle</item>-->
-        <!--<item name="android:subtitleTextStyle">@style/Material.subtitleTextStyle</item>-->
-        <!--<item name="titleTextStyle">@style/Material.titleTextStyle</item>-->
-        <!--<item name="subtitleTextStyle">@style/Material.subtitleTextStyle</item>-->
+        <item name="android:titleTextStyle">@style/Material.titleTextStyle</item>
+        <item name="android:subtitleTextStyle">@style/Material.subtitleTextStyle</item>
+        <item name="titleTextStyle">@style/Material.titleTextStyle</item>
+        <item name="subtitleTextStyle">@style/Material.subtitleTextStyle</item>
         <item name="android:textColorPrimary">#00FF33</item>
-        <!--<item name="android:textColorSecondary">#ffaa00</item>-->
-        <!--<item name="android:textColorPrimaryInverse">#ff33ff</item>-->
+        <item name="android:textColorSecondary">#ffaa00</item>
+        <item name="android:textColorPrimaryInverse">#ff33ff</item>
         <!--<item name="actionMenuTextColor">@color/abc_primary_text_material_light</item>-->
         <!--<item name="textColorSecondary">#000000</item>-->
-        <!--<item name="colorControlNormal">#FFff11</item>-->
+        <item name="colorControlNormal">#FFff11</item>
     </style>
 
     <style name="Material.titleTextStyle" parent="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title">
