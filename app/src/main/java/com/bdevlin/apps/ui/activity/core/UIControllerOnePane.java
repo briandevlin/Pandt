@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.FrameLayout;
 
 import com.bdevlin.apps.pandt.Controllers.ActivityController;
 import com.bdevlin.apps.pandt.GenericListContext;
+import com.bdevlin.apps.pandt.Items;
 import com.bdevlin.apps.pandt.folders.Folder;
 import com.bdevlin.apps.ui.fragments.MainContentFragment;
 import com.bdevlin.apps.pandt.R;
@@ -22,12 +24,13 @@ import com.bdevlin.apps.pandt.ViewMode;
  * Created by brian on 7/20/2014.
  */
 public class UIControllerOnePane extends UIControllerBase
-       /* implements NavigationDrawerFragment.NavigationDrawerCallbacks*/ {
+        implements ViewPager.OnPageChangeListener {
 
     // <editor-fold desc="Fields">
     private static final String TAG = UIControllerOnePane.class.getSimpleName();
+    private ViewPager mViewPager;
 
-   // private NavigationDrawerFragment mNavigationDrawerFragment;
+    // private NavigationDrawerFragment mNavigationDrawerFragment;
    // private CharSequence mDrawerTitle;
    // private CharSequence mTitle;
 //    private static final String OPENED_KEY = "OPENED_KEY";
@@ -68,6 +71,7 @@ public class UIControllerOnePane extends UIControllerBase
         }
 
         // The parent class sets the correct viewmode and starts the application off.
+        // also instantiates the viewpager controller
         return super.onCreate(savedInstanceState);
     }
 
@@ -96,32 +100,27 @@ public class UIControllerOnePane extends UIControllerBase
 
     }
 
-//    @Override
-//    protected boolean isConversationListVisible() {
-//        return mConversationListVisible;
-//    }
-
     // </editor-fold>
 
     // when the main content fragment list item is selected we end up here
-//    @Override
-//    protected void showConversation(final int position, Items.ListItem listItem) {
-//        super.showConversation(position, listItem);
-//
-//        mViewMode.enterConversationMode();
-//
-//        final FragmentManager fm = mActivity.getSupportFragmentManager();
-//        final FragmentTransaction ft = fm.beginTransaction();
-//       // remove main content fragment to reveal the viewpager
-//        final Fragment f = fm.findFragmentById(R.id.main_content);
-//        if (f != null && f.isAdded()) {
-//            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-//            ft.remove(f);
-//            ft.commitAllowingStateLoss();
-//            fm.executePendingTransactions();
-//        }
-//        mPagerController.show(position, listItem);
-//    }
+    @Override
+    protected void showConversation(final int position, Items.ListItem listItem) {
+        super.showConversation(position, listItem);
+
+        mViewMode.enterConversationMode();
+
+        final FragmentManager fm = mActivity.getSupportFragmentManager();
+        final FragmentTransaction ft = fm.beginTransaction();
+       // remove main content fragment to reveal the viewpager
+        final Fragment f = fm.findFragmentById(R.id.main_content);
+        if (f != null && f.isAdded()) {
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            ft.remove(f);
+            ft.commitAllowingStateLoss();
+            fm.executePendingTransactions();
+        }
+        mPagerController.show(position, listItem);
+    }
 
     /* implements NavigationDrawerFragment.NavigationDrawerCallbacks*/
     @Override
@@ -246,5 +245,18 @@ public class UIControllerOnePane extends UIControllerBase
     }
 
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
 }

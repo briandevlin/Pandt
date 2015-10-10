@@ -177,7 +177,7 @@ public abstract class UIControllerBase implements ActivityController {
     // method defined in ActivityController
     @Override
     public boolean onCreate(Bundle savedInstanceState) {
-        initializeActionBar();
+       // initializeActionBar();
         // Allow shortcut keys to function for the ActionBar and menus.
         mActivity.setDefaultKeyMode(Activity.DEFAULT_KEYS_SHORTCUT);
 
@@ -450,10 +450,10 @@ public abstract class UIControllerBase implements ActivityController {
         return mConvListContext;
     }
 
-//    @Override
-//    public void showConversationList(GenericListContext listContext) {
-//
-//    }
+    @Override
+    public void showConversationList(GenericListContext listContext) {
+
+    }
     public void setTitle(CharSequence title) {
         mTitle = title;
         mActionBar.setTitle(mTitle);
@@ -477,7 +477,7 @@ public abstract class UIControllerBase implements ActivityController {
     protected void showConversation(final int position, Items.ListItem listItem) {
 
 // set the current item
-        setTitle(listItem.content);
+       // setTitle(listItem.content);
     }
 
     private void setListContext() {
@@ -507,12 +507,12 @@ public abstract class UIControllerBase implements ActivityController {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         mViewMode.handleSaveInstanceState(outState);
-        if (mAccount != null) {
-            outState.putParcelable(SAVED_ACCOUNT, mAccount);
-        }
-        if (mFolder != null) {
-            outState.putParcelable(SAVED_FOLDER, mFolder);
-        }
+//        if (mAccount != null) {
+//            outState.putParcelable(SAVED_ACCOUNT, mAccount);
+//        }
+//        if (mFolder != null) {
+//            outState.putParcelable(SAVED_FOLDER, mFolder);
+//        }
     }
 
     // </editor-fold>

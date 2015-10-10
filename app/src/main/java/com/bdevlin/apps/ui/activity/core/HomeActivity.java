@@ -28,7 +28,11 @@ import com.bdevlin.apps.utils.Utils;
 import com.google.android.gcm.GCMRegistrar;
 
 
-
+/* The main  activity, which is used on both the tablet and the phone.
+ *
+ * Because this activity is device agnostic, so most of the UI aren't owned by this, but by
+ * the UIController.
+ */
 public class HomeActivity extends AppCompatActivity implements ControllableActivity {
 
     // <editor-fold desc="Fields">
@@ -46,10 +50,12 @@ public class HomeActivity extends AppCompatActivity implements ControllableActiv
     // <editor-fold desc="life cycle methods">
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
 
         Log.d(TAG,"Starting HomeActivity");
+        if (isFinishing()) {
+            return;
+        }
         // just testing the lib module
         //Intent intent = new Intent(this, Libactivity.class);
 
@@ -64,14 +70,24 @@ public class HomeActivity extends AppCompatActivity implements ControllableActiv
         mUIController = ControllerFactory
                 .forActivity(this, mViewMode,  tabletUi);
 
-        // sets the name view via the controller
+        // on one pane controller this sets the main view, sets up the navigation drawer and the toolbar
+        // and loads the main content fragment
+        // on two pane controller? who knows
         mUIController.onCreate(savedInstanceState);
 
-        if (savedInstanceState == null) {
+
+        if (savedInstanceState == null && Utils.isNetworkConnected(this)) {
             Log.d(TAG,"Trigger refresh");
             // triggerRefresh();
            // registerGCMClient();
         }
+
+        if (savedInstanceState != null) {
+           //
+        } else {
+            final Intent intent = getIntent();
+
+            }
     }
 
     @Override
@@ -132,6 +148,9 @@ public class HomeActivity extends AppCompatActivity implements ControllableActiv
         }
     }
 
+    // </editor-fold>
+
+    // <editor-fold desc="Life Cycle">
 
     @Override
     public void onPause() {

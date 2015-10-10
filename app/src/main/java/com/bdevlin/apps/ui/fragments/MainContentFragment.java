@@ -217,7 +217,7 @@ public  class MainContentFragment extends ListFragment implements ViewMode.ModeC
 //        final Object item = getListAdapter().getItem(position);
 //        Log.d(TAG, String.format("view item (%d): %s", position,
 //                listItem));
-      //  selectItem(position, listItem);
+        selectItem(position, null);
 
     }
 
