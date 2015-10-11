@@ -73,6 +73,7 @@ public  class MainContentFragment extends ListFragment implements ViewMode.ModeC
 
     private final CursorLoads mCursorCallbacks = new CursorLoads();
 
+   private ArrayAdapter<Items.ListItem> adapter = null;
     // </editor-fold>
 
     // <editor-fold desc="Interfaces">
@@ -177,7 +178,7 @@ public  class MainContentFragment extends ListFragment implements ViewMode.ModeC
        Context applicationContext = mActivity.getApplicationContext();
 
 
-       ArrayAdapter<Items.ListItem> adapter  =  new ArrayAdapter<Items.ListItem>(
+       /*ArrayAdapter<Items.ListItem>*/ adapter  =  new ArrayAdapter<Items.ListItem>(
                // actionBarController.getSupportActionBar().getThemedContext(),
                mActivity.getApplicationContext(),
                 android.R.layout.simple_list_item_1,
@@ -250,6 +251,7 @@ public  class MainContentFragment extends ListFragment implements ViewMode.ModeC
                // folderController.onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
             }
             mCallbacks = mActivity.getMainContentCallbacks();
+
 
         } catch (ClassCastException e) {
             throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");

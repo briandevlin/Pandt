@@ -225,7 +225,7 @@ public abstract class UIControllerBase implements ActivityController {
     @Override
     public void onStart() {
         Log.d(TAG, "onStart");
-        startGooglePlayLoginProcess();
+        //startGooglePlayLoginProcess();
     }
 
     @Override
