@@ -352,6 +352,9 @@ public abstract class UIControllerBase implements ActivityController {
         return ((AppCompatActivity) mActivity).getSupportActionBar();
     }
 
+    public LoaderManager getSupportLoaderManager() {
+        return mLoaderManager;
+    }
 
     private void initializeActionBar() {
        // final ActionBar actionBar = getSupportActionBar();
@@ -451,7 +454,7 @@ public abstract class UIControllerBase implements ActivityController {
     }
 
     @Override
-    public void showConversationList(GenericListContext listContext) {
+    public void showConversationList(/*GenericListContext listContext*/) {
 
     }
     public void setTitle(CharSequence title) {

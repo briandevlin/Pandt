@@ -3,6 +3,7 @@ package com.bdevlin.apps.ui.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,7 +12,9 @@ import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBar;
+import android.support.v7.internal.widget.AdapterViewCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,28 +22,34 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+//import android.widget.ListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.bdevlin.apps.pandt.Controllers.ActionBarController;
 import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
+import com.bdevlin.apps.pandt.Cursors.SimpleAdapter;
 import com.bdevlin.apps.pandt.GenericListContext;
 import com.bdevlin.apps.pandt.Items;
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.pandt.ViewMode;
 import com.bdevlin.apps.pandt.folders.FolderController;
 import com.bdevlin.apps.provider.MockContract;
+import com.bdevlin.apps.ui.activity.core.HomeActivity;
+import com.bdevlin.apps.utils.Utils;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public  class MainContentFragment extends ListFragment implements ViewMode.ModeChangeListener {
+public  class MainContentFragment extends ListFragment
+        implements ViewMode.ModeChangeListener/*, AdapterViewCompat.OnItemClickListener*/ {
 
     // <editor-fold desc="Fields">
     private static final String TAG = MainContentFragment.class.getSimpleName();
 
-    private static final int LOADER_ID = 1;
+   // private static final int LOADER_ID = 1;
 
     private static final String CONVERSATION_LIST_KEY = "conversation-list";
     /**
@@ -52,6 +61,7 @@ public  class MainContentFragment extends ListFragment implements ViewMode.ModeC
      * Remember the position of the selected item.
      */
     private static final String STATE_SELECTED_POSITION = "selected_position";
+    private static final int LOADER_ID_MESSAGES_LOADER = 1;
     private ListView mListView;
     private View mFragmentContainerView;
 
@@ -73,6 +83,18 @@ public  class MainContentFragment extends ListFragment implements ViewMode.ModeC
 
     private final CursorLoads mCursorCallbacks = new CursorLoads();
 
+    private  ArrayAdapter<Items.ListItem> adapter = null;
+
+    private  SimpleAdapter simpleAdapter = null;
+
+    private  SimpleCursorAdapter mAdapter = null;
+
+   /* @Override
+    public void onItemClick(AdapterViewCompat<?> parent, View view, int position, long id) {
+        Toast.makeText(getActivity(),
+                parent.getItemAtPosition(position).toString(),
+                Toast.LENGTH_LONG).show();
+    }*/
     // </editor-fold>
 
     // <editor-fold desc="Interfaces">
@@ -100,8 +122,8 @@ public  class MainContentFragment extends ListFragment implements ViewMode.ModeC
      * number.
      */
     public static MainContentFragment newInstance(/*GenericListContext viewContext,int sectionNumber*/) {
-        MainContentFragment fragment = new MainContentFragment();
-        Bundle args = new Bundle();
+        final MainContentFragment fragment = new MainContentFragment();
+        final Bundle args = new Bundle();
         /*args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         args.putBundle(CONVERSATION_LIST_KEY, viewContext.toBundle());*/
         fragment.setArguments(args);
@@ -118,20 +140,23 @@ public  class MainContentFragment extends ListFragment implements ViewMode.ModeC
     public MainContentFragment() { }
     // </editor-fold>
 
-
+    // <editor-fold desc="Life Cycle">
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Log.v(TAG, "in MainContentFragment onCreate");
         // Get the context from the arguments
         if (getArguments() != null) {
              final Bundle args = getArguments();
            // mViewContext = GenericListContext.forBundle(args.getBundle(CONVERSATION_LIST_KEY));
             //mAccount = mViewContext.account;
         }
+        // this tells the framework to add the fragments menu items to the
+        // actionbar
+        setHasOptionsMenu(true);
 
 //        onViewModeChanged(mActivity.getViewMode().getMode());
-//        mActivity.getViewMode().addListener(this);
+       mActivity.getViewMode().addListener(this);
 
        // setRetainInstance(false);
     }
@@ -149,8 +174,7 @@ public  class MainContentFragment extends ListFragment implements ViewMode.ModeC
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        mListView = (ListView) rootView.findViewById(android.R.id.list);
-        // not setting the mCursorAdapter here waiting til we create the actionBarController
+        mListView = Utils.getViewOrNull(rootView, android.R.id.list);
         return rootView;
     }
 
@@ -163,7 +187,7 @@ public  class MainContentFragment extends ListFragment implements ViewMode.ModeC
         if (!(activity instanceof ControllableActivity)) {
             return;
         }
-        mActivity = (ControllableActivity) activity;
+        //mActivity = (ControllableActivity) activity;
         actionBarController = mActivity.getActionBarController();
       // ActionBar ab =  actionBarController.getSupportActionBar();
        // ab.setDisplayHomeAsUpEnabled(true);
@@ -176,18 +200,30 @@ public  class MainContentFragment extends ListFragment implements ViewMode.ModeC
 
        Context applicationContext = mActivity.getApplicationContext();
 
-
-       ArrayAdapter<Items.ListItem> adapter  =  new ArrayAdapter<Items.ListItem>(
+       adapter  =  new ArrayAdapter<Items.ListItem>(
                // actionBarController.getSupportActionBar().getThemedContext(),
                mActivity.getApplicationContext(),
                 android.R.layout.simple_list_item_1,
                 android.R.id.text1,
               Items.ITEMS
         );
+        int[] toId = new int[]{
+                R.id.id,
+                R.id.profile_email_text
+        };
+        // simpleAdapter = new SimpleAdapter(mActivity.getApplicationContext(),null,0 );
+         mAdapter = new SimpleCursorAdapter(
+                mActivity.getApplicationContext(),
+                R.layout.list_item_account,
+                null,
+                MockContract.FOLDERS_PROJECTION, toId);
 
         setListAdapter(adapter);
+
         // Indicate that this fragment would like to influence the set of actions in the action bar.
         setHasOptionsMenu(true);
+
+        startLoading();
     }
 
     @Override
@@ -203,6 +239,9 @@ public  class MainContentFragment extends ListFragment implements ViewMode.ModeC
 
 
     }
+
+    // </editor-fold
+
 
 
     @Override
@@ -228,10 +267,9 @@ public  class MainContentFragment extends ListFragment implements ViewMode.ModeC
         if (mCallbacks != null) {
             mCallbacks.onMainContentItemSelected(position + 1, listItem);
         }
-
     }
 
-
+    // <editor-fold desc="Life Cycle">
 
     @Override
     public void onAttach(Activity activity) {
@@ -244,11 +282,11 @@ public  class MainContentFragment extends ListFragment implements ViewMode.ModeC
         try {
 
             mActivity = (ControllableActivity) activity;
-            actionBarController = mActivity.getActionBarController();
-            folderController = mActivity.getFolderController();
-            if (folderController != null) {
-               // folderController.onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
-            }
+           // actionBarController = mActivity.getActionBarController();
+//            folderController = mActivity.getFolderController();
+//            if (folderController != null) {
+//               // folderController.onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
+//            }
             mCallbacks = mActivity.getMainContentCallbacks();
 
         } catch (ClassCastException e) {
@@ -289,6 +327,8 @@ public  class MainContentFragment extends ListFragment implements ViewMode.ModeC
         super.onDestroyView();
     }
 
+    // </editor-fold>
+
 
     // <editor-fold desc="Option menus">
 
@@ -320,6 +360,26 @@ public  class MainContentFragment extends ListFragment implements ViewMode.ModeC
 
     // </editor-fold>
 
+    // <editor-fold desc="Loaders">
+
+    private void startLoading() {
+        final LoaderManager lm = getLoaderManager();
+        final Bundle args = createLoaderArgs(getActivity().getIntent());
+        //showSendCommand(false);
+        // Prepare the loader. starts or reconnects
+        lm.initLoader(LOADER_ID_MESSAGES_LOADER, args, mCursorCallbacks);
+    }
+    private Bundle createLoaderArgs(Intent intent) {
+        Uri data = intent.getData();
+        // long contextId = ContentUris.parseId(data);
+
+        Bundle args = new Bundle();
+        // args.putLong(INITIAL_ID, 0L);
+        // args.putInt(INITIAL_POSITION, intent.getIntExtra(INITIAL_POSITION,
+        // -1));
+
+        return args;
+    }
 
     private class CursorLoads implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -331,7 +391,7 @@ public  class MainContentFragment extends ListFragment implements ViewMode.ModeC
 
 
             switch (id) {
-                case LOADER_ID:
+                case LOADER_ID_MESSAGES_LOADER:
                     return new CursorLoader(getActivity().getApplicationContext(), contentUri,
                             mProjection , null, null, null);
             }
@@ -348,8 +408,8 @@ public  class MainContentFragment extends ListFragment implements ViewMode.ModeC
             int count = data.getCount();
 
             switch (loader.getId()) {
-                case LOADER_ID:
-
+                case LOADER_ID_MESSAGES_LOADER:
+                    mAdapter.swapCursor(data);
                     break;
             }
         }
@@ -360,10 +420,10 @@ public  class MainContentFragment extends ListFragment implements ViewMode.ModeC
             // For whatever reason, the Loader's data is now unavailable.
             // Remove any references to the old data by replacing it with
             // a null Cursor.
-            // mAdapter.swapCursor(null);
+             mAdapter.swapCursor(null);
         }
     }
 
-
+    // </editor-fold>
 
 }
