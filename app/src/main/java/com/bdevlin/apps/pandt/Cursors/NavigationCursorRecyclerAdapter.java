@@ -5,7 +5,7 @@ import android.util.Log;
 import android.view.ViewGroup;
 
 import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
-import com.bdevlin.apps.pandt.DrawerItem.PrimaryDrawerItem;
+import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
 import com.bdevlin.apps.pandt.helper.ItemTouchHelperAdapter;
 import com.bdevlin.apps.pandt.helper.OnStartDragListener;
 
@@ -13,11 +13,11 @@ import com.bdevlin.apps.pandt.helper.OnStartDragListener;
 /**
  * Created by brian on 9/15/2015.
  */
-public class SimpleCursorRecyclerAdapter
-        extends CursorRecyclerAdapter<PrimaryDrawerItem.ListItemViewHolder>
+public class NavigationCursorRecyclerAdapter
+        extends NavigationBaseRecyclerAdapter<NavigationDrawerItem.ListItemViewHolder>
         implements /*CursorRecyclerAdapter.OnItemClickListener,*/ ItemTouchHelperAdapter {
 
-    private static final String TAG = SimpleCursorRecyclerAdapter.class.getSimpleName();
+    private static final String TAG = NavigationCursorRecyclerAdapter.class.getSimpleName();
 
     // <editor-fold desc="Fields">
    // private List<IDrawerItem> mDrawerItems = new ArrayList<>();
@@ -31,12 +31,12 @@ public class SimpleCursorRecyclerAdapter
     // </editor-fold>
 
     // <editor-fold desc="Constructor">
-    public SimpleCursorRecyclerAdapter (ControllableActivity activity,
+    public NavigationCursorRecyclerAdapter(ControllableActivity activity,
                                        /* int layout,*/
-                                        ObjectCursor<PrimaryDrawerItem> c,
-                                        String[] from,
-                                        int[] to,
-                                        OnStartDragListener dragStartListener) {
+                                           ObjectCursor<NavigationDrawerItem> c,
+                                           String[] from,
+                                           int[] to,
+                                           OnStartDragListener dragStartListener) {
         super( /*activity,*/ c);
         this.mActivity = activity;
         mDragStartListener = dragStartListener;
@@ -53,16 +53,16 @@ public class SimpleCursorRecyclerAdapter
 
     //// Create new views (invoked by the layout manager)
     @Override
-    public  PrimaryDrawerItem.ListItemViewHolder onCreateViewHolder (ViewGroup parent, int viewType) {
+    public  NavigationDrawerItem.ListItemViewHolder onCreateViewHolder (ViewGroup parent, int viewType) {
         Log.d(TAG,"onCreateViewHolder");
-        PrimaryDrawerItem item = new PrimaryDrawerItem(mActivity, null);
+        NavigationDrawerItem item = new NavigationDrawerItem(mActivity, null);
         //AbstractDrawerItem.getViewHolder inflates the view item and returns the ListItemViewHolder(view)
-      return item.getViewHolder(parent);
+      return (NavigationDrawerItem.ListItemViewHolder)item.getViewHolder(parent);
     }
 
     // // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder (PrimaryDrawerItem.ListItemViewHolder holder, ObjectCursor<PrimaryDrawerItem> cursor, int position ) {
+    public void onBindViewHolder (NavigationDrawerItem.ListItemViewHolder holder, ObjectCursor<NavigationDrawerItem> cursor, int position ) {
         Log.d(TAG,"onBindViewHolder");
         // gets the IDrawerItem at this position then bind the viewholder to it
         getItem(position).bindView(holder);
@@ -83,7 +83,7 @@ public class SimpleCursorRecyclerAdapter
      * @param c the cursor to find the columns from
      * @param from the Strings naming the columns of interest
      */
-    private void findColumns(ObjectCursor<PrimaryDrawerItem> c, String[] from) {
+    private void findColumns(ObjectCursor<NavigationDrawerItem> c, String[] from) {
         if (c != null) {
             int i;
             int count = from.length;
@@ -99,7 +99,7 @@ public class SimpleCursorRecyclerAdapter
     }
 
     @Override
-    public Cursor swapCursor(ObjectCursor<PrimaryDrawerItem> c) {
+    public Cursor swapCursor(ObjectCursor<NavigationDrawerItem> c) {
         //called by navigationDrawerFragment Loader
         findColumns(c, mOriginalFrom);
         // sawp cursor on the base class will use the cursor to generate the drawerItems

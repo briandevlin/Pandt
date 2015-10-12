@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.bdevlin.apps.pandt.DrawerItem.IDrawerItem;
-import com.bdevlin.apps.pandt.DrawerItem.PrimaryDrawerItem;
+import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
 import com.bdevlin.apps.pandt.folders.Folder;
 
 import java.util.ArrayList;
@@ -14,12 +14,13 @@ import java.util.List;
 /**
  * Created by brian on 9/15/2015.
  */
-public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
+public abstract class NavigationBaseRecyclerAdapter<VH extends RecyclerView.ViewHolder>
         extends RecyclerView.Adapter<VH>   {
 
     // <editor-fold desc="Fields">
+    private static final String TAG = NavigationBaseRecyclerAdapter.class.getSimpleName();
     protected boolean mDataValid;
-    protected ObjectCursor<PrimaryDrawerItem> mCursor;
+    protected ObjectCursor<NavigationDrawerItem> mCursor;
     protected int mRowIDColumn;
     private List<IDrawerItem> mDrawerItems = new ArrayList<>();
     public  OnItemClickListener mOnItemClickListener ;
@@ -31,7 +32,7 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
     }
 
     // <editor-fold desc="Constructor">
-    public CursorRecyclerAdapter(/*HomeActivity activity,*/ ObjectCursor<PrimaryDrawerItem> c) {
+    public NavigationBaseRecyclerAdapter(/*HomeActivity activity,*/ ObjectCursor<NavigationDrawerItem> c) {
        /* Context applicationContext = activity.getApplicationContext();
          application = activity.getApplication();*/
         // cursor will be null at construction; the loader will swap in the cursor when loaded
@@ -39,7 +40,7 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
     }
     // </editor-fold>
 
-    void init(ObjectCursor<PrimaryDrawerItem> c) {
+    void init(ObjectCursor<NavigationDrawerItem> c) {
         boolean cursorPresent = c != null;
         mCursor = c;
         mDataValid = cursorPresent;
@@ -66,7 +67,7 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
         onBindViewHolder(holder, mCursor, position);
     }
 
-    public abstract void onBindViewHolder(VH holder, ObjectCursor<PrimaryDrawerItem> cursor, int position);
+    public abstract void onBindViewHolder(VH holder, ObjectCursor<NavigationDrawerItem> cursor, int position);
 
     @Override
     public int getItemCount () {
@@ -106,7 +107,7 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
      *
      * @param cursor The new cursor to be used
      */
-    public void changeCursor(ObjectCursor<PrimaryDrawerItem> cursor) {
+    public void changeCursor(ObjectCursor<NavigationDrawerItem> cursor) {
         Cursor old = swapCursor(cursor);
         if (old != null) {
             old.close();
@@ -123,7 +124,7 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
     }
 
 
-    public Cursor swapCursor(ObjectCursor<PrimaryDrawerItem> newCursor) {
+    public Cursor swapCursor(ObjectCursor<NavigationDrawerItem> newCursor) {
         if (newCursor == mCursor) {
             return null;
         }
@@ -176,7 +177,7 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
         }
         int length = mDrawerItems.size();
          do {
-             final PrimaryDrawerItem f = mCursor.getModel();
+             final NavigationDrawerItem f = mCursor.getModel();
              mDrawerItems.add(f);
          } while (mCursor.moveToNext());
 

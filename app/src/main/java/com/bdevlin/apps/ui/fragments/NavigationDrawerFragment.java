@@ -22,15 +22,15 @@ import android.view.ViewGroup;
 import com.bdevlin.apps.pandt.Controllers.ActionBarController;
 import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
 import com.bdevlin.apps.pandt.Cursors.CursorCreator;
-import com.bdevlin.apps.pandt.Cursors.CursorRecyclerAdapter;
+import com.bdevlin.apps.pandt.Cursors.NavigationBaseRecyclerAdapter;
 import com.bdevlin.apps.pandt.DividerItemDecoration;
 import com.bdevlin.apps.pandt.DrawerClosedObserver;
 import com.bdevlin.apps.ui.activity.core.HomeActivity;
 import com.bdevlin.apps.pandt.Cursors.MyObjectCursorLoader;
 import com.bdevlin.apps.pandt.Cursors.ObjectCursor;
-import com.bdevlin.apps.pandt.DrawerItem.PrimaryDrawerItem;
+import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
 import com.bdevlin.apps.pandt.R;
-import com.bdevlin.apps.pandt.Cursors.SimpleCursorRecyclerAdapter;
+import com.bdevlin.apps.pandt.Cursors.NavigationCursorRecyclerAdapter;
 import com.bdevlin.apps.pandt.accounts.Account;
 import com.bdevlin.apps.pandt.accounts.AccountController;
 import com.bdevlin.apps.pandt.accounts.AccountObserver;
@@ -45,7 +45,7 @@ import com.bdevlin.apps.provider.MockContract;
 // instantiated from the navdrawer_content.xml  <fragment android:id="@+id/navigation_drawer"
 public class NavigationDrawerFragment
         extends Fragment
-        implements LoaderManager.LoaderCallbacks<ObjectCursor<PrimaryDrawerItem>>,
+        implements LoaderManager.LoaderCallbacks<ObjectCursor<NavigationDrawerItem>>,
         OnStartDragListener {
 
     // <editor-fold desc="Fields">
@@ -107,7 +107,7 @@ public class NavigationDrawerFragment
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private SimpleCursorRecyclerAdapter mRecycleCursorAdapter;
+    private NavigationCursorRecyclerAdapter mRecycleCursorAdapter;
 
     private ItemTouchHelper mItemTouchHelper;
 
@@ -123,10 +123,10 @@ public class NavigationDrawerFragment
 
 
 
-    public static final CursorCreator<PrimaryDrawerItem> FACTORY = new CursorCreator<PrimaryDrawerItem>() {
+    public static final CursorCreator<NavigationDrawerItem> FACTORY = new CursorCreator<NavigationDrawerItem>() {
         @Override
-        public PrimaryDrawerItem createFromCursor(Cursor c) {
-            return new PrimaryDrawerItem((HomeActivity)mActivity, c);
+        public NavigationDrawerItem createFromCursor(Cursor c) {
+            return new NavigationDrawerItem((HomeActivity)mActivity, c);
         }
 
         @Override
@@ -244,7 +244,7 @@ public class NavigationDrawerFragment
         };
         mActivity = (HomeActivity) activity;
 
-        mRecycleCursorAdapter = new SimpleCursorRecyclerAdapter(mActivity,
+        mRecycleCursorAdapter = new NavigationCursorRecyclerAdapter(mActivity,
                /* R.layout.textview,*/
                 null,
                 MockContract.FOLDERS_PROJECTION, // string[] column names
@@ -252,7 +252,7 @@ public class NavigationDrawerFragment
                 this);
 
         mRecycleCursorAdapter.setOnItemClickListener(
-                new CursorRecyclerAdapter.OnItemClickListener() {
+                new NavigationBaseRecyclerAdapter.OnItemClickListener() {
                     public void onItemClick(View itemView, int position)
                     {
                         Log.d(TAG,"onItemClick");
@@ -507,9 +507,9 @@ public class NavigationDrawerFragment
 
 
     @Override
-    public Loader<ObjectCursor<PrimaryDrawerItem>> onCreateLoader(int id, Bundle bundle) {
+    public Loader<ObjectCursor<NavigationDrawerItem>> onCreateLoader(int id, Bundle bundle) {
         final String[] mProjection = MockContract.FOLDERS_PROJECTION;
-        final CursorCreator<PrimaryDrawerItem> mFactory = FACTORY;
+        final CursorCreator<NavigationDrawerItem> mFactory = FACTORY;
         final Uri folderListUri;
         // we only have one loader but...
         switch (id) {
@@ -520,7 +520,7 @@ public class NavigationDrawerFragment
                 // I have disabled the account loader: this needs the account loaders to run
                 // folderListUri = mCurrentAccount.folderListUri;
 
-                return new MyObjectCursorLoader<PrimaryDrawerItem>(getActivity().getApplicationContext(),
+                return new MyObjectCursorLoader<NavigationDrawerItem>(getActivity().getApplicationContext(),
                         folderUri, mProjection, mFactory);
         }
 
@@ -528,7 +528,7 @@ public class NavigationDrawerFragment
     }
 
     @Override
-    public void onLoadFinished(Loader<ObjectCursor<PrimaryDrawerItem>> loader, ObjectCursor<PrimaryDrawerItem> data) {
+    public void onLoadFinished(Loader<ObjectCursor<NavigationDrawerItem>> loader, ObjectCursor<NavigationDrawerItem> data) {
 
         if (data == null || data.getCount() <=0 || !data.moveToFirst()) {
             Log.e(TAG, String.format(
@@ -555,7 +555,7 @@ public class NavigationDrawerFragment
 
 
     @Override
-    public void onLoaderReset(Loader<ObjectCursor<PrimaryDrawerItem>> loader) {
+    public void onLoaderReset(Loader<ObjectCursor<NavigationDrawerItem>> loader) {
         // For whatever reason, the Loader's data is now unavailable.
         // Remove any references to the old data by replacing it with
         // a null Cursor.

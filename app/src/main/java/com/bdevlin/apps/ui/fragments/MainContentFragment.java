@@ -8,13 +8,11 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SimpleCursorAdapter;
-import android.support.v7.app.ActionBar;
-import android.support.v7.internal.widget.AdapterViewCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,15 +20,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 //import android.widget.ListView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.bdevlin.apps.pandt.Controllers.ActionBarController;
 import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
+import com.bdevlin.apps.pandt.Cursors.ContentCursorRecyclerAdapter;
+import com.bdevlin.apps.pandt.Cursors.CursorCreator;
+import com.bdevlin.apps.pandt.Cursors.NavigationBaseRecyclerAdapter;
+import com.bdevlin.apps.pandt.Cursors.MyObjectCursorLoader;
+import com.bdevlin.apps.pandt.Cursors.ObjectCursor;
 import com.bdevlin.apps.pandt.Cursors.SimpleAdapter;
+import com.bdevlin.apps.pandt.Cursors.NavigationCursorRecyclerAdapter;
+import com.bdevlin.apps.pandt.DrawerItem.MainContentDrawerItem;
+import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
 import com.bdevlin.apps.pandt.GenericListContext;
 import com.bdevlin.apps.pandt.Items;
 import com.bdevlin.apps.pandt.R;
@@ -38,12 +42,11 @@ import com.bdevlin.apps.pandt.ViewMode;
 import com.bdevlin.apps.pandt.folders.FolderController;
 import com.bdevlin.apps.provider.MockContract;
 import com.bdevlin.apps.ui.activity.core.HomeActivity;
-import com.bdevlin.apps.utils.Utils;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public  class MainContentFragment extends ListFragment
+public  class MainContentFragment extends /*ListFragment*/ Fragment
         implements ViewMode.ModeChangeListener/*, AdapterViewCompat.OnItemClickListener*/ {
 
     // <editor-fold desc="Fields">
@@ -72,7 +75,7 @@ public  class MainContentFragment extends ListFragment
     private final Handler mHandler = new Handler();
 
     private GenericListContext mViewContext;
-    private ControllableActivity mActivity;
+    private static ControllableActivity mActivity;
     private FolderController folderController = null;
     private ActionBarController actionBarController = null;
 
@@ -88,7 +91,11 @@ public  class MainContentFragment extends ListFragment
 
     private  SimpleAdapter simpleAdapter = null;
 
-    private  SimpleCursorAdapter mAdapter = null;
+    //private  SimpleCursorAdapter mAdapter = null;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private ContentCursorRecyclerAdapter mRecycleCursorAdapter;
 
    /* @Override
     public void onItemClick(AdapterViewCompat<?> parent, View view, int position, long id) {
@@ -176,7 +183,17 @@ public  class MainContentFragment extends ListFragment
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        mListView = Utils.getViewOrNull(rootView, android.R.id.list);
+      //  mListView = Utils.getViewOrNull(rootView, android.R.id.list);
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        mLayoutManager.scrollToPosition(0);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
         return rootView;
     }
 
@@ -189,6 +206,12 @@ public  class MainContentFragment extends ListFragment
         if (!(activity instanceof ControllableActivity)) {
             return;
         }
+        int[] toId = new int[]{
+                R.id.id,
+                R.id.profile_email_text
+        };
+        mActivity = (HomeActivity) activity;
+
         //mActivity = (ControllableActivity) activity;
         actionBarController = mActivity.getActionBarController();
       // ActionBar ab =  actionBarController.getSupportActionBar();
@@ -203,25 +226,41 @@ public  class MainContentFragment extends ListFragment
        Context applicationContext = mActivity.getApplicationContext();
 
 
-       adapter  =  new ArrayAdapter<Items.ListItem>(
+ /*      adapter  =  new ArrayAdapter<Items.ListItem>(
                // actionBarController.getSupportActionBar().getThemedContext(),
                mActivity.getApplicationContext(),
                 android.R.layout.simple_list_item_1,
                 android.R.id.text1,
               Items.ITEMS
-        );
-        int[] toId = new int[]{
-                R.id.id,
-                R.id.profile_email_text
-        };
+        );*/
+
         // simpleAdapter = new SimpleAdapter(mActivity.getApplicationContext(),null,0 );
-         mAdapter = new SimpleCursorAdapter(
+ /*        mAdapter = new SimpleCursorAdapter(
                 mActivity.getApplicationContext(),
                 R.layout.list_item_account,
                 null,
-                MockContract.FOLDERS_PROJECTION, toId);
+                MockContract.FOLDERS_PROJECTION, toId);*/
 
-        setListAdapter(mAdapter);
+        mRecycleCursorAdapter = new ContentCursorRecyclerAdapter(mActivity,
+               /* R.layout.textview,*/
+                null,
+                MockContract.FOLDERS_PROJECTION, // string[] column names
+                toId
+                );
+
+ /*       mRecycleCursorAdapter.setOnItemClickListener(
+                new NavigationBaseRecyclerAdapter.OnItemClickListener() {
+                    public void onItemClick(View itemView, int position)
+                    {
+                        Log.d(TAG,"onItemClick");
+//                        mCallbacks = mActivity.getNavigationDrawerCallbacks();
+//                        mCallbacks.onNavigationDrawerItemSelected(position, null);
+                    }
+
+                });*/
+
+       // setListAdapter(mAdapter);
+        mRecyclerView.setAdapter(mRecycleCursorAdapter);
 
         // Indicate that this fragment would like to influence the set of actions in the action bar.
         setHasOptionsMenu(true);
@@ -247,21 +286,21 @@ public  class MainContentFragment extends ListFragment
 
 
 
-    @Override
-    public void onListItemClick(ListView listView, View view, int position,
-                                long id) {
-        Toast.makeText(getActivity(),
-                listView.getItemAtPosition(position).toString(),
-                Toast.LENGTH_LONG).show();
-
-      //  Items.ListItem listItem = (Items.ListItem)listView.getAdapter().getItem(position);
-       // Object item = listView.getAdapter().getItem(position);
-//        final Object item = getListAdapter().getItem(position);
-//        Log.d(TAG, String.format("view item (%d): %s", position,
-//                listItem));
-        selectItem(position, null);
-
-    }
+//    @Override
+//    public void onListItemClick(ListView listView, View view, int position,
+//                                long id) {
+//        Toast.makeText(getActivity(),
+//                listView.getItemAtPosition(position).toString(),
+//                Toast.LENGTH_LONG).show();
+//
+//      //  Items.ListItem listItem = (Items.ListItem)listView.getAdapter().getItem(position);
+//       // Object item = listView.getAdapter().getItem(position);
+////        final Object item = getListAdapter().getItem(position);
+////        Log.d(TAG, String.format("view item (%d): %s", position,
+////                listItem));
+//        selectItem(position, null);
+//
+//    }
 
 
     private void selectItem(final int position, Items.ListItem listItem) {
@@ -324,7 +363,7 @@ public  class MainContentFragment extends ListFragment
 
         // Clear the list's mCursorAdapter
 
-        mListView.setAdapter(null);
+  //      mListView.setAdapter(null);
 
         mActivity.getViewMode().removeListener(this);
 
@@ -385,25 +424,40 @@ public  class MainContentFragment extends ListFragment
         return args;
     }
 
-    private class CursorLoads implements LoaderManager.LoaderCallbacks<Cursor> {
+    public static final CursorCreator<MainContentDrawerItem> FACTORY = new CursorCreator<MainContentDrawerItem>() {
+        @Override
+        public MainContentDrawerItem createFromCursor(Cursor c) {
+            return new MainContentDrawerItem((HomeActivity)mActivity, c);
+        }
 
         @Override
-        public Loader onCreateLoader(int id, Bundle args) {
+        public String toString() {
+            return "PrimaryDrawerItem CursorCreator";
+        }
+    };
+
+    private class CursorLoads implements LoaderManager.LoaderCallbacks<ObjectCursor<MainContentDrawerItem>> {
+
+        @Override
+        public Loader<ObjectCursor<MainContentDrawerItem>> onCreateLoader(int id, Bundle args) {
             // change these
             final String[] mProjection = MockContract.FOLDERS_PROJECTION;
             final Uri contentUri = MockContract.Folders.CONTENT_URI;
+            final CursorCreator<MainContentDrawerItem> mFactory = FACTORY;
 
 
             switch (id) {
                 case LOADER_ID_MESSAGES_LOADER:
-                    return new CursorLoader(getActivity().getApplicationContext(), contentUri,
-                            mProjection , null, null, null);
+                 /*   return new CursorLoader(getActivity().getApplicationContext(), contentUri,
+                            mProjection , null, null, null);*/
+                    return new MyObjectCursorLoader<MainContentDrawerItem>(getActivity().getApplicationContext(),
+                            contentUri, mProjection, mFactory);
             }
             return null;
         }
 
         @Override
-        public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        public void onLoadFinished(Loader<ObjectCursor<MainContentDrawerItem>> loader, ObjectCursor<MainContentDrawerItem> data) {
 
             if (data == null || data.getCount() <=0 || !data.moveToFirst()) {
                  return;
@@ -413,18 +467,23 @@ public  class MainContentFragment extends ListFragment
 
             switch (loader.getId()) {
                 case LOADER_ID_MESSAGES_LOADER:
-                    mAdapter.swapCursor(data);
+                  //  mAdapter.swapCursor(data);
+                    if (mRecycleCursorAdapter != null) {
+                        mRecycleCursorAdapter.swapCursor(data);
+                    }
                     break;
             }
         }
 
 
         @Override
-        public void onLoaderReset(Loader<Cursor> loader) {
+        public void onLoaderReset(Loader<ObjectCursor<MainContentDrawerItem>> loader) {
             // For whatever reason, the Loader's data is now unavailable.
             // Remove any references to the old data by replacing it with
             // a null Cursor.
-             mAdapter.swapCursor(null);
+            if (mRecycleCursorAdapter != null) {
+                mRecycleCursorAdapter.swapCursor(null);
+            }
         }
     }
 

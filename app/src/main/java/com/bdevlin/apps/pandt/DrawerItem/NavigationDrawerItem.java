@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
-import com.bdevlin.apps.pandt.Cursors.CursorRecyclerAdapter;
+import com.bdevlin.apps.pandt.Cursors.NavigationBaseRecyclerAdapter;
 import com.bdevlin.apps.pandt.Interfaces.OnPostBindViewListener;
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.pandt.helper.ItemTouchHelperViewHolder;
@@ -21,16 +21,16 @@ import com.bdevlin.apps.ui.fragments.NavigationDrawerFragment;
 /**
  * Created by brian on 9/26/2015.
  */
-public class PrimaryDrawerItem
-        extends BasePrimaryDrawerItem<PrimaryDrawerItem> {
+public class NavigationDrawerItem
+        extends BaseNavigationDrawerItem<NavigationDrawerItem> {
 
-    private static final String TAG = PrimaryDrawerItem.class.getSimpleName();
+    private static final String TAG = NavigationDrawerItem.class.getSimpleName();
 
 
     // <editor-fold desc="Fields">
     private NavigationDrawerFragment.NavigationDrawerCallbacks mCallbacks;
     private static IViewHolderClicked viewHolderClicked;
-    private static CursorRecyclerAdapter.OnItemClickListener itemClicked;
+    private static NavigationBaseRecyclerAdapter.OnItemClickListener itemClicked;
     public int id;
     public String name;
     protected int[] mTo;
@@ -40,18 +40,18 @@ public class PrimaryDrawerItem
 
     // <editor-fold desc="Interfaces">
     public interface IViewHolderClicked {
-        public void onTextClicked(View caller);
+         void onTextClicked(View caller);
 
-        public void onImageClicked(ImageView callerImage);
+         void onImageClicked(ImageView callerImage);
     }
 
-    public interface ViewHolderFactory<T> {
-        T factory(View v);
-    }
+//    public interface ViewHolderFactory<T> {
+//        T factory(View v);
+//    }
     // </editor-fold>
 
     // <editor-fold desc="Constructor">
-    public PrimaryDrawerItem(ControllableActivity activity, Cursor c) {
+    public NavigationDrawerItem(ControllableActivity activity, Cursor c) {
         if (activity != null) {
             this.mActivity = activity;
         }
@@ -77,7 +77,7 @@ public class PrimaryDrawerItem
             }
         };
 
-        itemClicked = new CursorRecyclerAdapter.OnItemClickListener() {
+        itemClicked = new NavigationBaseRecyclerAdapter.OnItemClickListener() {
 
             public void onItemClick(View itemView, int position) {
                 Log.d(TAG, "onItemView: " + position);
@@ -121,11 +121,11 @@ public class PrimaryDrawerItem
     }
 
     @Override
-    public ItemFactory getFactory() {
+    public ViewHolderFactory getFactory() {
         return new ItemFactory();
     }
 
-    public class ItemFactory implements ViewHolderFactory<ListItemViewHolder> {
+    public static class ItemFactory implements ViewHolderFactory<ListItemViewHolder> {
 
         public ListItemViewHolder factory(View v) {
 
@@ -137,12 +137,12 @@ public class PrimaryDrawerItem
         }
     }
 
-    public class ListItemViewHolder extends BaseViewHolder
+    public static class ListItemViewHolder extends BaseViewHolder
             implements View.OnClickListener, ItemTouchHelperViewHolder {
         public IViewHolderClicked mListener;
-        CursorRecyclerAdapter.OnItemClickListener otherListener;
+        NavigationBaseRecyclerAdapter.OnItemClickListener otherListener;
 
-        public ListItemViewHolder(View itemLayoutView, IViewHolderClicked listener, CursorRecyclerAdapter.OnItemClickListener itemClicked) {
+        public ListItemViewHolder(View itemLayoutView, IViewHolderClicked listener, NavigationBaseRecyclerAdapter.OnItemClickListener itemClicked) {
             super(itemLayoutView);
 
             this.mListener = listener;

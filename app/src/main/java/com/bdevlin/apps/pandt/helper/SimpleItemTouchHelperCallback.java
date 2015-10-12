@@ -22,7 +22,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.support.v4.view.ViewCompat;
 
-import com.bdevlin.apps.pandt.Cursors.SimpleCursorRecyclerAdapter;
+import com.bdevlin.apps.pandt.Cursors.NavigationCursorRecyclerAdapter;
 
 /**
  * An implementation of {@link ItemTouchHelper.Callback} that enables basic drag & drop and
@@ -38,9 +38,9 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     public static final float ALPHA_FULL = 1.0f;
 
-    private final SimpleCursorRecyclerAdapter mAdapter;
+    private final NavigationCursorRecyclerAdapter mAdapter;
 
-    public SimpleItemTouchHelperCallback(SimpleCursorRecyclerAdapter adapter) {
+    public SimpleItemTouchHelperCallback(NavigationCursorRecyclerAdapter adapter) {
         mAdapter = adapter;
     }
 

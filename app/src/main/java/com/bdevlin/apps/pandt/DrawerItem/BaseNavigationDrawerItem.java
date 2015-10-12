@@ -11,7 +11,7 @@ import com.bdevlin.apps.pandt.R;
 /**
  * Created by brian on 9/26/2015.
  */
-public abstract class BasePrimaryDrawerItem<T> extends BaseDrawerItem<T> {
+public abstract class BaseNavigationDrawerItem<T> extends BaseDrawerItem<T> {
 
     protected static class BaseViewHolder extends RecyclerView.ViewHolder {
         protected View view;
@@ -25,7 +25,6 @@ public abstract class BasePrimaryDrawerItem<T> extends BaseDrawerItem<T> {
             this.view = view;
 
             this.icon = (ImageView) view.findViewById(R.id.imageview2);
-
             this.name = (TextView) view.findViewById(R.id.name);
             this.id = (TextView) view.findViewById(R.id.id);
         }
