@@ -38,6 +38,6 @@ public class FolderItemView  extends LinearLayout {
 
         mFolderTextView = (TextView)findViewById(R.id.name);
         mUnreadCountTextView = (TextView)findViewById(R.id.id);
-        mFolderParentIcon = (ImageView) findViewById(R.id.imageView2);
+        mFolderParentIcon = (ImageView) findViewById(R.id.imageview2);
     }
 }

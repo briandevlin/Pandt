@@ -28,12 +28,12 @@ public class SimpleAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
 
-        if(cursor.getPosition()%2==1) {
-            view.setBackgroundColor(context.getResources().getColor(R.color.accent_material_light));
-        }
-        else {
-            view.setBackgroundColor(context.getResources().getColor(R.color.accent));
-        }
+//        if(cursor.getPosition()%2==1) {
+//            view.setBackgroundColor(context.getResources().getColor(R.color.accent_material_light));
+//        }
+//        else {
+//            view.setBackgroundColor(context.getResources().getColor(R.color.accent));
+//        }
 
         TextView content = (TextView) view.findViewById(R.id.profile_email_text);
         content.setText(cursor.getString(cursor.getColumnIndex(MockContract.Folders.FOLDER_NAME)));

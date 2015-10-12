@@ -58,10 +58,10 @@ public class UIControllerOnePane extends UIControllerBase
 
         View v = (FrameLayout)mActivity.findViewById(R.id.main_content);
 
-        final MainContentFragment itemListFragment = MainContentFragment.newInstance();
+        /*final MainContentFragment itemListFragment = MainContentFragment.newInstance();
 
         replaceFragment(itemListFragment, FragmentTransaction.TRANSIT_FRAGMENT_OPEN,
-                TAG_MAIN_LIST, R.id.main_content);
+                TAG_MAIN_LIST, R.id.main_content);*/
 
         Toolbar toolbar = getActionBarToolbar();
         toolbar.setSubtitle("This is the main screen");
@@ -78,7 +78,7 @@ public class UIControllerOnePane extends UIControllerBase
     @Override
     public void onStart() {
        // GenericListContext viewContext =  GenericListContext.forFolder(null);
-       // showConversationList(viewContext);
+        showConversationList(/*viewContext*/);
         super.onStart();
 
     }
@@ -102,6 +102,15 @@ public class UIControllerOnePane extends UIControllerBase
 
     // </editor-fold>
 
+    @Override
+    public void showConversationList(/*ConversationListContext listContext*/) {
+        super.showConversationList(/*listContext*/);
+
+        final MainContentFragment itemListFragment = MainContentFragment.newInstance();
+
+        replaceFragment(itemListFragment, FragmentTransaction.TRANSIT_FRAGMENT_OPEN,
+                TAG_MAIN_LIST, R.id.main_content);
+    }
     // when the main content fragment list item is selected we end up here
     @Override
     protected void showConversation(final int position, Items.ListItem listItem) {
@@ -125,7 +134,7 @@ public class UIControllerOnePane extends UIControllerBase
     /* implements NavigationDrawerFragment.NavigationDrawerCallbacks*/
     @Override
     public void onNavigationDrawerItemSelected(int position, Folder folder) {
-            Log.d(TAG,"onNavigationDrawerItemSelected");
+            Log.d(TAG, "onNavigationDrawerItemSelected");
         toggleDrawerState();
         // FIXME
 //        GenericListContext viewContext =  GenericListContext.forFolder(folder);
@@ -203,6 +212,7 @@ public class UIControllerOnePane extends UIControllerBase
         } else if (mViewMode.isConversationMode() ) {
             Log.d(TAG, "isConversationMode");
            // transitionBackToConversationListMode();
+            showConversationList();
             mViewMode.enterConversationListMode();
         } else {
             Log.d(TAG, "default mode");

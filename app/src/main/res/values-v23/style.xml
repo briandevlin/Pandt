@@ -5,27 +5,15 @@
 
     <item name="toolbarStyle">@style/MyToolBar</item>
 
-  <!--  <item name="android:colorPrimary">@color/materialize_primary</item>
+    <item name="android:colorPrimary">@color/materialize_primary</item>
     <item name="android:colorPrimaryDark">@color/materialize_primary_dark</item>
     <item name="android:colorAccent">@color/materialize_accent</item>
-    &lt;!&ndash;<item name="android:textColorPrimary">@color/materialize_textColorPrimary</item>&ndash;&gt;
+
 
     <item name="colorPrimary">@color/materialize_primary</item>
     <item name="colorPrimaryDark">@color/materialize_primary_dark</item>
-    <item name="colorAccent">@color/materialize_accent</item>-->
+    <item name="colorAccent">@color/materialize_accent</item>
 
-    <!--<item name="drawerArrowStyle">@style/Material.DrawerArrowStyle</item>-->
-    <!--<item name="subtitleTextColor">#FF96FF</item>-->
-
-  <!--  <item name="android:subtitleTextStyle">@style/Material.subtitleTextStyle</item>
-    <item name="subtitleTextStyle">@style/Material.subtitleTextStyle</item>
-    &lt;!&ndash;<item name="android:textColorPrimary">#FF34FF</item>&ndash;&gt;
-    <item name="colorControlNormal">#FF34FF</item>
-    <item name="android:windowTranslucentNavigation">true</item>
-    <item name="android:windowNoTitle">true</item>
-    <item name="android:windowTranslucentStatus">true</item>-->
-
-   <!--<item name="textColorPrimary">@color/materialize_textColorPrimary</item>-->
 
     </style>
 <style name="Theme" parent="FrameworkRoot.Theme">
@@ -40,32 +28,36 @@
 
 <style name="Theme.IOSched" parent="Theme.IOSched.Base" />
 
-    <style name="MyToolBar" parent="Theme.AppCompat.NoActionBar">
+    <style name="MyToolBar" parent="Widget.AppCompat.Toolbar">
         <item name="drawerArrowStyle">@style/Material.DrawerArrowStyle</item>
         <!--<item name="subtitleTextColor">#FF96FF</item>-->
-        <!--<item name="android:titleTextStyle">@style/Material.titleTextStyle</item>-->
-        <!--<item name="android:subtitleTextStyle">@style/Material.subtitleTextStyle</item>-->
-        <item name="titleTextStyle">@style/Material.titleTextStyle</item>
-        <item name="subtitleTextStyle">@style/Material.subtitleTextStyle</item>
-        <!--<item name="android:textColorPrimary">#00FF33</item>-->
-        <!--<item name="android:textColorSecondary">#ffaa00</item>-->
-        <!--<item name="android:textColorPrimaryInverse">#ff33ff</item>-->
-        <item name="actionMenuTextColor">@color/abc_primary_text_material_light</item>
+        <item name="android:titleTextStyle">@style/Material.titleTextStyle</item>
+        <item name="android:subtitleTextStyle">@style/Material.subtitleTextStyle</item>
+        <item name="titleTextAppearance">@style/Material.titleTextStyle</item>
+        <item name="subtitleTextAppearance">@style/Material.subtitleTextStyle</item>
+
+       <!-- <item name="android:textColorPrimary">#00ff00</item>
+        <item name="android:textColorSecondary">#f0f00f</item>
+        <item name="android:textColorPrimaryInverse">#3333</item>
+        <item name="actionMenuTextColor">@color/abc_primary_text_material_light</item>-->
         <!--<item name="textColorSecondary">#000000</item>-->
         <item name="colorControlNormal">#FFff11</item>
     </style>
 
-    <style name="Material.titleTextStyle" parent="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textColor">#FFff00</item>
+    <style name="Material.titleTextStyle" parent="Base.TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColorPrimary">#FFff00</item>
+        <!--<item name="textColorPrimary">#FFff00</item>-->
     </style>
 
-    <style name="Material.subtitleTextStyle" parent="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
-        <item name="android:textColor">#FF3433</item>
+    <style name="Material.subtitleTextStyle" parent="Base.TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
+        <item name="android:textColorSecondary">#00ff00</item>
+        <!--<item name="textColorSecondary">#f0f00f</item>-->
     </style>
 
     <style name="Material.DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
-        <item name="color">@android:color/white</item>
+        <item name="middleBarArrowSize">32dp</item>
+        <item name="color">?android:attr/textColorSecondary</item>
     </style>
 
 </resources>

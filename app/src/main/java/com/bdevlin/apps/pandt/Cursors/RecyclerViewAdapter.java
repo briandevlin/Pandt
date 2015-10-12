@@ -99,7 +99,7 @@ public class RecyclerViewAdapter
             this.mListener = listener;
             this.mTextView = (TextView) itemLayoutView.findViewById(R.id.id);
             this.mLabel = (TextView) itemLayoutView.findViewById(R.id.name);
-            this.mImage = (ImageView) itemLayoutView.findViewById(R.id.imageView2);
+            this.mImage = (ImageView) itemLayoutView.findViewById(R.id.imageview2);
             this.context = context;
             mImage.setOnClickListener(this);
             // Attach a click listener to the entire row view

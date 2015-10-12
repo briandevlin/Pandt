@@ -48,6 +48,7 @@
         android:text="someemail@gmail.com"
         android:maxLines="1"
         android:singleLine="true"
-        android:ellipsize="end" />
+        android:ellipsize="end"
+        android:textColor="@android:color/black" />
 
 </FrameLayout>
