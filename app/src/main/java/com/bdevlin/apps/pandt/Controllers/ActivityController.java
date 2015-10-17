@@ -26,7 +26,6 @@ public interface ActivityController extends ActionBarController,
         FolderController,
         ViewMode.ModeChangeListener,
         NavigationDrawerFragment.NavigationDrawerCallbacks,
-
         MainContentFragment.MainContentCallbacks,
         SharedPreferences.OnSharedPreferenceChangeListener,
         LoginAndAuthHelper.Callbacks

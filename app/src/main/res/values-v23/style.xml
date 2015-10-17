@@ -56,7 +56,7 @@
 
     <style name="Material.DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
-        <item name="middleBarArrowSize">32dp</item>
+
         <item name="color">?android:attr/textColorSecondary</item>
     </style>
 

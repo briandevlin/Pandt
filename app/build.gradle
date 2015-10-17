@@ -27,9 +27,9 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile 'com.android.support:appcompat-v7:23.0.0'
 
-	compile 'com.android.support:recyclerview-v7:22.2.1'
+	compile 'com.android.support:recyclerview-v7:23.0.0'
 
 
 
@@ -37,7 +37,7 @@ dependencies {
 
 
     // compile 'com.android.support:preference-v7:23.+'
-    compile 'com.android.support:design:22.2.0'
+    compile 'com.android.support:design:23.0.0'
     // compile files('../third_party/gcm.jar')
     compile project( ":SupportLibrary")
     compile   'com.android.support:support-v4:23.0.0'

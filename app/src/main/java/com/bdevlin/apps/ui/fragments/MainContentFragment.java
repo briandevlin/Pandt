@@ -165,7 +165,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
         setHasOptionsMenu(true);
 
 //        onViewModeChanged(mActivity.getViewMode().getMode());
-       mActivity.getViewMode().addListener(this);
+     //  mActivity.getViewMode().addListener(this);
 
        // setRetainInstance(false);
     }
@@ -183,13 +183,13 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-      //  mListView = Utils.getViewOrNull(rootView, android.R.id.list);
+       // mListView = Utils.getViewOrNull(rootView, android.R.id.list);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
 
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
+//         use this setting to improve performance if you know that changes
+//         in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
-        // use a linear layout manager
+         //use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         mLayoutManager.scrollToPosition(0);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -213,17 +213,17 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
         mActivity = (HomeActivity) activity;
 
         //mActivity = (ControllableActivity) activity;
-        actionBarController = mActivity.getActionBarController();
+        //actionBarController = mActivity.getActionBarController();
       // ActionBar ab =  actionBarController.getSupportActionBar();
        // ab.setDisplayHomeAsUpEnabled(true);
 
-        mCallbacks = mActivity.getMainContentCallbacks();
-
-        Context activityContext = mActivity.getActivityContext();
-
-        final LoaderManager manager = getLoaderManager();
-
-       Context applicationContext = mActivity.getApplicationContext();
+//        mCallbacks = mActivity.getMainContentCallbacks();
+//
+//        Context activityContext = mActivity.getActivityContext();
+//
+//        final LoaderManager manager = getLoaderManager();
+//
+//       Context applicationContext = mActivity.getApplicationContext();
 
 
  /*      adapter  =  new ArrayAdapter<Items.ListItem>(
@@ -248,7 +248,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
                 toId
                 );
 
- /*       mRecycleCursorAdapter.setOnItemClickListener(
+/*        mRecycleCursorAdapter.setOnItemClickListener(
                 new NavigationBaseRecyclerAdapter.OnItemClickListener() {
                     public void onItemClick(View itemView, int position)
                     {
@@ -323,13 +323,13 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
 
         try {
 
-            mActivity = (ControllableActivity) activity;
+          //  mActivity = (ControllableActivity) activity;
            // actionBarController = mActivity.getActionBarController();
 //            folderController = mActivity.getFolderController();
 //            if (folderController != null) {
 //               // folderController.onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
 //            }
-            mCallbacks = mActivity.getMainContentCallbacks();
+//            mCallbacks = mActivity.getMainContentCallbacks();
 
 
         } catch (ClassCastException e) {

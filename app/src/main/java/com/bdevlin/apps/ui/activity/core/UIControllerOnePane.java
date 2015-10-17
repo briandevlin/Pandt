@@ -58,10 +58,10 @@ public class UIControllerOnePane extends UIControllerBase
 
         View v = (FrameLayout)mActivity.findViewById(R.id.main_content);
 
-        /*final MainContentFragment itemListFragment = MainContentFragment.newInstance();
+        final MainContentFragment itemListFragment = MainContentFragment.newInstance();
 
         replaceFragment(itemListFragment, FragmentTransaction.TRANSIT_FRAGMENT_OPEN,
-                TAG_MAIN_LIST, R.id.main_content);*/
+                TAG_MAIN_LIST, R.id.main_content);
 
         Toolbar toolbar = getActionBarToolbar();
         toolbar.setSubtitle("This is the main screen");
@@ -78,7 +78,7 @@ public class UIControllerOnePane extends UIControllerBase
     @Override
     public void onStart() {
        // GenericListContext viewContext =  GenericListContext.forFolder(null);
-        showConversationList(/*viewContext*/);
+        //showConversationList(/*viewContext*/);
         super.onStart();
 
     }
@@ -147,6 +147,13 @@ public class UIControllerOnePane extends UIControllerBase
 //                R.id.main_content);
 //
 //        mFolder = folder;
+    }
+
+    @Override
+    public final void onMainContentItemSelected(final int position, Items.ListItem listItem) {
+         showConversation(position, listItem);
+        Log.d(TAG,"onMainContentItemSelected");
+
     }
 
     /**

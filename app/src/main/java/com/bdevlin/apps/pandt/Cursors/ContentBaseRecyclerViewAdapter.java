@@ -58,8 +58,7 @@ public abstract class ContentBaseRecyclerViewAdapter<VH extends RecyclerView.Vie
     }
     // </editor-fold>
 
-    // Provide a suitable constructor (depends on the kind of dataset)
-    // in this case just a string[]
+
     public ContentBaseRecyclerViewAdapter(ObjectCursor<MainContentDrawerItem> c) {
         init(c);
     }
@@ -72,28 +71,6 @@ public abstract class ContentBaseRecyclerViewAdapter<VH extends RecyclerView.Vie
         setHasStableIds(true);
     }
 
-
-
-//    @Override
-//    public ContentItemViewHolder onCreateViewHolder(ViewGroup parent,
-//                                                 int viewType) {
-//        // create a new view
-//        View v = LayoutInflater.from(parent.getContext())
-//                .inflate(R.layout.textview, parent, false);
-//        // set the view's size, margins, paddings and layout parameters
-//
-//        // TextView vt =  (TextView)v.findViewById(R.id.textView);
-//
-//
-//        // ListItemViewHolder vh = new ListItemViewHolder(parent.getContext(), v);
-//        ContentItemViewHolder vh = new ContentItemViewHolder(parent.getContext(), v,
-//                new ContentItemViewHolder.IMyViewHolderClicks() {
-//                    public void onPotato(View caller) { Log.d(TAG,"Poh-tah-tos"); };
-//                    public void onTomato(ImageView callerImage) { Log.d(TAG,"To-m8-tohs"); }
-//                });
-//
-//        return vh;
-//    }
 
     @Override
     public final void onBindViewHolder (VH holder, int position) {
@@ -167,8 +144,7 @@ public abstract class ContentBaseRecyclerViewAdapter<VH extends RecyclerView.Vie
         } else {
             mRowIDColumn = -1;
             mDataValid = false;
-            // notify the observers about the lack of a data set
-            notifyItemRangeRemoved(0, getItemCount());
+
         }
         return oldCursor;
     }
