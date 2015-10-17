@@ -26,6 +26,7 @@ import android.widget.ListView;
 
 import com.bdevlin.apps.pandt.Controllers.ActionBarController;
 import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
+import com.bdevlin.apps.pandt.Cursors.ContentBaseRecyclerViewAdapter;
 import com.bdevlin.apps.pandt.Cursors.ContentCursorRecyclerAdapter;
 import com.bdevlin.apps.pandt.Cursors.CursorCreator;
 import com.bdevlin.apps.pandt.Cursors.NavigationBaseRecyclerAdapter;
@@ -33,6 +34,7 @@ import com.bdevlin.apps.pandt.Cursors.MyObjectCursorLoader;
 import com.bdevlin.apps.pandt.Cursors.ObjectCursor;
 import com.bdevlin.apps.pandt.Cursors.SimpleAdapter;
 import com.bdevlin.apps.pandt.Cursors.NavigationCursorRecyclerAdapter;
+import com.bdevlin.apps.pandt.DividerItemDecoration;
 import com.bdevlin.apps.pandt.DrawerItem.MainContentDrawerItem;
 import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
 import com.bdevlin.apps.pandt.GenericListContext;
@@ -75,7 +77,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
     private final Handler mHandler = new Handler();
 
     private GenericListContext mViewContext;
-    private static ControllableActivity mActivity;
+    private  ControllableActivity mActivity;
     private FolderController folderController = null;
     private ActionBarController actionBarController = null;
 
@@ -146,7 +148,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public MainContentFragment() { }
+    public MainContentFragment() { super();}
     // </editor-fold>
 
     // <editor-fold desc="Life Cycle">
@@ -160,9 +162,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
            // mViewContext = GenericListContext.forBundle(args.getBundle(CONVERSATION_LIST_KEY));
             //mAccount = mViewContext.account;
         }
-        // this tells the framework to add the fragments menu items to the
-        // actionbar
-        setHasOptionsMenu(true);
+
 
 //        onViewModeChanged(mActivity.getViewMode().getMode());
        mActivity.getViewMode().addListener(this);
@@ -173,7 +173,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
 
     @Override
     public void onViewModeChanged(int newMode) {
-
+        Log.v(TAG, "in onViewModeChanged  " + newMode);
     }
 
     @Override
@@ -184,15 +184,20 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
       //  mListView = Utils.getViewOrNull(rootView, android.R.id.list);
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.main_recycler_view);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
+
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         mLayoutManager.scrollToPosition(0);
         mRecyclerView.setLayoutManager(mLayoutManager);
+
+        RecyclerView.ItemDecoration itemDecoration =
+                new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST);
+        mRecyclerView.addItemDecoration(itemDecoration);
 
         return rootView;
     }
@@ -213,17 +218,17 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
         mActivity = (HomeActivity) activity;
 
         //mActivity = (ControllableActivity) activity;
-        actionBarController = mActivity.getActionBarController();
+       // actionBarController = mActivity.getActionBarController();
       // ActionBar ab =  actionBarController.getSupportActionBar();
        // ab.setDisplayHomeAsUpEnabled(true);
 
         mCallbacks = mActivity.getMainContentCallbacks();
 
-        Context activityContext = mActivity.getActivityContext();
+       /* Context activityContext = mActivity.getActivityContext();
 
         final LoaderManager manager = getLoaderManager();
 
-       Context applicationContext = mActivity.getApplicationContext();
+       Context applicationContext = mActivity.getApplicationContext();*/
 
 
  /*      adapter  =  new ArrayAdapter<Items.ListItem>(
@@ -248,8 +253,8 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
                 toId
                 );
 
- /*       mRecycleCursorAdapter.setOnItemClickListener(
-                new NavigationBaseRecyclerAdapter.OnItemClickListener() {
+        mRecycleCursorAdapter.setOnItemClickListener(
+                new ContentBaseRecyclerViewAdapter.OnItemClickListener() {
                     public void onItemClick(View itemView, int position)
                     {
                         Log.d(TAG,"onItemClick");
@@ -257,7 +262,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
 //                        mCallbacks.onNavigationDrawerItemSelected(position, null);
                     }
 
-                });*/
+                });
 
        // setListAdapter(mAdapter);
         mRecyclerView.setAdapter(mRecycleCursorAdapter);
@@ -424,7 +429,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
         return args;
     }
 
-    public static final CursorCreator<MainContentDrawerItem> FACTORY = new CursorCreator<MainContentDrawerItem>() {
+    public  final CursorCreator<MainContentDrawerItem> FACTORY = new CursorCreator<MainContentDrawerItem>() {
         @Override
         public MainContentDrawerItem createFromCursor(Cursor c) {
             return new MainContentDrawerItem((HomeActivity)mActivity, c);

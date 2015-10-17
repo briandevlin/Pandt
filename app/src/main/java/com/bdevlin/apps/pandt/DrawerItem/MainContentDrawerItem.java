@@ -46,11 +46,11 @@ public class MainContentDrawerItem
         }
         viewHolderClicked = new IViewHolderClicked() {
             public void onTextClicked(View caller) {
-                Log.d(TAG, "Poh-tah-tos");
+                Log.d(TAG, "SuperCalafragiletic");
             }
 
             public void onImageClicked(ImageView callerImage) {
-                Log.d(TAG, "To-m8-tohs");
+                Log.d(TAG, "Eventhoughthesoundofitissomethingquiteatrocious ");
             }
         };
 
@@ -122,6 +122,18 @@ public class MainContentDrawerItem
         @Override
         public void onClick(View v) {
             Log.d(TAG, "onItemView: " + v.toString());
+            int position = getLayoutPosition(); // gets item position
+            int pos = getAdapterPosition();
+            if (v instanceof ImageView) {
+                mListener.onImageClicked((ImageView) v);
+            } else {
+                mListener.onTextClicked(v);
+            }
+
+            if (otherListener == null) {
+                throw new NullPointerException("mOnItemClickListener is null in ");
+            }
+            otherListener.onItemClick(v, getAdapterPosition());
         }
     }
 }
