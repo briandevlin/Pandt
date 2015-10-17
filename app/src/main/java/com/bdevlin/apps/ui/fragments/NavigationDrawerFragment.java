@@ -25,6 +25,7 @@ import com.bdevlin.apps.pandt.Cursors.CursorCreator;
 import com.bdevlin.apps.pandt.Cursors.NavigationBaseRecyclerAdapter;
 import com.bdevlin.apps.pandt.DividerItemDecoration;
 import com.bdevlin.apps.pandt.DrawerClosedObserver;
+import com.bdevlin.apps.pandt.ViewMode;
 import com.bdevlin.apps.ui.activity.core.HomeActivity;
 import com.bdevlin.apps.pandt.Cursors.MyObjectCursorLoader;
 import com.bdevlin.apps.pandt.Cursors.ObjectCursor;
@@ -46,6 +47,7 @@ import com.bdevlin.apps.provider.MockContract;
 public class NavigationDrawerFragment
         extends Fragment
         implements LoaderManager.LoaderCallbacks<ObjectCursor<NavigationDrawerItem>>,
+        ViewMode.ModeChangeListener,
         OnStartDragListener {
 
     // <editor-fold desc="Fields">
@@ -85,7 +87,7 @@ public class NavigationDrawerFragment
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
 
-    private static ControllableActivity mActivity;
+    private  ControllableActivity mActivity;
    //private static HomeActivity mActivity;
     private FolderController folderController = null;
     private ActionBarController actionBarController = null;
@@ -123,7 +125,7 @@ public class NavigationDrawerFragment
 
 
 
-    public static final CursorCreator<NavigationDrawerItem> FACTORY = new CursorCreator<NavigationDrawerItem>() {
+    public  final CursorCreator<NavigationDrawerItem> FACTORY = new CursorCreator<NavigationDrawerItem>() {
         @Override
         public NavigationDrawerItem createFromCursor(Cursor c) {
             return new NavigationDrawerItem((HomeActivity)mActivity, c);
@@ -172,7 +174,7 @@ public class NavigationDrawerFragment
      * fragment (e.g. upon screen orientation changes).
      */
     public NavigationDrawerFragment() {
-        super();
+super();
     }
 
 
@@ -183,14 +185,24 @@ public class NavigationDrawerFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.v(TAG, "in NavigationDrawerFragment onCreate");
+        if (getArguments() != null) {
+            final Bundle args = getArguments();
 
+        }
         // Restore the previously serialized activated item position.
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
             mFromSavedInstanceState = true;
         }
+
+        //mActivity.getViewMode().addListener(this);
     }
 
+    @Override
+    public void onViewModeChanged(int newMode) {
+        Log.v(TAG, "in onViewModeChanged  " + newMode);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

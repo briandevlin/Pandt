@@ -62,11 +62,11 @@ public class MainContentDrawerItem
 
         viewHolderClicked = new IViewHolderClicked() {
             public void onTextClicked(View caller) {
-                Log.d(TAG, "Poh-tah-tos");
+                Log.d(TAG, "SuperCalafragiletic");
             }
 
             public void onImageClicked(ImageView callerImage) {
-                Log.d(TAG, "To-m8-tohs");
+                Log.d(TAG, "Eventhoughthesoundofitissomethingquiteatrocious ");
             }
         };
 
@@ -153,11 +153,13 @@ public class MainContentDrawerItem
             }
 
             if (otherListener == null) {
+
                 throw new NullPointerException("mOnItemClickListener is null. ");
             }
             otherListener.onItemClick(v, pos);
 
             Toast.makeText(v.getContext(), "Id: " + pos, Toast.LENGTH_LONG).show();
+
         }
     }
 }
