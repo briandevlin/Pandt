@@ -3,6 +3,7 @@ package com.bdevlin.apps.ui.activity.core;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 
+import com.bdevlin.apps.pandt.Items;
 import com.bdevlin.apps.pandt.folders.Folder;
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.pandt.ViewMode;
@@ -66,4 +67,8 @@ public class UIControllerTwoPane extends UIControllerBase {
     }
 
 
+    @Override
+    public void onMainContentItemSelected(int position, Items.ListItem listItem) {
+
+    }
 }

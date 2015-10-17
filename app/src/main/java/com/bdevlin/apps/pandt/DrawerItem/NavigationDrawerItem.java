@@ -26,7 +26,6 @@ public class NavigationDrawerItem
 
     private static final String TAG = NavigationDrawerItem.class.getSimpleName();
 
-
     // <editor-fold desc="Fields">
     private NavigationDrawerFragment.NavigationDrawerCallbacks mCallbacks;
     private static IViewHolderClicked viewHolderClicked;
@@ -117,7 +116,7 @@ public class NavigationDrawerItem
         viewHolder.id.setText(String.valueOf(id));
         viewHolder.name.setText(name);
 
-        onPostBindView(this, holder.itemView);
+        onPostBindView(this, viewHolder.itemView);
     }
 
     @Override

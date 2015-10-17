@@ -471,11 +471,7 @@ public abstract class UIControllerBase implements ActivityController {
         return mFolder;
     }
 
-    @Override
-    public final void onMainContentItemSelected(final int position, Items.ListItem listItem) {
-        showConversation(position, listItem);
 
-    }
 
     protected void showConversation(final int position, Items.ListItem listItem) {
 
@@ -495,7 +491,7 @@ public abstract class UIControllerBase implements ActivityController {
 
     private void changeFolder(Folder folder, final boolean force) {
 
-        GenericListContext viewContext =  GenericListContext.forFolder(folder);
+       // GenericListContext viewContext =  GenericListContext.forFolder(folder);
        // showConversationList(viewContext);
     }
 
