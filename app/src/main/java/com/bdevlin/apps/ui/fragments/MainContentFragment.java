@@ -13,6 +13,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,6 +27,7 @@ import android.widget.ListView;
 
 import com.bdevlin.apps.pandt.Controllers.ActionBarController;
 import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
+import com.bdevlin.apps.pandt.Cursors.ContentBaseRecyclerViewAdapter;
 import com.bdevlin.apps.pandt.Cursors.ContentCursorRecyclerAdapter;
 import com.bdevlin.apps.pandt.Cursors.CursorCreator;
 import com.bdevlin.apps.pandt.Cursors.NavigationBaseRecyclerAdapter;
@@ -33,6 +35,7 @@ import com.bdevlin.apps.pandt.Cursors.MyObjectCursorLoader;
 import com.bdevlin.apps.pandt.Cursors.ObjectCursor;
 import com.bdevlin.apps.pandt.Cursors.SimpleAdapter;
 import com.bdevlin.apps.pandt.Cursors.NavigationCursorRecyclerAdapter;
+import com.bdevlin.apps.pandt.DividerItemDecoration;
 import com.bdevlin.apps.pandt.DrawerItem.MainContentDrawerItem;
 import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
 import com.bdevlin.apps.pandt.GenericListContext;
@@ -40,6 +43,7 @@ import com.bdevlin.apps.pandt.Items;
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.pandt.ViewMode;
 import com.bdevlin.apps.pandt.folders.FolderController;
+import com.bdevlin.apps.pandt.helper.SimpleItemTouchHelperCallback;
 import com.bdevlin.apps.provider.MockContract;
 import com.bdevlin.apps.ui.activity.core.HomeActivity;
 
@@ -184,7 +188,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
        // mListView = Utils.getViewOrNull(rootView, android.R.id.list);
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.main_recycler_view);
 
 //         use this setting to improve performance if you know that changes
 //         in content do not change the layout size of the RecyclerView
@@ -193,6 +197,15 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
         mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         mLayoutManager.scrollToPosition(0);
         mRecyclerView.setLayoutManager(mLayoutManager);
+        RecyclerView.ItemDecoration itemDecoration =
+                new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST);
+
+        mRecyclerView.addItemDecoration(itemDecoration);
+
+        //TODO
+      /*  ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mRecycleCursorAdapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerView);*/
 
         return rootView;
     }
@@ -248,16 +261,16 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
                 toId
                 );
 
-/*        mRecycleCursorAdapter.setOnItemClickListener(
-                new NavigationBaseRecyclerAdapter.OnItemClickListener() {
+        mRecycleCursorAdapter.setOnItemClickListener(
+                new ContentBaseRecyclerViewAdapter.OnItemClickListener() {
                     public void onItemClick(View itemView, int position)
                     {
-                        Log.d(TAG,"onItemClick");
+                        Log.d(TAG,"ContentBaseRecyclerViewAdapter.OnItemClickListener");
 //                        mCallbacks = mActivity.getNavigationDrawerCallbacks();
 //                        mCallbacks.onNavigationDrawerItemSelected(position, null);
                     }
 
-                });*/
+                });
 
        // setListAdapter(mAdapter);
         mRecyclerView.setAdapter(mRecycleCursorAdapter);

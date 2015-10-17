@@ -175,54 +175,6 @@ public abstract class ContentBaseRecyclerViewAdapter<VH extends RecyclerView.Vie
         }
         return mDrawerItems.get(position);
     }
-/*
-    public static class ContentItemViewHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener {
-        // each data item is just a string in this case
-        public TextView mTextView;
-        public TextView mLabel;
-        public ImageView mImage;
-        private Context context;
-        public IMyViewHolderClicks mListener;
-
-        public ContentItemViewHolder(Context context, View itemLayoutView, IMyViewHolderClicks listener) {
-            super(itemLayoutView);
-            this.mListener = listener;
-            this.mTextView = (TextView) itemLayoutView.findViewById(R.id.id);
-            this.mLabel = (TextView) itemLayoutView.findViewById(R.id.name);
-            this.mImage = (ImageView) itemLayoutView.findViewById(R.id.imageview2);
-            this.context = context;
-            mImage.setOnClickListener(this);
-            // Attach a click listener to the entire row view
-            itemLayoutView.setOnClickListener(this);
-
-        }
-
-        // Handles the row being  clicked
-        @Override
-        public void onClick(View v) {
-            int position = getLayoutPosition(); // gets item position
-            if (v instanceof ImageView) {
-                mListener.onTomato((ImageView) v);
-            } else {
-                mListener.onPotato(v);
-            }
-            // Triggers click upwards to the adapter on click
-//            if (listener != null)
-//                listener.onItemClick(itemView, getLayoutPosition());
-            Toast.makeText(v.getContext(), "Id: " + getAdapterPosition(), Toast.LENGTH_LONG).show();
-        }
-
-        public static interface IMyViewHolderClicks {
-            public void onPotato(View caller);
-
-            public void onTomato(ImageView callerImage);
-        }
-
-    }*/
-
-
-
 
 
     @Override

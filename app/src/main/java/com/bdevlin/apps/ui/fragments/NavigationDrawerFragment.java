@@ -255,7 +255,7 @@ public class NavigationDrawerFragment
                 new NavigationBaseRecyclerAdapter.OnItemClickListener() {
                     public void onItemClick(View itemView, int position)
                     {
-                        Log.d(TAG,"onItemClick");
+                        Log.d(TAG,"mRecycleCursorAdapter.setOnItemClickListener");
                         mCallbacks = mActivity.getNavigationDrawerCallbacks();
                         mCallbacks.onNavigationDrawerItemSelected(position, null);
                     }
@@ -447,26 +447,26 @@ public class NavigationDrawerFragment
 
     // <editor-fold desc="Life Cycle">
 
-//    @Override
-//    public void onAttach(Activity activity) {
-//        super.onAttach(activity);
-//        try {
-//            if (!(activity instanceof ControllableActivity)) {
-//                // log something here
-//            }
-//            mActivity = (ControllableActivity) activity;
-//            folderController = mActivity.getFolderController();
-//          //  mCallbacks = mActivity.getNavigationDrawerCallbacks();
-//        } catch (ClassCastException e) {
-//            throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
-//        }
-//    }
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            if (!(activity instanceof ControllableActivity)) {
+                // log something here
+            }
+            mActivity = (ControllableActivity) activity;
+            folderController = mActivity.getFolderController();
+            mCallbacks = mActivity.getNavigationDrawerCallbacks();
+        } catch (ClassCastException e) {
+            throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
+        }
+    }
 
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mCallbacks = sDummyCallbacks;
-//    }
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = sDummyCallbacks;
+    }
 
 
     // </editor-fold>

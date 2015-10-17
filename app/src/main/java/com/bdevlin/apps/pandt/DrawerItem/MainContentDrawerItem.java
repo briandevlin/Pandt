@@ -76,7 +76,7 @@ public class MainContentDrawerItem
                 Log.d(TAG, "OnItemClickListener: " + position);
                 if (mActivity != null) {
                     mCallbacks = mActivity.getMainContentCallbacks();
-                   mCallbacks.onMainContentItemSelected(1, null);
+                   mCallbacks.onMainContentItemSelected(position, null);
                 }
             }
 

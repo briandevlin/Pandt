@@ -14,9 +14,6 @@ import com.bdevlin.apps.pandt.Interfaces.OnPostBindViewListener;
 public abstract class AbstractDrawerItem<T> implements IDrawerItem<T> {
 
     protected OnPostBindViewListener mOnPostBindViewListener = null;
-    //protected Drawer.OnDrawerItemClickListener mOnDrawerItemClickListener = null;
-
-    //public abstract NavigationDrawerItem.ItemFactory getFactory();
 
 
     public OnPostBindViewListener getOnPostBindViewListener() {
@@ -38,25 +35,6 @@ public abstract class AbstractDrawerItem<T> implements IDrawerItem<T> {
 
     @Override
     public RecyclerView.ViewHolder getViewHolder(ViewGroup parent) {
-      /*  View v = LayoutInflater.from(parent.getContext()).inflate(getLayoutRes(), parent, false);
-
-        NavigationDrawerItem.ItemFactory factory = getFactory();
-
-        NavigationDrawerItem.ListItemViewHolder factory1 = factory.factory(v);*/
         return getFactory().factory(LayoutInflater.from(parent.getContext()).inflate(getLayoutRes(), parent, false));
     }
-
-//    @Override
-//    public NavigationDrawerItem.ListItemViewHolder getViewHolder(ViewGroup parent) {
-//
-////        View v = LayoutInflater.from(parent.getContext()).inflate(getLayoutRes(), parent, false);
-//
-////        PrimaryDrawerItem.ItemFactory factory = getFactory();
-////
-////        PrimaryDrawerItem.ListItemViewHolder factory1 = factory.factory(v);
-////
-////return factory1;
-//        return getFactory().factory(LayoutInflater.from(parent.getContext()).inflate(getLayoutRes(), parent, false));
-//
-//    }
 }

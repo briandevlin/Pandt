@@ -123,66 +123,6 @@ public class NavigationCursorRecyclerAdapter
 
     // </editor-fold>
 }
-// not used here
-// <editor-fold desc="ListItemViewHolder">
-/*
-class ListItemViewHolder extends PrimaryDrawerItem.ViewHolder   //RecyclerView.ViewHolder
-        implements View.OnClickListener, ItemTouchHelperViewHolder
-{
-    public TextView[] views;
-    public ImageView mImage;
-    private Context context;
-    public IMyViewHolderClicks mListener;
 
-    public ListItemViewHolder(Context context, View itemLayoutView, int[] to, IMyViewHolderClicks listener)
-    {
-        super(itemLayoutView, context);
-
-        this.context = context;
-        this.mListener = listener;
-        // Attach a click listener to the entire row view
-       itemLayoutView.setOnClickListener(this);
-
-        views = new TextView[to.length];
-        for(int i = 0 ; i < to.length ; i++) {
-            views[i] = (TextView) itemView.findViewById(to[i]);
-        }
-
-        this.mImage = (ImageView) itemLayoutView.findViewById(R.id.imageView2);
-        mImage.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        int position = getLayoutPosition(); // gets item position
-        int pos = getAdapterPosition();
-        //ListItemViewHolder holder = (ListItemViewHolder )(v.getTag());
-
-        if (v instanceof ImageView) {
-            mListener.onImageClicked((ImageView) v);
-        } else {
-            mListener.onTextClicked(v);
-        }
-        Toast.makeText(v.getContext(), "Id: " + pos, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onItemSelected() {
-        itemView.setBackgroundColor(Color.LTGRAY);
-    }
-
-    @Override
-    public void onItemClear() {
-        itemView.setBackgroundColor(0);
-    }
-
-    public  interface IMyViewHolderClicks {
-        public void onTextClicked(View caller);
-
-        public void onImageClicked(ImageView callerImage);
-    }
-}*/
-
-// </editor-fold>
 
 
