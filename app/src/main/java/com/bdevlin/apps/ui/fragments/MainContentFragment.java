@@ -185,7 +185,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
 
 
        // mListView = Utils.getViewOrNull(rootView, android.R.id.list);
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.main_recycler_view);
 
 
 //         use this setting to improve performance if you know that changes
