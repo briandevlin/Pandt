@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -63,8 +64,8 @@ public class UIControllerOnePane extends UIControllerBase
         replaceFragment(itemListFragment, FragmentTransaction.TRANSIT_FRAGMENT_OPEN,
                 TAG_MAIN_LIST, R.id.main_content);
 
-        Toolbar toolbar = getActionBarToolbar();
-        toolbar.setSubtitle("This is the main screen");
+//        Toolbar toolbar = getActionBarToolbar();
+//        toolbar.setSubtitle("This is the main screen");
 
         if (isDrawerEnabled()) {
             SetupDrawerLayout();
@@ -190,13 +191,18 @@ public class UIControllerOnePane extends UIControllerBase
     public void onViewModeChanged(int newMode) {
         super.onViewModeChanged(newMode);
 
-        if (ViewMode.isListMode(newMode)) {
-            mPagerController.hide(true /* changeVisibility */);
+  /*      if (ViewMode.isListMode(newMode)) {
+            mPagerController.hide(true *//* changeVisibility *//*);
+            getDrawerToggle().setDrawerIndicatorEnabled(true);
         }
 
-        if (!ViewMode.isConversationMode(newMode)) {
+        if (ViewMode.isConversationMode(newMode)) {
+            getDrawerToggle().setDrawerIndicatorEnabled(false);
+            ActionBar ab = getSupportActionBar();
+            ab.setDisplayHomeAsUpEnabled(true);
+            ab.setDisplayShowHomeEnabled(false);
 
-        }
+        }*/
 
     }
 
@@ -220,6 +226,7 @@ public class UIControllerOnePane extends UIControllerBase
             Log.d(TAG, "isConversationMode");
            // transitionBackToConversationListMode();
             showConversationList();
+
             mViewMode.enterConversationListMode();
         } else {
             Log.d(TAG, "default mode");

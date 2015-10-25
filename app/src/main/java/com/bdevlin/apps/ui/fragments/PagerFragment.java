@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import com.bdevlin.apps.pandt.Controllers.ActionBarController;
 import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
 import com.bdevlin.apps.pandt.R;
+import com.bdevlin.apps.pandt.ViewMode;
 
 /**
  * Created by brian on 7/26/2014.
@@ -22,6 +25,7 @@ import com.bdevlin.apps.pandt.R;
 
 public class PagerFragment extends Fragment {
 
+    private static final String TAG = PagerFragment.class.getSimpleName();
     public static final String ARG_INDEX = " com.bdevlin.apps.pandt.arg_position";
 
     private ControllableActivity mActivity;
@@ -45,7 +49,7 @@ public class PagerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+Log.d(TAG, "Pager Fragment: onCreate");
         parseArguments();
 
     }
@@ -79,10 +83,19 @@ public class PagerFragment extends Fragment {
             return;
         }
         mActivity = (ControllableActivity) activity;
+
+        ViewMode mode = mActivity.getViewMode();
+        mode.enterConversationMode();
+
         controller = mActivity.getActionBarController();
         ActionBar ab = controller.getSupportActionBar();
-       // ab.setDisplayHomeAsUpEnabled(true);
-      //  ab.setDisplayShowHomeEnabled(true);
+        Toolbar toolbar = controller.getSupportToolBar();
+        if (toolbar != null) {
+            toolbar.setSubtitle("ViewPager");
+        }
+        ab.setDisplayHomeAsUpEnabled(true);
+        ab.setDisplayShowHomeEnabled(false);
+
 
         // Indicate that this fragment would like to influence the set of actions in the action bar.
         setHasOptionsMenu(true);

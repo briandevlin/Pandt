@@ -284,21 +284,21 @@ public abstract class UIControllerBase implements ActivityController {
 
     @Override
     public void onViewModeChanged(int newMode) {
+         boolean isTopLevel = true;
+//        final boolean show =    getShouldShowDrawerIndicator(newMode, false);
+//        final boolean showTopLevel =    getShouldShowDrawerIndicator(newMode, true);
 
-//        if (!ViewMode.isConversationMode(newMode)) {
-//          //  setCurrentConversation(null);
-//        }
-//
-//        // If the viewmode is not set, preserve existing icon.
-//        if (newMode != ViewMode.UNKNOWN) {
-//          //  resetActionBarIcon();
-//        }
+//        // If the viewmode is not set to conversation then we are the top level
+        if (newMode == ViewMode.CONVERSATION) {
+            isTopLevel = false;
+        }
 
         if (isDrawerEnabled()) {
-           // final boolean isTopLevel = (mFolder == null) || (mFolder.parent == Uri.EMPTY);
+
             if (mDrawerToggle != null) {
                 mDrawerToggle.setDrawerIndicatorEnabled(
-                        getShouldShowDrawerIndicator(newMode, true));
+                        getShouldShowDrawerIndicator(newMode, isTopLevel));
+                mDrawerToggle.syncState();
             }
         }
         closeDrawerIfOpen();
@@ -335,7 +335,7 @@ public abstract class UIControllerBase implements ActivityController {
 
     // </editor-fold>
 
-    // <editor-fold desc="ActionBar ">
+    // <editor-fold desc="Getters ">
 
     private void showGlobalContextActionBar() {
         //ActionBar actionBar = getSupportActionBar();
@@ -350,6 +350,20 @@ public abstract class UIControllerBase implements ActivityController {
 
     public ActionBar getSupportActionBar() {
         return ((AppCompatActivity) mActivity).getSupportActionBar();
+    }
+
+    public Toolbar getSupportToolBar() {
+        if (mToolbar != null) {
+            return mToolbar;
+        }
+        return null;
+    }
+
+    public ActionBarDrawerToggle getDrawerToggle() {
+        if (mDrawerToggle != null) {
+            return mDrawerToggle;
+        }
+        return null;
     }
 
     public LoaderManager getSupportLoaderManager() {
@@ -424,9 +438,10 @@ public abstract class UIControllerBase implements ActivityController {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         if (mDrawerLayout != null && !isDrawerOpen()) {
-            mActivity.getMenuInflater().inflate(R.menu.home, (Menu) menu);
+
             showGlobalContextActionBar();
         }
+        mActivity.getMenuInflater().inflate(R.menu.home, (Menu) menu);
         return true;
     }
 
@@ -777,9 +792,12 @@ public abstract class UIControllerBase implements ActivityController {
             public void onClick(View v) {
                 boolean handled = false;
 
-              //  if (mOnDrawerNavigationListener != null && (mDrawerToggle != null && !mDrawerToggle.isDrawerIndicatorEnabled())) {
-              //      handled = mOnDrawerNavigationListener.onNavigationClickListener(v);
-              //  }
+
+                if ( (mDrawerToggle != null && !mDrawerToggle.isDrawerIndicatorEnabled())) {
+                    onUpPressed();
+                    handled = true;
+                }
+
                 if (!handled) {
                     if (isDrawerOpen()) {
                         mDrawerLayout.closeDrawer(mSliderLayout);
@@ -1008,7 +1026,7 @@ public abstract class UIControllerBase implements ActivityController {
     @Override
     public void onPlusInfoLoaded(String accountName) {
         Log.d(TAG, "Plus Info loaded.");
-       setupAccountBox();
+     //  setupAccountBox();
        // AddDriveFile();
       //  AddFolder();
       //  ListFolder();
@@ -1033,7 +1051,7 @@ public abstract class UIControllerBase implements ActivityController {
            // SyncHelper.requestManualSync(account);
         }
 
-        setupAccountBox();
+      //  setupAccountBox();
      //   populateNavDrawer();
      //   registerGCMClient();
     }

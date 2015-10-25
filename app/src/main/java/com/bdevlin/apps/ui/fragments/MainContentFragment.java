@@ -11,8 +11,10 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -166,8 +168,6 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
         }
 
 
-//        onViewModeChanged(mActivity.getViewMode().getMode());
-     //  mActivity.getViewMode().addListener(this);
 
        // setRetainInstance(false);
     }
@@ -207,7 +207,6 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);*/
 
-
         return rootView;
     }
 
@@ -226,10 +225,28 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
         };
         mActivity = (HomeActivity) activity;
 
-        //mActivity = (ControllableActivity) activity;
+        mActivity = (ControllableActivity) activity;
 
-        //actionBarController = mActivity.getActionBarController();
-      // ActionBar ab =  actionBarController.getSupportActionBar();
+//        onViewModeChanged(mActivity.getViewMode().getMode());
+        ViewMode mode = mActivity.getViewMode();
+//mode.enterConversationListMode();
+        mode.addListener(this);
+
+/*        if (mode.isConversationMode() && mode.getMode() == ViewMode.UNKNOWN) {
+                mode.enterConversationMode();
+            } else {
+        mode.enterConversationListMode();
+            }*/
+        mode.enterConversationListMode();
+
+
+        Toolbar toolbar = mActivity.getActionBarController().getSupportToolBar();
+        if (toolbar != null) {
+            toolbar.setSubtitle("Main");
+        }
+
+        actionBarController = mActivity.getActionBarController();
+       ActionBar ab =  actionBarController.getSupportActionBar();
        // ab.setDisplayHomeAsUpEnabled(true);
 
 //        mCallbacks = mActivity.getMainContentCallbacks();
@@ -253,8 +270,6 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
 
 /*        mRecycleCursorAdapter.setOnItemClickListener(
                 new NavigationBaseRecyclerAdapter.OnItemClickListener() {
->>>>>>> cf55e7465bdba2c5dd50c580bdacb82dcbc264a3
->>>>>>> 1b26a3e918b363b981c1ab8c864c3f66cb880a15
                     public void onItemClick(View itemView, int position)
                     {
                         Log.d(TAG,"ContentBaseRecyclerViewAdapter.OnItemClickListener");
@@ -264,7 +279,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
 
                 });*/
 
-      
+
         mRecyclerView.setAdapter(mRecycleCursorAdapter);
 
         // Indicate that this fragment would like to influence the set of actions in the action bar.
@@ -394,14 +409,14 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
+super.onCreateOptionsMenu(menu,inflater);
     }
 
 
 
     @Override
     public void  onPrepareOptionsMenu(Menu menu) {
-
+super.onPrepareOptionsMenu(menu);
     }
 
 

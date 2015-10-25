@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- fragment_screen_slide_page.authenticator -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:iosched="http://schemas.android.com/apk/res-auto"
     android:id="@+id/content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
 
     <TextView style="?android:textAppearanceMedium"
         android:id="@+id/text1"
@@ -12,4 +16,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/PaneText" />
-</ScrollView>
+
+    <com.bdevlin.apps.ui.widgets.BezelImageView
+        android:id="@+id/imageview2"
+        android:layout_marginLeft="@dimen/keyline_1"
+        android:layout_marginStart="@dimen/keyline_1"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/person_image_empty"
+        android:scaleType="centerCrop"
+        iosched:maskDrawable="@drawable/circle_mask" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New label"
+        android:padding="8dp"
+        android:textSize="20sp"
+        android:id="@+id/id1" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:padding="8dp"
+        android:textSize="20sp"
+        android:text="New Text"
+        android:id="@+id/name1" />
+
+</LinearLayout>
