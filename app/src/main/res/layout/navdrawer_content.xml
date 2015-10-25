@@ -10,15 +10,10 @@
 
         >
 
-        <!--
-              android:layout_height="@dimen/navdrawer_chosen_account_height"
-        android:foreground="?photoItemForeground"
-         -->
 
         <ImageView android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/default_cover"
             android:tint="@color/session_photo_scrim"
             android:id="@+id/profile_cover_image" />
 
@@ -91,11 +86,10 @@
 
     </FrameLayout>
 
-    <LinearLayout android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
-
-
 
         <!-- Account items -->
         <LinearLayout
@@ -103,26 +97,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-
             android:orientation="vertical"
-            android:visibility="invisible" />
-
-
+            android:visibility="gone"
+            />
 
         <!-- Drawer items -->
         <fragment android:id="@+id/navigation_drawer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="0dp"
+            android:visibility="visible"
             android:name="com.bdevlin.apps.ui.fragments.NavigationDrawerFragment"
             tools:layout="@layout/fragment_navigation_drawer" />
 
-
-
     </LinearLayout>
-
-
-    <!--   android:layout_gravity="start" -->
-
     </merge>

@@ -7,24 +7,17 @@
     android:id="@+id/navdrawer"
     android:layout_gravity="start"
     android:background="@color/navdrawer_background"
+android:padding="0dp"
 
-    android:clipToPadding="false">
+    >
+    <!-- android:clipToPadding="false"-->
     <!--  android:layout_gravity="start" android:paddingTop="?actionBarOverlayTopOffset"-->
 
     <LinearLayout android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-<!--
-        <fragment android:id="@+id/fragment_navigation_drawer"
-            android:layout_width="@dimen/navigation_drawer_width"
-            android:layout_height="match_parent"
-
-            android:name="com.bdevlin.apps.ui.fragments.NavigationDrawerFragment"
-            tools:layout="@layout/fragment_navigation_drawer" />-->
-
         <include layout="@layout/navdrawer_content" />
-
 
     </LinearLayout>
 

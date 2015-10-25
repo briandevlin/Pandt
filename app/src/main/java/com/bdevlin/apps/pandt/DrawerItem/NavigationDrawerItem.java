@@ -29,7 +29,7 @@ public class NavigationDrawerItem
     // <editor-fold desc="Fields">
     private NavigationDrawerFragment.NavigationDrawerCallbacks mCallbacks;
     private static IViewHolderClicked viewHolderClicked;
-    private static NavigationBaseRecyclerAdapter.OnItemClickListener itemClicked;
+    private static NavigationBaseRecyclerAdapter.OnItemClickListener drawerItemClicked;
     public int id;
     public String name;
     protected int[] mTo;
@@ -76,20 +76,19 @@ public class NavigationDrawerItem
             }
         };
 
-        itemClicked = new NavigationBaseRecyclerAdapter.OnItemClickListener() {
+        drawerItemClicked = new NavigationBaseRecyclerAdapter.OnItemClickListener() {
 
             public void onItemClick(View itemView, int position) {
                 Log.d(TAG, "onItemView: " + position);
                 if (mActivity != null) {
                     mCallbacks = mActivity.getNavigationDrawerCallbacks();
-                    mCallbacks.onNavigationDrawerItemSelected(1, null);
+                    mCallbacks.onNavigationDrawerItemSelected(position, null);
                 }
             }
 
             ;
 
         };
-
     }
 
 
@@ -112,6 +111,7 @@ public class NavigationDrawerItem
         Context ctx = holder.itemView.getContext();
 
         ListItemViewHolder viewHolder = (ListItemViewHolder) holder;
+        viewHolder.itemView.setTag(this);
 
         viewHolder.id.setText(String.valueOf(id));
         viewHolder.name.setText(name);
@@ -131,21 +131,21 @@ public class NavigationDrawerItem
             return new ListItemViewHolder(
                     v,
                     viewHolderClicked,
-                    itemClicked
+                    drawerItemClicked
             );
         }
     }
 
     public static class ListItemViewHolder extends BaseViewHolder
             implements View.OnClickListener, ItemTouchHelperViewHolder {
-        public IViewHolderClicked mListener;
-        NavigationBaseRecyclerAdapter.OnItemClickListener otherListener;
+        public IViewHolderClicked mViewHolderListener;
+        NavigationBaseRecyclerAdapter.OnItemClickListener drawerItemListener;
 
         public ListItemViewHolder(View itemLayoutView, IViewHolderClicked listener, NavigationBaseRecyclerAdapter.OnItemClickListener itemClicked) {
             super(itemLayoutView);
 
-            this.mListener = listener;
-            this.otherListener = itemClicked;
+            this.mViewHolderListener = listener;
+            this.drawerItemListener = itemClicked;
             // Attach a click listener to the entire row view
             itemLayoutView.setOnClickListener(this);
 
@@ -157,18 +157,19 @@ public class NavigationDrawerItem
 
             int position = getLayoutPosition(); // gets item position
             int pos = getAdapterPosition();
-            //ListItemViewHolder holder = (ListItemViewHolder )(v.getTag());
+
+            NavigationDrawerItem item = (NavigationDrawerItem )(v.getTag());
 
             if (v instanceof ImageView) {
-                mListener.onImageClicked((ImageView) v);
+                mViewHolderListener.onImageClicked((ImageView) v);
             } else {
-                mListener.onTextClicked(v);
+                mViewHolderListener.onTextClicked(v);
             }
 
-            if (otherListener == null) {
+            if (drawerItemListener == null) {
                 throw new NullPointerException("mOnItemClickListener is null in ");
             }
-            otherListener.onItemClick(v, getAdapterPosition());
+            drawerItemListener.onItemClick(v, getAdapterPosition());
 
             Toast.makeText(v.getContext(), "Id: " + pos, Toast.LENGTH_LONG).show();
         }

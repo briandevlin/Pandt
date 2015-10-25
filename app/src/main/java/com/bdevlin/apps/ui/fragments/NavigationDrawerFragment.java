@@ -2,12 +2,14 @@ package com.bdevlin.apps.ui.fragments;
 
 import android.app.Activity;
 //import android.content.CursorLoader;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+//import android.support.v7.internal.widget.AdapterViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -18,6 +20,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bdevlin.apps.pandt.Controllers.ActionBarController;
 import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
@@ -25,6 +32,8 @@ import com.bdevlin.apps.pandt.Cursors.CursorCreator;
 import com.bdevlin.apps.pandt.Cursors.NavigationBaseRecyclerAdapter;
 import com.bdevlin.apps.pandt.DividerItemDecoration;
 import com.bdevlin.apps.pandt.DrawerClosedObserver;
+import com.bdevlin.apps.pandt.DrawerItem.DividerDrawerItem;
+import com.bdevlin.apps.pandt.DrawerItem.IDrawerItem;
 import com.bdevlin.apps.pandt.ViewMode;
 import com.bdevlin.apps.ui.activity.core.HomeActivity;
 import com.bdevlin.apps.pandt.Cursors.MyObjectCursorLoader;
@@ -43,9 +52,11 @@ import com.bdevlin.apps.pandt.helper.OnStartDragListener;
 import com.bdevlin.apps.pandt.helper.SimpleItemTouchHelperCallback;
 import com.bdevlin.apps.provider.MockContract;
 
+import java.util.ArrayList;
+
 // instantiated from the navdrawer_content.xml  <fragment android:id="@+id/navigation_drawer"
 public class NavigationDrawerFragment
-        extends Fragment
+        extends ListFragment
         implements LoaderManager.LoaderCallbacks<ObjectCursor<NavigationDrawerItem>>,
         ViewMode.ModeChangeListener,
         OnStartDragListener {
@@ -244,7 +255,7 @@ super();
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        final ListView lv = getListView();
         final Activity activity = getActivity();
 
         if (!(activity instanceof ControllableActivity)) {
@@ -267,7 +278,7 @@ super();
                 new NavigationBaseRecyclerAdapter.OnItemClickListener() {
                     public void onItemClick(View itemView, int position)
                     {
-                        Log.d(TAG,"onItemClick");
+                        Log.d(TAG,"mRecycleCursorAdapter.setOnItemClickListener");
                         mCallbacks = mActivity.getNavigationDrawerCallbacks();
                         mCallbacks.onNavigationDrawerItemSelected(position, null);
                     }
@@ -353,15 +364,46 @@ super();
 //
 //        // SET THIS ADAPTER AS YOUR LISTACTIVITY'S ADAPTER
 //        this.setListAdapter(mCursorAdapter);
+         ArrayList<IDrawerItem> mDrawerItems = new ArrayList<>();
+        DividerDrawerItem item3 = new DividerDrawerItem();
 
 
-//        mCursorAdapter = new ArrayAdapter<Folder>(
-//                actionBarController.getActionBar().getThemedContext(),
-//                android.R.layout.simple_list_item_1,
-//                android.R.id.text1,
-//                Folders.ITEMS );
-//
-//        setListAdapter(mCursorAdapter);
+        NavigationDrawerItem item =  new  NavigationDrawerItem(mActivity, null);
+        item.name = "Brian";
+        item.id = 1;
+
+        NavigationDrawerItem item1 =  new  NavigationDrawerItem(mActivity, null);
+        item1.name = "Pam";
+        item1.id = 2;
+
+        NavigationDrawerItem item2 =  new  NavigationDrawerItem(mActivity, null);
+        item2.name = "Fred";
+        item2.id = 3;
+        mDrawerItems.add(item3);
+        mDrawerItems.add(item);
+        mDrawerItems.add(item1);
+        mDrawerItems.add(item2);
+
+        DrawerItemAdapter mCursorAdapter = new DrawerItemAdapter(
+                mActivity.getApplicationContext(),
+                mDrawerItems );
+
+        setListAdapter(mCursorAdapter);
+
+ /*       lv.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(AdapterView<?> arg0, View view,
+                                            int position, long id) {
+                        // TODO Auto-generated method stub
+                        Object o = lv.getItemAtPosition(position);
+                        String pen = o.toString();
+                        Toast.makeText(getActivity().getApplicationContext(), "You have chosen the pen: " + " " + pen, Toast.LENGTH_LONG).show();
+
+                    }
+                }
+        );*/
 
         // Indicate that this fragment would like to influence the set of actions in the action bar.
         setHasOptionsMenu(true);
@@ -459,26 +501,26 @@ super();
 
     // <editor-fold desc="Life Cycle">
 
-//    @Override
-//    public void onAttach(Activity activity) {
-//        super.onAttach(activity);
-//        try {
-//            if (!(activity instanceof ControllableActivity)) {
-//                // log something here
-//            }
-//            mActivity = (ControllableActivity) activity;
-//            folderController = mActivity.getFolderController();
-//          //  mCallbacks = mActivity.getNavigationDrawerCallbacks();
-//        } catch (ClassCastException e) {
-//            throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
-//        }
-//    }
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            if (!(activity instanceof ControllableActivity)) {
+                // log something here
+            }
+            mActivity = (ControllableActivity) activity;
+            folderController = mActivity.getFolderController();
+            mCallbacks = mActivity.getNavigationDrawerCallbacks();
+        } catch (ClassCastException e) {
+            throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
+        }
+    }
 
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mCallbacks = sDummyCallbacks;
-//    }
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = sDummyCallbacks;
+    }
 
 
     // </editor-fold>
@@ -578,4 +620,43 @@ super();
 
 // </editor-fold>
 
+    public class DrawerItemAdapter extends ArrayAdapter<IDrawerItem> {
+        public DrawerItemAdapter(Context context, ArrayList<IDrawerItem> users) {
+            super(context, 0, users);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            // Get the data item for this position
+            IDrawerItem user = getItem(position);
+            String type = user.getType();
+            if (type == "DIVIDER_ITEM") {
+                if (convertView == null) {
+                    convertView = LayoutInflater.from(getContext()).inflate(R.layout.drawer_divider, parent, false);
+                }else {
+                    // recycle the already inflated view
+                   // viewHolder = (ViewHolder) convertView.getTag();
+                }
+            }
+            else {
+                NavigationDrawerItem nav = (NavigationDrawerItem)getItem(position);
+                // Check if an existing view is being reused, otherwise inflate the view
+                if (convertView == null) {
+                    convertView = LayoutInflater.from(getContext()).inflate(R.layout.textview, parent, false);
+                }else {
+                    // recycle the already inflated view
+                   // viewHolder = (ViewHolder) convertView.getTag();
+                }
+                // Lookup view for data population
+                TextView tvName = (TextView) convertView.findViewById(R.id.name);
+                TextView tvHome = (TextView) convertView.findViewById(R.id.id);
+                // Populate the data into the template view using the data object
+                 tvName.setText(nav.name);
+                  tvHome.setText(String.valueOf(nav.id));
+            }
+            // Return the completed view to render on screen
+            return convertView;
+        }
+    }
 }
