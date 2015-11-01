@@ -280,6 +280,13 @@ public abstract class UIControllerBase implements ActivityController {
         if (mLoginAndAuthHelper != null) {
             mLoginAndAuthHelper.onActivityResult(requestCode,resultCode,data );
         }
+        if (requestCode == 1) {
+            // Make sure the request was successful
+            if (resultCode == mActivity.RESULT_OK) {
+                Log.d(TAG,"onActivityResult OK");
+                closeDrawerIfOpen();
+            }
+        }
     }
 
     @Override
@@ -441,7 +448,7 @@ public abstract class UIControllerBase implements ActivityController {
 
             showGlobalContextActionBar();
         }
-        mActivity.getMenuInflater().inflate(R.menu.home, (Menu) menu);
+        //mActivity.getMenuInflater().inflate(R.menu.home, (Menu) menu);
         return true;
     }
 

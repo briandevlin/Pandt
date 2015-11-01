@@ -161,7 +161,7 @@ public class UIControllerOnePane extends UIControllerBase
                 // Toast.makeText(mActivity, "Example action.", Toast.LENGTH_SHORT).show();
                 Intent intentPrefs = new Intent(mActivity,
                         PreferencesActivity.class);
-                mActivity.startActivity(intentPrefs);
+                mActivity.startActivityForResult(intentPrefs,1);
 
             case  "help":
                break;
