@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:iosched="http://schemas.android.com/apk/res-auto"
     android:id="@+id/item"
-    android:foreground="?selectableItemBackground"
     android:background="@color/colorPrimaryLight"
     android:layout_width="match_parent"
     android:layout_height="?listPreferredItemHeight"
