@@ -388,7 +388,7 @@ super();
                 mActivity.getApplicationContext(),
                 mDrawerItems );
 
-        setListAdapter(mCursorAdapter);
+       // setListAdapter(mCursorAdapter);
 
  /*       lv.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {

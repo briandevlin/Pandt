@@ -441,7 +441,7 @@ public abstract class UIControllerBase implements ActivityController {
 
             showGlobalContextActionBar();
         }
-        mActivity.getMenuInflater().inflate(R.menu.home, (Menu) menu);
+        //mActivity.getMenuInflater().inflate(R.menu.home, (Menu) menu);
         return true;
     }
 
