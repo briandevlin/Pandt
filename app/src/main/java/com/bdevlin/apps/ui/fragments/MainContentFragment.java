@@ -136,11 +136,11 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static MainContentFragment newInstance(/*GenericListContext viewContext,int sectionNumber*/) {
+    public static MainContentFragment newInstance(GenericListContext viewContext,int sectionNumber) {
         final MainContentFragment fragment = new MainContentFragment();
         final Bundle args = new Bundle();
-        /*args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-        args.putBundle(CONVERSATION_LIST_KEY, viewContext.toBundle());*/
+        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        args.putBundle(CONVERSATION_LIST_KEY, viewContext.toBundle());
         fragment.setArguments(args);
         return fragment;
     }
@@ -163,7 +163,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
         // Get the context from the arguments
         if (getArguments() != null) {
              final Bundle args = getArguments();
-           // mViewContext = GenericListContext.forBundle(args.getBundle(CONVERSATION_LIST_KEY));
+            mViewContext = GenericListContext.forBundle(args.getBundle(CONVERSATION_LIST_KEY));
             //mAccount = mViewContext.account;
         }
 
@@ -241,7 +241,10 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
 
 
         Toolbar toolbar = mActivity.getActionBarController().getSupportToolBar();
-        if (toolbar != null) {
+        if (toolbar != null && mViewContext.folder != null ) {
+            toolbar.setSubtitle("Main " + mViewContext.folder.name);
+        }
+        else {
             toolbar.setSubtitle("Main");
         }
 
@@ -343,14 +346,13 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
 
         try {
 
-          //  mActivity = (ControllableActivity) activity;
+            mActivity = (ControllableActivity) activity;
            // actionBarController = mActivity.getActionBarController();
 //            folderController = mActivity.getFolderController();
 //            if (folderController != null) {
 //               // folderController.onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
 //            }
-//            mCallbacks = mActivity.getMainContentCallbacks();
-
+            mCallbacks = mActivity.getMainContentCallbacks();
 
         } catch (ClassCastException e) {
             throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");

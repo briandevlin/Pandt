@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
 import com.bdevlin.apps.pandt.R;
 
 import java.util.List;
@@ -32,7 +33,7 @@ import java.util.List;
 /**
  * Created by bdevlin on 8/23/2015.
  */
-public class PreferencesActivity extends PreferenceActivity {
+public class PreferencesActivity extends PreferenceActivity  {
     private static final String TAG = PreferencesActivity.class.getSimpleName();
     Toolbar mToolbar;
 
@@ -108,6 +109,7 @@ public class PreferencesActivity extends PreferenceActivity {
             root.addView(barcontainer);
         }
 
+        bar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
 
         bar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

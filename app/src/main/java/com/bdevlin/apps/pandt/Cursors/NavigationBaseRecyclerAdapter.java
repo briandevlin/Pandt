@@ -14,6 +14,8 @@ import java.util.List;
 /**
  * Created by brian on 9/15/2015.
  */
+// Create the base adapter extending from RecyclerView.Adapter
+    // the viewholder VH will be from the internal drawerItem viewholder
 public abstract class NavigationBaseRecyclerAdapter<VH extends RecyclerView.ViewHolder>
         extends RecyclerView.Adapter<VH>   {
 

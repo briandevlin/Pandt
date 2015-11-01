@@ -48,6 +48,6 @@ public interface ActivityController extends ActionBarController,
     void onPostCreate(Bundle savedInstanceState);
     Account getCurrentAccount();
     GenericListContext getCurrentListContext();
-    void showConversationList(/*GenericListContext listContext*/);
+    void showConversationList(GenericListContext listContext);
     void onActivityResult(int requestCode, int resultCode, Intent data);
 }

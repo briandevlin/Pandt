@@ -27,7 +27,7 @@ public class GenericListContext {
 
     public static GenericListContext forBundle(Bundle bundle) {
 
-        Folder folder = bundle.getParcelable(Utils.EXTRA_FOLDER);
+        Folder folder = bundle.getParcelable(Utils.CONVERSATION_LIST_KEY);
         return new GenericListContext(folder);
     }
 
@@ -35,7 +35,7 @@ public class GenericListContext {
 
         Bundle result = new Bundle();
 
-         result.putParcelable(EXTRA_FOLDER,  folder);
+         result.putParcelable(Utils.CONVERSATION_LIST_KEY,  folder);
 
         return result;
 
