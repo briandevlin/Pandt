@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -156,7 +157,8 @@ public class NavigationDrawerFragment
         /**
          * Called when an item in the navigation drawer is selected.
          */
-        public void onNavigationDrawerItemSelected(int position, Folder folder);
+        public void onNavigationDrawerItemSelected(int position, NavigationDrawerItem itemView);
+        public void onNavigationDrawerArraySelected(int position, NavigationDrawerItem itemView);
     }
 
 
@@ -166,7 +168,10 @@ public class NavigationDrawerFragment
      */
     private static NavigationDrawerCallbacks sDummyCallbacks = new NavigationDrawerCallbacks() {
         @Override
-        public void onNavigationDrawerItemSelected(int position, Folder folder) {
+        public void onNavigationDrawerItemSelected(int position, NavigationDrawerItem itemView) {
+
+        }
+        public void onNavigationDrawerArraySelected(int position, NavigationDrawerItem itemView) {
 
         }
     };
@@ -221,27 +226,33 @@ super();
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
 
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
+        if (mRecyclerView == null) {
+            mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
 
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
-        
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-        mLayoutManager.scrollToPosition(0);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        //Cursor cursor = getActivity().getContentResolver().query(MockContract.Folders.CONTENT_URI, MockContract.FOLDERS_PROJECTION, null, null, null);
+            // use this setting to improve performance if you know that changes
+            // in content do not change the layout size of the RecyclerView
+            mRecyclerView.setHasFixedSize(true);
+            mRecyclerView.setFadingEdgeLength(0);
+            mRecyclerView.setClipToPadding(false);
+
+            mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+            mLayoutManager.scrollToPosition(0);
+            mRecyclerView.setLayoutManager(mLayoutManager);
+            //Cursor cursor = getActivity().getContentResolver().query(MockContract.Folders.CONTENT_URI, MockContract.FOLDERS_PROJECTION, null, null, null);
 
 
-        RecyclerView.ItemDecoration itemDecoration =
-                new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST);
+            RecyclerView.ItemDecoration itemDecoration =
+                    new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST);
 
-        mRecyclerView.addItemDecoration(itemDecoration);
+            mRecyclerView.addItemDecoration(itemDecoration);
 
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mRecycleCursorAdapter);
-        mItemTouchHelper = new ItemTouchHelper(callback);
-        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+
+            ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mRecycleCursorAdapter);
+            mItemTouchHelper = new ItemTouchHelper(callback);
+            mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+        }
+
+
 
         if (savedInstanceState != null
                 && savedInstanceState.containsKey(BUNDLE_LIST_STATE)) {
@@ -369,15 +380,15 @@ super();
 
 
         NavigationDrawerItem item =  new  NavigationDrawerItem(mActivity, null);
-        item.name = "Brian";
+        item.name = "Settings";
         item.id = 1;
 
         NavigationDrawerItem item1 =  new  NavigationDrawerItem(mActivity, null);
-        item1.name = "Pam";
+        item1.name = "Help";
         item1.id = 2;
 
         NavigationDrawerItem item2 =  new  NavigationDrawerItem(mActivity, null);
-        item2.name = "Fred";
+        item2.name = "About";
         item2.id = 3;
         mDrawerItems.add(item3);
         mDrawerItems.add(item);
@@ -621,42 +632,34 @@ super();
 // </editor-fold>
 
     public class DrawerItemAdapter extends ArrayAdapter<IDrawerItem> {
-        public DrawerItemAdapter(Context context, ArrayList<IDrawerItem> users) {
+        public DrawerItemAdapter(Context context, @NonNull ArrayList<IDrawerItem> users) {
             super(context, 0, users);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-
+            NavigationDrawerItem.ListItemViewHolder vh = null;
             // Get the data item for this position
             IDrawerItem user = getItem(position);
+
             String type = user.getType();
             if (type == "DIVIDER_ITEM") {
                 if (convertView == null) {
                     convertView = LayoutInflater.from(getContext()).inflate(R.layout.drawer_divider, parent, false);
+                    return convertView;
                 }else {
-                    // recycle the already inflated view
-                   // viewHolder = (ViewHolder) convertView.getTag();
+
                 }
             }
             else {
                 NavigationDrawerItem nav = (NavigationDrawerItem)getItem(position);
-                // Check if an existing view is being reused, otherwise inflate the view
-                if (convertView == null) {
-                    convertView = LayoutInflater.from(getContext()).inflate(R.layout.textview, parent, false);
-                }else {
-                    // recycle the already inflated view
-                   // viewHolder = (ViewHolder) convertView.getTag();
-                }
-                // Lookup view for data population
-                TextView tvName = (TextView) convertView.findViewById(R.id.name);
-                TextView tvHome = (TextView) convertView.findViewById(R.id.id);
-                // Populate the data into the template view using the data object
-                 tvName.setText(nav.name);
-                  tvHome.setText(String.valueOf(nav.id));
+              //   vh =  (NavigationDrawerItem.ListItemViewHolder)nav.getViewHolder(parent);
+              //  nav.bindView(vh);
+
+              // generateView essentially wraps the above methods and returns itemView
+                return nav.generateView(getContext(),parent);
             }
-            // Return the completed view to render on screen
-            return convertView;
+          return null;
         }
     }
 }

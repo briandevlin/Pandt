@@ -469,7 +469,7 @@ public abstract class UIControllerBase implements ActivityController {
     }
 
     @Override
-    public void showConversationList(/*GenericListContext listContext*/) {
+    public void showConversationList(GenericListContext listContext) {
 
     }
     public void setTitle(CharSequence title) {

@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.bdevlin.apps.pandt.Controllers.ActivityController;
+import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
 import com.bdevlin.apps.pandt.GenericListContext;
 import com.bdevlin.apps.pandt.Items;
 import com.bdevlin.apps.pandt.folders.Folder;
@@ -59,7 +60,7 @@ public class UIControllerOnePane extends UIControllerBase
 
         View v = (FrameLayout)mActivity.findViewById(R.id.main_content);
 
-        final MainContentFragment itemListFragment = MainContentFragment.newInstance();
+        final MainContentFragment itemListFragment = MainContentFragment.newInstance( GenericListContext.forFolder(null),0);
 
         replaceFragment(itemListFragment, FragmentTransaction.TRANSIT_FRAGMENT_OPEN,
                 TAG_MAIN_LIST, R.id.main_content);
@@ -104,10 +105,10 @@ public class UIControllerOnePane extends UIControllerBase
     // </editor-fold>
 
     @Override
-    public void showConversationList(/*ConversationListContext listContext*/) {
-        super.showConversationList(/*listContext*/);
+    public void showConversationList(GenericListContext listContext) {
+        super.showConversationList(listContext);
 
-        final MainContentFragment itemListFragment = MainContentFragment.newInstance();
+        final MainContentFragment itemListFragment = MainContentFragment.newInstance(listContext, 0);
 
         replaceFragment(itemListFragment, FragmentTransaction.TRANSIT_FRAGMENT_OPEN,
                 TAG_MAIN_LIST, R.id.main_content);
@@ -134,20 +135,40 @@ public class UIControllerOnePane extends UIControllerBase
 
     /* implements NavigationDrawerFragment.NavigationDrawerCallbacks*/
     @Override
-    public void onNavigationDrawerItemSelected(int position, Folder folder) {
-            Log.d(TAG, "onNavigationDrawerItemSelected");
+    public void onNavigationDrawerItemSelected(int position, NavigationDrawerItem itemView) {
+        Log.d(TAG, "onNavigationDrawerItemSelected");
         toggleDrawerState();
-        // FIXME
-//        GenericListContext viewContext =  GenericListContext.forFolder(folder);
-//
-//        // update the main name (R.id.container) by replacing fragments
-//        Fragment mainFragment = MainContentFragment.newInstance(viewContext, position + 1);
-//       // Fragment mainFragment = AccountSetupIncomingFragment.newInstance(viewContext, position + 1);
-//
-//        replaceFragment(mainFragment, FragmentTransaction.TRANSIT_FRAGMENT_OPEN, TAG_MAIN_LIST,
-//                R.id.main_content);
-//
-//        mFolder = folder;
+        Folder folder = new Folder(itemView.id, itemView.name);
+
+        GenericListContext viewContext =  GenericListContext.forFolder(folder);
+        showConversationList(viewContext);
+
+        mFolder = folder;
+    }
+
+    public void onNavigationDrawerArraySelected(int position, NavigationDrawerItem itemView) {
+        Log.d(TAG, "onNavigationDrawerArraySelected");
+       // toggleDrawerState();
+        closeDrawerIfOpen();
+
+        String id = itemView.name;
+        switch (id) {
+//            case R.id.menu_about:
+//                HelpUtils.showAbout(this);
+//                return true;
+
+            case "Settings":
+                // Toast.makeText(mActivity, "Example action.", Toast.LENGTH_SHORT).show();
+                Intent intentPrefs = new Intent(mActivity,
+                        PreferencesActivity.class);
+                mActivity.startActivity(intentPrefs);
+
+            case  "help":
+               break;
+
+            default:
+
+        }
     }
 
     @Override
@@ -191,9 +212,11 @@ public class UIControllerOnePane extends UIControllerBase
     public void onViewModeChanged(int newMode) {
         super.onViewModeChanged(newMode);
 
-  /*      if (ViewMode.isListMode(newMode)) {
-            mPagerController.hide(true *//* changeVisibility *//*);
+        if (ViewMode.isListMode(newMode)) {
+            mPagerController.hide(true);
             getDrawerToggle().setDrawerIndicatorEnabled(true);
+           // toggleDrawerState();
+            closeDrawerIfOpen();
         }
 
         if (ViewMode.isConversationMode(newMode)) {
@@ -202,7 +225,7 @@ public class UIControllerOnePane extends UIControllerBase
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setDisplayShowHomeEnabled(false);
 
-        }*/
+        }
 
     }
 
@@ -225,7 +248,8 @@ public class UIControllerOnePane extends UIControllerBase
         } else if (mViewMode.isConversationMode() ) {
             Log.d(TAG, "isConversationMode");
            // transitionBackToConversationListMode();
-            showConversationList();
+            GenericListContext viewContext =  GenericListContext.forFolder(mFolder);
+            showConversationList(viewContext);
 
             mViewMode.enterConversationListMode();
         } else {

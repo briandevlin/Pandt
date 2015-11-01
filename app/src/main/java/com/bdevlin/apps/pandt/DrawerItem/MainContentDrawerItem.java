@@ -137,7 +137,7 @@ public class MainContentDrawerItem
             this.otherListener = itemClicked;
             // Attach a click listener to the entire row view
             itemLayoutView.setOnClickListener(this);
-            this.icon.setOnClickListener(this);
+         //   this.icon.setOnClickListener(this);
         }
 
         @Override

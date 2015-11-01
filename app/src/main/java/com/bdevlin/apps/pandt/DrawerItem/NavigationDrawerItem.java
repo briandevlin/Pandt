@@ -80,10 +80,21 @@ public class NavigationDrawerItem
 
             public void onItemClick(View itemView, int position) {
                 Log.d(TAG, "onItemView: " + position);
-                if (mActivity != null) {
-                    mCallbacks = mActivity.getNavigationDrawerCallbacks();
-                    mCallbacks.onNavigationDrawerItemSelected(position, null);
+                NavigationDrawerItem item = (NavigationDrawerItem )(itemView.getTag());
+                if (itemView.getParent() instanceof RecyclerView) {
+                    Log.d(TAG, "from the recycler " );
+                    if (mActivity != null) {
+                        mCallbacks = mActivity.getNavigationDrawerCallbacks();
+                        mCallbacks.onNavigationDrawerItemSelected(position, item);
+                    }
+                } else {
+                    Log.d(TAG, "from the ArrayAdapter ");
+                    if (mActivity != null) {
+                        mCallbacks = mActivity.getNavigationDrawerCallbacks();
+                        mCallbacks.onNavigationDrawerArraySelected(position, item);
+                    }
                 }
+
             }
 
             ;
@@ -124,7 +135,7 @@ public class NavigationDrawerItem
         return new ItemFactory();
     }
 
-    public static class ItemFactory implements ViewHolderFactory<ListItemViewHolder> {
+    public  class ItemFactory implements ViewHolderFactory<ListItemViewHolder> {
 
         public ListItemViewHolder factory(View v) {
 
@@ -136,7 +147,8 @@ public class NavigationDrawerItem
         }
     }
 
-    public static class ListItemViewHolder extends BaseViewHolder
+    // Used to cache the views within the item layout for fast access
+    public  class ListItemViewHolder extends BaseViewHolder
             implements View.OnClickListener, ItemTouchHelperViewHolder {
         public IViewHolderClicked mViewHolderListener;
         NavigationBaseRecyclerAdapter.OnItemClickListener drawerItemListener;
@@ -158,7 +170,12 @@ public class NavigationDrawerItem
             int position = getLayoutPosition(); // gets item position
             int pos = getAdapterPosition();
 
+
             NavigationDrawerItem item = (NavigationDrawerItem )(v.getTag());
+
+            if (pos == -1){
+                pos = (item.id - 1);
+            }
 
             if (v instanceof ImageView) {
                 mViewHolderListener.onImageClicked((ImageView) v);
@@ -169,7 +186,7 @@ public class NavigationDrawerItem
             if (drawerItemListener == null) {
                 throw new NullPointerException("mOnItemClickListener is null in ");
             }
-            drawerItemListener.onItemClick(v, getAdapterPosition());
+            drawerItemListener.onItemClick(v, pos);
 
             Toast.makeText(v.getContext(), "Id: " + pos, Toast.LENGTH_LONG).show();
         }

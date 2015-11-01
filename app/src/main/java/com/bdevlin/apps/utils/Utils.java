@@ -20,6 +20,7 @@ public class Utils {
     public static final String EXTRA_COMPOSE_URI = "composeUri";
     public static final String EXTRA_CONVERSATION = "conversationUri";
     public static final String EXTRA_FROM_NOTIFICATION = "notification";
+    public static final String CONVERSATION_LIST_KEY = "conversation-list";
 
     public static boolean useTabletUI(Resources res) {
         return res.getInteger(R.integer.use_tablet_ui) != 0;

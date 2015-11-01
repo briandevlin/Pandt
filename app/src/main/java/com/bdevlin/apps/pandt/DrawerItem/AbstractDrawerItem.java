@@ -1,5 +1,6 @@
 package com.bdevlin.apps.pandt.DrawerItem;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,13 @@ public abstract class AbstractDrawerItem<T> implements IDrawerItem<T> {
         if (mOnPostBindViewListener != null) {
             mOnPostBindViewListener.onBindView(drawerItem, view);
         }
+    }
+
+    @Override
+    public View generateView(Context ctx, ViewGroup parent) {
+        RecyclerView.ViewHolder viewHolder = getFactory().factory(LayoutInflater.from(ctx).inflate(getLayoutRes(), parent, false));
+        bindView(viewHolder);
+        return viewHolder.itemView;
     }
 
     public abstract ViewHolderFactory getFactory();

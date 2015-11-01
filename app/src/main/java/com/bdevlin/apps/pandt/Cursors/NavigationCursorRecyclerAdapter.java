@@ -55,9 +55,9 @@ public class NavigationCursorRecyclerAdapter
     @Override
     public  NavigationDrawerItem.ListItemViewHolder onCreateViewHolder (ViewGroup parent, int viewType) {
         Log.d(TAG,"onCreateViewHolder");
-        NavigationDrawerItem item = new NavigationDrawerItem(mActivity, null);
+        NavigationDrawerItem drawerItem = new NavigationDrawerItem(mActivity, null);
         //AbstractDrawerItem.getViewHolder inflates the view item and returns the ListItemViewHolder(view)
-      return (NavigationDrawerItem.ListItemViewHolder)item.getViewHolder(parent);
+      return (NavigationDrawerItem.ListItemViewHolder)drawerItem.getViewHolder(parent);
     }
 
     // // Replace the contents of a view (invoked by the layout manager)
