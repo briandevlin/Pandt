@@ -1,6 +1,8 @@
 package com.bdevlin.apps.ui.activity.core;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -114,7 +116,15 @@ public class PreferencesActivity extends PreferenceActivity  {
         bar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent data = new Intent();
+
+                if (getParent() == null) {
+                    setResult(Activity.RESULT_OK, data);
+                } else {
+                    getParent().setResult(Activity.RESULT_OK, data);
+                }
                 finish();
+
             }
         });
     }

@@ -3,9 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:iosched="http://schemas.android.com/apk/res-auto"
     android:id="@+id/item"
-    android:foreground="?selectableItemBackground"
-    android:background="@color/colorPrimaryLight"
     android:layout_width="match_parent"
+
+    android:background="@color/colorPrimaryLight"
     android:layout_height="?listPreferredItemHeight"
     android:orientation="horizontal">
 
@@ -20,7 +20,7 @@
         android:scaleType="centerCrop"
         iosched:maskDrawable="@drawable/circle_mask" />
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center_vertical|start"
