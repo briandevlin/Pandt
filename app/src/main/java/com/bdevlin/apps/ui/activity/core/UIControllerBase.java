@@ -225,7 +225,7 @@ public abstract class UIControllerBase implements ActivityController {
     @Override
     public void onStart() {
         Log.d(TAG, "onStart");
-        //startGooglePlayLoginProcess();
+       // startGooglePlayLoginProcess();
     }
 
     @Override
@@ -254,8 +254,9 @@ public abstract class UIControllerBase implements ActivityController {
             @Override
             public void run()
             {
-                prefs = mActivity.getPreferences(Context.MODE_PRIVATE);
-                opened = prefs.getBoolean(OPENED_KEY, false);
+
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
+                opened = preferences.getBoolean(OPENED_KEY, false);
                 if(!opened)
                 {
                     if (mDrawerLayout != null) {
@@ -1033,7 +1034,7 @@ public abstract class UIControllerBase implements ActivityController {
     @Override
     public void onPlusInfoLoaded(String accountName) {
         Log.d(TAG, "Plus Info loaded.");
-     //  setupAccountBox();
+       setupAccountBox();
        // AddDriveFile();
       //  AddFolder();
       //  ListFolder();
@@ -1058,7 +1059,7 @@ public abstract class UIControllerBase implements ActivityController {
            // SyncHelper.requestManualSync(account);
         }
 
-      //  setupAccountBox();
+        setupAccountBox();
      //   populateNavDrawer();
      //   registerGCMClient();
     }

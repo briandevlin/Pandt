@@ -3,7 +3,8 @@ package com.bdevlin.apps.ui.fragments;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.bdevlin.apps.pandt.R;
  * create an instance of this fragment.
  */
 public class BlankFragment extends Fragment {
+    private static final String TAG = BlankFragment.class.getSimpleName();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -65,7 +67,18 @@ public class BlankFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_blank, container, false);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(
+                R.layout.fragment_blank, container, false);
+
+       // return inflater.inflate(R.layout.fragment_blank, container, false);
+        return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        boolean visible = this.isVisible();
+        Log.d(TAG, "Blank Fragment: onViewCreated ");
     }
 
     // TODO: Rename method, update argument and hook method into UI event

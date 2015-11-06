@@ -32,6 +32,13 @@ public class PagerFragment extends Fragment {
     private ActionBarController controller = null;
     private  int  mParam1;
 
+    public static PagerFragment newInstance(String content) {
+        PagerFragment fragment = new PagerFragment();
+
+
+        return fragment;
+    }
+
     public PagerFragment() {
     }
 
@@ -58,24 +65,24 @@ Log.d(TAG, "Pager Fragment: onCreate");
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
-                R.layout.fragment_slide_view, container, false);
+                R.layout.fragment, container, false);
 
         TextView text1 = (TextView)rootView.findViewById(R.id.text1);
         text1.setText("fragment " + mParam1);
-
+        Log.d(TAG, "Pager Fragment: onCreateView " + mParam1);
         return rootView;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        Log.d(TAG, "Pager Fragment: onViewCreated " );
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        Log.d(TAG, "Pager Fragment: onActivityCreated ");
 
        final Activity activity = getActivity();
 

@@ -17,6 +17,7 @@ import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
 import com.bdevlin.apps.pandt.GenericListContext;
 import com.bdevlin.apps.pandt.Items;
 import com.bdevlin.apps.pandt.folders.Folder;
+import com.bdevlin.apps.ui.fragments.BlankFragment;
 import com.bdevlin.apps.ui.fragments.MainContentFragment;
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.pandt.ViewMode;
@@ -119,8 +120,11 @@ public class UIControllerOnePane extends UIControllerBase
         super.showConversation(position, listItem);
 
         mViewMode.enterConversationMode();
+        BlankFragment itemListFragment = BlankFragment.newInstance("item1", "item2");
+        replaceFragment(itemListFragment, FragmentTransaction.TRANSIT_FRAGMENT_OPEN,
+                TAG_MAIN_LIST, R.id.main_content);
 
-        final FragmentManager fm = mActivity.getSupportFragmentManager();
+      /*  final FragmentManager fm = mActivity.getSupportFragmentManager();
         final FragmentTransaction ft = fm.beginTransaction();
        // remove main content fragment to reveal the viewpager
         final Fragment f = fm.findFragmentById(R.id.main_content);
@@ -130,7 +134,7 @@ public class UIControllerOnePane extends UIControllerBase
             ft.commitAllowingStateLoss();
             fm.executePendingTransactions();
         }
-        mPagerController.show(position, listItem);
+        mPagerController.show(position, listItem);*/
     }
 
     /* implements NavigationDrawerFragment.NavigationDrawerCallbacks*/
@@ -213,7 +217,7 @@ public class UIControllerOnePane extends UIControllerBase
         super.onViewModeChanged(newMode);
 
         if (ViewMode.isListMode(newMode)) {
-            mPagerController.hide(true);
+           // mPagerController.hide(true);
             getDrawerToggle().setDrawerIndicatorEnabled(true);
            // toggleDrawerState();
             closeDrawerIfOpen();

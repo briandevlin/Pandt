@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.bdevlin.apps.ui.fragments.BlankFragment;
 import com.bdevlin.apps.ui.fragments.PagerFragment;
 
 /**
@@ -25,10 +26,11 @@ public class SlidePagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
 
        // return new PagerFragment();
-        PagerFragment frag = new PagerFragment();
-        Bundle args = new Bundle();
+        BlankFragment frag = BlankFragment.newInstance("item1","itetm2");
+        /*Bundle args = new Bundle();
         args.putInt(PagerFragment.ARG_INDEX, position);
-        frag.setArguments(args);
+        frag.setArguments(args);*/
+       boolean visible =  frag.isVisible();
         return frag;
     }
 

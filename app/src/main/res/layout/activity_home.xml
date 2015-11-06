@@ -29,9 +29,11 @@
         <android.support.v4.view.ViewPager
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/conversation_pane"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone" >
+            android:layout_width="600dp"
+            android:layout_height="600dp"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:background="@color/accent">
         </android.support.v4.view.ViewPager>
     </LinearLayout>
 
