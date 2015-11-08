@@ -27,7 +27,7 @@ public abstract class DrawerClosedObserver extends DataSetObserver {
      */
     public void initialize(ActionBarController controller) {
         mController = controller;
-        mController.registerDrawerClosedObserver(this);
+       // mController.registerDrawerClosedObserver(this);
     }
 
     /**
@@ -48,7 +48,7 @@ public abstract class DrawerClosedObserver extends DataSetObserver {
      */
     public void unregisterAndDestroy() {
         if (mController != null) {
-            mController.unregisterDrawerClosedObserver(this);
+          //  mController.unregisterDrawerClosedObserver(this);
         }
     }
 }

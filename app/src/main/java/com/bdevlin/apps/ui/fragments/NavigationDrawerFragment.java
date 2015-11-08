@@ -32,7 +32,7 @@ import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
 import com.bdevlin.apps.pandt.Cursors.CursorCreator;
 import com.bdevlin.apps.pandt.Cursors.NavigationBaseRecyclerAdapter;
 import com.bdevlin.apps.pandt.DividerItemDecoration;
-import com.bdevlin.apps.pandt.DrawerClosedObserver;
+//import com.bdevlin.apps.pandt.DrawerClosedObserver;
 import com.bdevlin.apps.pandt.DrawerItem.DividerDrawerItem;
 import com.bdevlin.apps.pandt.DrawerItem.IDrawerItem;
 import com.bdevlin.apps.pandt.ViewMode;
@@ -47,7 +47,7 @@ import com.bdevlin.apps.pandt.accounts.AccountController;
 import com.bdevlin.apps.pandt.accounts.AccountObserver;
 import com.bdevlin.apps.pandt.folders.Folder;
 import com.bdevlin.apps.pandt.folders.FolderController;
-import com.bdevlin.apps.pandt.folders.FolderObserver;
+//import com.bdevlin.apps.pandt.folders.FolderObserver;
 import com.bdevlin.apps.pandt.folders.FolderUri;
 import com.bdevlin.apps.pandt.helper.OnStartDragListener;
 import com.bdevlin.apps.pandt.helper.SimpleItemTouchHelperCallback;
@@ -65,12 +65,8 @@ public class NavigationDrawerFragment
     // <editor-fold desc="Fields">
 
     private static final String TAG = NavigationDrawerFragment.class.getSimpleName();
-
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    //private static final String ARG_SECTION_NUMBER = "section_number";
+    private static final boolean DEBUG = true;
+    
     /**
      * Remember the position of the selected item.
      */
@@ -91,32 +87,26 @@ public class NavigationDrawerFragment
      */
     private NavigationDrawerCallbacks mCallbacks;
 
-    //private ListView mDrawerListView;
-    private View mFragmentContainerView;
-    //private MyCursorAdapter mCursorAdapter;
-
     private int mCurrentSelectedPosition = 0;
-    private boolean mFromSavedInstanceState;
-    private boolean mUserLearnedDrawer;
-
+    
     private  ControllableActivity mActivity;
-   //private static HomeActivity mActivity;
-    private FolderController folderController = null;
+   
+   /* private FolderController folderController = null;
     private ActionBarController actionBarController = null;
     private AccountController mAccountController;
 
     private Account mCurrentAccount;
-    private Account mNextAccount = null;
+    private Account mNextAccount = null;*/
     /** The folder we will change to once the drawer (if any) is closed */
-    private Folder mNextFolder = null;
+   /* private Folder mNextFolder = null;
     private Uri mFolderListUri;
-    private FolderUri mSelectedFolderUri = FolderUri.EMPTY;
+    private FolderUri mSelectedFolderUri = FolderUri.EMPTY;*/
 
     //ArrayAdapter<Folder> mCursorAdapter;
 
-    private DrawerClosedObserver mDrawerObserver = null;
+    /*private DrawerClosedObserver mDrawerObserver = null;
     private FolderObserver mFolderObserver = null;
-    private AccountObserver mAccountObserver = null;
+    private AccountObserver mAccountObserver = null;*/
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -124,6 +114,7 @@ public class NavigationDrawerFragment
     private NavigationCursorRecyclerAdapter mRecycleCursorAdapter;
 
     private ItemTouchHelper mItemTouchHelper;
+    private boolean mFromSavedInstanceState;
 
     @Override
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
@@ -134,8 +125,6 @@ public class NavigationDrawerFragment
     // </editor-fold>
 
     // <editor-fold desc="Interfaces">
-
-
 
     public  final CursorCreator<NavigationDrawerItem> FACTORY = new CursorCreator<NavigationDrawerItem>() {
         @Override
@@ -201,23 +190,24 @@ super();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.v(TAG, "in NavigationDrawerFragment onCreate");
+       if (DEBUG) Log.v(TAG, "in NavigationDrawerFragment onCreate");
         if (getArguments() != null) {
             final Bundle args = getArguments();
 
         }
         // Restore the previously serialized activated item position.
         if (savedInstanceState != null) {
+            if (DEBUG) Log.v(TAG, "in NavigationDrawerFragment savedInstanceState");
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
             mFromSavedInstanceState = true;
         }
 
-        //mActivity.getViewMode().addListener(this);
+        mActivity.getViewMode().addListener(this);
     }
 
     @Override
     public void onViewModeChanged(int newMode) {
-        Log.v(TAG, "in onViewModeChanged  " + newMode);
+        if (DEBUG) Log.v(TAG, "NavigationDrawerFragment: in onViewModeChanged  " + newMode);
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -229,8 +219,6 @@ super();
         if (mRecyclerView == null) {
             mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
 
-            // use this setting to improve performance if you know that changes
-            // in content do not change the layout size of the RecyclerView
             mRecyclerView.setHasFixedSize(true);
             mRecyclerView.setFadingEdgeLength(0);
             mRecyclerView.setClipToPadding(false);
@@ -296,85 +284,9 @@ super();
 
                 });
 
-
-
         //mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setAdapter(mRecycleCursorAdapter);
-//        mCallbacks = mActivity.getNavigationDrawerCallbacks();
-//        mCallbacks.onNavigationDrawerItemSelected(1, null);
-      //  folderController = mActivity.getFolderController();
-      //  actionBarController = mActivity.getActionBarController();
 
-//        mFolderObserver = new FolderObserver() {
-//            @Override
-//            public void onChanged(Folder newFolder) {
-//                setSelectedFolder(newFolder);
-//                Log.d(TAG, "onFolderChanged");
-//            }
-//        };
-//        final Folder currentFolder;
-//        if (folderController != null) {
-//            // Only register for selected folder updates if we have a controller.
-//            currentFolder = mFolderObserver.initialize(folderController);
-//           // mCurrentFolderForUnreadCheck = currentFolder;
-//        } else {
-//            currentFolder = null;
-//        }
-//        final Folder selectedFolder;
-//        selectedFolder = currentFolder;
-
-//        if (selectedFolder != null) {
-//            setSelectedFolder(selectedFolder);
-//        }
-//
-//        mDrawerObserver = new DrawerClosedObserver() {
-//            @Override
-//            public void onDrawerClosed() {
-//                Log.d(TAG, "onDrawerClosed");
-//            }
-//        };
-//        mDrawerObserver.initialize(actionBarController);
-
-        //final AccountController accountController = mActivity.getAccountController();
-
-//        mAccountObserver = new AccountObserver() {
-//            @Override
-//            public void onChanged(Account newAccount) {
-//                Log.d(TAG, "onAccountChanged");
-//                setSelectedAccount(newAccount);
-//            }
-//        };
-//
-//        if (accountController != null) {
-//            setSelectedAccount(mAccountObserver.initialize(accountController));
-//            mAccountController = accountController;
-//
-//        }
-
-        //  String[] projection = new String[] { MockContract.Folders._ID, MockContract.FolderColumns.FOLDER_NAME };
-
-        // call our MockUiProvider toge the folders list using th eprojection defined above
-        //Cursor cursor = activity.getContentResolver().query(MockContract.Folders.CONTENT_URI, MockContract.FOLDERS_PROJECTION, null, null, null);
-
-        // THE DESIRED COLUMNS TO BE BOUND
-        // String[] columns = new String[] { MockContract.Folders._ID,   MockContract.FolderColumns.FOLDER_NAME };
-        // THE XML DEFINED VIEWS WHICH THE DATA WILL BE BOUND TO. ACTUALLY USING ANDROID DEFINED IDs
-        //int[] to = new int[]{android.R.id.text1, android.R.id.text2};
-
-        // Initialize the mCursorAdapter. Note that we pass a 'null' Cursor as the
-        // third argument. We will pass the mCursorAdapter a Cursor only when the
-        // data has finished loading for the first time (i.e. when the
-        // LoaderManager delivers the data to onLoadFinished). Also note
-        // that we have passed the '0' flag as the last argument. This
-        // prevents the mCursorAdapter from registering a ContentObserver for the
-        // Cursor (the CursorLoader will do this for us!).
-//        mCursorAdapter = new MyCursorAdapter(
-//                getActivity().getApplicationContext(),
-//                android.R.layout.simple_list_item_2, null,
-//                MockContract.FOLDERS_PROJECTION, to, 0);
-//
-//        // SET THIS ADAPTER AS YOUR LISTACTIVITY'S ADAPTER
-//        this.setListAdapter(mCursorAdapter);
          ArrayList<IDrawerItem> mDrawerItems = new ArrayList<>();
         DividerDrawerItem item3 = new DividerDrawerItem();
 
@@ -401,20 +313,6 @@ super();
 
         setListAdapter(mCursorAdapter);
 
- /*       lv.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-
-                    @Override
-                    public void onItemClick(AdapterView<?> arg0, View view,
-                                            int position, long id) {
-                        // TODO Auto-generated method stub
-                        Object o = lv.getItemAtPosition(position);
-                        String pen = o.toString();
-                        Toast.makeText(getActivity().getApplicationContext(), "You have chosen the pen: " + " " + pen, Toast.LENGTH_LONG).show();
-
-                    }
-                }
-        );*/
 
         // Indicate that this fragment would like to influence the set of actions in the action bar.
         setHasOptionsMenu(true);
@@ -429,84 +327,6 @@ super();
 
     // <editor-fold desc="Misc">
 
-//    private void setSelectedFolder(Folder folder) {
-//        if (folder == null) {
-//           mSelectedFolderUri = FolderUri.EMPTY;
-//          //  mCurrentFolderForUnreadCheck = null;
-//
-//            return;
-//        }
-//
-//      //  mSelectedFolderUri = folder.folderUri;
-//        if (mCursorAdapter != null) {
-//            mCursorAdapter.notifyDataSetChanged();
-//        }
-//
-//    }
-
-//    @Override
-//    public void onListItemClick(ListView listView, View view, int position,
-//                                long id) {
-//        Cursor cursor = (Cursor) listView.getItemAtPosition(position);
-//        // Folder folder = (Folder)listView.getAdapter().getItem(position);
-//
-//        int folderId = cursor.getInt(cursor.getColumnIndex(MockContract.Folders._ID));
-//        String folderName = cursor.getString(cursor.getColumnIndex(MockContract.Folders.FOLDER_NAME));
-//
-//        Folder folder = new Folder(folderId, folderName);
-//
-//        selectItem(position, folder);
-//
-//        Toast.makeText(getActivity(),
-//                listView.getItemAtPosition(position).toString(),
-//                Toast.LENGTH_SHORT).show();
-//
-////        final Object item = getListAdapter().getItem(position);
-////        Log.d(TAG, String.format("viewFolder(%d): %s", position,
-////                folder));
-//    }
-
-
-//    private void selectItem(int position, Folder folder) {
-//        mCurrentSelectedPosition = position;
-//        if (mDrawerListView != null) {
-//            mDrawerListView.setItemChecked(position, true);
-//        }
-//
-////        if (actionBarController != null) {
-////            actionBarController.closeDrawer(true, folder);
-////        }
-////
-////        if (folderController != null) {
-////            folderController.closeDrawer(folder);
-////        }
-//
-//        if (mCallbacks != null) {
-//            mCallbacks.onNavigationDrawerItemSelected(position, folder);
-//        }
-//    }
-
-
-//    private Uri getCurrentAccountUri() {
-//        return mCurrentAccount == null ? Uri.EMPTY : mCurrentAccount.uri;
-//    }
-
-//    private void setSelectedAccount(Account account) {
-//        Log.d(TAG,"setSelectedAccount");
-//        final boolean changed = (account != null) && (mCurrentAccount == null
-//                || !mCurrentAccount.uri.equals(account.uri));
-//
-//        mCurrentAccount = account;
-//
-//        if (changed) {
-//            LoaderManager lm = getLoaderManager();
-//            lm.destroyLoader(LOADER_ID);
-//              lm.restartLoader(LOADER_ID, Bundle.EMPTY, this);
-//        }
-//
-//
-//
-//    }
 
     // </editor-fold>
 
@@ -520,7 +340,7 @@ super();
                 // log something here
             }
             mActivity = (ControllableActivity) activity;
-            folderController = mActivity.getFolderController();
+           // folderController = mActivity.getFolderController();
             mCallbacks = mActivity.getNavigationDrawerCallbacks();
         } catch (ClassCastException e) {
             throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
@@ -553,7 +373,9 @@ super();
 
         outState.putInt(STATE_SELECTED_POSITION, mCurrentSelectedPosition);
     }
+    // </editor-fold>
 
+    // <editor-fold desc="optionsMenu">
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -631,6 +453,10 @@ super();
 
 // </editor-fold>
 
+    // <editor-fold desc="DrawerItemAdapter">
+
+
+
     public class DrawerItemAdapter extends ArrayAdapter<IDrawerItem> {
         public DrawerItemAdapter(Context context, @NonNull ArrayList<IDrawerItem> users) {
             super(context, 0, users);
@@ -662,4 +488,7 @@ super();
           return null;
         }
     }
+
+    // </editor-fold>
+
 }

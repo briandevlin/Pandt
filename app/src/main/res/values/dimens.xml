@@ -19,4 +19,5 @@
     <dimen name="keyline_2">72dp</dimen>
     <dimen name="keyline_2_minus_16dp">56dp</dimen>
     <dimen name="keyline_2_session_detail">@dimen/keyline_2</dimen>
+    <dimen name="conversation_page_gutter">16dp</dimen>
 </resources>

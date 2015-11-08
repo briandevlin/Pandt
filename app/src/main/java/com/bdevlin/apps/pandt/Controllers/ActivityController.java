@@ -22,8 +22,8 @@ import com.bdevlin.apps.utils.LoginAndAuthHelper;
  * Created by brian on 7/20/2014.
  */
 public interface ActivityController extends ActionBarController,
-        FolderChangeListener,AccountController,
-        FolderController,
+        FolderChangeListener,/*AccountController,*/
+       /* FolderController,*/
         ViewMode.ModeChangeListener,
         NavigationDrawerFragment.NavigationDrawerCallbacks,
         MainContentFragment.MainContentCallbacks,
@@ -41,6 +41,7 @@ public interface ActivityController extends ActionBarController,
     boolean onBackPressed(boolean isSystemBackKey);
     boolean onUpPressed();
     void onSaveInstanceState(Bundle outState);
+    void onRestoreInstanceState(Bundle inState);
     void onPause();
     void onResume();
     void onStart();

@@ -27,4 +27,6 @@
     <color name="materialize_primary_light">@color/primary_light</color>
     <color name="materialize_accent">@color/accent</color>
     <!--<color name="materialize_textColorPrimary">@color/textPrimary</color>-->
+
+    <color name="conversation_view_border_color">#eeeeee</color>
 </resources>

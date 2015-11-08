@@ -21,6 +21,7 @@ import com.bdevlin.apps.pandt.R;
  */
 public class BlankFragment extends Fragment {
     private static final String TAG = BlankFragment.class.getSimpleName();
+    private static final boolean DEBUG = true;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";

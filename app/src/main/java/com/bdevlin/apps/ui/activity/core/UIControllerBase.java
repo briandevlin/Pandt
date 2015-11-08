@@ -43,6 +43,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.bdevlin.apps.pandt.Cursors.NavigationCursorRecyclerAdapter;
+import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
 import com.bdevlin.apps.pandt.accounts.Account;
 import com.bdevlin.apps.pandt.Controllers.ActivityController;
 import com.bdevlin.apps.pandt.Cursors.CursorCreator;
@@ -84,6 +86,7 @@ public abstract class UIControllerBase implements ActivityController {
 
     // <editor-fold desc="Fields">
     private static final String TAG = UIControllerBase.class.getSimpleName();
+    private static final boolean DEBUG = true;
     private static final String SAVED_ACCOUNT = "saved-account";
     private static final String SAVED_FOLDER = "saved-folder";
     private static final String SAVED_ACTION = "saved-action";
@@ -148,6 +151,7 @@ public abstract class UIControllerBase implements ActivityController {
     protected boolean mAnimateActionBarDrawerToggle = false;
     private boolean mShowDrawerOnFirstLaunch = true;
     protected Drawable mSliderBackgroundDrawable = null;
+    private NavigationCursorRecyclerAdapter mRecycleCursorAdapter;
 
 
 // </editor-fold>
@@ -194,6 +198,13 @@ public abstract class UIControllerBase implements ActivityController {
         if (mActionBar != null) {
             mActionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        if (savedInstanceState != null) {
+
+        } else if (intent != null) {
+            handleIntent(intent);
+        }
+
         return true;
     }
 
@@ -226,13 +237,13 @@ public abstract class UIControllerBase implements ActivityController {
 
     @Override
     public void onStart() {
-        Log.d(TAG, "onStart");
+        if (DEBUG) Log.d(TAG, "onStart");
         startGooglePlayLoginProcess();
     }
 
     @Override
     public void onStop() {
-        Log.d(TAG, "onStop");
+        if (DEBUG) Log.d(TAG, "onStop");
         if (mLoginAndAuthHelper != null) {
             mLoginAndAuthHelper.stop();
         }
@@ -286,7 +297,7 @@ public abstract class UIControllerBase implements ActivityController {
         if (requestCode == 1) {
             // Make sure the request was successful
             if (resultCode == mActivity.RESULT_OK) {
-                Log.d(TAG,"onActivityResult OK");
+                if (DEBUG) Log.d(TAG,"onActivityResult OK");
                 closeDrawerIfOpen();
             }
         }
@@ -439,9 +450,9 @@ public abstract class UIControllerBase implements ActivityController {
                 onUpPressed();
                 return true;
             default:
-                return handled = false;
+                 handled = false;
         }
-
+        return handled;
     }
 
     @Override
@@ -491,11 +502,11 @@ public abstract class UIControllerBase implements ActivityController {
     public final Context getContext() {
         return mContext;
     }
-    @Override
+   /* @Override
     public Folder getFolder() {
         return mFolder;
     }
-
+*/
 
 
     protected void showConversation(final int position, Items.ListItem listItem) {
@@ -513,7 +524,6 @@ public abstract class UIControllerBase implements ActivityController {
     public void onFolderChanged(Folder folder, final boolean force) {
         changeFolder(folder, force);
     }
-
     private void changeFolder(Folder folder, final boolean force) {
 
        // GenericListContext viewContext =  GenericListContext.forFolder(folder);
@@ -531,33 +541,37 @@ public abstract class UIControllerBase implements ActivityController {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         mViewMode.handleSaveInstanceState(outState);
-//        if (mAccount != null) {
-//            outState.putParcelable(SAVED_ACCOUNT, mAccount);
-//        }
-//        if (mFolder != null) {
-//            outState.putParcelable(SAVED_FOLDER, mFolder);
-//        }
+
+        if (mFolder != null) {
+            outState.putParcelable(SAVED_FOLDER, mFolder);
+        }
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle inState) {
+
+
     }
 
     // </editor-fold>
 
     // <editor-fold desc="Register observers ">
 
-    @Override
+  /*  @Override
     public void registerAccountObserver(DataSetObserver obs) {
         mAccountObservers.registerObserver(obs);
     }
 
-    /**
+    *//**
      * Removes a listener from receiving current account changes.
      * Must happen in the UI thread.
-     */
+     *//*
     @Override
     public void unregisterAccountObserver(DataSetObserver obs) {
         mAccountObservers.unregisterObserver(obs);
-    }
+    }*/
 
-    @Override
+   /* @Override
     public void registerDrawerClosedObserver(DataSetObserver observer) {
         mDrawerObservers.registerObserver(observer);
     }
@@ -565,14 +579,14 @@ public abstract class UIControllerBase implements ActivityController {
     @Override
     public void unregisterDrawerClosedObserver(DataSetObserver observer) {
         mDrawerObservers.unregisterObserver(observer);
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void registerFolderObserver(DataSetObserver observer) {
         mFolderObservers.registerObserver(observer);
-    }
+    }*/
 
-    @Override
+  /*  @Override
     public void unregisterFolderObserver(DataSetObserver observer) {
         try {
             mFolderObservers.unregisterObserver(observer);
@@ -580,7 +594,7 @@ public abstract class UIControllerBase implements ActivityController {
             // Log instead of crash
 
         }
-    }
+    }*/
 
     // </editor-fold>
 
@@ -637,10 +651,10 @@ public abstract class UIControllerBase implements ActivityController {
     }
 
 
-    @Override
+ /*   @Override
     public Account getAccount() {
         return mAccount;
-    }
+    }*/
 
 
     private boolean updateAccounts(ObjectCursor<Account> accounts) {
@@ -653,15 +667,15 @@ public abstract class UIControllerBase implements ActivityController {
         //just get the first one
         Account newAccount = allAccounts[0];
         // assume always changed
-        changeAccount(newAccount);
+        //changeAccount(newAccount);
         return true;
     }
 
-    @Override
+   /* @Override
     public void changeAccount(Account account) {
         // Change the account here
         setAccount(account);
-    }
+    }*/
 
     private void setAccount(Account account) {
         mAccount = account;
@@ -673,21 +687,35 @@ public abstract class UIControllerBase implements ActivityController {
 
     // <editor-fold desc="Loaders ">
 
-    private class FolderLoads implements LoaderManager.LoaderCallbacks<Cursor> {
+    public  final CursorCreator<NavigationDrawerItem> FACTORY = new CursorCreator<NavigationDrawerItem>() {
+        @Override
+        public NavigationDrawerItem createFromCursor(Cursor c) {
+            return new NavigationDrawerItem((HomeActivity)mActivity, c);
+        }
 
         @Override
-        public Loader onCreateLoader(int id, Bundle args) {
-            final String[] everything = MockContract.FOLDERS_PROJECTION;
+        public String toString() {
+            return "PrimaryDrawerItem CursorCreator";
+        }
+    };
+
+    private class FolderLoads implements LoaderManager.LoaderCallbacks<ObjectCursor<NavigationDrawerItem>> {
+
+        @Override
+        public Loader<ObjectCursor<NavigationDrawerItem>> onCreateLoader(int id, Bundle args) {
+            final String[] mProjection = MockContract.FOLDERS_PROJECTION;
+            final CursorCreator<NavigationDrawerItem> mFactory = FACTORY;
+            final Uri folderListUri;;
 
             switch (id) {
 
                 case LOADER_FIRST_FOLDER:
 
-                    final Uri folderUri = args.getParcelable(Utils.EXTRA_FOLDER_URI);
-
+                   // final Uri folderUri = args.getParcelable(Utils.EXTRA_FOLDER_URI);
+                    final Uri folderUri = MockContract.Folders.CONTENT_URI;
                    // final Uri folderUri = Uri.parse( "content://com.android.mail.mockprovider/account/0/folders");
-                    return new CursorLoader(mContext, folderUri,
-                            everything , null, null, null);
+                    return new MyObjectCursorLoader<NavigationDrawerItem>(mContext,
+                            folderUri, mProjection, mFactory);
 
             }
 
@@ -695,32 +723,38 @@ public abstract class UIControllerBase implements ActivityController {
         }
 
         @Override
-        public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        public void onLoadFinished(Loader<ObjectCursor<NavigationDrawerItem>> loader, ObjectCursor<NavigationDrawerItem> data) {
 
             if (data == null || data.getCount() <=0 || !data.moveToFirst()) {
+                Log.e(TAG, String.format(
+                        "Received null cursor from loader id: %d",
+                        loader.getId()));
                 return;
             }
 
             switch (loader.getId()) {
                 case LOADER_FIRST_FOLDER:
+                    if (mRecycleCursorAdapter != null) {
+                        mRecycleCursorAdapter.swapCursor(data);
+                    }
 
-                    int folderId = data.getInt(data.getColumnIndex(MockContract.Folders._ID));
+                  /*  int folderId = data.getInt(data.getColumnIndex(MockContract.Folders._ID));
                     String folderName = data.getString(data.getColumnIndex(MockContract.Folders.FOLDER_NAME));
 
                     Folder folder = new Folder(folderId, folderName);
                     boolean handled = false;
                     if (folder != null) {
-                        onFolderChanged(folder, false /* force */);
+                        onFolderChanged(folder, false *//* force *//*);
                         handled = true;
                     }
-                    mActivity.getSupportLoaderManager().destroyLoader(LOADER_FIRST_FOLDER);
+                    mActivity.getSupportLoaderManager().destroyLoader(LOADER_FIRST_FOLDER);*/
                     break;
             }
         }
 
 
         @Override
-        public void onLoaderReset(Loader<Cursor> loader) {
+        public void onLoaderReset(Loader<ObjectCursor<NavigationDrawerItem>> loader) {
             // For whatever reason, the Loader's data is now unavailable.
             // Remove any references to the old data by replacing it with
             // a null Cursor.
@@ -882,7 +916,7 @@ public abstract class UIControllerBase implements ActivityController {
                    /* if (mOnDrawerListener != null) {
                         mOnDrawerListener.onDrawerOpened(drawerView);
                     }*/
-                    Log.d(TAG,"onDrawerOpened");
+                    if (DEBUG) Log.d(TAG,"onDrawerOpened");
                 }
 
                 @Override
@@ -890,12 +924,12 @@ public abstract class UIControllerBase implements ActivityController {
                    /* if (mOnDrawerListener != null) {
                         mOnDrawerListener.onDrawerClosed(drawerView);
                     }*/
-                    Log.d(TAG,"onDrawerClosed");
+                    if (DEBUG) Log.d(TAG,"onDrawerClosed");
                 }
 
                 @Override
                 public void onDrawerStateChanged(int newState) {
-                    Log.d(TAG,"onDrawerStateChanged");
+                    if (DEBUG)  Log.d(TAG,"onDrawerStateChanged");
                 }
             });
         }
@@ -941,8 +975,7 @@ public abstract class UIControllerBase implements ActivityController {
         appBarLayout = (AppBarLayout) mActivity.findViewById(R.id.toolbar_container);
         mSliderLayout = mActivity.findViewById(R.id.navdrawer);
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-//        mDrawerLayout.setStatusBarBackgroundColor(
-//                mActivity.getResources().getColor(R.color.materialize_primary_light));
+        mDrawerLayout.setStatusBarBackgroundColor(mActivity.getResources().getColor(R.color.materialize_primary_light));
         //mDrawerLayout.setBackgroundColor(mActivity.getResources().getColor(R.color.accent_material_light));
         //mSliderLayout.setBackgroundResource(R.drawable.default_cover);
         mTitle = mDrawerTitle = mActivity.getTitle();
@@ -961,18 +994,18 @@ public abstract class UIControllerBase implements ActivityController {
         return mDrawerLayout != null && mSliderLayout != null && mDrawerLayout.isDrawerOpen(mSliderLayout);
     }
 
-    @Override
+    /*@Override
     public  void closeDrawer(boolean hasNewFolderOrAccount, Account nextAccount, Folder nextFolder) {
         if (!isDrawerEnabled()) {
             mDrawerObservers.notifyChanged();
             return;
         }
 
-        Log.d(TAG,"CloseDrawer");
+        if (DEBUG) Log.d(TAG,"CloseDrawer");
 
         mDrawerObservers.notifyChanged();
 
-    }
+    }*/
 
     protected void toggleDrawerState() {
         if (!isDrawerEnabled()) {
@@ -1014,17 +1047,17 @@ public abstract class UIControllerBase implements ActivityController {
     }
 
     private void startGooglePlayLoginProcess() {
-        Log.d(TAG, "Starting login process.");
+        if (DEBUG)  Log.d(TAG, "Starting login process.");
         //GoogleAccountUtils.setActiveAccount(mActivity, null); //test only
        String accountName =  accountManager.getActiveOrDefaultAccount(mActivity);
 
         if (mLoginAndAuthHelper != null && mLoginAndAuthHelper.getAccountName().equals(accountName)) {
-            Log.d(TAG, "Helper already set up; simply starting it.");
+            if (DEBUG) Log.d(TAG, "Helper already set up; simply starting it.");
             mLoginAndAuthHelper.start();
             return;
         }
 
-        Log.d(TAG, "Creating and starting new mLoginAndAuthHelper with account: " + accountName);
+        if (DEBUG) Log.d(TAG, "Creating and starting new mLoginAndAuthHelper with account: " + accountName);
         mLoginAndAuthHelper = new LoginAndAuthHelper(mActivity, this,  accountName);
         mLoginAndAuthHelper.start();
 
@@ -1035,7 +1068,7 @@ public abstract class UIControllerBase implements ActivityController {
     // LoginAndAuthHelper callbacks
     @Override
     public void onPlusInfoLoaded(String accountName) {
-        Log.d(TAG, "Plus Info loaded.");
+        if (DEBUG)  Log.d(TAG, "Plus Info loaded.");
        setupAccountBox();
        // AddDriveFile();
       //  AddFolder();
@@ -1051,12 +1084,12 @@ public abstract class UIControllerBase implements ActivityController {
     @Override
     public void onAuthSuccess(String accountName, boolean newlyAuthenticated) {
         android.accounts.Account account = new android.accounts.Account(accountName, GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE);
-        Log.d(TAG, "onAuthSuccess, account " + accountName + ", newlyAuthenticated=" + newlyAuthenticated);
+        if (DEBUG) Log.d(TAG, "onAuthSuccess, account " + accountName + ", newlyAuthenticated=" + newlyAuthenticated);
 
         //refreshAccountDependantData();
 
         if (newlyAuthenticated) {
-            Log.d(TAG, "Enabling auto sync on content provider for account " + accountName);
+            if (DEBUG) Log.d(TAG, "Enabling auto sync on content provider for account " + accountName);
            // SyncHelper.updateSyncInterval(this, account);
            // SyncHelper.requestManualSync(account);
         }
@@ -1069,7 +1102,7 @@ public abstract class UIControllerBase implements ActivityController {
     // LoginAndAuthHelper callbacks
     @Override
     public void onAuthFailure(String accountName) {
-        Log.d(TAG, "Auth failed for account " + accountName);
+        if (DEBUG) Log.d(TAG, "Auth failed for account " + accountName);
        // refreshAccountDependantData();
     }
 
@@ -1194,7 +1227,7 @@ public abstract class UIControllerBase implements ActivityController {
 //                                Toast.LENGTH_SHORT).show();
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                     } else {
-                        Log.d(TAG, "User requested switch to account: " + accountName);
+                        if (DEBUG) Log.d(TAG, "User requested switch to account: " + accountName);
 //                        AccountUtils.setActiveAccount(mActivity, accountName);
 //                        onAccountChangeRequested();
 //                        startLoginProcess();

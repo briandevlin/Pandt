@@ -57,6 +57,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
 
     // <editor-fold desc="Fields">
     private static final String TAG = MainContentFragment.class.getSimpleName();
+    private static final boolean DEBUG = true;
 
    // private static final int LOADER_ID = 1;
 

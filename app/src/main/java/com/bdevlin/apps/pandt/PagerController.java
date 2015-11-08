@@ -1,5 +1,8 @@
 package com.bdevlin.apps.pandt;
 
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -7,6 +10,7 @@ import android.view.View;
 
 import com.bdevlin.apps.pandt.Controllers.ActivityController;
 import com.bdevlin.apps.ui.activity.core.HomeActivity;
+import com.bdevlin.apps.ui.widgets.PageMarginDrawable;
 import com.viewpagerindicator.LinePageIndicator;
 
 /**
@@ -32,11 +36,23 @@ public class PagerController {
 
         mActivityController = controller;
         mFragmentManager = fragmentManager;
+        setupPageMargin(activity.getActivityContext());
     }
-
+    private void setupPageMargin(Context c) {
+        final TypedArray a = c.obtainStyledAttributes(new int[] {android.R.attr.listDivider});
+        final Drawable divider = a.getDrawable(0);
+        a.recycle();
+        final int padding = c.getResources().getDimensionPixelOffset(
+                R.dimen.conversation_page_gutter);
+        final Drawable gutterDrawable = new PageMarginDrawable(divider, padding, 0, padding, 0,
+                c.getResources().getColor(R.color.conversation_view_border_color));
+        mPager.setPageMargin(gutterDrawable.getIntrinsicWidth() + 2 * padding);
+        mPager.setPageMarginDrawable(gutterDrawable);
+    }
 
     public void show(final int position, Items.ListItem listItem)
     {
+        if (DEBUG) Log.d(TAG, "PagerController: Show");
         int visible = mPager.getVisibility();
         mPager.setVisibility(View.VISIBLE);
          visible = mPager.getVisibility();
@@ -59,7 +75,7 @@ public class PagerController {
 
             @Override
             public void onPageSelected(int position) {
-                if (DEBUG) Log.d(TAG, "onPageSelected");
+                if (DEBUG) Log.d(TAG, "PagerController: onPageSelected");
             }
 
             @Override
@@ -71,7 +87,7 @@ public class PagerController {
     }
 
     public void hide(boolean changeVisibility) {
-
+        if (DEBUG) Log.d(TAG, "PagerController: Hide");
 
         mPager.setVisibility(View.GONE);
         if (mIndicator != null) mIndicator.setVisibility(View.GONE);
@@ -85,9 +101,6 @@ public class PagerController {
 
     private void cleanup() {
         if (mPagerAdapter != null) {
-            // stop observing the conversation list
-          //  mPagerAdapter.setActivityController(null);
-          //  mPagerAdapter.setPager(null);
             mPagerAdapter = null;
         }
     }
