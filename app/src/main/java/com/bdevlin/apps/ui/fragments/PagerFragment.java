@@ -65,7 +65,7 @@ Log.d(TAG, "Pager Fragment: onCreate");
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
-                R.layout.fragment, container, false);
+                R.layout.fragment_slide_view, container, false);
 
         TextView text1 = (TextView)rootView.findViewById(R.id.text1);
         text1.setText("fragment " + mParam1);
