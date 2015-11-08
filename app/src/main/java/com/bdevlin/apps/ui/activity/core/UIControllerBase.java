@@ -183,7 +183,9 @@ public abstract class UIControllerBase implements ActivityController {
 
         mViewMode.addListener(this);
         mPagerController = new PagerController(mActivity, this, mFragmentManager);
-       // mPagerController.show(1,null);
+
+       // mPagerController.show(1,null);// used this for testing
+
         final Intent intent = mActivity.getIntent();
 
         prefs = PreferenceManager.getDefaultSharedPreferences(mActivity);
@@ -225,7 +227,7 @@ public abstract class UIControllerBase implements ActivityController {
     @Override
     public void onStart() {
         Log.d(TAG, "onStart");
-       // startGooglePlayLoginProcess();
+        startGooglePlayLoginProcess();
     }
 
     @Override
@@ -243,12 +245,12 @@ public abstract class UIControllerBase implements ActivityController {
             mDrawerToggle.syncState();
         }
         View mainContent = mActivity.findViewById(R.id.main_content);
-        if (mainContent != null) {
+      /*  if (mainContent != null) {
             ViewCompat.setAlpha(mainContent,0f);
             ViewCompat.animate(mainContent).alpha(1f).setDuration(MAIN_CONTENT_FADEIN_DURATION).start();
         } else {
             Log.d(TAG, "No view with ID main_content to fade in.");
-        }
+        }*/
         new Thread(new Runnable()
         {
             @Override
@@ -316,7 +318,7 @@ public abstract class UIControllerBase implements ActivityController {
     public boolean onBackPressed(boolean isSystemBackKey) {
 
         if (mDrawerLayout != null) {
-            if (isDrawerEnabled() && mDrawerLayout.isDrawerVisible(mSliderLayout)) {
+            if (isDrawerEnabled() && mSliderLayout != null && mDrawerLayout.isDrawerVisible(mSliderLayout)) {
                 mDrawerLayout.closeDrawers();
                 return true;
             }
@@ -956,7 +958,7 @@ public abstract class UIControllerBase implements ActivityController {
     }
 
     boolean isDrawerOpen() {
-        return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mSliderLayout);
+        return mDrawerLayout != null && mSliderLayout != null && mDrawerLayout.isDrawerOpen(mSliderLayout);
     }
 
     @Override

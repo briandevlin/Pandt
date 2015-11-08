@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -16,26 +16,52 @@
         <include
             layout="@layout/settings_toolbar" />
 
-        <!-- As the main name view, the view below consumes the entire
-             space available using match_parent in both dimensions. -->
-        <FrameLayout
-            android:id="@+id/main_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
 
-            />
+     <FrameLayout
+         android:layout_width="match_parent"
+         android:layout_height="match_parent">
+         <!-- As the main name view, the view below consumes the entire
+              space available using match_parent in both dimensions. -->
+         <FrameLayout
+             android:id="@+id/main_content"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:visibility="visible"
+             />
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical">
+         <!-- the viewpager must come after the main container-->
+         <android.support.v4.view.ViewPager
+             xmlns:android="http://schemas.android.com/apk/res/android"
+             android:id="@+id/conversation_pane"
+             android:layout_width="fill_parent"
+             android:layout_height="0dp"
+             android:layout_weight="1"
+             android:visibility="gone"
+             >
+         </android.support.v4.view.ViewPager>
 
-        <!-- the viewpager must come after the main container-->
-        <android.support.v4.view.ViewPager
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/conversation_pane"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:visibility="gone"
-            android:background="@color/accent">
-        </android.support.v4.view.ViewPager>
-    </LinearLayout>
+             <com.viewpagerindicator.LinePageIndicator
+                 android:id="@+id/indicator"
+                 android:padding="5dip"
+                 android:layout_height="wrap_content"
+                 android:layout_width="fill_parent"
+                 app:strokeWidth="4dp"
+                 app:lineWidth="30dp"
+                 app:unselectedColor="#FF888888"
+                 app:selectedColor="#FF880000"
+                 android:visibility="gone"
+                 />
+         </LinearLayout>
+     </FrameLayout>
+
+
+
+</LinearLayout>
+
+>>>>>>> 71542bd804eca031ca31292a4a24c97ffd4448c7
 
     <!-- Nav drawer-->
     <include layout="@layout/navigation_drawer" />

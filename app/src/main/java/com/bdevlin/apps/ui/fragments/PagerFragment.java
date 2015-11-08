@@ -76,7 +76,8 @@ Log.d(TAG, "Pager Fragment: onCreate");
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.d(TAG, "Pager Fragment: onViewCreated " );
+        boolean visible = this.isVisible();
+        Log.d(TAG, "Pager Fragment: onViewCreated visible = " + visible );
     }
 
     @Override
@@ -98,15 +99,16 @@ Log.d(TAG, "Pager Fragment: onCreate");
         ActionBar ab = controller.getSupportActionBar();
         Toolbar toolbar = controller.getSupportToolBar();
         if (toolbar != null) {
-            toolbar.setSubtitle("ViewPager");
+            toolbar.setSubtitle("ViewPager " + mParam1);
         }
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setDisplayShowHomeEnabled(false);
 
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+            ab.setDisplayShowHomeEnabled(false);
+        }
 
         // Indicate that this fragment would like to influence the set of actions in the action bar.
         setHasOptionsMenu(true);
-
     }
 
 

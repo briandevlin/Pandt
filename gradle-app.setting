@@ -23,7 +23,7 @@
     <setting name="window_height" value="644"/>  
     <setting name="extended-state" value="0"/> 
   </setting>  
-  <setting name="SinglePaneUIInstance_splitter-id">
-    <setting name="divider_location" value="347"/>
-  </setting>
+  <setting name="SinglePaneUIInstance_splitter-id"> 
+    <setting name="divider_location" value="347"/> 
+  </setting> 
 </root>
