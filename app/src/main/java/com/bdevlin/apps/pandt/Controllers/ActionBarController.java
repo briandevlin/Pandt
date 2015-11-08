@@ -16,12 +16,12 @@ public interface ActionBarController {
     /**
      * Registers to receive changes upon drawer closing when a changeAccount is called.
      */
-    void registerDrawerClosedObserver(final DataSetObserver observer);
+   // void registerDrawerClosedObserver(final DataSetObserver observer);
 
     /**
      * Removes a listener from receiving current account changes.
      */
-    void unregisterDrawerClosedObserver(final DataSetObserver observer);
+   // void unregisterDrawerClosedObserver(final DataSetObserver observer);
 
 
 

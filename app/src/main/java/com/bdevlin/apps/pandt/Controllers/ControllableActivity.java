@@ -16,8 +16,8 @@ import com.bdevlin.apps.ui.fragments.NavigationDrawerFragment;
 public interface ControllableActivity {
 
     ActionBarController getActionBarController();
-    FolderController getFolderController();
-    AccountController getAccountController();
+    //FolderController getFolderController();
+    //AccountController getAccountController();
     FolderChangeListener getFolderChangeListener();
     NavigationDrawerFragment.NavigationDrawerCallbacks getNavigationDrawerCallbacks();
     MainContentFragment.MainContentCallbacks getMainContentCallbacks();

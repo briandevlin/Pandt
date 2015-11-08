@@ -37,6 +37,7 @@ import java.util.List;
  */
 public class PreferencesActivity extends PreferenceActivity  {
     private static final String TAG = PreferencesActivity.class.getSimpleName();
+    private static final boolean DEBUG = true;
     Toolbar mToolbar;
 
     @Override

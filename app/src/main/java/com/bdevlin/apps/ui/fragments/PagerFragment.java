@@ -26,6 +26,7 @@ import com.bdevlin.apps.pandt.ViewMode;
 public class PagerFragment extends Fragment {
 
     private static final String TAG = PagerFragment.class.getSimpleName();
+    private static final boolean DEBUG = true;
     public static final String ARG_INDEX = " com.bdevlin.apps.pandt.arg_position";
 
     private ControllableActivity mActivity;

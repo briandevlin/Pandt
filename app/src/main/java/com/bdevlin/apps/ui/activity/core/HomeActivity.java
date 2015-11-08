@@ -114,10 +114,10 @@ public class HomeActivity extends AppCompatActivity implements ControllableActiv
     public ActionBarController getActionBarController() {
         return mUIController;
     }
-    @Override
+  /*  @Override
     public FolderController getFolderController() {
         return mUIController;
-    }
+    }*/
 
     @Override
     public FolderChangeListener getFolderChangeListener() {
@@ -125,10 +125,10 @@ public class HomeActivity extends AppCompatActivity implements ControllableActiv
     }
 
 
-    @Override
+    /*@Override
     public AccountController getAccountController() {
         return mUIController;
-    }
+    }*/
 
     @Override
     public NavigationDrawerFragment.NavigationDrawerCallbacks getNavigationDrawerCallbacks() {

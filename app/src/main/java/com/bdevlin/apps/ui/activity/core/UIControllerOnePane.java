@@ -27,30 +27,22 @@ import com.bdevlin.apps.pandt.ViewMode;
  * Created by brian on 7/20/2014.
  */
 public class UIControllerOnePane extends UIControllerBase
-        implements ViewPager.OnPageChangeListener {
+        {
 
     // <editor-fold desc="Fields">
     private static final String TAG = UIControllerOnePane.class.getSimpleName();
+    private static final boolean DEBUG = true;
     private ViewPager mViewPager;
 
-    // private NavigationDrawerFragment mNavigationDrawerFragment;
-   // private CharSequence mDrawerTitle;
-   // private CharSequence mTitle;
-//    private static final String OPENED_KEY = "OPENED_KEY";
-   // private SharedPreferences prefs = null;
-    //private Boolean opened = null;
 
-    //private boolean mConversationListVisible = false;
-
-//    private RecyclerView mRecyclerView;
-//    private RecyclerView.Adapter mAdapter;
-//    private RecyclerView.LayoutManager mLayoutManager;
 
    // </editor-fold>
 
+   // <editor-fold desc="life cycle methods">
     public UIControllerOnePane(HomeActivity activity, ViewMode viewMode) {
         super(activity, viewMode);
-    }
+    }// </editor-fold>
+
 
     // <editor-fold desc="life cycle methods">
     @Override
@@ -103,27 +95,39 @@ public class UIControllerOnePane extends UIControllerBase
 
     }
 
+    @Override
+   public void onRestoreInstanceState(Bundle inState) {
+    super.onRestoreInstanceState(inState);
+      if (inState == null) {
+       return;
+      }
+
+    }
     // </editor-fold>
 
-    @Override
-    public void showConversationList(GenericListContext listContext) {
+
+ @Override
+ public void showConversationList(GenericListContext listContext) {
         super.showConversationList(listContext);
+     if (DEBUG) Log.d(TAG, "showConversationList");
+        mViewMode.enterConversationListMode();
 
         final MainContentFragment itemListFragment = MainContentFragment.newInstance(listContext, 0);
 
         replaceFragment(itemListFragment, FragmentTransaction.TRANSIT_FRAGMENT_OPEN,
                 TAG_MAIN_LIST, R.id.main_content);
+
+     mActivity.getSupportFragmentManager().executePendingTransactions();
+
     }
+
+
     // when the main content fragment list item is selected we end up here
     @Override
     protected void showConversation(final int position, Items.ListItem listItem) {
         super.showConversation(position, listItem);
-
+        if (DEBUG) Log.d(TAG, "showConversation");
         mViewMode.enterConversationMode();
-
-  /*      BlankFragment itemListFragment = BlankFragment.newInstance("item1", "item2");
-        replaceFragment(itemListFragment, FragmentTransaction.TRANSIT_FRAGMENT_OPEN,
-                TAG_MAIN_LIST, R.id.main_content);*/
 
         final FragmentManager fm = mActivity.getSupportFragmentManager();
         final FragmentTransaction ft = fm.beginTransaction();
@@ -136,14 +140,15 @@ public class UIControllerOnePane extends UIControllerBase
             ft.commitAllowingStateLoss();
             fm.executePendingTransactions();
         }
-       boolean visible =  f.isVisible();
+
         mPagerController.show(position, listItem);
     }
+
 
     /* implements NavigationDrawerFragment.NavigationDrawerCallbacks*/
     @Override
     public void onNavigationDrawerItemSelected(int position, NavigationDrawerItem itemView) {
-        Log.d(TAG, "onNavigationDrawerItemSelected");
+        if (DEBUG) Log.d(TAG, "onNavigationDrawerItemSelected");
         toggleDrawerState();
         Folder folder = new Folder(itemView.id, itemView.name);
 
@@ -154,7 +159,7 @@ public class UIControllerOnePane extends UIControllerBase
     }
 
     public void onNavigationDrawerArraySelected(int position, NavigationDrawerItem itemView) {
-        Log.d(TAG, "onNavigationDrawerArraySelected");
+        if (DEBUG)  Log.d(TAG, "onNavigationDrawerArraySelected");
        // toggleDrawerState();
         closeDrawerIfOpen();
 
@@ -180,8 +185,9 @@ public class UIControllerOnePane extends UIControllerBase
 
     @Override
     public final void onMainContentItemSelected(final int position, Items.ListItem listItem) {
+        if (DEBUG)  Log.d(TAG,"onMainContentItemSelected");
          showConversation(position, listItem);
-        Log.d(TAG,"onMainContentItemSelected");
+
 
     }
 
@@ -253,18 +259,18 @@ public class UIControllerOnePane extends UIControllerBase
         if (mode == ViewMode.SEARCH_RESULTS_LIST) {
             mActivity.finish();
         } else if (mViewMode.isListMode() ) {
-            Log.d(TAG, "isListMode");
+            if (DEBUG)  Log.d(TAG, "isListMode");
             // navigateUpFolderHierarchy();
             mActivity.finish();
         } else if (mViewMode.isConversationMode() ) {
-            Log.d(TAG, "isConversationMode");
+            if (DEBUG)  Log.d(TAG, "isConversationMode");
            // transitionBackToConversationListMode();
             GenericListContext viewContext =  GenericListContext.forFolder(mFolder);
             showConversationList(viewContext);
 
             mViewMode.enterConversationListMode();
         } else {
-            Log.d(TAG, "default mode");
+            if (DEBUG) Log.d(TAG, "default mode");
             mActivity.finish();
         }
 
@@ -277,21 +283,20 @@ public class UIControllerOnePane extends UIControllerBase
         if (mode == ViewMode.SEARCH_RESULTS_LIST) {
             mActivity.finish();
             // Not needed, the activity is going away anyway.
-        } else if (mode == ViewMode.CONVERSATION_LIST
-                || mode == ViewMode.WAITING_FOR_ACCOUNT_INITIALIZATION) {
-            final boolean isTopLevel = (mFolder == null) /*|| (mFolder.parent == Uri.EMPTY)*/;
+        } else if (mode == ViewMode.CONVERSATION_LIST) {
+            final boolean isTopLevel = (mFolder == null);
 
             if (isTopLevel) {
                 // Show the drawer.
                 toggleDrawerState();
             } else {
-                Log.d(TAG, "go up");
+                if (DEBUG) Log.d(TAG, "go up");
                 //navigateUpFolderHierarchy();
             }
         } else if (mode == ViewMode.CONVERSATION || mode == ViewMode.SEARCH_RESULTS_CONVERSATION
                 || mode == ViewMode.AD) {
             // Same as go back.
-            Log.d(TAG, "Same as go back");
+            if (DEBUG) Log.d(TAG, "Same as go back");
             handleBackPress(false);
         }
         return true;
@@ -304,18 +309,4 @@ public class UIControllerOnePane extends UIControllerBase
     }
 
 
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
-    }
 }
