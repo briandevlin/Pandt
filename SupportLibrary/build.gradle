@@ -21,7 +21,10 @@ android {
 }
 
 dependencies {
+    // Local binary dependency
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    // Remote binary dependency
     compile 'com.android.support:appcompat-v7:22.2.1'
+
     compile files('../third_party/gcm.jar')
 }

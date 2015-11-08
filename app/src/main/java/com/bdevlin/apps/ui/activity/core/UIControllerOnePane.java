@@ -120,21 +120,24 @@ public class UIControllerOnePane extends UIControllerBase
         super.showConversation(position, listItem);
 
         mViewMode.enterConversationMode();
-        BlankFragment itemListFragment = BlankFragment.newInstance("item1", "item2");
-        replaceFragment(itemListFragment, FragmentTransaction.TRANSIT_FRAGMENT_OPEN,
-                TAG_MAIN_LIST, R.id.main_content);
 
-      /*  final FragmentManager fm = mActivity.getSupportFragmentManager();
+  /*      BlankFragment itemListFragment = BlankFragment.newInstance("item1", "item2");
+        replaceFragment(itemListFragment, FragmentTransaction.TRANSIT_FRAGMENT_OPEN,
+                TAG_MAIN_LIST, R.id.main_content);*/
+
+        final FragmentManager fm = mActivity.getSupportFragmentManager();
         final FragmentTransaction ft = fm.beginTransaction();
        // remove main content fragment to reveal the viewpager
-        final Fragment f = fm.findFragmentById(R.id.main_content);
+        //final Fragment f = fm.findFragmentById(R.id.main_content);
+        final Fragment f = fm.findFragmentByTag(TAG_MAIN_LIST);
         if (f != null && f.isAdded()) {
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             ft.remove(f);
             ft.commitAllowingStateLoss();
             fm.executePendingTransactions();
         }
-        mPagerController.show(position, listItem);*/
+       boolean visible =  f.isVisible();
+        mPagerController.show(position, listItem);
     }
 
     /* implements NavigationDrawerFragment.NavigationDrawerCallbacks*/
@@ -199,7 +202,7 @@ public class UIControllerOnePane extends UIControllerBase
         fragmentTransaction.replace(anchor, fragment, tag);
        // fragmentTransaction.addToBackStack(tag);
         final int id = fragmentTransaction.commitAllowingStateLoss();
-       // fm.executePendingTransactions(); // had to remove this as it crashes because of the layout fragment in the authenticator
+        fm.executePendingTransactions(); // had to remove this as it crashes because of the layout fragment in the authenticator
         return id;
     }
 
@@ -217,9 +220,12 @@ public class UIControllerOnePane extends UIControllerBase
         super.onViewModeChanged(newMode);
 
         if (ViewMode.isListMode(newMode)) {
-           // mPagerController.hide(true);
+            mPagerController.hide(true);
             getDrawerToggle().setDrawerIndicatorEnabled(true);
-           // toggleDrawerState();
+            ActionBar ab = getSupportActionBar();
+            ab.setDisplayHomeAsUpEnabled(false);
+            ab.setDisplayShowHomeEnabled(true);
+            getDrawerToggle().syncState();
             closeDrawerIfOpen();
         }
 
@@ -228,7 +234,8 @@ public class UIControllerOnePane extends UIControllerBase
             ActionBar ab = getSupportActionBar();
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setDisplayShowHomeEnabled(false);
-
+            getDrawerToggle().syncState();
+            closeDrawerIfOpen();
         }
 
     }

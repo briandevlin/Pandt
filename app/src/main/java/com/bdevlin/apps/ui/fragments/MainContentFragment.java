@@ -227,9 +227,9 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
 
         mActivity = (ControllableActivity) activity;
 
-//        onViewModeChanged(mActivity.getViewMode().getMode());
+        onViewModeChanged(mActivity.getViewMode().getMode());
         ViewMode mode = mActivity.getViewMode();
-//mode.enterConversationListMode();
+        mode.enterConversationListMode();
         mode.addListener(this);
 
 /*        if (mode.isConversationMode() && mode.getMode() == ViewMode.UNKNOWN) {
@@ -245,12 +245,12 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
             toolbar.setSubtitle("Main " + mViewContext.folder.name);
         }
         else {
-            toolbar.setSubtitle("Main");
+            if (toolbar != null) toolbar.setSubtitle("Main");
         }
 
         actionBarController = mActivity.getActionBarController();
        ActionBar ab =  actionBarController.getSupportActionBar();
-       // ab.setDisplayHomeAsUpEnabled(true);
+        ab.setDisplayHomeAsUpEnabled(false);
 
 //        mCallbacks = mActivity.getMainContentCallbacks();
 //

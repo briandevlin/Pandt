@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.bdevlin.apps.pandt.Controllers.ActivityController;
 import com.bdevlin.apps.ui.activity.core.HomeActivity;
+import com.viewpagerindicator.LinePageIndicator;
 
 /**
  * Created by brian on 7/26/2014.
@@ -15,14 +16,20 @@ public class PagerController {
 
     private static final String TAG = PagerController.class.getSimpleName();
     private static final boolean DEBUG = true;
+
     private ViewPager mPager;
     private SlidePagerAdapter mPagerAdapter;
     private FragmentManager mFragmentManager;
     private ActivityController mActivityController;
+    private HomeActivity mActivity;
+    private LinePageIndicator mIndicator;
+
 
     public PagerController(HomeActivity activity,
                                        ActivityController controller, FragmentManager fragmentManager) {
+        mActivity = activity;
         mPager = (ViewPager) activity.findViewById(R.id.conversation_pane);
+
         mActivityController = controller;
         mFragmentManager = fragmentManager;
     }
@@ -40,10 +47,14 @@ public class PagerController {
 
         mPager.setCurrentItem(position);
 
+        mIndicator = (LinePageIndicator)mActivity.findViewById(R.id.indicator);
+        mIndicator.setViewPager(mPager);
+        mIndicator.setVisibility(View.VISIBLE);
+
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if (DEBUG) Log.d(TAG, "onPageScrolled");
+               // if (DEBUG) Log.d(TAG, "onPageScrolled");
             }
 
             @Override
@@ -53,7 +64,7 @@ public class PagerController {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                if (DEBUG) Log.d(TAG, "onPageScrollStateChanged");
+               // if (DEBUG) Log.d(TAG, "onPageScrollStateChanged");
             }
         });
 
@@ -61,8 +72,10 @@ public class PagerController {
 
     public void hide(boolean changeVisibility) {
 
-        mPager.setAdapter(null);
 
+        mPager.setVisibility(View.GONE);
+        if (mIndicator != null) mIndicator.setVisibility(View.GONE);
+       // mPager.setAdapter(null);
     }
 
     public void onDestroy() {

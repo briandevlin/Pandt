@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/Pandt.iml" filepath="$PROJECT_DIR$/Pandt.iml" />
       <module fileurl="file://$PROJECT_DIR$/SupportLibrary/SupportLibrary.iml" filepath="$PROJECT_DIR$/SupportLibrary/SupportLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-debug/app-debug.iml" filepath="$PROJECT_DIR$/app-debug/app-debug.iml" />
     </modules>
   </component>
 </project>

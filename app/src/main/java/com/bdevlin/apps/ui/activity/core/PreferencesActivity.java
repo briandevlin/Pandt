@@ -110,6 +110,10 @@ public class PreferencesActivity extends PreferenceActivity  {
             root.addView(content);
             root.addView(barcontainer);
         }
+       // bar.setTitleTextColor(R.color.navdrawer_background);
+        bar.setTitle("Preferences");
+
+       // bar.getRootView().setBackgroundColor(234567);
 
         bar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
 
