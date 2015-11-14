@@ -16,6 +16,7 @@
         <include
             layout="@layout/settings_toolbar" />
 
+
      <FrameLayout
          android:layout_width="match_parent"
          android:layout_height="match_parent">
@@ -60,6 +61,7 @@
 
 </LinearLayout>
 
+>>>>>>> 71542bd804eca031ca31292a4a24c97ffd4448c7
 
     <!-- Nav drawer-->
     <include layout="@layout/navigation_drawer" />

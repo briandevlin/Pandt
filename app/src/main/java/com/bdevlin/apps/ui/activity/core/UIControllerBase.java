@@ -190,7 +190,9 @@ public abstract class UIControllerBase implements ActivityController {
 
         mViewMode.addListener(this);
         mPagerController = new PagerController(mActivity, this, mFragmentManager);
+
        // mPagerController.show(1,null);// used this for testing
+
         final Intent intent = mActivity.getIntent();
 
         prefs = PreferenceManager.getDefaultSharedPreferences(mActivity);

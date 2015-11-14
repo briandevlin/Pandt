@@ -26,7 +26,9 @@ public class SlidePagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
 
        // return new PagerFragment();
+
         PagerFragment frag = PagerFragment.newInstance("item1");
+
         Bundle args = new Bundle();
         args.putInt(PagerFragment.ARG_INDEX, position);
         frag.setArguments(args);

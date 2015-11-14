@@ -130,6 +130,7 @@ public class UIControllerOnePane extends UIControllerBase
         if (DEBUG) Log.d(TAG, "showConversation");
         mViewMode.enterConversationMode();
 
+
         final FragmentManager fm = mActivity.getSupportFragmentManager();
         final FragmentTransaction ft = fm.beginTransaction();
        // remove main content fragment to reveal the viewpager
@@ -141,6 +142,7 @@ public class UIControllerOnePane extends UIControllerBase
             ft.commitAllowingStateLoss();
             fm.executePendingTransactions();
         }
+
 
         mPagerController.show(position, listItem);
     }
