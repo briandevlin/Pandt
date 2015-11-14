@@ -122,10 +122,12 @@ public class NavigationDrawerItem
         Context ctx = holder.itemView.getContext();
 
         ListItemViewHolder viewHolder = (ListItemViewHolder) holder;
-        viewHolder.itemView.setTag(this);
+
+        bindViewHelper((BaseViewHolder) holder);
 
         viewHolder.id.setText(String.valueOf(id));
         viewHolder.name.setText(name);
+        //viewHolder.setIcon(R.drawable.ic_settings_applications_black_18dp);
 
         onPostBindView(this, viewHolder.itemView);
     }
@@ -150,6 +152,7 @@ public class NavigationDrawerItem
     // Used to cache the views within the item layout for fast access
     public  class ListItemViewHolder extends BaseViewHolder
             implements View.OnClickListener, ItemTouchHelperViewHolder {
+
         public IViewHolderClicked mViewHolderListener;
         NavigationBaseRecyclerAdapter.OnItemClickListener drawerItemListener;
 
@@ -162,6 +165,7 @@ public class NavigationDrawerItem
             itemLayoutView.setOnClickListener(this);
 
             this.icon.setOnClickListener(this);
+
         }
 
         @Override

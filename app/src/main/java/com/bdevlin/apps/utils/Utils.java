@@ -8,8 +8,10 @@ import com.bdevlin.apps.pandt.R;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.view.View;
 
 public class Utils {
@@ -59,5 +61,18 @@ public class Utils {
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
+    }
+
+    public static Drawable getCompatDrawable(Context c, int drawableRes) {
+        Drawable d = null;
+        try {
+            if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                d = c.getResources().getDrawable(drawableRes);
+            } else {
+                d = c.getResources().getDrawable(drawableRes, c.getTheme());
+            }
+        } catch (Exception ex) {
+        }
+        return d;
     }
 }

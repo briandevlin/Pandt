@@ -21,6 +21,7 @@ import com.bdevlin.apps.ui.fragments.BlankFragment;
 import com.bdevlin.apps.ui.fragments.MainContentFragment;
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.pandt.ViewMode;
+import com.bdevlin.apps.utils.HelpUtils;
 
 
 /**
@@ -170,12 +171,18 @@ public class UIControllerOnePane extends UIControllerBase
 //                return true;
 
             case "Settings":
-                // Toast.makeText(mActivity, "Example action.", Toast.LENGTH_SHORT).show();
+
                 Intent intentPrefs = new Intent(mActivity,
                         PreferencesActivity.class);
-                mActivity.startActivityForResult(intentPrefs,1);
-
-            case  "help":
+                mActivity.startActivityForResult(intentPrefs, 1);
+                break;
+            case "About":
+               // HelpUtils.showDialog(mActivity);
+                break;
+            case  "Help":
+                   Intent intentHelp = new Intent(mActivity,
+                        HelpActivity.class);
+                mActivity.startActivity(intentHelp);
                break;
 
             default:

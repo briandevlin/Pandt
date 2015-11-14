@@ -20,6 +20,7 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -52,6 +53,7 @@ import com.bdevlin.apps.pandt.folders.Folder;
 import com.bdevlin.apps.pandt.GenericListContext;
 import com.bdevlin.apps.pandt.Items;
 import com.bdevlin.apps.pandt.Cursors.MyObjectCursorLoader;
+
 import com.bdevlin.apps.ui.fragments.NavigationDrawerFragment;
 import com.bdevlin.apps.pandt.Cursors.ObjectCursor;
 import com.bdevlin.apps.pandt.PagerController;
@@ -64,6 +66,7 @@ import com.bdevlin.apps.utils.GoogleAccountUtils;
 
 import com.bdevlin.apps.utils.GoogleAccountManager;
 import com.bdevlin.apps.utils.GoogleDriveManager;
+import com.bdevlin.apps.utils.HelpUtils;
 import com.bdevlin.apps.utils.PlayServicesUtils;
 import com.bdevlin.apps.utils.VolleyController;
 import com.bdevlin.apps.utils.LoginAndAuthHelper;
@@ -440,9 +443,10 @@ public abstract class UIControllerBase implements ActivityController {
 
             case R.id.action_settings:
                // Toast.makeText(mActivity, "Example action.", Toast.LENGTH_SHORT).show();
-                Intent intentPrefs = new Intent(mActivity,
+              /*  Intent intentPrefs = new Intent(mActivity,
                         PreferencesActivity.class);
-                mActivity.startActivity(intentPrefs);
+                mActivity.startActivity(intentPrefs);*/
+              //  HelpUtils.showDialog(mActivity);
                 return true;
             case  android.R.id.home:
                 onUpPressed();
@@ -460,7 +464,7 @@ public abstract class UIControllerBase implements ActivityController {
 
             showGlobalContextActionBar();
         }
-        //mActivity.getMenuInflater().inflate(R.menu.home, (Menu) menu);
+        mActivity.getMenuInflater().inflate(R.menu.home, (Menu) menu);
         return true;
     }
 

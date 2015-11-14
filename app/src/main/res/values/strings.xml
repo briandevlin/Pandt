@@ -64,5 +64,44 @@
         <item msgid="4378074129049520373">"2"</item>
         <item msgid="3455047468583965104">"3"</item>
     </string-array>
+    <string name="eula_text">End User License Agreement</string>
+    <string name="about_eula">End User License Agreement</string>
+    <string name="about_licenses">Open Source Licenses</string>
+    <string name="about_body"><![CDATA[
+        <b>Pandt 2015</b><br>
+        Version %s<br><br>
+    ]]></string>
+
+    <string name="help_swipe_hint">Swipe to navigate help</string>
+    <string name="title_help">Help</string>
+    <string name="action_about">About</string>
+    <string name="action_terms">Terms</string>
+    <string name="action_policy">Policy</string>
+
+    <string name="help0"><html><head></head><body><p><b>This</b></p> is the  <u>landing page</u> for all <strike>authenticated</strike>  PMs.\n <img src="http://www.example.com/image.gif" />	</body></html>
+</string>
+    <string name="help1"><b>This</b> is the best place to add your actions.
+The <b>Inbox</b> is where all actions start off before they are processed.
+Try to regularly scan the Inbox, analyzing each action and either discard it, do it or assign it
+to a project and/or one or more contexts.\n
+Once a project or context is assigned to an action, it will automatically be removed from the Inbox.
+</string>
+    <string name="help2">The <b>Project</b> perspective lists all your projects, and allows you to drill-down
+into each project to view its actions. In addition to the standard adding, editing and deleting
+of actions, the project view also supports rearranging actions in the order you intend to complete them.
+This step is important for the Next Actions perspective.\n
+For some projects it makes sense for actions to completed one after the other in strict order. For other
+projects, actions can be completed in any order. This is configurable when creating or editing a project.
+</string>
+    <string name="help3">You may optionally assign one or more <b>contexts</b> to each of your actions.
+Contexts are like tags for your actions. They can be locations, categories or whatever makes sense to you.
+Shuffle comes with a few standard contexts to get you started:
+<i>At home</i>, <i>At  work</i>, <i>Online</i>, <i>Errands</i>, <i>Contact</i> and <i>Read</i>. \n
+Feel free to modify or delete the existing, or add your own contexts that suit your situation.\n
+The context view is especially useful when you\'re intending on getting something done, and need to see what
+actions are applicable to your current situation. For instance, you\'re out and about in town, so you
+check your Errands context and see you need to buy an umbrella and pick up the dry cleaning on your way home.
+</string>
+
 
 </resources>

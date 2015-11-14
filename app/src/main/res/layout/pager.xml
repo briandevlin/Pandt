@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        layout="@layout/settings_toolbar" />
+
+    <android.support.v4.view.ViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/pager"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+
+        >
+    </android.support.v4.view.ViewPager>
+
+    <com.viewpagerindicator.LinePageIndicator
+        android:id="@+id/indicator"
+        android:padding="5dip"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        app:strokeWidth="4dp"
+        app:lineWidth="30dp"
+        app:unselectedColor="#FF888888"
+        app:selectedColor="#FF880000"
+
+        />
+</LinearLayout>

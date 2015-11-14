@@ -80,7 +80,11 @@
                     <!--&lt;!&ndash;/>&ndash;&gt;-->
             <!--&lt;!&ndash;</intent-filter>&ndash;&gt;-->
         <!--</activity-alias>-->
-
+        <activity
+            android:name="com.bdevlin.apps.ui.activity.core.HelpActivity"
+            android:label="Help"
+            >
+        </activity>
         <activity
             android:name="com.bdevlin.apps.ui.activity.core.PreferencesActivity"
             android:label="@string/app_name" >

@@ -23,9 +23,9 @@ public class PlayServicesUtils {
         final int googlePlayServicesCheck = GooglePlayServicesUtil.isGooglePlayServicesAvailable(activity);
         switch (googlePlayServicesCheck) {
             case ConnectionResult.SUCCESS:
-                Toast.makeText(activity,
+               /* Toast.makeText(activity,
                     "isGooglePlayServicesAvailable SUCCESS",
-                    Toast.LENGTH_LONG).show();
+                    Toast.LENGTH_LONG).show();*/
                 return true;
             case ConnectionResult.SERVICE_DISABLED:
             case ConnectionResult.SERVICE_INVALID:

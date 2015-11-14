@@ -2,4 +2,17 @@
 <resources>
     <!-- Boolean value indicating whether the tablet UI should be used. -->
     <integer name="use_tablet_ui">0</integer>
+
+
+    <array name="help_screens">
+        <item>Introduction</item>
+        <item>Inbox</item>
+        <item>Projects</item>
+    </array>
+
+    <array name="help_keys" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </array>
 </resources>

@@ -43,4 +43,11 @@
         android:text="New Text"
         android:id="@+id/name1" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/show"
+        android:layout_gravity="center_horizontal" />
+
 </LinearLayout>
