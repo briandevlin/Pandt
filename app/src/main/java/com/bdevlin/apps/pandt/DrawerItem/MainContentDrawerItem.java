@@ -61,11 +61,13 @@ public class MainContentDrawerItem
         });
 
         viewHolderClicked = new IViewHolderClicked() {
+
             public void onTextClicked(View caller) {
                 Log.d(TAG, "SuperCalafragiletic");
             }
 
             public void onImageClicked(ImageView callerImage) {
+                // do something as the image was clicked
                 if (DEBUG) Log.d(TAG, "Eventhoughthesoundofitissomethingquiteatrocious ");
             }
         };
@@ -75,6 +77,7 @@ public class MainContentDrawerItem
             public void onItemClick(View itemView, int position) {
                 if (DEBUG) Log.d(TAG, "OnItemClickListener: " + position);
                 if (mActivity != null) {
+
                     mCallbacks = mActivity.getMainContentCallbacks();
                    mCallbacks.onMainContentItemSelected(position);
                 }
@@ -128,6 +131,7 @@ public class MainContentDrawerItem
 
     public static class ContentItemViewHolder extends BaseViewHolder
             implements View.OnClickListener/*, ItemTouchHelperViewHolder*/ {
+
         public IViewHolderClicked mListener;
         ContentBaseRecyclerViewAdapter.OnItemClickListener otherListener;
 
@@ -136,8 +140,8 @@ public class MainContentDrawerItem
             this.mListener = listener;
             this.otherListener = itemClicked;
             // Attach a click listener to the entire row view
-            itemLayoutView.setOnClickListener(this);
-         //   this.icon.setOnClickListener(this);
+            //itemLayoutView.setOnClickListener(this);
+            this.icon.setOnClickListener(this);
         }
 
         @Override
@@ -145,6 +149,7 @@ public class MainContentDrawerItem
             if (DEBUG) Log.d(TAG, "onItemView: " + v.toString());
             int position = getLayoutPosition(); // gets item position
             int pos = getAdapterPosition();
+
 
             if (v instanceof ImageView) {
                 mListener.onImageClicked((ImageView) v);

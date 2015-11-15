@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.annotation.LayoutRes;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -80,9 +81,21 @@ public class NavigationDrawerItem
         drawerItemClicked = new NavigationBaseRecyclerAdapter.OnItemClickListener() {
 
             public void onItemClick(View itemView, int position) {
-                Log.d(TAG, "onItemView: " + position);
-                NavigationDrawerItem item = (NavigationDrawerItem )(itemView.getTag());
-                if (itemView.getParent() instanceof RecyclerView) {
+                if (DEBUG) Log.d(TAG, "onItemView: " + position);
+                ViewParent parent = null;
+                ViewParent getclass = null;
+                NavigationDrawerItem item =null;
+
+                if (itemView instanceof ImageView) {
+                    parent =  itemView.getParent().getParent();
+                     getclass =  itemView.getParent();
+
+                    // item = ((NavigationDrawerItem )getclass).getTag();
+                } else {
+                    parent =  itemView.getParent();
+                    item = (NavigationDrawerItem )(itemView.getTag());
+                }
+                if (parent instanceof RecyclerView) {
                     if (DEBUG)  Log.d(TAG, "from the recycler " );
                     if (mActivity != null) {
                         mCallbacks = mActivity.getNavigationDrawerCallbacks();

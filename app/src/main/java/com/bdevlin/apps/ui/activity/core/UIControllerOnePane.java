@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.bdevlin.apps.pandt.Controllers.ActivityController;
 import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
@@ -153,6 +154,7 @@ public class UIControllerOnePane extends UIControllerBase
     public void onNavigationDrawerItemSelected(int position, NavigationDrawerItem itemView) {
         if (DEBUG) Log.d(TAG, "onNavigationDrawerItemSelected");
         toggleDrawerState();
+
         Folder folder = new Folder(itemView.id, itemView.name);
 
         GenericListContext viewContext =  GenericListContext.forFolder(folder);

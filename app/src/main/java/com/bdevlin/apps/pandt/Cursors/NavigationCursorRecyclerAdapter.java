@@ -18,6 +18,7 @@ public class NavigationCursorRecyclerAdapter
         implements /*CursorRecyclerAdapter.OnItemClickListener,*/ ItemTouchHelperAdapter {
 
     private static final String TAG = NavigationCursorRecyclerAdapter.class.getSimpleName();
+    private static final boolean DEBUG = true;
 
     // <editor-fold desc="Fields">
    // private List<IDrawerItem> mDrawerItems = new ArrayList<>();
@@ -63,16 +64,10 @@ public class NavigationCursorRecyclerAdapter
     // // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder (NavigationDrawerItem.ListItemViewHolder holder, ObjectCursor<NavigationDrawerItem> cursor, int position ) {
-        Log.d(TAG,"onBindViewHolder");
+        if (DEBUG) Log.d(TAG,"onBindViewHolder");
         // gets the IDrawerItem at this position then bind the viewholder to it
         getItem(position).bindView(holder);
     }
-
-
-//    public void onItemClick(View itemView, int position)
-//    {
-//
-//    }
 
     // </editor-fold>
 

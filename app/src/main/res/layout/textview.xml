@@ -30,7 +30,7 @@
         android:text="New label"
 
         android:padding="8dp"
-        android:textSize="14sp"
+
         android:id="@+id/id"
         android:visibility="visible"
         android:layout_gravity="center_vertical" />
@@ -38,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:textSize="14sp"
+
         android:text="New Text"
         android:id="@+id/name"
         android:layout_gravity="center_vertical" />
