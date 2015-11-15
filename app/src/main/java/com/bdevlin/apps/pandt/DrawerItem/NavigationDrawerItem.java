@@ -7,8 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.annotation.LayoutRes;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
@@ -83,13 +86,47 @@ public class NavigationDrawerItem
             public void onItemClick(View itemView, int position) {
                 if (DEBUG) Log.d(TAG, "onItemView: " + position);
                 ViewParent parent = null;
-                ViewParent getclass = null;
+                //ViewParent getclass = null;
                 NavigationDrawerItem item =null;
 
                 if (itemView instanceof ImageView) {
-                    parent =  itemView.getParent().getParent();
-                     getclass =  itemView.getParent();
+                    //parent =  itemView.getParent().getParent();
+                     parent = itemView.getParent();
+                    LinearLayout r;
+                    if (parent == null) {
+                        Log.d("TEST", "this.getParent() is null");
+                    }
+                    else {
+                        if (parent instanceof ViewGroup) {
+                            ViewParent grandparent = ((ViewGroup) parent).getParent();
+                            if (grandparent == null) {
+                                Log.d("TEST", "((ViewGroup) this.getParent()).getParent() is null");
 
+                            }
+                            else {
+                                if (grandparent instanceof RecyclerView) {
+                                    r = (LinearLayout) parent;
+                                    item = (NavigationDrawerItem )(r.getTag());
+                                    parent = grandparent;
+                                }
+                                else {
+                                    Log.d("TEST", "((ViewGroup) this.getParent()).getParent() is not a RelativeLayout");
+                                }
+                            }
+                        }
+                        else {
+                            Log.d("TEST", "this.getParent() is not a ViewGroup");
+                        }
+                    }
+                   /* NavigationDrawerItem  nav = null;
+                    try {
+                        //getclass = itemView.getParent();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                    }*/
+                   
+                   // item = (NavigationDrawerItem )(nav.getTag());
                     // item = ((NavigationDrawerItem )getclass).getTag();
                 } else {
                     parent =  itemView.getParent();

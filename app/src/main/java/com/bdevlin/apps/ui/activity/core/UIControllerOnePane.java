@@ -155,6 +155,8 @@ public class UIControllerOnePane extends UIControllerBase
         if (DEBUG) Log.d(TAG, "onNavigationDrawerItemSelected");
         toggleDrawerState();
 
+        if (itemView == null)  return;
+
         Folder folder = new Folder(itemView.id, itemView.name);
 
         GenericListContext viewContext =  GenericListContext.forFolder(folder);
