@@ -15,7 +15,7 @@ public class ContentCursorRecyclerAdapter
 extends ContentBaseRecyclerViewAdapter<MainContentDrawerItem.ContentItemViewHolder>
 {
     private static final String TAG = ContentCursorRecyclerAdapter.class.getSimpleName();
-
+    private static final boolean DEBUG = true;
     Context mContext;
     protected  int[] mFrom;
     protected  int[] mTo;
@@ -38,14 +38,14 @@ extends ContentBaseRecyclerViewAdapter<MainContentDrawerItem.ContentItemViewHold
 
     @Override
     public MainContentDrawerItem.ContentItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.d(TAG, "onCreateViewHolder");
+        if (DEBUG) Log.d(TAG, "onCreateViewHolder");
         MainContentDrawerItem item = new    MainContentDrawerItem(mActivity,null);
         return (MainContentDrawerItem.ContentItemViewHolder)item.getViewHolder(parent);
     }
 
     @Override
     public void onBindViewHolder(MainContentDrawerItem.ContentItemViewHolder holder, ObjectCursor<MainContentDrawerItem> cursor, int position) {
-        Log.d(TAG,"onBindViewHolder");
+        if (DEBUG) Log.d(TAG,"onBindViewHolder");
         // gets the IDrawerItem at this position then bind the viewholder to it
         getItem(position).bindView(holder);
     }

@@ -35,6 +35,7 @@ public class HelpActivity  extends AppCompatActivity {
 
     // <editor-fold desc="Fields">
     private static final String TAG = HomeActivity.class.getSimpleName();
+    private static final boolean DEBUG = true;
     public static final String QUERY_NAME = "queryName";
     private static final Random RANDOM = new Random();
     private ViewPager mPager;
@@ -90,13 +91,12 @@ public class HelpActivity  extends AppCompatActivity {
     private void initFragments() {
         mFragments = new ArrayList<>();
 
-        String[] helpTitles = getResources().getStringArray(
-                R.array.help_screens);
+        String[] helpTitles = getResources().getStringArray(R.array.help_screens);
 
         int[] helpKeys = getResources().getIntArray(R.array.help_keys);
         int length = helpTitles.length;
         if (helpKeys.length != length) {
-            Log.e(TAG, "Mismatch between keys length " + helpKeys.length
+            if (DEBUG) Log.e(TAG, "Mismatch between keys length " + helpKeys.length
                     + " and titles " + length);
             length = Math.min(length, helpKeys.length);
         }
@@ -151,8 +151,6 @@ public class HelpActivity  extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
-
         getMenuInflater().inflate(R.menu.about, (Menu) menu);
         return true;
     }

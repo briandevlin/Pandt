@@ -22,7 +22,7 @@ public class MainContentDrawerItem
         extends BaseNavigationDrawerItem<MainContentDrawerItem>  {
 
     private static final String TAG = MainContentDrawerItem.class.getSimpleName();
-
+    private static final boolean DEBUG = true;
     // <editor-fold desc="Fields">
     private MainContentFragment.MainContentCallbacks mCallbacks;
     private static ContentBaseRecyclerViewAdapter.OnItemClickListener itemClicked;
@@ -56,7 +56,7 @@ public class MainContentDrawerItem
         setPostOnBindViewListener(new OnPostBindViewListener() {
 
             public void onBindView(IDrawerItem drawerItem, View view) {
-                Log.d(TAG, "Post bind View ");
+               if (DEBUG) Log.d(TAG, "Post bind View ");
             }
         });
 
@@ -66,17 +66,17 @@ public class MainContentDrawerItem
             }
 
             public void onImageClicked(ImageView callerImage) {
-                Log.d(TAG, "Eventhoughthesoundofitissomethingquiteatrocious ");
+                if (DEBUG) Log.d(TAG, "Eventhoughthesoundofitissomethingquiteatrocious ");
             }
         };
 
         itemClicked = new ContentBaseRecyclerViewAdapter.OnItemClickListener() {
 
             public void onItemClick(View itemView, int position) {
-                Log.d(TAG, "OnItemClickListener: " + position);
+                if (DEBUG) Log.d(TAG, "OnItemClickListener: " + position);
                 if (mActivity != null) {
                     mCallbacks = mActivity.getMainContentCallbacks();
-                   mCallbacks.onMainContentItemSelected(position, null);
+                   mCallbacks.onMainContentItemSelected(position);
                 }
             }
 
@@ -102,7 +102,7 @@ public class MainContentDrawerItem
         Context ctx = holder.itemView.getContext();
 
         ContentItemViewHolder viewHolder = (ContentItemViewHolder) holder;
-
+        bindViewHelper((BaseViewHolder) holder);
         viewHolder.id.setText(String.valueOf(id));
         viewHolder.name.setText(name);
 
@@ -142,7 +142,7 @@ public class MainContentDrawerItem
 
         @Override
         public void onClick(View v) {
-            Log.d(TAG, "onItemView: " + v.toString());
+            if (DEBUG) Log.d(TAG, "onItemView: " + v.toString());
             int position = getLayoutPosition(); // gets item position
             int pos = getAdapterPosition();
 

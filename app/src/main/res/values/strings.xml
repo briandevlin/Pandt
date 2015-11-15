@@ -15,6 +15,8 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="add_account">Add Account</string>
+    <string name="settings">Settings</string>
+    <string name="help">Help</string>
     <!--
   Error message that shows when the user tries to use the app without a Google account
   configured on their device.
@@ -77,31 +79,6 @@
     <string name="action_about">About</string>
     <string name="action_terms">Terms</string>
     <string name="action_policy">Policy</string>
-
-    <string name="help0"><html><head></head><body><p><b>This</b></p> is the  <u>landing page</u> for all <strike>authenticated</strike>  PMs.\n <img src="http://www.example.com/image.gif" />	</body></html>
-</string>
-    <string name="help1"><b>This</b> is the best place to add your actions.
-The <b>Inbox</b> is where all actions start off before they are processed.
-Try to regularly scan the Inbox, analyzing each action and either discard it, do it or assign it
-to a project and/or one or more contexts.\n
-Once a project or context is assigned to an action, it will automatically be removed from the Inbox.
-</string>
-    <string name="help2">The <b>Project</b> perspective lists all your projects, and allows you to drill-down
-into each project to view its actions. In addition to the standard adding, editing and deleting
-of actions, the project view also supports rearranging actions in the order you intend to complete them.
-This step is important for the Next Actions perspective.\n
-For some projects it makes sense for actions to completed one after the other in strict order. For other
-projects, actions can be completed in any order. This is configurable when creating or editing a project.
-</string>
-    <string name="help3">You may optionally assign one or more <b>contexts</b> to each of your actions.
-Contexts are like tags for your actions. They can be locations, categories or whatever makes sense to you.
-Shuffle comes with a few standard contexts to get you started:
-<i>At home</i>, <i>At  work</i>, <i>Online</i>, <i>Errands</i>, <i>Contact</i> and <i>Read</i>. \n
-Feel free to modify or delete the existing, or add your own contexts that suit your situation.\n
-The context view is especially useful when you\'re intending on getting something done, and need to see what
-actions are applicable to your current situation. For instance, you\'re out and about in town, so you
-check your Errands context and see you need to buy an umbrella and pick up the dry cleaning on your way home.
-</string>
 
 
 </resources>

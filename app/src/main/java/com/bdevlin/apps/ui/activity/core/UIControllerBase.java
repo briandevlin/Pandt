@@ -51,7 +51,6 @@ import com.bdevlin.apps.pandt.Controllers.ActivityController;
 import com.bdevlin.apps.pandt.Cursors.CursorCreator;
 import com.bdevlin.apps.pandt.folders.Folder;
 import com.bdevlin.apps.pandt.GenericListContext;
-import com.bdevlin.apps.pandt.Items;
 import com.bdevlin.apps.pandt.Cursors.MyObjectCursorLoader;
 
 import com.bdevlin.apps.ui.fragments.NavigationDrawerFragment;
@@ -513,7 +512,7 @@ public abstract class UIControllerBase implements ActivityController {
 */
 
 
-    protected void showConversation(final int position, Items.ListItem listItem) {
+    protected void showConversation(final int position) {
 
 // set the current item
        // setTitle(listItem.content);

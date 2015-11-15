@@ -26,6 +26,7 @@ public class NavigationDrawerItem
 
     private static final String TAG = NavigationDrawerItem.class.getSimpleName();
 
+    private static final boolean DEBUG = true;
     // <editor-fold desc="Fields">
     private NavigationDrawerFragment.NavigationDrawerCallbacks mCallbacks;
     private static IViewHolderClicked viewHolderClicked;
@@ -62,17 +63,17 @@ public class NavigationDrawerItem
         setPostOnBindViewListener(new OnPostBindViewListener() {
 
             public void onBindView(IDrawerItem drawerItem, View view) {
-                Log.d(TAG, "Post bind View ");
+                if (DEBUG) Log.d(TAG, "Post bind View ");
             }
         });
 
         viewHolderClicked = new IViewHolderClicked() {
             public void onTextClicked(View caller) {
-                Log.d(TAG, "Poh-tah-tos");
+                if (DEBUG) Log.d(TAG, "Poh-tah-tos");
             }
 
             public void onImageClicked(ImageView callerImage) {
-                Log.d(TAG, "To-m8-tohs");
+                if (DEBUG) Log.d(TAG, "To-m8-tohs");
             }
         };
 
@@ -82,13 +83,13 @@ public class NavigationDrawerItem
                 Log.d(TAG, "onItemView: " + position);
                 NavigationDrawerItem item = (NavigationDrawerItem )(itemView.getTag());
                 if (itemView.getParent() instanceof RecyclerView) {
-                    Log.d(TAG, "from the recycler " );
+                    if (DEBUG)  Log.d(TAG, "from the recycler " );
                     if (mActivity != null) {
                         mCallbacks = mActivity.getNavigationDrawerCallbacks();
                         mCallbacks.onNavigationDrawerItemSelected(position, item);
                     }
                 } else {
-                    Log.d(TAG, "from the ArrayAdapter ");
+                    if (DEBUG)  Log.d(TAG, "from the ArrayAdapter ");
                     if (mActivity != null) {
                         mCallbacks = mActivity.getNavigationDrawerCallbacks();
                         mCallbacks.onNavigationDrawerArraySelected(position, item);

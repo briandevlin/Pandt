@@ -29,7 +29,7 @@
         <item name="android:subtitleTextStyle">@style/Material.subtitleTextStyle</item>
         <item name="titleTextStyle">@style/Material.titleTextStyle</item>
         <item name="subtitleTextStyle">@style/Material.subtitleTextStyle</item>
-        <item name="android:textColorPrimary">#00FF33</item>
+        <item name="android:textColorPrimary">#ffffff</item>
         <item name="android:textColorSecondary">#ffaa00</item>
         <item name="android:textColorPrimaryInverse">#ff33ff</item>
         <!--<item name="actionMenuTextColor">@color/abc_primary_text_material_light</item>-->
@@ -47,7 +47,7 @@
 
     <style name="Material.DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
-        <item name="color">#FF3433</item>
+        <item name="color">#ffffff</item>
     </style>
 
 </resources>

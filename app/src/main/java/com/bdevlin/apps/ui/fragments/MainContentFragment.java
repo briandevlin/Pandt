@@ -41,7 +41,7 @@ import com.bdevlin.apps.pandt.DividerItemDecoration;
 import com.bdevlin.apps.pandt.DrawerItem.MainContentDrawerItem;
 import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
 import com.bdevlin.apps.pandt.GenericListContext;
-import com.bdevlin.apps.pandt.Items;
+//import com.bdevlin.apps.pandt.Items;
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.pandt.ViewMode;
 import com.bdevlin.apps.pandt.folders.FolderController;
@@ -94,7 +94,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
     private final CursorLoads mCursorCallbacks = new CursorLoads();
 
 
-    private  ArrayAdapter<Items.ListItem> adapter = null;
+
 
     private  SimpleAdapter simpleAdapter = null;
 
@@ -116,7 +116,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
     // <editor-fold desc="Interfaces">
 
     public interface MainContentCallbacks {
-        void onMainContentItemSelected(final int position, Items.ListItem listItem);
+        void onMainContentItemSelected(final int position);
     }
 
     /**
@@ -125,7 +125,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
      */
     private static MainContentCallbacks sDummyCallbacks = new MainContentCallbacks() {
         @Override
-        public void onMainContentItemSelected(final int position, Items.ListItem listItem) {
+        public void onMainContentItemSelected(final int position) {
         }
     };
     // </editor-fold>
@@ -167,9 +167,6 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
             mViewContext = GenericListContext.forBundle(args.getBundle(CONVERSATION_LIST_KEY));
             //mAccount = mViewContext.account;
         }
-
-
-
        // setRetainInstance(false);
     }
 
@@ -233,11 +230,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
         mode.enterConversationListMode();
         mode.addListener(this);
 
-/*        if (mode.isConversationMode() && mode.getMode() == ViewMode.UNKNOWN) {
-                mode.enterConversationMode();
-            } else {
-        mode.enterConversationListMode();
-            }*/
+
         mode.enterConversationListMode();
 
 
@@ -253,35 +246,12 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
        ActionBar ab =  actionBarController.getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(false);
 
-//        mCallbacks = mActivity.getMainContentCallbacks();
-//
-//        Context activityContext = mActivity.getActivityContext();
-//
-//        final LoaderManager manager = getLoaderManager();
-//
-//       Context applicationContext = mActivity.getApplicationContext();
-
-
-
         mRecycleCursorAdapter = new ContentCursorRecyclerAdapter(mActivity,
                /* R.layout.textview,*/
                 null,
                 MockContract.FOLDERS_PROJECTION, // string[] column names
                 toId
                 );
-
-
-
-/*        mRecycleCursorAdapter.setOnItemClickListener(
-                new NavigationBaseRecyclerAdapter.OnItemClickListener() {
-                    public void onItemClick(View itemView, int position)
-                    {
-                        Log.d(TAG,"ContentBaseRecyclerViewAdapter.OnItemClickListener");
-//                        mCallbacks = mActivity.getNavigationDrawerCallbacks();
-//                        mCallbacks.onNavigationDrawerItemSelected(position, null);
-                    }
-
-                });*/
 
 
         mRecyclerView.setAdapter(mRecycleCursorAdapter);
@@ -308,32 +278,6 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
 
     // </editor-fold
 
-
-
-//    @Override
-//    public void onListItemClick(ListView listView, View view, int position,
-//                                long id) {
-//        Toast.makeText(getActivity(),
-//                listView.getItemAtPosition(position).toString(),
-//                Toast.LENGTH_LONG).show();
-//
-//      //  Items.ListItem listItem = (Items.ListItem)listView.getAdapter().getItem(position);
-//       // Object item = listView.getAdapter().getItem(position);
-////        final Object item = getListAdapter().getItem(position);
-////        Log.d(TAG, String.format("view item (%d): %s", position,
-////                listItem));
-//        selectItem(position, null);
-//
-//    }
-
-
-    private void selectItem(final int position, Items.ListItem listItem) {
-        mCurrentSelectedPosition = position;
-
-        if (mCallbacks != null) {
-            mCallbacks.onMainContentItemSelected(position + 1, listItem);
-        }
-    }
 
     // <editor-fold desc="Life Cycle">
 
@@ -384,10 +328,6 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
     @Override
     public void onDestroyView() {
 
-        // Clear the list's mCursorAdapter
-
-  //      mListView.setAdapter(null);
-
         mActivity.getViewMode().removeListener(this);
 
         super.onDestroyView();
@@ -412,14 +352,14 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-super.onCreateOptionsMenu(menu,inflater);
+        super.onCreateOptionsMenu(menu,inflater);
     }
 
 
 
     @Override
     public void  onPrepareOptionsMenu(Menu menu) {
-super.onPrepareOptionsMenu(menu);
+        super.onPrepareOptionsMenu(menu);
     }
 
 
