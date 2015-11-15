@@ -4,18 +4,18 @@
     <View
         android:id="@+id/material_drawer_divider"
         android:layout_width="match_parent"
-        android:background="@color/colorPrimaryLight"
+        android:background="@color/colorAccent"
         android:layout_height="1dp" />
     <TextView
         android:id="@+id/material_drawer_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
-        android:gravity="center_vertical|start"
+        android:gravity="center_vertical|center"
         android:lines="1"
         android:singleLine="true"
         android:text="section header"
-        android:textColor="@color/colorPrimaryLight"
+        android:textColor="@color/textColorPrimary"
          />
 
 </RelativeLayout>

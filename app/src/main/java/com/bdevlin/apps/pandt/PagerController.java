@@ -1,15 +1,20 @@
 package com.bdevlin.apps.pandt;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 
 import com.bdevlin.apps.pandt.Controllers.ActivityController;
 import com.bdevlin.apps.ui.activity.core.HomeActivity;
+import com.bdevlin.apps.ui.fragments.PagerFragment;
 import com.bdevlin.apps.ui.widgets.PageMarginDrawable;
 import com.viewpagerindicator.LinePageIndicator;
 
@@ -50,7 +55,7 @@ public class PagerController {
         mPager.setPageMarginDrawable(gutterDrawable);
     }
 
-    public void show(final int position, Items.ListItem listItem)
+    public void show(final int position)
     {
         if (DEBUG) Log.d(TAG, "PagerController: Show");
         int visible = mPager.getVisibility();
@@ -103,5 +108,36 @@ public class PagerController {
         if (mPagerAdapter != null) {
             mPagerAdapter = null;
         }
+    }
+
+    public class SlidePagerAdapter extends FragmentStatePagerAdapter {
+
+        private  final int NUM_PAGES = 3;
+
+        //  private static final String ARG_INDEX = " com.bdevlin.apps.pandt.arg_position";
+
+        public SlidePagerAdapter(Resources res, FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+
+            // return new PagerFragment();
+
+            PagerFragment frag = PagerFragment.newInstance("item1");
+
+            Bundle args = new Bundle();
+            args.putInt(PagerFragment.ARG_INDEX, position);
+            frag.setArguments(args);
+            return frag;
+        }
+
+        @Override
+        public int getCount() {
+            return NUM_PAGES;
+        }
+
+
     }
 }

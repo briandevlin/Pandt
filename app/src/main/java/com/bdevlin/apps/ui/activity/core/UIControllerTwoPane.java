@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.View;
 
 import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
-import com.bdevlin.apps.pandt.Items;
+
 import com.bdevlin.apps.pandt.folders.Folder;
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.pandt.ViewMode;
@@ -75,7 +75,7 @@ public class UIControllerTwoPane extends UIControllerBase {
 
 
     @Override
-    public void onMainContentItemSelected(int position, Items.ListItem listItem) {
+    public void onMainContentItemSelected(int position) {
 
     }
 }

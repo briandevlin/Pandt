@@ -108,6 +108,7 @@ public abstract class ContentBaseRecyclerViewAdapter<VH extends RecyclerView.Vie
         }
     }
 
+
     @Override
     public int getItemViewType(int position) {
         return 0;

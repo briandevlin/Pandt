@@ -6,6 +6,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context=".HomeActivity">
 
     <LinearLayout
@@ -20,6 +21,7 @@
      <FrameLayout
          android:layout_width="match_parent"
          android:layout_height="match_parent">
+
          <!-- As the main name view, the view below consumes the entire
               space available using match_parent in both dimensions. -->
          <FrameLayout
@@ -32,6 +34,7 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:orientation="vertical">
+
          <!-- the viewpager must come after the main container-->
          <android.support.v4.view.ViewPager
              xmlns:android="http://schemas.android.com/apk/res/android"
@@ -61,7 +64,6 @@
 
 </LinearLayout>
 
->>>>>>> 71542bd804eca031ca31292a4a24c97ffd4448c7
 
     <!-- Nav drawer-->
     <include layout="@layout/navigation_drawer" />

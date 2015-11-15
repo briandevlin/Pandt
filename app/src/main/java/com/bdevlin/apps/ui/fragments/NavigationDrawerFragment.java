@@ -288,27 +288,25 @@ super();
         mRecyclerView.setAdapter(mRecycleCursorAdapter);
 
          ArrayList<IDrawerItem> mDrawerItems = new ArrayList<>();
+
         DividerDrawerItem divider = new DividerDrawerItem();
 
 
         NavigationDrawerItem settings =  new  NavigationDrawerItem(mActivity, null);
-        settings.name = "Settings";
+        settings.name = getResources().getString(R.string.settings);
         settings.id = 1;
         settings.setIcon(R.drawable.ic_settings_applications_black_24dp);
 
-
         NavigationDrawerItem help =  new  NavigationDrawerItem(mActivity, null);
-        help.name = "Help";
+        help.name = getResources().getString(R.string.help);
         help.id = 2;
         help.setIcon(R.drawable.ic_help_black_24dp);
 
-     /*   NavigationDrawerItem item2 =  new  NavigationDrawerItem(mActivity, null);
-        item2.name = "About";
-        item2.id = 3;*/
+
         mDrawerItems.add(divider);
         mDrawerItems.add(settings);
         mDrawerItems.add(help);
-       // mDrawerItems.add(item2);
+
 
         DrawerItemAdapter mCursorAdapter = new DrawerItemAdapter(
                 mActivity.getApplicationContext(),

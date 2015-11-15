@@ -22,7 +22,7 @@ public class MainContentDrawerItem
         extends BaseNavigationDrawerItem<MainContentDrawerItem>  {
 
     private static final String TAG = MainContentDrawerItem.class.getSimpleName();
-
+    private static final boolean DEBUG = true;
     // <editor-fold desc="Fields">
     private MainContentFragment.MainContentCallbacks mCallbacks;
     private static ContentBaseRecyclerViewAdapter.OnItemClickListener itemClicked;
@@ -56,27 +56,30 @@ public class MainContentDrawerItem
         setPostOnBindViewListener(new OnPostBindViewListener() {
 
             public void onBindView(IDrawerItem drawerItem, View view) {
-                Log.d(TAG, "Post bind View ");
+               if (DEBUG) Log.d(TAG, "Post bind View ");
             }
         });
 
         viewHolderClicked = new IViewHolderClicked() {
+
             public void onTextClicked(View caller) {
                 Log.d(TAG, "SuperCalafragiletic");
             }
 
             public void onImageClicked(ImageView callerImage) {
-                Log.d(TAG, "Eventhoughthesoundofitissomethingquiteatrocious ");
+                // do something as the image was clicked
+                if (DEBUG) Log.d(TAG, "Eventhoughthesoundofitissomethingquiteatrocious ");
             }
         };
 
         itemClicked = new ContentBaseRecyclerViewAdapter.OnItemClickListener() {
 
             public void onItemClick(View itemView, int position) {
-                Log.d(TAG, "OnItemClickListener: " + position);
+                if (DEBUG) Log.d(TAG, "OnItemClickListener: " + position);
                 if (mActivity != null) {
+
                     mCallbacks = mActivity.getMainContentCallbacks();
-                   mCallbacks.onMainContentItemSelected(position, null);
+                   mCallbacks.onMainContentItemSelected(position);
                 }
             }
 
@@ -102,7 +105,7 @@ public class MainContentDrawerItem
         Context ctx = holder.itemView.getContext();
 
         ContentItemViewHolder viewHolder = (ContentItemViewHolder) holder;
-
+        bindViewHelper((BaseViewHolder) holder);
         viewHolder.id.setText(String.valueOf(id));
         viewHolder.name.setText(name);
 
@@ -128,6 +131,7 @@ public class MainContentDrawerItem
 
     public static class ContentItemViewHolder extends BaseViewHolder
             implements View.OnClickListener/*, ItemTouchHelperViewHolder*/ {
+
         public IViewHolderClicked mListener;
         ContentBaseRecyclerViewAdapter.OnItemClickListener otherListener;
 
@@ -136,15 +140,16 @@ public class MainContentDrawerItem
             this.mListener = listener;
             this.otherListener = itemClicked;
             // Attach a click listener to the entire row view
-            itemLayoutView.setOnClickListener(this);
-         //   this.icon.setOnClickListener(this);
+            //itemLayoutView.setOnClickListener(this);
+            this.icon.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            Log.d(TAG, "onItemView: " + v.toString());
+            if (DEBUG) Log.d(TAG, "onItemView: " + v.toString());
             int position = getLayoutPosition(); // gets item position
             int pos = getAdapterPosition();
+
 
             if (v instanceof ImageView) {
                 mListener.onImageClicked((ImageView) v);

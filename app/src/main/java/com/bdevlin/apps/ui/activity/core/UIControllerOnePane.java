@@ -11,11 +11,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.bdevlin.apps.pandt.Controllers.ActivityController;
 import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
 import com.bdevlin.apps.pandt.GenericListContext;
-import com.bdevlin.apps.pandt.Items;
 import com.bdevlin.apps.pandt.folders.Folder;
 import com.bdevlin.apps.ui.fragments.BlankFragment;
 import com.bdevlin.apps.ui.fragments.MainContentFragment;
@@ -125,8 +125,8 @@ public class UIControllerOnePane extends UIControllerBase
 
     // when the main content fragment list item is selected we end up here
     @Override
-    protected void showConversation(final int position, Items.ListItem listItem) {
-        super.showConversation(position, listItem);
+    protected void showConversation(final int position) {
+        super.showConversation(position);
         if (DEBUG) Log.d(TAG, "showConversation");
         mViewMode.enterConversationMode();
 
@@ -137,14 +137,15 @@ public class UIControllerOnePane extends UIControllerBase
         //final Fragment f = fm.findFragmentById(R.id.main_content);
         final Fragment f = fm.findFragmentByTag(TAG_MAIN_LIST);
         if (f != null && f.isAdded()) {
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            //ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+            ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
             ft.remove(f);
             ft.commitAllowingStateLoss();
             fm.executePendingTransactions();
         }
 
 
-        mPagerController.show(position, listItem);
+        mPagerController.show(position);
     }
 
 
@@ -153,6 +154,7 @@ public class UIControllerOnePane extends UIControllerBase
     public void onNavigationDrawerItemSelected(int position, NavigationDrawerItem itemView) {
         if (DEBUG) Log.d(TAG, "onNavigationDrawerItemSelected");
         toggleDrawerState();
+
         Folder folder = new Folder(itemView.id, itemView.name);
 
         GenericListContext viewContext =  GenericListContext.forFolder(folder);
@@ -193,9 +195,9 @@ public class UIControllerOnePane extends UIControllerBase
     }
 
     @Override
-    public final void onMainContentItemSelected(final int position, Items.ListItem listItem) {
+    public final void onMainContentItemSelected(final int position) {
         if (DEBUG)  Log.d(TAG,"onMainContentItemSelected");
-         showConversation(position, listItem);
+         showConversation(position);
 
 
     }
@@ -213,7 +215,8 @@ public class UIControllerOnePane extends UIControllerBase
     private int replaceFragment(Fragment fragment, int transition, String tag, int anchor) {
         final FragmentManager fm = mActivity.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.setTransition(transition);
+       // fragmentTransaction.setTransition(transition);
+        fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         fragmentTransaction.replace(anchor, fragment, tag);
        // fragmentTransaction.addToBackStack(tag);
         final int id = fragmentTransaction.commitAllowingStateLoss();

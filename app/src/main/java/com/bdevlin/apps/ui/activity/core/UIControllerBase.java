@@ -51,7 +51,6 @@ import com.bdevlin.apps.pandt.Controllers.ActivityController;
 import com.bdevlin.apps.pandt.Cursors.CursorCreator;
 import com.bdevlin.apps.pandt.folders.Folder;
 import com.bdevlin.apps.pandt.GenericListContext;
-import com.bdevlin.apps.pandt.Items;
 import com.bdevlin.apps.pandt.Cursors.MyObjectCursorLoader;
 
 import com.bdevlin.apps.ui.fragments.NavigationDrawerFragment;
@@ -163,17 +162,19 @@ public abstract class UIControllerBase implements ActivityController {
 
     public UIControllerBase(HomeActivity activity, ViewMode viewMode) {
         mActivity = activity;
-        mContext = activity.getApplicationContext();
-        mRootView = (ViewGroup) activity.findViewById(android.R.id.content);
-        mFragmentManager = activity.getSupportFragmentManager();
-        mLoaderManager = mActivity.getSupportLoaderManager();
-        mResolver = mActivity.getContentResolver();
-        final Resources r = mContext.getResources();
-        boolean mIsTablet = Utils.useTabletUI(r);
-        mViewMode = viewMode;
-        mActionBar = getSupportActionBar();
-        accountManager = new GoogleAccountManager(mContext);
-        driveManager = new GoogleDriveManager(mContext);//FIXME - not really implemented fully
+
+            mContext = activity.getApplicationContext();
+            final Resources r = mContext != null ? mContext.getResources() : null;
+            mRootView = (ViewGroup) activity.findViewById(android.R.id.content);
+            mFragmentManager = activity.getSupportFragmentManager();
+            mLoaderManager = mActivity.getSupportLoaderManager();
+            mResolver = mActivity.getContentResolver();
+
+            boolean mIsTablet = Utils.useTabletUI(r);
+            mViewMode = viewMode;
+            mActionBar = getSupportActionBar();
+            accountManager = new GoogleAccountManager(mContext);
+            driveManager = new GoogleDriveManager(mContext);//FIXME - not really implemented fully
 
     }
     // </editor-fold>
@@ -513,7 +514,7 @@ public abstract class UIControllerBase implements ActivityController {
 */
 
 
-    protected void showConversation(final int position, Items.ListItem listItem) {
+    protected void showConversation(final int position) {
 
 // set the current item
        // setTitle(listItem.content);
