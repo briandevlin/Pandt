@@ -37,6 +37,22 @@ public class Folder   implements Parcelable, Comparable<Folder> {
         }
     };
 
+    public static final ClassLoaderCreator<Folder> CREATOR = new ClassLoaderCreator<Folder>() {
+        @Override
+        public Folder createFromParcel(Parcel source) {
+            return new Folder(source, null);
+        }
+
+        @Override
+        public Folder createFromParcel(Parcel source, ClassLoader loader) {
+            return new Folder(source, loader);
+        }
+
+        @Override
+        public Folder[] newArray(int size) {
+            return new Folder[size];
+        }
+    };
 
 
     private Folder() {

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -89,33 +90,34 @@ public class NavigationDrawerItem
                 //ViewParent getclass = null;
                 NavigationDrawerItem item =null;
 
+                // this use case is when the imageview is selected on the draweritem
                 if (itemView instanceof ImageView) {
                     //parent =  itemView.getParent().getParent();
                      parent = itemView.getParent();
                     LinearLayout r;
                     if (parent == null) {
-                        Log.d("TEST", "this.getParent() is null");
+                        if (DEBUG) Log.d("TEST", "this.getParent() is null");
                     }
                     else {
                         if (parent instanceof ViewGroup) {
                             ViewParent grandparent = ((ViewGroup) parent).getParent();
                             if (grandparent == null) {
-                                Log.d("TEST", "((ViewGroup) this.getParent()).getParent() is null");
+                                if (DEBUG) Log.d("TEST", "((ViewGroup) this.getParent()).getParent() is null");
 
                             }
                             else {
-                                if (grandparent instanceof RecyclerView) {
+                                if (grandparent instanceof RecyclerView || grandparent instanceof ListView) {
                                     r = (LinearLayout) parent;
                                     item = (NavigationDrawerItem )(r.getTag());
                                     parent = grandparent;
                                 }
                                 else {
-                                    Log.d("TEST", "((ViewGroup) this.getParent()).getParent() is not a RelativeLayout");
+                                    if (DEBUG) Log.d("TEST", "((ViewGroup) this.getParent()).getParent() is not a RelativeLayout");
                                 }
                             }
                         }
                         else {
-                            Log.d("TEST", "this.getParent() is not a ViewGroup");
+                            if (DEBUG) Log.d("TEST", "this.getParent() is not a ViewGroup");
                         }
                     }
                    /* NavigationDrawerItem  nav = null;
@@ -220,30 +222,67 @@ public class NavigationDrawerItem
         }
 
         @Override
-        public void onClick(View v) {
+        public void onClick(View itemView) {
 
             int position = getLayoutPosition(); // gets item position
             int pos = getAdapterPosition();
+            ViewParent parent = null;
+            //ViewParent getclass = null;
+            NavigationDrawerItem item =null;
+
+            // this use case is when the imageview is selected on the draweritem
+            if (itemView instanceof ImageView) {
+                parent = itemView.getParent();
+                LinearLayout r;
+                if (parent == null) {
+                    if (DEBUG) Log.d("TEST", "this.getParent() is null");
+                }
+                else {
+                    if (parent instanceof ViewGroup) {
+                        ViewParent grandparent = ((ViewGroup) parent).getParent();
+                        if (grandparent == null) {
+                            if (DEBUG) Log.d("TEST", "((ViewGroup) this.getParent()).getParent() is null");
+
+                        }
+                        else {
+                            if (grandparent instanceof RecyclerView || grandparent instanceof ListView) {
+                                r = (LinearLayout) parent;
+                                item = (NavigationDrawerItem )(r.getTag());
+                                parent = grandparent;
+                            }
+                            else {
+                                if (DEBUG) Log.d("TEST", "((ViewGroup) this.getParent()).getParent() is not a RelativeLayout");
+                            }
+                        }
+                    }
+                    else {
+                        if (DEBUG) Log.d("TEST", "this.getParent() is not a ViewGroup");
+                    }
+                }
+
+            } else {
+                parent =  itemView.getParent();
+                item = (NavigationDrawerItem )(itemView.getTag());
+            }
 
 
-            NavigationDrawerItem item = (NavigationDrawerItem )(v.getTag());
 
             if (pos == -1){
                 pos = (item.id - 1);
             }
 
-            if (v instanceof ImageView) {
-                mViewHolderListener.onImageClicked((ImageView) v);
+            if (itemView instanceof ImageView) {
+                mViewHolderListener.onImageClicked((ImageView) itemView);
             } else {
-                mViewHolderListener.onTextClicked(v);
+                mViewHolderListener.onTextClicked(itemView);
             }
 
             if (drawerItemListener == null) {
                 throw new NullPointerException("mOnItemClickListener is null in ");
             }
-            drawerItemListener.onItemClick(v, pos);
+            drawerItemListener.onItemClick(itemView, pos);
 
-            Toast.makeText(v.getContext(), "Id: " + pos, Toast.LENGTH_LONG).show();
+            Toast.makeText(itemView.getContext(), "Id: " + pos, Toast.LENGTH_LONG).show();
         }
 
         @Override
