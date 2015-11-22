@@ -1,10 +1,8 @@
-package com.bdevlin.apps.pandt;
+package com.bdevlin.apps.utils;
 
 import android.os.Bundle;
 
-import com.bdevlin.apps.pandt.accounts.Account;
 import com.bdevlin.apps.pandt.folders.Folder;
-import com.bdevlin.apps.utils.Utils;
 
 /**
  * Created by brian on 8/10/2014.

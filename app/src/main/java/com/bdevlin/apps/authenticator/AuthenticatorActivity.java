@@ -19,7 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.bdevlin.apps.pandt.ForwardingIntent;
+import com.bdevlin.apps.utils.ForwardingIntent;
 import com.bdevlin.apps.ui.activity.setup.AccountSetupType;
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.ui.fragments.AccountCheckSettingsFragment;

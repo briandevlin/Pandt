@@ -7,21 +7,17 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 
 import com.bdevlin.apps.pandt.Controllers.ActivityController;
 import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
-import com.bdevlin.apps.pandt.GenericListContext;
+import com.bdevlin.apps.utils.GenericListContext;
 import com.bdevlin.apps.pandt.folders.Folder;
-import com.bdevlin.apps.ui.fragments.BlankFragment;
 import com.bdevlin.apps.ui.fragments.MainContentFragment;
 import com.bdevlin.apps.pandt.R;
-import com.bdevlin.apps.pandt.ViewMode;
-import com.bdevlin.apps.utils.HelpUtils;
+import com.bdevlin.apps.utils.ViewMode;
 
 
 /**

@@ -1,9 +1,7 @@
 package com.bdevlin.apps.ui.activity.core;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -16,9 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.bdevlin.apps.pandt.Controllers.ActivityController;
 import com.bdevlin.apps.pandt.R;
-import com.bdevlin.apps.pandt.ViewMode;
 import com.bdevlin.apps.ui.fragments.HelpListFragment;
 import com.bdevlin.apps.utils.HelpUtils;
 import com.viewpagerindicator.LinePageIndicator;
@@ -149,6 +145,7 @@ public class HelpActivity  extends AppCompatActivity {
         return position;
     }
 
+    // <editor-fold desc="Options Menu">
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.about, (Menu) menu);
@@ -188,7 +185,9 @@ public class HelpActivity  extends AppCompatActivity {
         }
         return handled;
     }
+    // </editor-fold>
 
+    // <editor-fold desc="TestFragmentAdapter">
     class TestFragmentAdapter extends FragmentPagerAdapter /*implements
             IconPagerAdapter*/ {
 
@@ -213,6 +212,7 @@ public class HelpActivity  extends AppCompatActivity {
         }*/
 
     }
+    // </editor-fold>
 
 
 }

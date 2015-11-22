@@ -14,6 +14,7 @@ public class Folder   implements Parcelable, Comparable<Folder> {
     private static final String FOLDER_UNINITIALIZED = "Uninitialized!";
     public int id;
     public String name;
+    public String uri;
 
     public String bgColor;
     public String fgColor;
@@ -65,7 +66,9 @@ public class Folder   implements Parcelable, Comparable<Folder> {
     }
 
     public Folder(Cursor cursor) {
-        id = cursor.getInt(MockUiProvider.FOLDER_ID_COLUMN);
+         id = cursor.getInt(MockUiProvider.FOLDER_ID_COLUMN);
+        name = cursor.getString(MockUiProvider.FOLDER_NAME_COLUMN);
+        uri = cursor.getString(MockUiProvider.FOLDER_URI_COLUMN);
     }
 
     public static Folder newUnsafeInstance() {

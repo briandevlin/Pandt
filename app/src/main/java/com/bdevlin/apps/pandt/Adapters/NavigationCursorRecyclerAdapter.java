@@ -1,10 +1,11 @@
-package com.bdevlin.apps.pandt.Cursors;
+package com.bdevlin.apps.pandt.Adapters;
 import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 import android.view.ViewGroup;
 
 import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
+import com.bdevlin.apps.pandt.Cursors.ObjectCursor;
 import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
 import com.bdevlin.apps.pandt.helper.ItemTouchHelperAdapter;
 import com.bdevlin.apps.pandt.helper.OnStartDragListener;
@@ -17,11 +18,12 @@ public class NavigationCursorRecyclerAdapter
         extends NavigationBaseRecyclerAdapter<NavigationDrawerItem.ListItemViewHolder>
         implements /*CursorRecyclerAdapter.OnItemClickListener,*/ ItemTouchHelperAdapter {
 
+
+    // <editor-fold desc="Fields">
     private static final String TAG = NavigationCursorRecyclerAdapter.class.getSimpleName();
     private static final boolean DEBUG = true;
 
-    // <editor-fold desc="Fields">
-   // private List<IDrawerItem> mDrawerItems = new ArrayList<>();
+    // private List<IDrawerItem> mDrawerItems = new ArrayList<>();
     Context mContext;
     protected  int[] mFrom;
     protected  int[] mTo;
@@ -50,7 +52,7 @@ public class NavigationCursorRecyclerAdapter
 
     // </editor-fold>
 
-    // <editor-fold desc="Adapter methods">
+    // <editor-fold desc="RecyclerAdapter methods">
 
     //// Create new views (invoked by the layout manager)
     @Override
@@ -71,6 +73,7 @@ public class NavigationCursorRecyclerAdapter
 
     // </editor-fold>
 
+    // <editor-fold desc="Cursor">
     /**
      * Create a map from an array of strings to an array of column-id integers in cursor c.
      * If c is null, the array will be discarded.
@@ -100,6 +103,8 @@ public class NavigationCursorRecyclerAdapter
         // sawp cursor on the base class will use the cursor to generate the drawerItems
         return super.swapCursor(c);
     }
+
+    // </editor-fold>
 
     // <editor-fold desc="DragDrop">
     @Override

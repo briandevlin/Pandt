@@ -1,6 +1,7 @@
 package com.bdevlin.apps.pandt.DrawerItem;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
@@ -12,11 +13,10 @@ import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
-import com.bdevlin.apps.pandt.Cursors.NavigationBaseRecyclerAdapter;
+import com.bdevlin.apps.pandt.Adapters.NavigationBaseRecyclerAdapter;
 import com.bdevlin.apps.pandt.Interfaces.OnPostBindViewListener;
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.pandt.helper.ItemTouchHelperViewHolder;
@@ -29,15 +29,16 @@ import com.bdevlin.apps.ui.fragments.NavigationDrawerFragment;
 public class NavigationDrawerItem
         extends BaseNavigationDrawerItem<NavigationDrawerItem> {
 
-    private static final String TAG = NavigationDrawerItem.class.getSimpleName();
 
-    private static final boolean DEBUG = true;
     // <editor-fold desc="Fields">
+    private static final String TAG = NavigationDrawerItem.class.getSimpleName();
+    private static final boolean DEBUG = true;
     private NavigationDrawerFragment.NavigationDrawerCallbacks mCallbacks;
     private static IViewHolderClicked viewHolderClicked;
     private static NavigationBaseRecyclerAdapter.OnItemClickListener drawerItemClicked;
     public int id;
     public String name;
+    public String uriString;
     protected int[] mTo;
     protected int[] mFrom;
     private ControllableActivity mActivity;
@@ -64,6 +65,7 @@ public class NavigationDrawerItem
         if (c != null) {
             id = c.getInt(MockUiProvider.FOLDER_ID_COLUMN);
             name = c.getString(MockUiProvider.FOLDER_NAME_COLUMN);
+            uriString = c.getString(MockUiProvider.FOLDER_URI_COLUMN);
         }
         setPostOnBindViewListener(new OnPostBindViewListener() {
 
@@ -166,7 +168,7 @@ public class NavigationDrawerItem
     @Override
     @LayoutRes
     public int getLayoutRes() {
-        return R.layout.textview;
+        return R.layout.textview2;
     }
 
     @Override
@@ -176,15 +178,21 @@ public class NavigationDrawerItem
 
         ListItemViewHolder viewHolder = (ListItemViewHolder) holder;
 
+
+
+        if (uriString != null) {
+            int resId = ctx.getResources().getIdentifier(uriString, "drawable", ctx.getPackageName());
+            this.setIcon(resId);
+        }
         bindViewHelper((BaseViewHolder) holder);
 
         viewHolder.id.setText(String.valueOf(id));
         viewHolder.name.setText(name);
-        //viewHolder.setIcon(R.drawable.ic_settings_applications_black_18dp);
 
         onPostBindView(this, viewHolder.itemView);
     }
 
+    // <editor-fold desc="ViewHolder">
     @Override
     public ViewHolderFactory getFactory() {
         return new ItemFactory();
@@ -242,7 +250,6 @@ public class NavigationDrawerItem
                         ViewParent grandparent = ((ViewGroup) parent).getParent();
                         if (grandparent == null) {
                             if (DEBUG) Log.d("TEST", "((ViewGroup) this.getParent()).getParent() is null");
-
                         }
                         else {
                             if (grandparent instanceof RecyclerView || grandparent instanceof ListView) {
@@ -264,8 +271,6 @@ public class NavigationDrawerItem
                 parent =  itemView.getParent();
                 item = (NavigationDrawerItem )(itemView.getTag());
             }
-
-
 
             if (pos == -1){
                 pos = (item.id - 1);
@@ -296,4 +301,7 @@ public class NavigationDrawerItem
         }
 
     }
+
+    // </editor-fold>
+
 }

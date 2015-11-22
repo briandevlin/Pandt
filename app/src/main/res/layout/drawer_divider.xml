@@ -16,6 +16,7 @@
         android:singleLine="true"
         android:text="section header"
         android:textColor="@color/textColorPrimary"
+        android:background="@color/colorPrimaryLight"
          />
 
 </RelativeLayout>

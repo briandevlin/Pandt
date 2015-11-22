@@ -74,14 +74,15 @@ public class MockDatabaseHelper extends SQLiteOpenHelper {
 
     static void createFolderTable(SQLiteDatabase db) {
         String s = " (" + Folders._ID + " integer primary key autoincrement, "
-                + Folders.FOLDER_NAME + " text "
+                + Folders.FOLDER_NAME + " text, "
+                + Folders.FOLDER_URI + " text "
                 + ");";
 
         db.execSQL("create table " + Tables.FOLDERS + s);
 
-        db.execSQL("INSERT INTO folders VALUES(1,'folder one')");
-        db.execSQL("INSERT INTO folders VALUES(2,'folder two')");
-        db.execSQL("INSERT INTO folders VALUES(3,'folder three')");
+        db.execSQL("INSERT INTO folders VALUES(1,'folder one', 'ic_speaker_notes_black_24dp' )");
+        db.execSQL("INSERT INTO folders VALUES(2,'folder two', 'ic_store_black_24dp' )");
+        db.execSQL("INSERT INTO folders VALUES(3,'folder three', 'ic_work_black_24dp' )");
 
 
     }

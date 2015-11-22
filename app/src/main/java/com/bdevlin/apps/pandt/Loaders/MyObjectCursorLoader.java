@@ -1,4 +1,4 @@
-package com.bdevlin.apps.pandt.Cursors;
+package com.bdevlin.apps.pandt.Loaders;
 
 //import android.content.AsyncTaskLoader;
 import android.content.Context;
@@ -10,6 +10,7 @@ import android.support.v4.content.AsyncTaskLoader;
 
 import com.bdevlin.apps.pandt.Cursors.CursorCreator;
 import com.bdevlin.apps.pandt.Cursors.ObjectCursor;
+import com.bdevlin.apps.provider.MockUiProvider;
 
 public class MyObjectCursorLoader<T> extends AsyncTaskLoader<ObjectCursor<T>>{
 
@@ -58,6 +59,7 @@ public class MyObjectCursorLoader<T> extends AsyncTaskLoader<ObjectCursor<T>>{
         inner.getCount();
         // ObjectCursor<T> extends Cursor (actually via CursorWrapper) and adds method getModel()
         final ObjectCursor<T> cursor = getObjectCursor(inner);
+
 
         return cursor;
     }

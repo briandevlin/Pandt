@@ -2,13 +2,11 @@ package com.bdevlin.apps.ui.activity.core;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.view.View;
 
 import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
 
-import com.bdevlin.apps.pandt.folders.Folder;
 import com.bdevlin.apps.pandt.R;
-import com.bdevlin.apps.pandt.ViewMode;
+import com.bdevlin.apps.utils.ViewMode;
 
 /**
  * Created by brian on 7/20/2014.

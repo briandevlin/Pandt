@@ -1,4 +1,4 @@
-package com.bdevlin.apps.pandt;
+package com.bdevlin.apps.utils;
 
 import android.content.Context;
 import android.content.Intent;

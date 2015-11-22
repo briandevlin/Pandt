@@ -32,6 +32,7 @@ public abstract class BaseNavigationDrawerItem<T> extends BaseDrawerItem<T> {
         protected View view;
         protected ImageView icon;
         protected TextView name;
+        //protected TextView name2;
         protected TextView id;
 
 

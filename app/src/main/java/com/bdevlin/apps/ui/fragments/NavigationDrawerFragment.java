@@ -21,34 +21,25 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bdevlin.apps.pandt.Controllers.ActionBarController;
 import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
 import com.bdevlin.apps.pandt.Cursors.CursorCreator;
-import com.bdevlin.apps.pandt.Cursors.NavigationBaseRecyclerAdapter;
-import com.bdevlin.apps.pandt.DividerItemDecoration;
+import com.bdevlin.apps.pandt.Adapters.NavigationBaseRecyclerAdapter;
+import com.bdevlin.apps.provider.MockUiProvider;
+import com.bdevlin.apps.ui.widgets.DividerItemDecoration;
 //import com.bdevlin.apps.pandt.DrawerClosedObserver;
 import com.bdevlin.apps.pandt.DrawerItem.DividerDrawerItem;
 import com.bdevlin.apps.pandt.DrawerItem.IDrawerItem;
-import com.bdevlin.apps.pandt.ViewMode;
+import com.bdevlin.apps.utils.ViewMode;
 import com.bdevlin.apps.ui.activity.core.HomeActivity;
-import com.bdevlin.apps.pandt.Cursors.MyObjectCursorLoader;
+import com.bdevlin.apps.pandt.Loaders.MyObjectCursorLoader;
 import com.bdevlin.apps.pandt.Cursors.ObjectCursor;
 import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
 import com.bdevlin.apps.pandt.R;
-import com.bdevlin.apps.pandt.Cursors.NavigationCursorRecyclerAdapter;
-import com.bdevlin.apps.pandt.accounts.Account;
-import com.bdevlin.apps.pandt.accounts.AccountController;
-import com.bdevlin.apps.pandt.accounts.AccountObserver;
-import com.bdevlin.apps.pandt.folders.Folder;
-import com.bdevlin.apps.pandt.folders.FolderController;
+import com.bdevlin.apps.pandt.Adapters.NavigationCursorRecyclerAdapter;
 //import com.bdevlin.apps.pandt.folders.FolderObserver;
-import com.bdevlin.apps.pandt.folders.FolderUri;
 import com.bdevlin.apps.pandt.helper.OnStartDragListener;
 import com.bdevlin.apps.pandt.helper.SimpleItemTouchHelperCallback;
 import com.bdevlin.apps.provider.MockContract;
@@ -424,6 +415,9 @@ super();
                     loader.getId()));
             return;
         }
+        int id = data.getInt(MockUiProvider.FOLDER_ID_COLUMN);
+        String name = data.getString(MockUiProvider.FOLDER_NAME_COLUMN);
+        String uri = data.getString(MockUiProvider.FOLDER_URI_COLUMN);
 
         switch (loader.getId()) {
             case LOADER_ID:

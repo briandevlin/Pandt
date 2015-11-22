@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bdevlin.apps.authenticator.SetupData;
-import com.bdevlin.apps.pandt.GenericListContext;
+import com.bdevlin.apps.utils.GenericListContext;
 import com.bdevlin.apps.pandt.R;
 
 /**
