@@ -1,4 +1,4 @@
-package com.bdevlin.apps.pandt;
+package com.bdevlin.apps.ui.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;

@@ -12,6 +12,7 @@
 
     <item name="colorPrimary">@color/materialize_primary</item>
     <item name="colorPrimaryDark">@color/materialize_primary_dark</item>
+   <!-- <item name="colorPrimaryLight">@color/materialize_primary_light</item>-->
     <item name="colorAccent">@color/materialize_accent</item>
 
 
@@ -28,7 +29,7 @@
 
 <style name="Theme.IOSched" parent="Theme.IOSched.Base" />
 
-    <style name="MyToolBar" parent="Widget.AppCompat.Toolbar">
+    <style name="MyToolBar" parent="Theme.AppCompat.NoActionBar">
         <item name="drawerArrowStyle">@style/Material.DrawerArrowStyle</item>
         <!--<item name="subtitleTextColor">#FF96FF</item>-->
         <item name="android:titleTextStyle">@style/Material.titleTextStyle</item>

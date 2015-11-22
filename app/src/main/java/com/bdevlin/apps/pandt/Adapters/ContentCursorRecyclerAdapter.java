@@ -1,4 +1,4 @@
-package com.bdevlin.apps.pandt.Cursors;
+package com.bdevlin.apps.pandt.Adapters;
 
 import android.content.Context;
 import android.util.Log;
@@ -7,9 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
+import com.bdevlin.apps.pandt.Cursors.ObjectCursor;
 import com.bdevlin.apps.pandt.DrawerItem.IDrawerItem;
 import com.bdevlin.apps.pandt.DrawerItem.MainContentDrawerItem;
-import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
 import com.bdevlin.apps.ui.fragments.MainContentFragment;
 
 /**
@@ -17,6 +17,7 @@ import com.bdevlin.apps.ui.fragments.MainContentFragment;
  */
 public class ContentCursorRecyclerAdapter extends ContentBaseRecyclerViewAdapter<MainContentDrawerItem.ContentItemViewHolder>
 {
+    // <editor-fold desc="Fields">
     private static final String TAG = ContentCursorRecyclerAdapter.class.getSimpleName();
     private static final boolean DEBUG = true;
     Context mContext;
@@ -28,11 +29,17 @@ public class ContentCursorRecyclerAdapter extends ContentBaseRecyclerViewAdapter
     private MainContentFragment.MainContentCallbacks mCallbacks;
     private static IViewHolderClicked viewHolderClicked;
 
+    // </editor-fold>
+
+    // <editor-fold desc="Interfaces">
     public interface IViewHolderClicked {
         public void onTextClicked(View caller);
 
         public void onImageClicked(ImageView callerImage);
     }
+    // </editor-fold>
+
+    // <editor-fold desc="Constructor">
 
     public ContentCursorRecyclerAdapter(ControllableActivity activity,
                                         ObjectCursor<MainContentDrawerItem> c,
@@ -57,7 +64,9 @@ public class ContentCursorRecyclerAdapter extends ContentBaseRecyclerViewAdapter
             }
         };
     }
+    // </editor-fold>
 
+    // <editor-fold desc="Recycler methods">
     @Override
     public MainContentDrawerItem.ContentItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (DEBUG) Log.d(TAG, "onCreateViewHolder");
@@ -70,6 +79,7 @@ public class ContentCursorRecyclerAdapter extends ContentBaseRecyclerViewAdapter
         if (DEBUG) Log.d(TAG,"onBindViewHolder");
         // gets the IDrawerItem at this position then bind the viewholder to it
         getItem(position).bindView(holder);
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,6 +107,8 @@ public class ContentCursorRecyclerAdapter extends ContentBaseRecyclerViewAdapter
         });
     }
 
+    // </editor-fold>
+
     public void handleSelection(View v, int pos) {
         if (pos > -1) {
             IDrawerItem cur = getItem(pos);
@@ -106,11 +118,13 @@ public class ContentCursorRecyclerAdapter extends ContentBaseRecyclerViewAdapter
             notifyItemChanged(pos);
 
             if (v != null) {
-                v.setSelected(true);
+                v.setSelected(true);//FIXME
                 v.invalidate();
             }
         }
     }
+
+    // <editor-fold desc="Cursor methods">
 
     private void findColumns(ObjectCursor<MainContentDrawerItem> c, String[] from) {
         if (c != null) {
@@ -126,4 +140,5 @@ public class ContentCursorRecyclerAdapter extends ContentBaseRecyclerViewAdapter
             mFrom = null;
         }
     }
+    // </editor-fold>
 }

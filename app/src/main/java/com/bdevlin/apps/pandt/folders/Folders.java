@@ -4,6 +4,9 @@ package com.bdevlin.apps.pandt.folders;
  * Created by brian on 7/27/2014.
  */
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.bdevlin.apps.pandt.folders.Folder;
 
 import java.util.ArrayList;
@@ -23,9 +26,9 @@ public class Folders {
 
     static {
         // Add 3 sample items.
-        addItem(new Folder(1, "Folder 1"));
+      /*  addItem(new Folder(1, "Folder 1"));
         addItem(new Folder(2, "Folder 2"));
-        addItem(new Folder(3, "Folder 3"));
+        addItem(new Folder(3, "Folder 3"));*/
     }
 
     private static void addItem(Folder item) {
@@ -36,7 +39,7 @@ public class Folders {
     /**
      * A dummy item representing a piece of name.
      */
-//    public static class Folder implements Parcelable {
+    public static class Folder implements Parcelable {
 //        public String id;
 //        public String name;
 //
@@ -45,20 +48,20 @@ public class Folders {
 //            this.name = name;
 //        }
 //
-//        @Override
-//        public int describeContents() {
-//            // Return a sort of version number for this parcelable folder. Starting with zero.
-//            return 0;
-//        }
+        @Override
+        public int describeContents() {
+            // Return a sort of version number for this parcelable folder. Starting with zero.
+            return 0;
+        }
 //
-//        @Override
-//        public void writeToParcel(Parcel dest, int flags) {
-//
-//        }
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+
+        }
 //
 //        @Override
 //        public String toString() {
 //            return name;
 //        }
-//    }
+    }
 }

@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.bdevlin.apps.pandt.Controllers.ActionBarController;
 import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
 import com.bdevlin.apps.pandt.R;
-import com.bdevlin.apps.pandt.ViewMode;
+import com.bdevlin.apps.utils.ViewMode;
 
 /**
  * Created by brian on 7/26/2014.

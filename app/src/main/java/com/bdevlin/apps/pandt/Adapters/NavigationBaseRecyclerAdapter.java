@@ -1,9 +1,11 @@
-package com.bdevlin.apps.pandt.Cursors;
+package com.bdevlin.apps.pandt.Adapters;
 import android.app.Application;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.bdevlin.apps.pandt.Cursors.ObjectCursor;
+import com.bdevlin.apps.pandt.DrawerItem.DividerDrawerItem;
 import com.bdevlin.apps.pandt.DrawerItem.IDrawerItem;
 import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
 import com.bdevlin.apps.pandt.folders.Folder;
@@ -29,18 +31,21 @@ public abstract class NavigationBaseRecyclerAdapter<VH extends RecyclerView.View
     private Application application;
     // </editor-fold>
 
+    // <editor-fold desc="Interfaces">
     public interface OnItemClickListener {
         void onItemClick(View itemView, int position);
     }
 
-    // <editor-fold desc="Constructor">
+    // </editor-fold>
+
+    // <editor-fold desc="Constructor & init()">
     public NavigationBaseRecyclerAdapter(/*HomeActivity activity,*/ ObjectCursor<NavigationDrawerItem> c) {
        /* Context applicationContext = activity.getApplicationContext();
          application = activity.getApplication();*/
         // cursor will be null at construction; the loader will swap in the cursor when loaded
         init(c);
     }
-    // </editor-fold>
+
 
     void init(ObjectCursor<NavigationDrawerItem> c) {
         boolean cursorPresent = c != null;
@@ -49,8 +54,9 @@ public abstract class NavigationBaseRecyclerAdapter<VH extends RecyclerView.View
         mRowIDColumn = cursorPresent ? c.getColumnIndexOrThrow("_id") : -1;
         setHasStableIds(true);
     }
+    // </editor-fold>
 
-    // <editor-fold desc="Adaptor methods">
+    // <editor-fold desc="RecyclerAdaptor methods">
 
     public void setOnItemClickListener(OnItemClickListener listener)
     {
@@ -98,6 +104,12 @@ public abstract class NavigationBaseRecyclerAdapter<VH extends RecyclerView.View
         return 0;
     }
 
+    public IDrawerItem getItem(int position) {
+        if (position < 0 || position >= getItemCount()) {
+            return null;
+        }
+        return mDrawerItems.get(position);
+    }
 
     // </editor-fold>
 
@@ -160,12 +172,6 @@ public abstract class NavigationBaseRecyclerAdapter<VH extends RecyclerView.View
         return cursor == null ? "" : cursor.toString();
     }
 
-    public IDrawerItem getItem(int position) {
-        if (position < 0 || position >= getItemCount()) {
-            return null;
-        }
-            return mDrawerItems.get(position);
-    }
 
 
     private void recalculateList() {
@@ -178,6 +184,7 @@ public abstract class NavigationBaseRecyclerAdapter<VH extends RecyclerView.View
             return;
         }
         int length = mDrawerItems.size();
+
          do {
              final NavigationDrawerItem f = mCursor.getModel();
              mDrawerItems.add(f);

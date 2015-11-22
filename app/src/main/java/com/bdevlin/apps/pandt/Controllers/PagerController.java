@@ -1,4 +1,4 @@
-package com.bdevlin.apps.pandt;
+package com.bdevlin.apps.pandt.Controllers;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -12,7 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 
-import com.bdevlin.apps.pandt.Controllers.ActivityController;
+import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.ui.activity.core.HomeActivity;
 import com.bdevlin.apps.ui.fragments.PagerFragment;
 import com.bdevlin.apps.ui.widgets.PageMarginDrawable;
@@ -23,6 +23,8 @@ import com.viewpagerindicator.LinePageIndicator;
  */
 public class PagerController {
 
+    // <editor-fold desc="Fields">
+
     private static final String TAG = PagerController.class.getSimpleName();
     private static final boolean DEBUG = true;
 
@@ -32,7 +34,13 @@ public class PagerController {
     private ActivityController mActivityController;
     private HomeActivity mActivity;
     private LinePageIndicator mIndicator;
+    // </editor-fold>
 
+    // <editor-fold desc="">
+    // </editor-fold>
+
+
+    // <editor-fold desc="Constructor">
 
     public PagerController(HomeActivity activity,
                                        ActivityController controller, FragmentManager fragmentManager) {
@@ -43,6 +51,8 @@ public class PagerController {
         mFragmentManager = fragmentManager;
         setupPageMargin(activity.getActivityContext());
     }
+    // </editor-fold>
+
     private void setupPageMargin(Context c) {
         final TypedArray a = c.obtainStyledAttributes(new int[] {android.R.attr.listDivider});
         final Drawable divider = a.getDrawable(0);
@@ -110,6 +120,8 @@ public class PagerController {
         }
     }
 
+    // <editor-fold desc="SlidePagerAdapter">
+
     public class SlidePagerAdapter extends FragmentStatePagerAdapter {
 
         private  final int NUM_PAGES = 3;
@@ -140,4 +152,5 @@ public class PagerController {
 
 
     }
+    // </editor-fold>
 }

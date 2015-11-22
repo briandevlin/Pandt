@@ -9,7 +9,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.DataSetObservable;
-import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -17,15 +16,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 //import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -44,20 +39,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
-import com.bdevlin.apps.pandt.Cursors.NavigationCursorRecyclerAdapter;
+import com.bdevlin.apps.pandt.Adapters.NavigationCursorRecyclerAdapter;
 import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
 import com.bdevlin.apps.pandt.accounts.Account;
 import com.bdevlin.apps.pandt.Controllers.ActivityController;
 import com.bdevlin.apps.pandt.Cursors.CursorCreator;
 import com.bdevlin.apps.pandt.folders.Folder;
-import com.bdevlin.apps.pandt.GenericListContext;
-import com.bdevlin.apps.pandt.Cursors.MyObjectCursorLoader;
+import com.bdevlin.apps.utils.GenericListContext;
+import com.bdevlin.apps.pandt.Loaders.MyObjectCursorLoader;
 
 import com.bdevlin.apps.ui.fragments.NavigationDrawerFragment;
 import com.bdevlin.apps.pandt.Cursors.ObjectCursor;
-import com.bdevlin.apps.pandt.PagerController;
+import com.bdevlin.apps.pandt.Controllers.PagerController;
 import com.bdevlin.apps.pandt.R;
-import com.bdevlin.apps.pandt.ViewMode;
+import com.bdevlin.apps.utils.ViewMode;
 import com.bdevlin.apps.provider.MockContract;
 import com.bdevlin.apps.providers2.MailAppProvider;
 import com.bdevlin.apps.providers2.UIProvider;
@@ -65,7 +60,6 @@ import com.bdevlin.apps.utils.GoogleAccountUtils;
 
 import com.bdevlin.apps.utils.GoogleAccountManager;
 import com.bdevlin.apps.utils.GoogleDriveManager;
-import com.bdevlin.apps.utils.HelpUtils;
 import com.bdevlin.apps.utils.PlayServicesUtils;
 import com.bdevlin.apps.utils.VolleyController;
 import com.bdevlin.apps.utils.LoginAndAuthHelper;
@@ -128,7 +122,7 @@ public abstract class UIControllerBase implements ActivityController {
     private static final int LOADER_ACCOUNT_CURSOR = 0;
     public static final int LOADER_FIRST_FOLDER = 1;
 
-    private final AccountLoads mAccountCallbacks = new AccountLoads();
+
     private final FolderLoads mFolderCallbacks = new FolderLoads();
 
     private boolean mHaveAccountList = false;
@@ -178,7 +172,6 @@ public abstract class UIControllerBase implements ActivityController {
 
     }
     // </editor-fold>
-
 
     // <editor-fold desc="life cycle methods">
 
@@ -242,7 +235,7 @@ public abstract class UIControllerBase implements ActivityController {
     @Override
     public void onStart() {
         if (DEBUG) Log.d(TAG, "onStart");
-        //startGooglePlayLoginProcess();
+        startGooglePlayLoginProcess();
     }
 
     @Override
@@ -647,49 +640,6 @@ public abstract class UIControllerBase implements ActivityController {
     }
     // </editor-fold>
 
-    // <editor-fold desc="Accounts ">
-
-
-    @Override
-    public Account getCurrentAccount() {
-        return mAccount;
-    }
-
-
- /*   @Override
-    public Account getAccount() {
-        return mAccount;
-    }*/
-
-
-    private boolean updateAccounts(ObjectCursor<Account> accounts) {
-        if (accounts == null || !accounts.moveToFirst()) {
-            return false;
-        }
-
-        // getAllAccounts() is a static method on the Account class
-        final Account[] allAccounts = Account.getAllAccounts(accounts);
-        //just get the first one
-        Account newAccount = allAccounts[0];
-        // assume always changed
-        //changeAccount(newAccount);
-        return true;
-    }
-
-   /* @Override
-    public void changeAccount(Account account) {
-        // Change the account here
-        setAccount(account);
-    }*/
-
-    private void setAccount(Account account) {
-        mAccount = account;
-        mActivity.supportInvalidateOptionsMenu();
-        mAccountObservers.notifyChanged();
-    }
-
-    // </editor-fold>
-
     // <editor-fold desc="Loaders ">
 
     public  final CursorCreator<NavigationDrawerItem> FACTORY = new CursorCreator<NavigationDrawerItem>() {
@@ -767,61 +717,6 @@ public abstract class UIControllerBase implements ActivityController {
         }
     }
 
-
-    private class AccountLoads implements LoaderManager.LoaderCallbacks<ObjectCursor<Account>>{
-
-        @Override
-        public Loader<ObjectCursor<Account>>  onCreateLoader(int id, Bundle args) {
-            //final String[] mProjection = MockContract.ACCOUNTS_PROJECTION;
-            final String[] mProjection = UIProvider.ACCOUNTS_PROJECTION;
-            final CursorCreator<Account> mFactory = Account.FACTORY;
-           // final UnifiedAccountCacheProvider provider = new UnifiedAccountCacheProvider();
-
-            switch (id) {
-                case LOADER_ACCOUNT_CURSOR:
-                    // NOTE: this calls the MailAppProvider which then calls the MockUiProvider
-                    final Uri accountUri =  MailAppProvider.getAccountsUri();
-                    return new MyObjectCursorLoader<Account>(mContext,
-                            accountUri , mProjection, mFactory);
-            }
-            return null;
-        }
-
-        @Override
-        public void onLoadFinished(Loader<ObjectCursor<Account>> loader,
-                                   ObjectCursor<Account> data) {
-
-            if (data == null || data.getCount() <=0 || !data.moveToFirst()) {
-                return;
-            }
-
-            switch (loader.getId()) {
-                case LOADER_ACCOUNT_CURSOR:
-                   final long count = data.getCount();
-
-                    if (count == 0) {
-
-
-                    } else {
-                       // final boolean accountListUpdated = accountsUpdated(data);
-                        if (!mHaveAccountList /*|| accountListUpdated*/) {
-                            mHaveAccountList = updateAccounts(data);
-                        }
-                    }
-
-
-                    break;
-            }
-        }
-
-        @Override
-        public void onLoaderReset(Loader<ObjectCursor<Account>> loader) {
-            // For whatever reason, the Loader's data is now unavailable.
-            // Remove any references to the old data by replacing it with
-            // a null Cursor.
-            // mAdapter.swapCursor(null);
-        }
-    }
 
 
     private void restartOptionalLoader(int id, LoaderManager.LoaderCallbacks handler, Bundle args) {

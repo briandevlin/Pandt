@@ -1,4 +1,4 @@
-package com.bdevlin.apps.pandt.Cursors;
+package com.bdevlin.apps.pandt.Adapters;
 
 import android.content.Context;
 import android.database.Cursor;

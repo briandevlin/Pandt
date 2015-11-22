@@ -6,10 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
-import com.bdevlin.apps.pandt.Cursors.ContentBaseRecyclerViewAdapter;
+import com.bdevlin.apps.pandt.Adapters.ContentBaseRecyclerViewAdapter;
 import com.bdevlin.apps.pandt.Interfaces.OnPostBindViewListener;
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.provider.MockUiProvider;
@@ -29,6 +30,7 @@ public class MainContentDrawerItem
     private static MainContentDrawerItem.IViewHolderClicked viewHolderClicked;
     public int id;
     public String name;
+    public String uriString;
     protected int[] mTo;
     protected int[] mFrom;
     private ControllableActivity mActivity;
@@ -52,6 +54,7 @@ public class MainContentDrawerItem
         if (c != null) {
             id = c.getInt(MockUiProvider.FOLDER_ID_COLUMN);
             name = c.getString(MockUiProvider.FOLDER_NAME_COLUMN);
+            uriString = c.getString(MockUiProvider.FOLDER_URI_COLUMN);
         }
         setPostOnBindViewListener(new OnPostBindViewListener() {
 
@@ -105,9 +108,16 @@ public class MainContentDrawerItem
         Context ctx = holder.itemView.getContext();
 
         ContentItemViewHolder viewHolder = (ContentItemViewHolder) holder;
+       // Context context = this.mActivity.getActivityContext();
+
+        if (uriString != null) {
+            int resId = ctx.getResources().getIdentifier(uriString, "drawable", ctx.getPackageName());
+            this.setIcon(resId);
+        }
         bindViewHelper((BaseViewHolder) holder);
         viewHolder.id.setText(String.valueOf(id));
         viewHolder.name.setText(name);
+        viewHolder.name2.setText("some text");
 
         onPostBindView(this, viewHolder.itemView);
     }
@@ -131,12 +141,13 @@ public class MainContentDrawerItem
 
     public static class ContentItemViewHolder extends BaseViewHolder
             implements View.OnClickListener/*, ItemTouchHelperViewHolder*/ {
-
+        protected TextView name2;
         public IViewHolderClicked mListener;
         ContentBaseRecyclerViewAdapter.OnItemClickListener otherListener;
 
         public ContentItemViewHolder(View itemLayoutView, IViewHolderClicked listener, ContentBaseRecyclerViewAdapter.OnItemClickListener itemClicked) {
             super(itemLayoutView);
+            this.name2 = (TextView) view.findViewById(R.id.name2);
             this.mListener = listener;
             this.otherListener = itemClicked;
             // Attach a click listener to the entire row view

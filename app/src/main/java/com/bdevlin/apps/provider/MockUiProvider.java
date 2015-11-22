@@ -46,6 +46,7 @@ public class MockUiProvider extends ContentProvider {
 
     public static final int FOLDER_ID_COLUMN = 0;
     public static final int FOLDER_NAME_COLUMN = 1;
+    public static final int FOLDER_URI_COLUMN = 2;
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
 
