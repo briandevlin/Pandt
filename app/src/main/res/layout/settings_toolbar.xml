@@ -3,15 +3,25 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar_container"
-    android:layout_height="wrap_content"
+    android:fitsSystemWindows="true"
+    android:layout_height="@dimen/app_bar_height"
     android:layout_width="match_parent">
+
+    <android.support.design.widget.CollapsingToolbarLayout
+        android:id="@+id/toolbar_layout"
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_scrollFlags="scroll|exitUntilCollapsed"
+        app:contentScrim="?attr/colorPrimary">
 
 <android.support.v7.widget.Toolbar
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:layout_height="?actionBarSize"
+    android:layout_height="?attr/actionBarSize"
+    app:layout_scrollFlags="scroll|enterAlways"
     app:theme="@style/MyToolBar"
     app:popupTheme="@style/Theme.AppCompat.NoActionBar"
 
@@ -23,7 +33,7 @@
               android:layout_gravity="center"
               android:background="@drawable/person_image_empty" />-->
     </android.support.v7.widget.Toolbar>
-
+    </android.support.design.widget.CollapsingToolbarLayout>
 </android.support.design.widget.AppBarLayout>
 
 

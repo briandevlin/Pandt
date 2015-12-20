@@ -22,4 +22,7 @@
     <dimen name="keyline_2_session_detail">@dimen/keyline_2</dimen>
     <dimen name="conversation_page_gutter">16dp</dimen>
     <dimen name="content_padding_normal">16dp</dimen>
+    <dimen name="fab_margin">0dp</dimen>
+    <dimen name="detail_backdrop_height">256dp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
 </resources>
