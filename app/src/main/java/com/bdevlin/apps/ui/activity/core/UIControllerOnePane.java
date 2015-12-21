@@ -2,6 +2,8 @@ package com.bdevlin.apps.ui.activity.core;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -49,6 +51,14 @@ public class UIControllerOnePane extends UIControllerBase
         mActivity.setContentView(R.layout.activity_home);
 
         View v = (FrameLayout)mActivity.findViewById(R.id.main_content);
+        FloatingActionButton fab = (FloatingActionButton) mActivity.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
 
         final MainContentFragment itemListFragment = MainContentFragment.newInstance( GenericListContext.forFolder(null),0);
 

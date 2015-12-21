@@ -41,6 +41,9 @@ import com.bdevlin.apps.pandt.folders.FolderController;
 import com.bdevlin.apps.provider.MockContract;
 import com.bdevlin.apps.ui.activity.core.HomeActivity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A placeholder fragment containing a simple view.
  */
@@ -183,6 +186,35 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
 //         use this setting to improve performance if you know that changes
 //         in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            /** The heights of all items. */
+            private Map<Integer, Integer> heights = new HashMap<>();
+            private int lastCurrentScrollY = 0;
+            int firstVisibleItem, visibleItemCount, totalItemCount;
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+
+                View firstVisibleItemView = recyclerView.getChildAt(0);
+                if (firstVisibleItemView == null) {
+                    return;
+                }
+                visibleItemCount = mLayoutManager.getChildCount();
+                totalItemCount = mLayoutManager.getItemCount();
+                //firstVisibleItem = mLayoutManager.findFirstVisibleItemPosition();
+
+                // Save the height of the visible item.
+                heights.put(0, firstVisibleItemView.getHeight());
+
+                if(dy > 0) //check for scroll down
+                {
+
+                }
+            }
+        });
 
         mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         mLayoutManager.scrollToPosition(0);
@@ -396,8 +428,8 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
         @Override
         public Loader<ObjectCursor<MainContentDrawerItem>> onCreateLoader(int id, Bundle args) {
             // change these
-            final String[] mProjection = MockContract.FOLDERS_PROJECTION;
-            final Uri contentUri = MockContract.Folders.CONTENT_URI;
+            final String[] mProjection = MockContract.ACCOUNTS_PROJECTION;
+            final Uri contentUri = MockContract.Accounts.CONTENT_URI;
             final CursorCreator<MainContentDrawerItem> mFactory = FACTORY;
 
 

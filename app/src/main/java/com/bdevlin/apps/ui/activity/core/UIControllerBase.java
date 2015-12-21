@@ -16,6 +16,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 //import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
@@ -37,6 +39,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.bdevlin.apps.pandt.Adapters.NavigationCursorRecyclerAdapter;
@@ -148,6 +151,9 @@ public abstract class UIControllerBase implements ActivityController {
     private boolean mShowDrawerOnFirstLaunch = true;
     protected Drawable mSliderBackgroundDrawable = null;
     private NavigationCursorRecyclerAdapter mRecycleCursorAdapter;
+    private int mThemedStatusBarColor;
+
+    private int mNormalStatusBarColor;
 
 
 // </editor-fold>
@@ -195,12 +201,19 @@ public abstract class UIControllerBase implements ActivityController {
         if (mActionBar != null) {
             mActionBar.setDisplayHomeAsUpEnabled(true);
         }
+        mThemedStatusBarColor = mContext.getResources().getColor(R.color.colorPrimaryDark);
+        mNormalStatusBarColor = mThemedStatusBarColor;
 
         if (savedInstanceState != null) {
 
         } else if (intent != null) {
             handleIntent(intent);
         }
+        setNormalStatusBarColor(getThemedStatusBarColor());
+//        final String[] mProjection = MockContract.ACCOUNTS_PROJECTION;
+//        final Uri contentUri = MockContract.Accounts.CONTENT_URI;
+//        final Cursor inner = (Cursor)getContext().getContentResolver().query(contentUri, mProjection,
+//                null, null, null);
 
         return true;
     }
@@ -235,7 +248,7 @@ public abstract class UIControllerBase implements ActivityController {
     @Override
     public void onStart() {
         if (DEBUG) Log.d(TAG, "onStart");
-        startGooglePlayLoginProcess();
+      //  startGooglePlayLoginProcess();
     }
 
     @Override
@@ -354,6 +367,16 @@ public abstract class UIControllerBase implements ActivityController {
     // </editor-fold>
 
     // <editor-fold desc="Getters ">
+    public int getThemedStatusBarColor() {
+        return mThemedStatusBarColor;
+    }
+
+    public void setNormalStatusBarColor(int color) {
+        mNormalStatusBarColor = color;
+        if (mDrawerLayout != null) {
+            mDrawerLayout.setStatusBarBackgroundColor(mNormalStatusBarColor);
+        }
+    }
 
     private void showGlobalContextActionBar() {
         //ActionBar actionBar = getSupportActionBar();
@@ -438,7 +461,7 @@ public abstract class UIControllerBase implements ActivityController {
 //                return true;
 
             case R.id.action_settings:
-               // Toast.makeText(mActivity, "Example action.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, "Example action.", Toast.LENGTH_SHORT).show();
               /*  Intent intentPrefs = new Intent(mActivity,
                         PreferencesActivity.class);
                 mActivity.startActivity(intentPrefs);*/
@@ -871,8 +894,11 @@ public abstract class UIControllerBase implements ActivityController {
             return;
         }
         getActionBarToolbar();
-       // CoordinatorLayout coordLayout = (CoordinatorLayout) mDrawerLayout.findViewById(R.id.CoordinatorLayout_container);
+        CoordinatorLayout coordLayout = (CoordinatorLayout) mDrawerLayout.findViewById(R.id.coordinatorLayout);
+        coordLayout.setStatusBarBackgroundColor(mActivity.getResources().getColor(R.color.accent_material_light));
         appBarLayout = (AppBarLayout) mActivity.findViewById(R.id.toolbar_container);
+        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) mActivity.findViewById(R.id.toolbar_layout);
+        collapsingToolbar.setTitle("Setting Title");
         mSliderLayout = mActivity.findViewById(R.id.navdrawer);
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mDrawerLayout.setStatusBarBackgroundColor(mActivity.getResources().getColor(R.color.materialize_primary_light));
