@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 //import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
@@ -247,7 +248,7 @@ public abstract class UIControllerBase implements ActivityController {
     @Override
     public void onStart() {
         if (DEBUG) Log.d(TAG, "onStart");
-        startGooglePlayLoginProcess();
+      //  startGooglePlayLoginProcess();
     }
 
     @Override
@@ -893,10 +894,11 @@ public abstract class UIControllerBase implements ActivityController {
             return;
         }
         getActionBarToolbar();
-       // CoordinatorLayout coordLayout = (CoordinatorLayout) mDrawerLayout.findViewById(R.id.CoordinatorLayout_container);
+        CoordinatorLayout coordLayout = (CoordinatorLayout) mDrawerLayout.findViewById(R.id.coordinatorLayout);
+        coordLayout.setStatusBarBackgroundColor(mActivity.getResources().getColor(R.color.accent_material_light));
         appBarLayout = (AppBarLayout) mActivity.findViewById(R.id.toolbar_container);
-        CollapsingToolbarLayout toolBarLayout = (CollapsingToolbarLayout) mActivity.findViewById(R.id.toolbar_layout);
-
+        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) mActivity.findViewById(R.id.toolbar_layout);
+        collapsingToolbar.setTitle("Setting Title");
         mSliderLayout = mActivity.findViewById(R.id.navdrawer);
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mDrawerLayout.setStatusBarBackgroundColor(mActivity.getResources().getColor(R.color.materialize_primary_light));
