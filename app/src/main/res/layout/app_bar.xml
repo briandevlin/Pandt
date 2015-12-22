@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways"
-
+            app:layout_collapseMode="pin"
 
             >
             <!--app:theme="@style/MyToolBar"-->
@@ -36,6 +36,7 @@
                           android:layout_gravity="center"
                           android:background="@drawable/person_image_empty" />-->
         </android.support.v7.widget.Toolbar>
+
         <ImageView
             android:src="@drawable/person_image_empty"
             app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
