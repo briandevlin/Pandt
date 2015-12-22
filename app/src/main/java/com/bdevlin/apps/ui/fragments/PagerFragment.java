@@ -207,12 +207,12 @@ Log.d(TAG, "Pager Fragment: onCreate");
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.fragment_slide_view, container, false);
 
-        TextView text1 = (TextView)rootView.findViewById(R.id.text1);
-        text1.setText("fragment " + mParam1);
-        Log.d(TAG, "Pager Fragment: onCreateView " + mParam1);
+//        TextView text1 = (TextView)rootView.findViewById(R.id.text1);
+//        text1.setText("fragment " + mParam1);
+//        Log.d(TAG, "Pager Fragment: onCreateView " + mParam1);
         List<String> list = getRandomSublist(sCheeseStrings, 130);
 
-        TextView name1 = (TextView)rootView.findViewById(R.id.text1);
+        TextView name1 = (TextView)rootView.findViewById(R.id.name1);
         String added ="";
         for(String item : list){
            added += item;

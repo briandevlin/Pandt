@@ -9,44 +9,46 @@
     android:orientation="vertical"
     >
 
-    <TextView style="?android:textAppearanceMedium"
-        android:id="@+id/text1"
-        android:padding="16dp"
-        android:lineSpacingMultiplier="1.2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/PaneText" />
+    <!--<TextView style="?android:textAppearanceMedium"-->
+        <!--android:id="@+id/text1"-->
+        <!--android:padding="16dp"-->
+        <!--android:lineSpacingMultiplier="1.2"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/PaneText" />-->
 
-    <com.bdevlin.apps.ui.widgets.BezelImageView
-        android:id="@+id/imageview2"
-        android:layout_marginLeft="@dimen/keyline_1"
-        android:layout_marginStart="@dimen/keyline_1"
-        android:layout_width="34dp"
-        android:layout_height="34dp"
-        android:layout_gravity="center_vertical"
-        android:src="@drawable/person_image_empty"
-        android:scaleType="centerCrop"
-        iosched:maskDrawable="@drawable/circle_mask" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New label"
-        android:padding="8dp"
-        android:textSize="20sp"
-        android:id="@+id/id1" />
+    <!--<com.bdevlin.apps.ui.widgets.BezelImageView-->
+        <!--android:id="@+id/imageview2"-->
+        <!--android:layout_marginLeft="@dimen/keyline_1"-->
+        <!--android:layout_marginStart="@dimen/keyline_1"-->
+        <!--android:layout_width="34dp"-->
+        <!--android:layout_height="34dp"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:src="@drawable/person_image_empty"-->
+        <!--android:scaleType="centerCrop"-->
+        <!--iosched:maskDrawable="@drawable/circle_mask" />-->
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="New label"-->
+        <!--android:padding="8dp"-->
+        <!--android:textSize="20sp"-->
+        <!--android:id="@+id/id1" />-->
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/show"
-        android:layout_gravity="center_horizontal" />
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="New Button"-->
+        <!--android:id="@+id/show"-->
+        <!--android:layout_gravity="center_horizontal" />-->
 
     <android.support.v4.widget.NestedScrollView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/scrollView"
         android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:scrollbarStyle="insideInset"
         android:scrollbars="vertical" >
         <TextView

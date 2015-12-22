@@ -898,7 +898,7 @@ public abstract class UIControllerBase implements ActivityController {
         coordLayout.setStatusBarBackgroundColor(mActivity.getResources().getColor(R.color.accent_material_light));
         appBarLayout = (AppBarLayout) mActivity.findViewById(R.id.toolbar_container);
         CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) mActivity.findViewById(R.id.toolbar_layout);
-        collapsingToolbar.setTitle("Setting Title");
+       // collapsingToolbar.setTitle("Setting Title");
         mSliderLayout = mActivity.findViewById(R.id.navdrawer);
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mDrawerLayout.setStatusBarBackgroundColor(mActivity.getResources().getColor(R.color.materialize_primary_light));
