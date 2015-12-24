@@ -20,7 +20,6 @@
 
         android:src="@android:drawable/ic_dialog_email" />
 
-
     <!-- As the main name view, the view below consumes the entire
     space available using match_parent in both dimensions. -->
     <FrameLayout

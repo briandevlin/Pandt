@@ -10,7 +10,8 @@
         android:fitsSystemWindows="true"
         tools:context=".HomeActivity">
 
-         <include layout="@layout/settings_toolbar" />
+        <!-- Toolbar-->
+        <include layout="@layout/settings_toolbar" />
 
         <!-- Nav drawer-->
         <include layout="@layout/navigation_drawer" />
