@@ -7,7 +7,7 @@
 
         <item name="colorPrimary">@color/materialize_primary</item>
         <item name="colorPrimaryDark">@color/materialize_primary_dark</item>
-       <!-- <item name="colorPrimaryLight">@color/materialize_primary_light</item>-->
+        <!--<item name="colorPrimaryLight">@color/materialize_primary_light</item>-->
         <item name="colorAccent">@color/materialize_accent</item>
 
     </style>
@@ -30,12 +30,14 @@
         <item name="android:subtitleTextStyle">@style/Material.subtitleTextStyle</item>
         <item name="titleTextStyle">@style/Material.titleTextStyle</item>
         <item name="subtitleTextStyle">@style/Material.subtitleTextStyle</item>
-        <item name="android:textColorPrimary">#ffffff</item>
+        <item name="android:textColorPrimary">#FFff11</item>
         <item name="android:textColorSecondary">#ffaa00</item>
         <item name="android:textColorPrimaryInverse">#ff33ff</item>
         <!--<item name="actionMenuTextColor">@color/abc_primary_text_material_light</item>-->
         <!--<item name="textColorSecondary">#000000</item>-->
         <item name="colorControlNormal">#FFff11</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
     <style name="Material.titleTextStyle" parent="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title">
@@ -48,7 +50,9 @@
 
     <style name="Material.DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
-        <item name="color">#ffffff</item>
+        <item name="color">#FF3433</item>
     </style>
+
+
 
 </resources>

@@ -81,6 +81,7 @@ public class MockDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO accounts VALUES(12,'account three', null, null, null)");
     }
 
+
     static void createFolderTable(SQLiteDatabase db) {
         String s = " (" + Folders._ID + " integer primary key autoincrement, "
                 + Folders.FOLDER_NAME + " text, "
@@ -92,6 +93,9 @@ public class MockDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO folders VALUES(1,'folder one', 'ic_speaker_notes_black_24dp' )");
         db.execSQL("INSERT INTO folders VALUES(2,'folder two', 'ic_store_black_24dp' )");
         db.execSQL("INSERT INTO folders VALUES(3,'folder three', 'ic_work_black_24dp' )");
+        db.execSQL("INSERT INTO folders VALUES(4,'folder one', 'ic_speaker_notes_black_24dp' )");
+        db.execSQL("INSERT INTO folders VALUES(5,'folder two', 'ic_store_black_24dp' )");
+        db.execSQL("INSERT INTO folders VALUES(6,'folder three', 'ic_work_black_24dp' )");
 
 
     }

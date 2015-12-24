@@ -81,13 +81,15 @@ public class PreferencesActivity extends PreferenceActivity  {
         super.onPostCreate(savedInstanceState);
         Toolbar bar;
         android.support.design.widget.AppBarLayout barcontainer;
+        android.support.design.widget.CoordinatorLayout coordinator;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             LinearLayout root = (LinearLayout) findViewById(android.R.id.list).getParent().getParent().getParent();
-            barcontainer = (android.support.design.widget.AppBarLayout) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
-            bar = (Toolbar) barcontainer.findViewById(R.id.toolbar);
+           // barcontainer = (android.support.design.widget.AppBarLayout) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
+            coordinator = (android.support.design.widget.CoordinatorLayout) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
+            bar = (Toolbar) coordinator.findViewById(R.id.toolbar);
             Log.d(TAG, "some text");
-            root.addView(barcontainer, 0); // insert at top
+            root.addView(coordinator, 0); // insert at top
         } else {
 
             ViewGroup root = (ViewGroup) findViewById(android.R.id.content);
@@ -95,8 +97,9 @@ public class PreferencesActivity extends PreferenceActivity  {
 
             root.removeAllViews();
 
-            barcontainer = (android.support.design.widget.AppBarLayout) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
-            bar =  (Toolbar) barcontainer.findViewById(R.id.toolbar);
+           // barcontainer = (android.support.design.widget.AppBarLayout) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
+            coordinator = (android.support.design.widget.CoordinatorLayout) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
+            bar =  (Toolbar) coordinator.findViewById(R.id.toolbar);
 
             int height;
             TypedValue tv = new TypedValue();
@@ -109,7 +112,7 @@ public class PreferencesActivity extends PreferenceActivity  {
             content.setPadding(0, height, 0, 0);
 
             root.addView(content);
-            root.addView(barcontainer);
+            root.addView(coordinator);
         }
        // bar.setTitleTextColor(R.color.navdrawer_background);
         bar.setTitle("Preferences");

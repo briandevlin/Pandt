@@ -25,8 +25,7 @@ import com.bdevlin.apps.utils.ViewMode;
 /**
  * Created by brian on 7/20/2014.
  */
-public class UIControllerOnePane extends UIControllerBase
-        {
+public class UIControllerOnePane extends UIControllerBase {
 
     // <editor-fold desc="Fields">
     private static final String TAG = UIControllerOnePane.class.getSimpleName();
@@ -34,14 +33,13 @@ public class UIControllerOnePane extends UIControllerBase
     private ViewPager mViewPager;
 
 
+    // </editor-fold>
 
-   // </editor-fold>
-
-   // <editor-fold desc="life cycle methods">
+    // <editor-fold desc="Constructor">
     public UIControllerOnePane(HomeActivity activity, ViewMode viewMode) {
         super(activity, viewMode);
-    }// </editor-fold>
-
+    }
+    // </editor-fold>
 
     // <editor-fold desc="life cycle methods">
     @Override
@@ -50,17 +48,9 @@ public class UIControllerOnePane extends UIControllerBase
         // gets the one pane activity layout
         mActivity.setContentView(R.layout.activity_home);
 
-        View v = (FrameLayout)mActivity.findViewById(R.id.main_content);
-        FloatingActionButton fab = (FloatingActionButton) mActivity.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        View v = (FrameLayout) mActivity.findViewById(R.id.main_content);
 
-        final MainContentFragment itemListFragment = MainContentFragment.newInstance( GenericListContext.forFolder(null),0);
+        final MainContentFragment itemListFragment = MainContentFragment.newInstance(GenericListContext.forFolder(null), 0);
 
         replaceFragment(itemListFragment, FragmentTransaction.TRANSIT_FRAGMENT_OPEN,
                 TAG_MAIN_LIST, R.id.main_content);
@@ -79,7 +69,7 @@ public class UIControllerOnePane extends UIControllerBase
 
     @Override
     public void onStart() {
-       // GenericListContext viewContext =  GenericListContext.forFolder(null);
+        // GenericListContext viewContext =  GenericListContext.forFolder(null);
         //showConversationList(/*viewContext*/);
         super.onStart();
 
@@ -103,20 +93,28 @@ public class UIControllerOnePane extends UIControllerBase
     }
 
     @Override
-   public void onRestoreInstanceState(Bundle inState) {
-    super.onRestoreInstanceState(inState);
-      if (inState == null) {
-       return;
-      }
+    public void onRestoreInstanceState(Bundle inState) {
+        super.onRestoreInstanceState(inState);
+        if (inState == null) {
+            return;
+        }
 
     }
+
+
+    @Override
+    public void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+    }
+
     // </editor-fold>
 
-
- @Override
- public void showConversationList(GenericListContext listContext) {
+    // <editor-fold desc="Conversation">
+    @Override
+    public void showConversationList(GenericListContext listContext) {
         super.showConversationList(listContext);
-     if (DEBUG) Log.d(TAG, "showConversationList");
+        if (DEBUG) Log.d(TAG, "showConversationList");
         mViewMode.enterConversationListMode();
 
         final MainContentFragment itemListFragment = MainContentFragment.newInstance(listContext, 0);
@@ -124,7 +122,7 @@ public class UIControllerOnePane extends UIControllerBase
         replaceFragment(itemListFragment, FragmentTransaction.TRANSIT_FRAGMENT_OPEN,
                 TAG_MAIN_LIST, R.id.main_content);
 
-     mActivity.getSupportFragmentManager().executePendingTransactions();
+        mActivity.getSupportFragmentManager().executePendingTransactions();
 
     }
 
@@ -139,7 +137,7 @@ public class UIControllerOnePane extends UIControllerBase
 
         final FragmentManager fm = mActivity.getSupportFragmentManager();
         final FragmentTransaction ft = fm.beginTransaction();
-       // remove main content fragment to reveal the viewpager
+        // remove main content fragment to reveal the viewpager
         //final Fragment f = fm.findFragmentById(R.id.main_content);
         final Fragment f = fm.findFragmentByTag(TAG_MAIN_LIST);
         if (f != null && f.isAdded()) {
@@ -153,27 +151,28 @@ public class UIControllerOnePane extends UIControllerBase
 
         mPagerController.show(position);
     }
+// </editor-fold>
 
-
+    // <editor-fold desc="Navigation">
     /* implements NavigationDrawerFragment.NavigationDrawerCallbacks*/
     @Override
     public void onNavigationDrawerItemSelected(int position, NavigationDrawerItem itemView) {
         if (DEBUG) Log.d(TAG, "onNavigationDrawerItemSelected");
         toggleDrawerState();
 
-        if (itemView == null)  return;
+        if (itemView == null) return;
 
         Folder folder = new Folder(itemView.id, itemView.name);
 
-        GenericListContext viewContext =  GenericListContext.forFolder(folder);
+        GenericListContext viewContext = GenericListContext.forFolder(folder);
         showConversationList(viewContext);
 
         mFolder = folder;
     }
 
     public void onNavigationDrawerArraySelected(int position, NavigationDrawerItem itemView) {
-        if (DEBUG)  Log.d(TAG, "onNavigationDrawerArraySelected");
-       // toggleDrawerState();
+        if (DEBUG) Log.d(TAG, "onNavigationDrawerArraySelected");
+        // toggleDrawerState();
         closeDrawerIfOpen();
 
         String id = itemView.name;
@@ -189,13 +188,13 @@ public class UIControllerOnePane extends UIControllerBase
                 mActivity.startActivityForResult(intentPrefs, 1);
                 break;
             case "About":
-               // HelpUtils.showDialog(mActivity);
+                // HelpUtils.showDialog(mActivity);
                 break;
-            case  "Help":
-                   Intent intentHelp = new Intent(mActivity,
+            case "Help":
+                Intent intentHelp = new Intent(mActivity,
                         HelpActivity.class);
                 mActivity.startActivity(intentHelp);
-               break;
+                break;
 
             default:
 
@@ -204,72 +203,10 @@ public class UIControllerOnePane extends UIControllerBase
 
     @Override
     public final void onMainContentItemSelected(final int position) {
-        if (DEBUG)  Log.d(TAG,"onMainContentItemSelected");
-         showConversation(position);
+        if (DEBUG) Log.d(TAG, "onMainContentItemSelected");
+        showConversation(position);
 
 
-    }
-
-    /**
-     * Replace the content_pane with the fragment specified here. The tag is specified so that
-     * the {@link ActivityController} can look up the fragments through the
-     * {@link android.app.FragmentManager}.
-     * @param fragment the new fragment to put
-     * @param transition the transition to show
-     * @param tag a tag for the fragment manager.
-     * @param anchor ID of view to replace fragment in
-     * @return transaction ID returned when the transition is committed.
-     */
-    private int replaceFragment(Fragment fragment, int transition, String tag, int anchor) {
-        final FragmentManager fm = mActivity.getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-       // fragmentTransaction.setTransition(transition);
-        fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-        fragmentTransaction.replace(anchor, fragment, tag);
-       // fragmentTransaction.addToBackStack(tag);
-        final int id = fragmentTransaction.commitAllowingStateLoss();
-        fm.executePendingTransactions(); // had to remove this as it crashes because of the layout fragment in the authenticator
-        return id;
-    }
-
-    protected MainContentFragment getMainContentFragment() {
-        final FragmentManager fm = mActivity.getSupportFragmentManager();
-        final Fragment fragment = fm.findFragmentByTag(TAG_MAIN_LIST);
-        if (isValidFragment(fragment)) {
-            return (MainContentFragment) fragment;
-        }
-        return null;
-    }
-
-    @Override
-    public void onViewModeChanged(int newMode) {
-        super.onViewModeChanged(newMode);
-
-        if (ViewMode.isListMode(newMode)) {
-            mPagerController.hide(true);
-            getDrawerToggle().setDrawerIndicatorEnabled(true);
-            ActionBar ab = getSupportActionBar();
-            ab.setDisplayHomeAsUpEnabled(false);
-            ab.setDisplayShowHomeEnabled(true);
-            getDrawerToggle().syncState();
-            closeDrawerIfOpen();
-        }
-
-        if (ViewMode.isConversationMode(newMode)) {
-            getDrawerToggle().setDrawerIndicatorEnabled(false);
-            ActionBar ab = getSupportActionBar();
-            ab.setDisplayHomeAsUpEnabled(true);
-            ab.setDisplayShowHomeEnabled(false);
-            getDrawerToggle().syncState();
-            closeDrawerIfOpen();
-        }
-
-    }
-
-    @Override
-    public boolean isDrawerEnabled() {
-        // The drawer is enabled for one pane mode
-        return true;
     }
 
     @Override
@@ -278,14 +215,14 @@ public class UIControllerOnePane extends UIControllerBase
 
         if (mode == ViewMode.SEARCH_RESULTS_LIST) {
             mActivity.finish();
-        } else if (mViewMode.isListMode() ) {
-            if (DEBUG)  Log.d(TAG, "isListMode");
+        } else if (mViewMode.isListMode()) {
+            if (DEBUG) Log.d(TAG, "isListMode");
             // navigateUpFolderHierarchy();
             mActivity.finish();
-        } else if (mViewMode.isConversationMode() ) {
-            if (DEBUG)  Log.d(TAG, "isConversationMode");
-           // transitionBackToConversationListMode();
-            GenericListContext viewContext =  GenericListContext.forFolder(mFolder);
+        } else if (mViewMode.isConversationMode()) {
+            if (DEBUG) Log.d(TAG, "isConversationMode");
+            // transitionBackToConversationListMode();
+            GenericListContext viewContext = GenericListContext.forFolder(mFolder);
             showConversationList(viewContext);
 
             mViewMode.enterConversationListMode();
@@ -322,10 +259,74 @@ public class UIControllerOnePane extends UIControllerBase
         return true;
     }
 
-    @Override
-    public void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
 
+    // </editor-fold>
+
+    // <editor-fold desc="fragments">
+
+    /**
+     * Replace the content_pane with the fragment specified here. The tag is specified so that
+     * the {@link ActivityController} can look up the fragments through the
+     * {@link android.app.FragmentManager}.
+     *
+     * @param fragment   the new fragment to put
+     * @param transition the transition to show
+     * @param tag        a tag for the fragment manager.
+     * @param anchor     ID of view to replace fragment in
+     * @return transaction ID returned when the transition is committed.
+     */
+    private int replaceFragment(Fragment fragment, int transition, String tag, int anchor) {
+        final FragmentManager fm = mActivity.getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        // fragmentTransaction.setTransition(transition);
+        fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        fragmentTransaction.replace(anchor, fragment, tag);
+        // fragmentTransaction.addToBackStack(tag);
+        final int id = fragmentTransaction.commitAllowingStateLoss();
+        fm.executePendingTransactions(); // had to remove this as it crashes because of the layout fragment in the authenticator
+        return id;
+    }
+
+    protected MainContentFragment getMainContentFragment() {
+        final FragmentManager fm = mActivity.getSupportFragmentManager();
+        final Fragment fragment = fm.findFragmentByTag(TAG_MAIN_LIST);
+        if (isValidFragment(fragment)) {
+            return (MainContentFragment) fragment;
+        }
+        return null;
+    }
+
+    // </editor-fold>
+
+    @Override
+    public void onViewModeChanged(int newMode) {
+        super.onViewModeChanged(newMode);
+
+        if (ViewMode.isListMode(newMode)) {
+            mPagerController.hide(true);
+            getDrawerToggle().setDrawerIndicatorEnabled(true);
+            ActionBar ab = getSupportActionBar();
+            ab.setDisplayHomeAsUpEnabled(false);
+            ab.setDisplayShowHomeEnabled(true);
+            getDrawerToggle().syncState();
+            closeDrawerIfOpen();
+        }
+
+        if (ViewMode.isConversationMode(newMode)) {
+            getDrawerToggle().setDrawerIndicatorEnabled(false);
+            ActionBar ab = getSupportActionBar();
+            ab.setDisplayHomeAsUpEnabled(true);
+            ab.setDisplayShowHomeEnabled(false);
+            getDrawerToggle().syncState();
+            closeDrawerIfOpen();
+        }
+
+    }
+
+    @Override
+    public boolean isDrawerEnabled() {
+        // The drawer is enabled for one pane mode
+        return true;
     }
 
 
