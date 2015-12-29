@@ -32,6 +32,7 @@ import com.bdevlin.apps.ui.widgets.DividerItemDecoration;
 //import com.bdevlin.apps.pandt.DrawerClosedObserver;
 import com.bdevlin.apps.pandt.DrawerItem.DividerDrawerItem;
 import com.bdevlin.apps.pandt.DrawerItem.IDrawerItem;
+import com.bdevlin.apps.ui.widgets.StringHolder;
 import com.bdevlin.apps.utils.ViewMode;
 import com.bdevlin.apps.ui.activity.core.HomeActivity;
 import com.bdevlin.apps.pandt.Loaders.MyObjectCursorLoader;
@@ -278,20 +279,34 @@ super();
         //mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setAdapter(mRecycleCursorAdapter);
 
-         ArrayList<IDrawerItem> mDrawerItems = new ArrayList<>();
+        initStaticNavMenuItems();
+
+
+        // Indicate that this fragment would like to influence the set of actions in the action bar.
+        setHasOptionsMenu(true);
+
+        LoaderManager lm = getLoaderManager();
+        lm.initLoader(LOADER_ID, null, this);
+    }
+
+    public void initStaticNavMenuItems() {
+
+        ArrayList<IDrawerItem> mDrawerItems = new ArrayList<>();
 
         DividerDrawerItem divider = new DividerDrawerItem();
 
 
         NavigationDrawerItem settings =  new  NavigationDrawerItem(mActivity, null);
-        settings.name = getResources().getString(R.string.settings);
-        settings.id = 1;
-        settings.setIcon(R.drawable.ic_settings_applications_black_24dp);
+        settings.setName(new StringHolder(getResources().getString(R.string.settings)));
+        settings.setId(1);
+        settings.setImageHolder(R.drawable.ic_settings_black_24dp);
+        settings.setSelected(true);
+
 
         NavigationDrawerItem help =  new  NavigationDrawerItem(mActivity, null);
-        help.name = getResources().getString(R.string.help);
-        help.id = 2;
-        help.setIcon(R.drawable.ic_help_black_24dp);
+        help.setName(new StringHolder( getResources().getString(R.string.help)));
+        help.setId(2);
+        help.setImageHolder(R.drawable.ic_help_outline_black_24dp);
 
 
         mDrawerItems.add(divider);
@@ -304,15 +319,7 @@ super();
                 mDrawerItems );
 
         setListAdapter(mCursorAdapter);
-
-
-        // Indicate that this fragment would like to influence the set of actions in the action bar.
-        setHasOptionsMenu(true);
-
-        LoaderManager lm = getLoaderManager();
-        lm.initLoader(LOADER_ID, null, this);
     }
-
 
 
     // </editor-fold>
@@ -453,34 +460,39 @@ super();
 
 
     public class DrawerItemAdapter extends ArrayAdapter<IDrawerItem> {
+
         public DrawerItemAdapter(Context context, @NonNull ArrayList<IDrawerItem> users) {
             super(context, 0, users);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            NavigationDrawerItem.ListItemViewHolder vh = null;
-            // Get the data item for this position
-            IDrawerItem user = getItem(position);
 
-            String type = user.getType();
-            if (type == "DIVIDER_ITEM") {
+           // NavigationDrawerItem.ListItemViewHolder vh = null;
+
+            // Get the data item for this position
+            IDrawerItem nav = getItem(position);
+
+           // String type = nav.getType();
+
+            if (nav.getType() == "DIVIDER_ITEM") {
                 if (convertView == null) {
                     convertView = LayoutInflater.from(getContext()).inflate(R.layout.drawer_divider, parent, false);
                     return convertView;
                 }else {
-
+                    return convertView;
                 }
             }
             else {
-                NavigationDrawerItem nav = (NavigationDrawerItem)getItem(position);
+              //  NavigationDrawerItem nav = (NavigationDrawerItem)getItem(position);
               //   vh =  (NavigationDrawerItem.ListItemViewHolder)nav.getViewHolder(parent);
               //  nav.bindView(vh);
 
-              // generateView essentially wraps the above methods and returns itemView
-                return nav.generateView(getContext(),parent);
+              // generateView essentially wraps the above methods and returns NavDrawerItemView
+                View view =  nav.generateView(getContext(),parent);
+                return view;
             }
-          return null;
+
         }
     }
 

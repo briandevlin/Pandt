@@ -15,6 +15,20 @@ import com.bdevlin.apps.pandt.Interfaces.OnPostBindViewListener;
 public abstract class AbstractDrawerItem<T> implements IDrawerItem<T> {
 
     protected OnPostBindViewListener mOnPostBindViewListener = null;
+    protected boolean mSelected = false;
+
+
+
+    @Override
+    public boolean isSelected() {
+        return mSelected;
+    }
+
+
+    public void setSelected(boolean selected) {
+        this.mSelected = selected;
+
+    }
 
 
     public OnPostBindViewListener getOnPostBindViewListener() {

@@ -49,7 +49,7 @@ public class PagerController {
 
         mActivityController = controller;
         mFragmentManager = fragmentManager;
-        setupPageMargin(activity.getActivityContext());
+       // setupPageMargin(activity.getActivityContext());
     }
     // </editor-fold>
 

@@ -1,7 +1,6 @@
 package com.bdevlin.apps.pandt.DrawerItem;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +21,7 @@ import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.pandt.helper.ItemTouchHelperViewHolder;
 import com.bdevlin.apps.provider.MockUiProvider;
 import com.bdevlin.apps.ui.fragments.NavigationDrawerFragment;
+import com.bdevlin.apps.ui.widgets.StringHolder;
 
 /**
  * Created by brian on 9/26/2015.
@@ -36,12 +36,13 @@ public class NavigationDrawerItem
     private NavigationDrawerFragment.NavigationDrawerCallbacks mCallbacks;
     private static IViewHolderClicked viewHolderClicked;
     private static NavigationBaseRecyclerAdapter.OnItemClickListener drawerItemClicked;
-    public int id;
-    public String name;
-    public String uriString;
+   // public int id;
+//    public String name;
+//    public String uriString;
     protected int[] mTo;
     protected int[] mFrom;
     private ControllableActivity mActivity;
+    private static int mSelectedPosition = 0;
     // </editor-fold>
 
     // <editor-fold desc="Interfaces">
@@ -64,7 +65,7 @@ public class NavigationDrawerItem
 
         if (c != null) {
             id = c.getInt(MockUiProvider.FOLDER_ID_COLUMN);
-            name = c.getString(MockUiProvider.FOLDER_NAME_COLUMN);
+            name = new StringHolder(c.getString(MockUiProvider.FOLDER_NAME_COLUMN));
             uriString = c.getString(MockUiProvider.FOLDER_URI_COLUMN);
         }
         setPostOnBindViewListener(new OnPostBindViewListener() {
@@ -87,10 +88,11 @@ public class NavigationDrawerItem
         drawerItemClicked = new NavigationBaseRecyclerAdapter.OnItemClickListener() {
 
             public void onItemClick(View itemView, int position) {
-                if (DEBUG) Log.d(TAG, "onItemView: " + position);
+                if (DEBUG) Log.d(TAG, "onItemClick: " + position);
+                //mSelectedPosition = position;
                 ViewParent parent = null;
                 //ViewParent getclass = null;
-                NavigationDrawerItem item =null;
+                NavigationDrawerItem item = null;
 
                 // this use case is when the imageview is selected on the draweritem
                 if (itemView instanceof ImageView) {
@@ -138,6 +140,20 @@ public class NavigationDrawerItem
                 }
                 if (parent instanceof RecyclerView) {
                     if (DEBUG)  Log.d(TAG, "from the recycler " );
+                    if (mSelectedPosition != position) {
+                        //((RecyclerView) parent).getAdapter().notifyItemChanged(mSelectedPosition);
+                        item.setSelected(true);
+                        itemView.setSelected(true);
+                       long id =  ((RecyclerView) parent).getAdapter().getItemId(mSelectedPosition);
+                       View view =  ((RecyclerView) parent).getLayoutManager().getChildAt(mSelectedPosition);
+
+                        View viewatpos = ((RecyclerView) parent).getLayoutManager().findViewByPosition(mSelectedPosition);
+
+
+                       if (viewatpos != null) view.setSelected(false);
+                        mSelectedPosition = position;
+                        //((RecyclerView) parent).getAdapter().notifyItemChanged(position);
+                    }
                     if (mActivity != null) {
                         mCallbacks = mActivity.getNavigationDrawerCallbacks();
                         mCallbacks.onNavigationDrawerItemSelected(position, item);
@@ -151,9 +167,6 @@ public class NavigationDrawerItem
                 }
 
             }
-
-            ;
-
         };
     }
 
@@ -168,7 +181,7 @@ public class NavigationDrawerItem
     @Override
     @LayoutRes
     public int getLayoutRes() {
-        return R.layout.textview2;
+        return R.layout.navdraweritemview;
     }
 
     @Override
@@ -176,19 +189,27 @@ public class NavigationDrawerItem
 
         Context ctx = holder.itemView.getContext();
 
+        //get our viewHolder
         ListItemViewHolder viewHolder = (ListItemViewHolder) holder;
 
-
-
-        if (uriString != null) {
-            int resId = ctx.getResources().getIdentifier(uriString, "drawable", ctx.getPackageName());
-            this.setIcon(resId);
-        }
         bindViewHelper((BaseViewHolder) holder);
 
-        viewHolder.id.setText(String.valueOf(id));
-        viewHolder.name.setText(name);
+       // NavDrawerItemView  itemView = (NavDrawerItemView)viewHolder.itemView;
 
+
+       // TypedArray a = ctx.obtainStyledAttributes(attrs, R.styleable.navdraweritemview);
+
+//        if (uriString != null) {
+//            int resId = ctx.getResources().getIdentifier(uriString, "drawable", ctx.getPackageName());
+//            this.setImageHolder(resId);
+//            Drawable imageView =  itemView.setContent(resId);
+//        }
+       // bindViewHelper((BaseViewHolder) holder);
+
+      //  viewHolder.id.setText(String.valueOf(id));
+      //  viewHolder.name.setText(name);
+      // viewHolder.itemView.
+        if (DEBUG) Log.d(TAG, "calling onPostBindView");
         onPostBindView(this, viewHolder.itemView);
     }
 
@@ -225,7 +246,7 @@ public class NavigationDrawerItem
             // Attach a click listener to the entire row view
             itemLayoutView.setOnClickListener(this);
 
-            this.icon.setOnClickListener(this);
+            this.imageView.setOnClickListener(this);
 
         }
 

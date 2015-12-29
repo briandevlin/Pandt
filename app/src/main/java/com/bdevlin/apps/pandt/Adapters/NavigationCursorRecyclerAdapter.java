@@ -30,6 +30,7 @@ public class NavigationCursorRecyclerAdapter
     protected  String[] mOriginalFrom;
     private final OnStartDragListener mDragStartListener;
     private ControllableActivity mActivity;
+    private int focusedItem = 0;
 
     // </editor-fold>
 
@@ -60,15 +61,19 @@ public class NavigationCursorRecyclerAdapter
         Log.d(TAG,"onCreateViewHolder");
         NavigationDrawerItem drawerItem = new NavigationDrawerItem(mActivity, null);
         //AbstractDrawerItem.getViewHolder inflates the view item and returns the ListItemViewHolder(view)
-      return (NavigationDrawerItem.ListItemViewHolder)drawerItem.getViewHolder(parent);
+        NavigationDrawerItem.ListItemViewHolder holder =  (NavigationDrawerItem.ListItemViewHolder)drawerItem.getViewHolder(parent);
+        return holder;
     }
 
     // // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder (NavigationDrawerItem.ListItemViewHolder holder, ObjectCursor<NavigationDrawerItem> cursor, int position ) {
         if (DEBUG) Log.d(TAG,"onBindViewHolder");
+        NavigationDrawerItem selected = (NavigationDrawerItem)getItem(position);
+        selected.setSelected(focusedItem == position);
+        holder.itemView.setSelected(focusedItem == position);
         // gets the IDrawerItem at this position then bind the viewholder to it
-        getItem(position).bindView(holder);
+        selected.bindView(holder);
     }
 
     // </editor-fold>

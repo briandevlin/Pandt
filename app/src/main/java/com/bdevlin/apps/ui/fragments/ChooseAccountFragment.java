@@ -168,7 +168,7 @@ public class ChooseAccountFragment extends ListFragment {
 //
 //        public class ListItemViewHolder {
 //            TextView name;
-//            ImageView icon;
+//            ImageView imageHolder;
 //            Account account;
 //        }
 //
@@ -193,7 +193,7 @@ public class ChooseAccountFragment extends ListFragment {
 //                holder = new ListItemViewHolder();
 //                holder.name = (TextView) convertView
 //                        .findViewById(R.id.accounts_tester_account_name);
-//                holder.icon = (ImageView) convertView
+//                holder.imageHolder = (ImageView) convertView
 //                        .findViewById(R.id.accounts_tester_account_type_icon);
 //
 //                convertView.setTag(holder);
@@ -207,18 +207,18 @@ public class ChooseAccountFragment extends ListFragment {
 //            if (account != null) {
 //                holder.name.setText(account.name);
 //                holder.account = account;
-//                holder.icon.setVisibility(View.INVISIBLE);
+//                holder.imageHolder.setVisibility(View.INVISIBLE);
 //
-//                // now we use the auth descriptors to find an icon for the type
+//                // now we use the auth descriptors to find an imageHolder for the type
 //                for (AuthenticatorDescription desc : mAccountManager.getAuthenticatorTypes()) {
 //                    if (desc.type.equals(account.type)) {
 //                        final String packageName = desc.packageName;
 //                        try {
 //                            final Context authContext = getContext()
 //                                    .createPackageContext(packageName, 0);
-//                            holder.icon.setImageDrawable(authContext
+//                            holder.imageHolder.setImageDrawable(authContext
 //                                    .getResources().getDrawable(desc.iconId));
-//                            holder.icon.setVisibility(View.VISIBLE);
+//                            holder.imageHolder.setVisibility(View.VISIBLE);
 //                        } catch (PackageManager.NameNotFoundException e) {
 //                            Log.d(TAG, "error getting the Package Context for "
 //                                    + packageName, e);
@@ -283,7 +283,7 @@ public class ChooseAccountFragment extends ListFragment {
                // holder.account = account;
                 holder.icon.setVisibility(View.INVISIBLE);
 
-                // now we use the auth descriptors to find an icon for the type
+                // now we use the auth descriptors to find an imageHolder for the type
                 for (AuthenticatorDescription desc : mAccountManager.getAuthenticatorTypes()) {
                     if (desc.type.equals(account.type)) {
                         final String packageName = desc.packageName;

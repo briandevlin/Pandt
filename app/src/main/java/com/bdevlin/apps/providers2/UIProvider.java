@@ -49,7 +49,7 @@ public class UIProvider {
         public static final int NO_SYNC = 0;
         /**
          * A user-requested sync/refresh is in progress. This occurs when the user taps on the
-         * refresh icon in the action bar.
+         * refresh imageHolder in the action bar.
          */
         public static final int USER_REFRESH = 1<<0;
         /**
@@ -908,11 +908,11 @@ public class UIProvider {
          */
         public static final String LAST_SYNC_RESULT  = "lastSyncResult";
         /**
-         * This int column contains the icon res id for this folder, or 0 if there is none.
+         * This int column contains the imageHolder res id for this folder, or 0 if there is none.
          */
         public static final String ICON_RES_ID = "iconResId";
         /**
-         * This int column contains the notification icon res id for this folder, or 0 if there is
+         * This int column contains the notification imageHolder res id for this folder, or 0 if there is
          * none.
          */
         public static final String NOTIFICATION_ICON_RES_ID = "notificationIconResId";

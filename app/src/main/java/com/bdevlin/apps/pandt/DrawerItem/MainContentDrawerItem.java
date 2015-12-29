@@ -112,7 +112,7 @@ public class MainContentDrawerItem
 
         if (uriString != null) {
             int resId = ctx.getResources().getIdentifier(uriString, "drawable", ctx.getPackageName());
-            this.setIcon(resId);
+            this.setImageHolder(resId);
         }
         bindViewHelper((BaseViewHolder) holder);
         viewHolder.id.setText(String.valueOf(id));
@@ -152,7 +152,7 @@ public class MainContentDrawerItem
             this.otherListener = itemClicked;
             // Attach a click listener to the entire row view
             //itemLayoutView.setOnClickListener(this);
-            this.icon.setOnClickListener(this);
+            this.imageView.setOnClickListener(this);
         }
 
         @Override

@@ -158,11 +158,12 @@ public class UIControllerOnePane extends UIControllerBase {
     @Override
     public void onNavigationDrawerItemSelected(int position, NavigationDrawerItem itemView) {
         if (DEBUG) Log.d(TAG, "onNavigationDrawerItemSelected");
+       // if (true) return;
         toggleDrawerState();
 
         if (itemView == null) return;
 
-        Folder folder = new Folder(itemView.id, itemView.name);
+        Folder folder = new Folder(itemView.getId(), itemView.getName().getText());
 
         GenericListContext viewContext = GenericListContext.forFolder(folder);
         showConversationList(viewContext);
@@ -172,10 +173,11 @@ public class UIControllerOnePane extends UIControllerBase {
 
     public void onNavigationDrawerArraySelected(int position, NavigationDrawerItem itemView) {
         if (DEBUG) Log.d(TAG, "onNavigationDrawerArraySelected");
+       // if (true) return;
         // toggleDrawerState();
         closeDrawerIfOpen();
 
-        String id = itemView.name;
+        String id = itemView.getName().getText();
         switch (id) {
 //            case R.id.menu_about:
 //                HelpUtils.showAbout(this);

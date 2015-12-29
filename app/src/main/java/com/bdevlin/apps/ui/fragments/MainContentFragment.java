@@ -268,7 +268,9 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
 
         actionBarController = mActivity.getActionBarController();
        ActionBar ab =  actionBarController.getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(false);
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(false);
+        }
 
         mRecycleCursorAdapter = new ContentCursorRecyclerAdapter(mActivity,
                /* R.layout.textview,*/

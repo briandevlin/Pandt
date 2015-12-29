@@ -9,6 +9,7 @@ import android.view.ViewGroup;
  * Created by brian on 9/26/2015.
  */
 public interface IDrawerItem<T> {
+    boolean isSelected();
     String getType();
     void bindView(RecyclerView.ViewHolder holder);
     int getLayoutRes();
