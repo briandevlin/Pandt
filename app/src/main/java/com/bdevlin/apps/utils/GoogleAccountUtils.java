@@ -16,7 +16,7 @@ import java.util.UUID;
 /**
  * Account and login utilities. This class manages a local shared preferences object
  * that stores which account is currently active, and can store associated information
- * such as Google+ profile info (name, image URL, cover URL) and also the auth token
+ * such as Google+ profile info (baseName, image URL, cover URL) and also the auth token
  * associated with the account.
  */
 public class GoogleAccountUtils {

@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bdevlin.apps.pandt.R;
+import com.bdevlin.apps.utils.Utils;
 
 /**
  * Created by brian on 10/24/2015.
@@ -29,16 +30,19 @@ public class DividerDrawerItem extends AbstractDrawerItem<DividerDrawerItem>  {
         ViewHolder viewHolder = (ViewHolder) holder;
 
         //set the identifier from the drawerItem here. It can be used to run tests
-       // holder.itemView.setId(getIdentifier());
+       // holder.itemView.setBaseId(getIdentifier());
 
         //define how the divider should look like
         viewHolder.view.setClickable(false);
         viewHolder.view.setEnabled(false);
         viewHolder.view.setMinimumHeight(1);
+        viewHolder.itemView.setClickable(false);
+        viewHolder.itemView.setEnabled(false);
+        viewHolder.itemView.setMinimumHeight(1);
 
         //set the color for the divider
-       // viewHolder.divider.setBackgroundColor(UIUtils.getThemeColorFromAttrOrRes(ctx, R.attr.material_drawer_divider, R.color.material_drawer_divider));
-        viewHolder.divider.setBackgroundColor( ctx.getResources().getColor(R.color.colorPrimaryDark));
+        viewHolder.divider.setBackgroundColor(Utils.getThemeColorFromAttrOrRes(ctx, R.attr.material_drawer_divider, R.color.material_drawer_divider));
+       // viewHolder.divider.setBackgroundColor( ctx.getResources().getColor(R.color.colorPrimaryDark));
         //call the onPostBindView method to trigger post bind view actions (like the listener to modify the item if required)
         onPostBindView(this, holder.itemView);
     }

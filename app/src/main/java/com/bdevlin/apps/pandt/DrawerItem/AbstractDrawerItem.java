@@ -24,7 +24,7 @@ public abstract class AbstractDrawerItem<T> implements IDrawerItem<T> {
         return mSelected;
     }
 
-
+    @Override
     public void setSelected(boolean selected) {
         this.mSelected = selected;
 

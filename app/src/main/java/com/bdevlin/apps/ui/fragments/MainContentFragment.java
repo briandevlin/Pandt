@@ -31,6 +31,7 @@ import com.bdevlin.apps.pandt.Cursors.CursorCreator;
 import com.bdevlin.apps.pandt.Loaders.MyObjectCursorLoader;
 import com.bdevlin.apps.pandt.Cursors.ObjectCursor;
 import com.bdevlin.apps.pandt.Adapters.SimpleAdapter;
+import com.bdevlin.apps.pandt.folders.Folder;
 import com.bdevlin.apps.ui.widgets.DividerItemDecoration;
 import com.bdevlin.apps.pandt.DrawerItem.MainContentDrawerItem;
 import com.bdevlin.apps.utils.GenericListContext;
@@ -98,9 +99,10 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ContentCursorRecyclerAdapter mRecycleCursorAdapter;
+    private Folder folder = null;
 
    /* @Override
-    public void onItemClick(AdapterViewCompat<?> parent, View view, int position, long id) {
+    public void onItemClick(AdapterViewCompat<?> parent, View view, int position, long baseId) {
         Toast.makeText(getActivity(),
                 parent.getItemAtPosition(position).toString(),
                 Toast.LENGTH_LONG).show();
@@ -124,7 +126,6 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
         }
     };
     // </editor-fold>
-
 
     // <editor-fold desc="new instance">
 
@@ -151,7 +152,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
     public MainContentFragment() { super();}
     // </editor-fold>
 
-    // <editor-fold desc="Life Cycle">
+    // <editor-fold desc="Life Cycle Create">
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -160,7 +161,6 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
         if (getArguments() != null) {
              final Bundle args = getArguments();
             mViewContext = GenericListContext.forBundle(args.getBundle(CONVERSATION_LIST_KEY));
-            //mAccount = mViewContext.account;
         }
        // setRetainInstance(false);
     }
@@ -168,7 +168,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
 
     @Override
     public void onViewModeChanged(int newMode) {
-        Log.v(TAG, "in onViewModeChanged  " + newMode);
+      //  Log.v(TAG, "in onViewModeChanged  " + newMode);
     }
 
     @Override
@@ -179,7 +179,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
 
-       // mListView = Utils.getViewOrNull(rootView, android.R.id.list);
+       // mListView = Utils.getViewOrNull(rootView, android.R.baseId.list);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.main_recycler_view);
 
 
@@ -254,26 +254,30 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
         mode.enterConversationListMode();
         mode.addListener(this);
 
-
-        mode.enterConversationListMode();
-
-
-        Toolbar toolbar = mActivity.getActionBarController().getSupportToolBar();
+        actionBarController = mActivity.getActionBarController();
+        Toolbar toolbar = actionBarController.getSupportToolBar();
         if (toolbar != null && mViewContext.folder != null ) {
             toolbar.setSubtitle("Main " + mViewContext.folder.name);
+            toolbar.setTitle("Main " + mViewContext.folder.name);
         }
         else {
-            if (toolbar != null) toolbar.setSubtitle("Main");
+            if (toolbar != null) {
+                toolbar.setSubtitle("Main");
+                toolbar.setTitle("Main ");
+            }
         }
 
-        actionBarController = mActivity.getActionBarController();
        ActionBar ab =  actionBarController.getSupportActionBar();
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(false);
+            if (mViewContext.folder != null ) {
+                ab.setSubtitle("Main " + mViewContext.folder.name);
+                ab.setTitle("");
+            }
         }
 
         mRecycleCursorAdapter = new ContentCursorRecyclerAdapter(mActivity,
-               /* R.layout.textview,*/
+               /* R.layout.maincontentitemview,*/
                 null,
                 MockContract.FOLDERS_PROJECTION, // string[] column names
                 toId
@@ -303,7 +307,6 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
     }
 
     // </editor-fold
-
 
     // <editor-fold desc="Life Cycle">
 
@@ -368,7 +371,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        Log.d("onOptionsItemSelected","yes");
+       // Log.d("onOptionsItemSelected","yes");
         switch (item.getItemId()) {
 
             default:

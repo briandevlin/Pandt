@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <root> 
-  <setting name="task-tab"> 
-    <setting name="show-description" value="true"/> 
+  <setting baseName="task-tab">
+    <setting baseName="show-description" value="true"/>
   </setting>  
-  <setting name="favorites-tab"/>  
-  <setting name="command_line-tab"/>  
-  <setting name="setup-tab"> 
-    <setting name="setup"> 
-      <setting name="custom-gradle-executor"/>  
-      <setting name="current-directory" value="C:\Users\bdevlin\AndroidStudioProjects\Pandt"/>  
-      <setting name="log-level" value="LIFECYCLE"/> 
+  <setting baseName="favorites-tab"/>
+  <setting baseName="command_line-tab"/>
+  <setting baseName="setup-tab">
+    <setting baseName="setup">
+      <setting baseName="custom-gradle-executor"/>
+      <setting baseName="current-directory" value="C:\Users\bdevlin\AndroidStudioProjects\Pandt"/>
+      <setting baseName="log-level" value="LIFECYCLE"/>
     </setting> 
   </setting>  
-  <setting name="main_panel"> 
-    <setting name="current-tab" value="Task Tree"/> 
+  <setting baseName="main_panel">
+    <setting baseName="current-tab" value="Task Tree"/>
   </setting>  
-  <setting name="Application_window-id"> 
-    <setting name="window_x" value="403"/>  
-    <setting name="window_y" value="45"/>  
-    <setting name="window_width" value="800"/>  
-    <setting name="window_height" value="644"/>  
-    <setting name="extended-state" value="0"/> 
+  <setting baseName="Application_window-baseId">
+    <setting baseName="window_x" value="403"/>
+    <setting baseName="window_y" value="45"/>
+    <setting baseName="window_width" value="800"/>
+    <setting baseName="window_height" value="644"/>
+    <setting baseName="extended-state" value="0"/>
   </setting>  
-  <setting name="SinglePaneUIInstance_splitter-id"> 
-    <setting name="divider_location" value="347"/> 
+  <setting baseName="SinglePaneUIInstance_splitter-baseId">
+    <setting baseName="divider_location" value="347"/>
   </setting> 
 </root>

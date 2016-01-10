@@ -58,7 +58,7 @@ public class GoogleAccountManager {
     /**
      * Returns the Google account of the given {@link Account#name}.
      *
-     * @param accountName Google account name or {@code null} for {@code null} result
+     * @param accountName Google account baseName or {@code null} for {@code null} result
      * @return Google account or {@code null} for none found or for {@code null} input
      */
     public Account getAccountByName(String accountName) {

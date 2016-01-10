@@ -314,12 +314,12 @@ public class LoginAndAuthHelper  implements
                 Person currentUser = personBuffer.get(0);
                 personBuffer.close();
 
-                // Record profile ID, image URL and name
+                // Record profile ID, image URL and baseName
                 Log.d(TAG, "Saving plus profile ID: " + currentUser.getId());
                 GoogleAccountUtils.setPlusProfileId(mAppContext, mAccountName, currentUser.getId());
                 Log.d(TAG, "Saving plus image URL: " + currentUser.getImage().getUrl());
                 GoogleAccountUtils.setPlusImageUrl(mAppContext, mAccountName, currentUser.getImage().getUrl());
-                Log.d(TAG, "Saving plus display name: " + currentUser.getDisplayName());
+                Log.d(TAG, "Saving plus display baseName: " + currentUser.getDisplayName());
                 GoogleAccountUtils.setPlusName(mAppContext, mAccountName, currentUser.getDisplayName());
                 Person.Cover cover = currentUser.getCover();
                 if (cover != null) {

@@ -107,7 +107,7 @@ public class ChooseAccountFragment extends ListFragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.fragment_login_choose_account, container, false);
 //        TextView descriptionView = (TextView) rootView
-//                .findViewById(R.id.choose_account_intro);
+//                .findViewById(R.baseId.choose_account_intro);
 //        descriptionView.setText(Html
 //                .fromHtml(getString(R.string.description_choose_account)));
 
@@ -167,7 +167,7 @@ public class ChooseAccountFragment extends ListFragment {
 //        }
 //
 //        public class ListItemViewHolder {
-//            TextView name;
+//            TextView baseName;
 //            ImageView imageHolder;
 //            Account account;
 //        }
@@ -191,10 +191,10 @@ public class ChooseAccountFragment extends ListFragment {
 //                // views
 //                // we want to bind data to.
 //                holder = new ListItemViewHolder();
-//                holder.name = (TextView) convertView
-//                        .findViewById(R.id.accounts_tester_account_name);
+//                holder.baseName = (TextView) convertView
+//                        .findViewById(R.baseId.accounts_tester_account_name);
 //                holder.imageHolder = (ImageView) convertView
-//                        .findViewById(R.id.accounts_tester_account_type_icon);
+//                        .findViewById(R.baseId.accounts_tester_account_type_icon);
 //
 //                convertView.setTag(holder);
 //            } else {
@@ -205,7 +205,7 @@ public class ChooseAccountFragment extends ListFragment {
 //            final Account account = getItem(position);
 //
 //            if (account != null) {
-//                holder.name.setText(account.name);
+//                holder.baseName.setText(account.baseName);
 //                holder.account = account;
 //                holder.imageHolder.setVisibility(View.INVISIBLE);
 //
@@ -226,7 +226,7 @@ public class ChooseAccountFragment extends ListFragment {
 //                    }
 //                }
 //            } else {
-//                holder.name.setText("");
+//                holder.baseName.setText("");
 //            }
 //
 //            return convertView;
@@ -327,7 +327,7 @@ public class ChooseAccountFragment extends ListFragment {
         activity.mChosenDescription = mAuthenticatorListAdapter.getItem(position);
 //        activity.getSupportFragmentManager()
 //                .beginTransaction()
-//                .replace(R.id.fragment_container, new AuthProgressFragment(),
+//                .replace(R.baseId.fragment_container, new AuthProgressFragment(),
 //                        "loading").addToBackStack("choose_account").commit();
 //
 //        // This is the critical method to start our authentication for the account type

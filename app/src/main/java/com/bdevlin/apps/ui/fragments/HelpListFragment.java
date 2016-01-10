@@ -1,5 +1,6 @@
 package com.bdevlin.apps.ui.fragments;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.TextView;
+import com.bdevlin.apps.utils.Utils;
 
 import com.bdevlin.apps.pandt.R;
 
@@ -25,11 +27,13 @@ public class HelpListFragment extends Fragment {
 
     public static final String TITLE = "title";
     public static final String CONTENT = "content";
+    public static final String MESSAGE = "message";
 
    // private TextView mHelpText;
     private WebView mHelpText;
     private CharSequence mContent;
     private String mTitle;
+    private CharSequence mMessage;
 
     @Nullable
     @Override
@@ -69,26 +73,36 @@ public class HelpListFragment extends Fragment {
        // mHelpText = (TextView) getView().findViewById(R.id.help_text);
         mHelpText = (WebView) getView().findViewById(R.id.webView1);
         mHelpText.getSettings().setJavaScriptEnabled(false);
+
+        CharSequence text = Utils.bold(Utils.italic(getResources().getString(R.string.about_eula)),
+                Utils.color(Color.RED, getResources().getString(R.string.about_licenses)));
         
         CharSequence content = getContent();
+        ;
         SpannedString sstr = SpannedString.valueOf(content);
+        SpannedString message = SpannedString.valueOf(mMessage);
+        SpannedString message2 = SpannedString.valueOf(text);
 
         SpannableStringBuilder aboutBody = new SpannableStringBuilder();
+        aboutBody.append(Html.fromHtml(Html.toHtml(message)));
+        aboutBody.append(Html.fromHtml(Html.toHtml(message2)));
         aboutBody.append(Html.fromHtml(Html.toHtml(sstr)));
         aboutBody.setSpan(new StyleSpan(Typeface.ITALIC), 0, aboutBody.length(), 0);
-        //mHelpText.setText(aboutBody);
-        mHelpText.loadData(Html.toHtml(sstr), "text/html", null);
+       // mHelpText.setText(aboutBody);
+        mHelpText.loadData(Html.toHtml(aboutBody), "text/html", null);
         //mHelpText.loadUrl("http://www.choosemyplate.gov/tools-supertracker");
 
     }
     private void updateTitle() {
         getActivity().setTitle(getString(R.string.title_help) + " > " + getTitle());
+       // getActivity().setTitle(mMessage);
     }
 
     private void initializeArgCache() {
         if (mTitle != null) return;
         Bundle args = getArguments();
         mTitle = args.getString(TITLE);
+        mMessage = args.getCharSequence(MESSAGE);
         mContent = args.getCharSequence(CONTENT);
     }
     private String getTitle() {

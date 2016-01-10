@@ -11,9 +11,9 @@ import android.content.Context;
 //public class GCMRedirectedBroadcastReceiver  extends GCMBroadcastReceiver {
 //
 //    /**
-//     * Gets the class name of the intent service that will handle GCM messages.
+//     * Gets the class baseName of the intent service that will handle GCM messages.
 //     *
-//     * Used to override class name, so that GCMIntentService can live in a
+//     * Used to override class baseName, so that GCMIntentService can live in a
 //     * subpackage.
 //     */
 //    @Override

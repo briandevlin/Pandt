@@ -1,7 +1,6 @@
 package com.bdevlin.apps.pandt.DrawerItem;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -24,10 +23,10 @@ public abstract class BaseNavigationDrawerItem<T> extends BaseDrawerItem<T> {
 
         viewHolder.itemView.setTag(this);
 
-        if (isSelected()) {
+
             //set the item selected if it is
             viewHolder.itemView.setSelected(isSelected());
-        }
+
 
         //get the correct color for the text
         int color = getColor(ctx);
@@ -37,20 +36,24 @@ public abstract class BaseNavigationDrawerItem<T> extends BaseDrawerItem<T> {
         int selectedColor = getSelectedColor(ctx);
 
         int selectedIconColor = getSelectedIconColor(ctx);
+        if (this instanceof NavigationDrawerItem) {
+            Utils.setBackground(viewHolder.view, Utils.getSelectableBackground(ctx, selectedColor));
+        } else {
 
-        Utils.setBackground(viewHolder.view, Utils.getSelectableBackground(ctx, selectedColor));
+        }
+       // Utils.setBackground(viewHolder.view, Utils.getSelectableBackground(ctx, selectedColor));
 
         //set the colors for textViews
         viewHolder.name.setTextColor(Utils.getTextColorStateList(color, selectedTextColor));
 
-        viewHolder.id.setText(String.valueOf(getId()));
+        viewHolder.id.setText(String.valueOf(getNavId()));
 
-        //set the text for the name
-        StringHolder.applyTo(this.getName(), viewHolder.name);
+        //set the text for the baseName
+        StringHolder.applyTo(this.getBaseName(), viewHolder.name);
 
         // this takes care of the cursor icons
-        if (uriString != null) {
-            int resId = ctx.getResources().getIdentifier(uriString, "drawable", ctx.getPackageName());
+        if (baseUri != null) {
+            int resId = ctx.getResources().getIdentifier(baseUri, "drawable", ctx.getPackageName());
             this.setImageHolder(resId);
         }
         int iconColor = getIconColor(ctx);
@@ -79,7 +82,7 @@ public abstract class BaseNavigationDrawerItem<T> extends BaseDrawerItem<T> {
             this.view = view;
 
             this.imageView = (ImageView) view.findViewById(R.id.imageview2);
-            this.name = (TextView) view.findViewById(R.id.name);
+            this.name = (TextView) view.findViewById(R.id.baseName);
             this.id = (TextView) view.findViewById(R.id.id);
         }
     }

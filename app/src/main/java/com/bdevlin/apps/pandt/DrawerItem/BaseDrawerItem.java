@@ -1,8 +1,6 @@
 package com.bdevlin.apps.pandt.DrawerItem;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.annotation.DrawableRes;
 
 import com.bdevlin.apps.pandt.R;
@@ -17,13 +15,13 @@ public abstract class BaseDrawerItem<T> extends AbstractDrawerItem<T> {
 
     protected ImageHolder imageHolder;
     protected ImageHolder selectedIcon;
-    protected int id;
-    protected StringHolder name;
-    protected String uriString;
-    protected ColorHolder iconColor = ColorHolder.fromColorRes(R.color.material_drawer_primary_dark);
+    protected int baseId;
+    protected StringHolder baseName;
+    protected String baseUri;
+    protected ColorHolder iconColor = ColorHolder.fromColorRes(R.color.material_drawer_primary_icon);
     protected boolean iconTinted = true;
-    protected ColorHolder selectedColor = ColorHolder.fromColorRes(R.color.material_drawer_accent);
-    protected ColorHolder textColor = ColorHolder.fromColorRes(R.color.material_drawer_primary_dark);
+    protected ColorHolder selectedColor = ColorHolder.fromColorRes(R.color.material_drawer_selected);
+    protected ColorHolder textColor = ColorHolder.fromColorRes(R.color.material_drawer_primary_text);
     protected ColorHolder selectedTextColor = ColorHolder.fromColorRes(R.color.cyan_a700_plus);
     protected ColorHolder disabledTextColor;
     protected ColorHolder selectedIconColor = ColorHolder.fromColorRes(R.color.cyan_a700_plus);
@@ -41,25 +39,25 @@ public abstract class BaseDrawerItem<T> extends AbstractDrawerItem<T> {
         return imageHolder;
     }
 
-    public StringHolder getName() {
-        return name;
+    public StringHolder getBaseName() {
+        return baseName;
     }
 
-    public void setName(StringHolder name) {
-        this.name = name;
+    public void setBaseName(StringHolder baseName) {
+        this.baseName = baseName;
     }
 
     public String geturiString() {
-        return uriString;
+        return baseUri;
     }
 
 
-    public int getId() {
-        return id;
+    public int getNavId() {
+        return baseId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setBaseId(int baseId) {
+        this.baseId = baseId;
     }
 
     public ColorHolder getSelectedColor() {

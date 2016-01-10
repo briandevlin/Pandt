@@ -58,7 +58,7 @@ public final class MockContract {
 
     protected interface SyncColumns extends BaseSyncColumns {
         /**
-         * The name of the account instance to which this row belongs, which when paired with
+         * The baseName of the account instance to which this row belongs, which when paired with
          * {@link #ACCOUNT_TYPE} identifies a specific account.
          * <P>Type: TEXT</P>
          */
@@ -94,7 +94,7 @@ public final class MockContract {
 
     protected interface FolderColumns {
         /**
-         * The display name for the
+         * The display baseName for the
          * <P>Type: TEXT</P>
          */
         public static final String FOLDER_NAME = "name";
@@ -132,12 +132,12 @@ public final class MockContract {
 
     public interface AccountColumns {
         /**
-         * The display name for the
+         * The display baseName for the
          * <P>Type: TEXT</P>
          */
         public static final String ACCOUNT_NAME = "account_name";
         public static  final String FOLDER_LIST_URI = "folderListUri";
-        public static  final String URI = "uri";
+        public static  final String FOLDER_URI = "uri";
         public static  final String TYPE = "type";
 
 
@@ -147,8 +147,8 @@ public final class MockContract {
     public static final String[] ACCOUNTS_PROJECTION = {
             BaseColumns._ID,
             AccountColumns.ACCOUNT_NAME,
+            AccountColumns.FOLDER_URI,
             AccountColumns.FOLDER_LIST_URI,
-            AccountColumns.URI,
             AccountColumns.TYPE
 
     };

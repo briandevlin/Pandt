@@ -2,10 +2,12 @@ package com.bdevlin.apps.pandt.Adapters;
 import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
 import com.bdevlin.apps.pandt.Cursors.ObjectCursor;
+import com.bdevlin.apps.pandt.DrawerItem.IDrawerItem;
 import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
 import com.bdevlin.apps.pandt.helper.ItemTouchHelperAdapter;
 import com.bdevlin.apps.pandt.helper.OnStartDragListener;
@@ -16,7 +18,7 @@ import com.bdevlin.apps.pandt.helper.OnStartDragListener;
  */
 public class NavigationCursorRecyclerAdapter
         extends NavigationBaseRecyclerAdapter<NavigationDrawerItem.ListItemViewHolder>
-        implements /*CursorRecyclerAdapter.OnItemClickListener,*/ ItemTouchHelperAdapter {
+        implements /*NavigationBaseRecyclerAdapter.OnItemClickListener,*/ ItemTouchHelperAdapter {
 
 
     // <editor-fold desc="Fields">
@@ -58,29 +60,49 @@ public class NavigationCursorRecyclerAdapter
     //// Create new views (invoked by the layout manager)
     @Override
     public  NavigationDrawerItem.ListItemViewHolder onCreateViewHolder (ViewGroup parent, int viewType) {
-        Log.d(TAG,"onCreateViewHolder");
+       // Log.d(TAG,"onCreateViewHolder");
         NavigationDrawerItem drawerItem = new NavigationDrawerItem(mActivity, null);
         //AbstractDrawerItem.getViewHolder inflates the view item and returns the ListItemViewHolder(view)
-        NavigationDrawerItem.ListItemViewHolder holder =  (NavigationDrawerItem.ListItemViewHolder)drawerItem.getViewHolder(parent);
+       final  NavigationDrawerItem.ListItemViewHolder holder =  (NavigationDrawerItem.ListItemViewHolder)drawerItem.getViewHolder(parent);
+        // do here rather than on bind
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                int pos = holder.getAdapterPosition();
+
+                IDrawerItem drawerItem = getItem(pos);
+
+                //make sure there is a DrawerItem for the specific position
+                if (drawerItem != null)
+                {
+                    handleSelection(v, pos);
+
+                    if (mOnClickListener != null) {
+                        mOnClickListener.onClick(v, pos, drawerItem);
+                    }
+                }
+            }
+        });
         return holder;
     }
 
     // // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder (NavigationDrawerItem.ListItemViewHolder holder, ObjectCursor<NavigationDrawerItem> cursor, int position ) {
-        if (DEBUG) Log.d(TAG,"onBindViewHolder");
+    public void onBindViewHolder (final NavigationDrawerItem.ListItemViewHolder holder, ObjectCursor<NavigationDrawerItem> cursor, int position ) {
+        //if (DEBUG) Log.d(TAG,"onBindViewHolder");
         NavigationDrawerItem selected = (NavigationDrawerItem)getItem(position);
-        selected.setSelected(focusedItem == position);
-        holder.itemView.setSelected(focusedItem == position);
+
         // gets the IDrawerItem at this position then bind the viewholder to it
         selected.bindView(holder);
+
     }
 
     // </editor-fold>
 
     // <editor-fold desc="Cursor">
     /**
-     * Create a map from an array of strings to an array of column-id integers in cursor c.
+     * Create a map from an array of strings to an array of column-baseId integers in cursor c.
      * If c is null, the array will be discarded.
      *
      * @param c the cursor to find the columns from
@@ -125,6 +147,11 @@ public class NavigationCursorRecyclerAdapter
       //  Toast.makeText(mContext, "onItemDismiss " , Toast.LENGTH_LONG).show();
         notifyItemRemoved(position);
     }
+
+//    @Override
+//    public void onItemClick(View itemView, int position) {
+//        if (DEBUG) Log.d(TAG,"onBindViewHolder");
+//    }
 
     // </editor-fold>
 }

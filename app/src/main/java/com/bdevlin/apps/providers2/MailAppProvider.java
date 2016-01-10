@@ -369,7 +369,7 @@ public abstract class MailAppProvider extends ContentProvider
                     addAccountImpl(account.uri, accountEntry);
                 } else {
                     //LogUtils.e(LOG_TAG, "Dropping account without provider: %s",
-                     //       account.name);
+                     //       account.baseName);
                 }
 
             } catch (Exception e) {

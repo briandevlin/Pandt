@@ -11,6 +11,7 @@ import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 //import android.support.v7.internal.widget.AdapterViewCompat;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -21,12 +22,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
 import com.bdevlin.apps.pandt.Cursors.CursorCreator;
 import com.bdevlin.apps.pandt.Adapters.NavigationBaseRecyclerAdapter;
+import com.bdevlin.apps.pandt.DrawerItem.NavDrawerItemView;
 import com.bdevlin.apps.provider.MockUiProvider;
 import com.bdevlin.apps.ui.widgets.DividerItemDecoration;
 //import com.bdevlin.apps.pandt.DrawerClosedObserver;
@@ -47,10 +53,11 @@ import com.bdevlin.apps.provider.MockContract;
 
 import java.util.ArrayList;
 
-// instantiated from the navdrawer_content.xml  <fragment android:id="@+id/navigation_drawer"
+// instantiated from the navdrawer_content.xml  <fragment android:baseId="@+baseId/navigation_drawer"
 public class NavigationDrawerFragment
         extends ListFragment
         implements LoaderManager.LoaderCallbacks<ObjectCursor<NavigationDrawerItem>>,
+        ListView.OnScrollListener,
         ViewMode.ModeChangeListener,
         OnStartDragListener {
 
@@ -58,7 +65,7 @@ public class NavigationDrawerFragment
 
     private static final String TAG = NavigationDrawerFragment.class.getSimpleName();
     private static final boolean DEBUG = true;
-    
+
     /**
      * Remember the position of the selected item.
      */
@@ -80,8 +87,8 @@ public class NavigationDrawerFragment
     private NavigationDrawerCallbacks mCallbacks;
 
     private int mCurrentSelectedPosition = 0;
-    
-    private  ControllableActivity mActivity;
+
+    private ControllableActivity mActivity;
    
    /* private FolderController folderController = null;
     private ActionBarController actionBarController = null;
@@ -89,7 +96,9 @@ public class NavigationDrawerFragment
 
     private Account mCurrentAccount;
     private Account mNextAccount = null;*/
-    /** The folder we will change to once the drawer (if any) is closed */
+    /**
+     * The folder we will change to once the drawer (if any) is closed
+     */
    /* private Folder mNextFolder = null;
     private Uri mFolderListUri;
     private FolderUri mSelectedFolderUri = FolderUri.EMPTY;*/
@@ -103,6 +112,7 @@ public class NavigationDrawerFragment
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    protected RecyclerView.ItemAnimator mItemAnimator = null;
     private NavigationCursorRecyclerAdapter mRecycleCursorAdapter;
 
     private ItemTouchHelper mItemTouchHelper;
@@ -113,15 +123,32 @@ public class NavigationDrawerFragment
         mItemTouchHelper.startDrag(viewHolder);
     }
 
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+        Log.d(TAG,"onScrollStateChanged");
+        switch (scrollState) {
+            case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+                break;
+            case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+                break;
+            case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
+                break;
+        }
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        Log.d(TAG,"onScroll");
+    }
 
     // </editor-fold>
 
     // <editor-fold desc="Interfaces">
 
-    public  final CursorCreator<NavigationDrawerItem> FACTORY = new CursorCreator<NavigationDrawerItem>() {
+    public final CursorCreator<NavigationDrawerItem> FACTORY = new CursorCreator<NavigationDrawerItem>() {
         @Override
         public NavigationDrawerItem createFromCursor(Cursor c) {
-            return new NavigationDrawerItem((HomeActivity)mActivity, c);
+            return new NavigationDrawerItem((HomeActivity) mActivity, c);
         }
 
         @Override
@@ -129,17 +156,20 @@ public class NavigationDrawerFragment
             return "PrimaryDrawerItem CursorCreator";
         }
     };
+
+
     /**
      * Callbacks interface that all activities using this fragment must implement.
-     * we use this interface to replace the fragments name in the HomeActivity via UIControllerBase
+     * we use this interface to replace the fragments baseName in the HomeActivity via UIControllerBase
      * when the usr selects an item in the Navigation drawer list
      */
     public interface NavigationDrawerCallbacks {
         /**
          * Called when an item in the navigation drawer is selected.
          */
-        public void onNavigationDrawerItemSelected(int position, NavigationDrawerItem itemView);
-        public void onNavigationDrawerArraySelected(int position, NavigationDrawerItem itemView);
+        public void onNavigationDrawerItemSelected(View view, int position, IDrawerItem itemView);
+
+        public void onNavigationDrawerArraySelected(View view, int position, IDrawerItem itemView);
     }
 
 
@@ -149,10 +179,11 @@ public class NavigationDrawerFragment
      */
     private static NavigationDrawerCallbacks sDummyCallbacks = new NavigationDrawerCallbacks() {
         @Override
-        public void onNavigationDrawerItemSelected(int position, NavigationDrawerItem itemView) {
+        public void onNavigationDrawerItemSelected(View view, int position, IDrawerItem itemView) {
 
         }
-        public void onNavigationDrawerArraySelected(int position, NavigationDrawerItem itemView) {
+
+        public void onNavigationDrawerArraySelected(View view, int position, IDrawerItem itemView) {
 
         }
     };
@@ -171,7 +202,7 @@ public class NavigationDrawerFragment
      * fragment (e.g. upon screen orientation changes).
      */
     public NavigationDrawerFragment() {
-super();
+        super();
     }
 
 
@@ -182,7 +213,7 @@ super();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       if (DEBUG) Log.v(TAG, "in NavigationDrawerFragment onCreate");
+        if (DEBUG) Log.v(TAG, "in NavigationDrawerFragment onCreate");
         if (getArguments() != null) {
             final Bundle args = getArguments();
 
@@ -192,7 +223,9 @@ super();
             if (DEBUG) Log.v(TAG, "in NavigationDrawerFragment savedInstanceState");
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
             mFromSavedInstanceState = true;
+
         }
+        // Select either the default item (0) or the last selected item.
 
         mActivity.getViewMode().addListener(this);
     }
@@ -201,6 +234,7 @@ super();
     public void onViewModeChanged(int newMode) {
         if (DEBUG) Log.v(TAG, "NavigationDrawerFragment: in onViewModeChanged  " + newMode);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -212,6 +246,7 @@ super();
             mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
 
             mRecyclerView.setHasFixedSize(true);
+            //some style improvements on older devices
             mRecyclerView.setFadingEdgeLength(0);
             mRecyclerView.setClipToPadding(false);
 
@@ -226,12 +261,17 @@ super();
 
             mRecyclerView.addItemDecoration(itemDecoration);
 
+            if (mItemAnimator == null) {
+                mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+            } else {
+                mRecyclerView.setItemAnimator(mItemAnimator);
+            }
+
 
             ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mRecycleCursorAdapter);
             mItemTouchHelper = new ItemTouchHelper(callback);
             mItemTouchHelper.attachToRecyclerView(mRecyclerView);
         }
-
 
 
         if (savedInstanceState != null
@@ -254,30 +294,43 @@ super();
         }
         int[] toId = new int[]{
                 R.id.id,
-                R.id.name
+                R.id.baseName
         };
         mActivity = (HomeActivity) activity;
 
         mRecycleCursorAdapter = new NavigationCursorRecyclerAdapter(mActivity,
-               /* R.layout.textview,*/
+               /* R.layout.maincontentitemview,*/
                 null,
                 MockContract.FOLDERS_PROJECTION, // string[] column names
-                toId,// resource id's from the itemview
+                toId,// resource baseId's from the itemview
                 this);
 
-        mRecycleCursorAdapter.setOnItemClickListener(
-                new NavigationBaseRecyclerAdapter.OnItemClickListener() {
-                    public void onItemClick(View itemView, int position)
-                    {
-                        Log.d(TAG,"mRecycleCursorAdapter.setOnItemClickListener");
-                        mCallbacks = mActivity.getNavigationDrawerCallbacks();
-                        mCallbacks.onNavigationDrawerItemSelected(position, null);
-                    }
 
-                });
+//        mRecycleCursorAdapter.setOnItemClickListener(
+//                new NavigationBaseRecyclerAdapter.OnItemClickListener() {
+//                    public void onItemClick(View itemView, int position) {
+//                        Log.d(TAG, "mRecycleCursorAdapter.setOnItemClickListener");
+//                        // mCurrentSelection = position;
+//                        mCallbacks = mActivity.getNavigationDrawerCallbacks();
+//
+//                        //mCallbacks.onNavigationDrawerItemSelected(position, null);
+//                    }
+//
+//                });
 
-        //mRecyclerView.setAdapter(mAdapter);
+        mRecycleCursorAdapter.setOnClickListener(new NavigationBaseRecyclerAdapter.OnClickListener() {
+            @Override
+            public void onClick(final View view, final int position, final IDrawerItem item) {
+
+                //call the listener
+                boolean consumed = false;
+                mCallbacks = mActivity.getNavigationDrawerCallbacks();
+                mCallbacks.onNavigationDrawerItemSelected(view, position, item);
+            }
+        });
+
         mRecyclerView.setAdapter(mRecycleCursorAdapter);
+
 
         initStaticNavMenuItems();
 
@@ -293,19 +346,18 @@ super();
 
         ArrayList<IDrawerItem> mDrawerItems = new ArrayList<>();
 
-        DividerDrawerItem divider = new DividerDrawerItem();
+        DividerDrawerItem divider = new DividerDrawerItem();//FIXME need to make this non clickable
 
-
-        NavigationDrawerItem settings =  new  NavigationDrawerItem(mActivity, null);
-        settings.setName(new StringHolder(getResources().getString(R.string.settings)));
-        settings.setId(1);
+        NavigationDrawerItem settings = new NavigationDrawerItem(mActivity, null);
+        settings.setBaseName(new StringHolder(getResources().getString(R.string.settings)));
+        settings.setBaseId(1);
         settings.setImageHolder(R.drawable.ic_settings_black_24dp);
         settings.setSelected(true);
 
 
-        NavigationDrawerItem help =  new  NavigationDrawerItem(mActivity, null);
-        help.setName(new StringHolder( getResources().getString(R.string.help)));
-        help.setId(2);
+        NavigationDrawerItem help = new NavigationDrawerItem(mActivity, null);
+        help.setBaseName(new StringHolder(getResources().getString(R.string.help)));
+        help.setBaseId(2);
         help.setImageHolder(R.drawable.ic_help_outline_black_24dp);
 
 
@@ -316,7 +368,14 @@ super();
 
         DrawerItemAdapter mCursorAdapter = new DrawerItemAdapter(
                 mActivity.getApplicationContext(),
-                mDrawerItems );
+                mDrawerItems);
+
+        final ListView listView = getListView();
+
+        listView.setOnScrollListener(this);
+        listView.setItemsCanFocus(false);
+        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        listView.setItemChecked(0, true);
 
         setListAdapter(mCursorAdapter);
     }
@@ -339,7 +398,7 @@ super();
                 // log something here
             }
             mActivity = (ControllableActivity) activity;
-           // folderController = mActivity.getFolderController();
+            // folderController = mActivity.getFolderController();
             mCallbacks = mActivity.getNavigationDrawerCallbacks();
         } catch (ClassCastException e) {
             throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
@@ -416,9 +475,9 @@ super();
     @Override
     public void onLoadFinished(Loader<ObjectCursor<NavigationDrawerItem>> loader, ObjectCursor<NavigationDrawerItem> data) {
 
-        if (data == null || data.getCount() <=0 || !data.moveToFirst()) {
+        if (data == null || data.getCount() <= 0 || !data.moveToFirst()) {
             Log.e(TAG, String.format(
-                    "Received null cursor from loader id: %d",
+                    "Received null cursor from loader baseId: %d",
                     loader.getId()));
             return;
         }
@@ -430,13 +489,15 @@ super();
             case LOADER_ID:
                 // The asynchronous load is complete and the data
                 // is now available for use. Only now can we associate
-                // the queried Cursor with the SimpleCursorRecyclerAdapter.
+                // the queried Cursor with the NavigationCursorRecyclerAdapter.
                 if (mRecycleCursorAdapter != null) {
                     mRecycleCursorAdapter.swapCursor(data);
+                    mRecycleCursorAdapter.handleSelection(null, 0);
+                    mRecycleCursorAdapter.mOnClickListener.onClick(null, 0, null);
                 }
 
                 Log.e(TAG, String.format(
-                        "Received cursor from loader id: %d",
+                        "Received cursor from loader baseId: %d",
                         loader.getId()));
                 break;
         }
@@ -455,44 +516,62 @@ super();
 
 // </editor-fold>
 
-    // <editor-fold desc="DrawerItemAdapter">
+    // <editor-fold desc="DrawerItemAdapter & onListItemClick">
 
+    @Override
+    public void onListItemClick(ListView l, View v, int pos, long id) {
+        super.onListItemClick(l, v, pos, id);
+        getListView().setItemChecked(pos, true);
+       // Toast.makeText(getActivity(), "Item " + pos + " was clicked", Toast.LENGTH_SHORT).show();
+        if (mActivity != null) {
+            mCallbacks = mActivity.getNavigationDrawerCallbacks();
+             mCallbacks.onNavigationDrawerArraySelected(v, pos, null);
+        }
+    }
 
-
-    public class DrawerItemAdapter extends ArrayAdapter<IDrawerItem> {
+    public  class DrawerItemAdapter extends ArrayAdapter<IDrawerItem> {
+        private LayoutInflater mInflater;
 
         public DrawerItemAdapter(Context context, @NonNull ArrayList<IDrawerItem> users) {
             super(context, 0, users);
+            // Cache the LayoutInflate to avoid asking for a new one each time.
+            mInflater = LayoutInflater.from(context);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-           // NavigationDrawerItem.ListItemViewHolder vh = null;
+            // A ViewHolder keeps references to children views to avoid unneccessary calls
+            // to findViewById() on each row.
+            ViewHolder holder;
 
             // Get the data item for this position
             IDrawerItem nav = getItem(position);
 
-           // String type = nav.getType();
-
             if (nav.getType() == "DIVIDER_ITEM") {
                 if (convertView == null) {
-                    convertView = LayoutInflater.from(getContext()).inflate(R.layout.drawer_divider, parent, false);
+                    convertView = mInflater.inflate(R.layout.drawer_divider, parent, false);
+//                    holder = new ViewHolder();
+//                    holder.name = (TextView) convertView.findViewById(R.id.baseName);
+//                    holder.id = (TextView) convertView.findViewById(R.id.id);
+//                    holder.imageView = (ImageView) convertView.findViewById(R.id.imageview2);
+//                    convertView.setTag(holder);
                     return convertView;
-                }else {
+                } else {
+
                     return convertView;
                 }
-            }
-            else {
-              //  NavigationDrawerItem nav = (NavigationDrawerItem)getItem(position);
-              //   vh =  (NavigationDrawerItem.ListItemViewHolder)nav.getViewHolder(parent);
-              //  nav.bindView(vh);
-
-              // generateView essentially wraps the above methods and returns NavDrawerItemView
-                View view =  nav.generateView(getContext(),parent);
+            } else {
+                // generateView essentially wraps the above methods and returns NavDrawerItemView
+                View view = nav.generateView(getContext(), parent);
                 return view;
             }
-
+        }
+         class ViewHolder {
+            protected View view;
+            protected ImageView imageView;
+            protected TextView name;
+            protected TextView id;
         }
     }
 

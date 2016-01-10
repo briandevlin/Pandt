@@ -17,6 +17,7 @@ import com.bdevlin.apps.ui.activity.core.HomeActivity;
 import com.bdevlin.apps.ui.fragments.PagerFragment;
 import com.bdevlin.apps.ui.widgets.PageMarginDrawable;
 import com.viewpagerindicator.LinePageIndicator;
+import com.viewpagerindicator.TabPageIndicator;
 
 /**
  * Created by brian on 7/26/2014.
@@ -34,6 +35,8 @@ public class PagerController {
     private ActivityController mActivityController;
     private HomeActivity mActivity;
     private LinePageIndicator mIndicator;
+    private TabPageIndicator mIndicatorTab;
+    private static final String[] CONTENT = new String[] { "Recent", "Artists", "Albums", "Songs", "Playlists", "Genres" };
     // </editor-fold>
 
     // <editor-fold desc="">
@@ -49,7 +52,7 @@ public class PagerController {
 
         mActivityController = controller;
         mFragmentManager = fragmentManager;
-       // setupPageMargin(activity.getActivityContext());
+        setupPageMargin(activity.getActivityContext());
     }
     // </editor-fold>
 
@@ -79,8 +82,9 @@ public class PagerController {
         mPager.setCurrentItem(position);
 
         mIndicator = (LinePageIndicator)mActivity.findViewById(R.id.indicator);
-        mIndicator.setViewPager(mPager);
-        mIndicator.setVisibility(View.VISIBLE);
+        mIndicatorTab = (TabPageIndicator)mActivity.findViewById(R.id.indicatorTab);
+        mIndicatorTab.setViewPager(mPager);
+        mIndicatorTab.setVisibility(View.VISIBLE);
 
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -106,6 +110,7 @@ public class PagerController {
 
         mPager.setVisibility(View.GONE);
         if (mIndicator != null) mIndicator.setVisibility(View.GONE);
+        if (mIndicatorTab != null) mIndicatorTab.setVisibility(View.GONE);
        // mPager.setAdapter(null);
     }
 
@@ -124,7 +129,7 @@ public class PagerController {
 
     public class SlidePagerAdapter extends FragmentStatePagerAdapter {
 
-        private  final int NUM_PAGES = 3;
+        private  final int NUM_PAGES = 6;
 
         //  private static final String ARG_INDEX = " com.bdevlin.apps.pandt.arg_position";
 
@@ -137,12 +142,16 @@ public class PagerController {
 
             // return new PagerFragment();
 
-            PagerFragment frag = PagerFragment.newInstance("item1");
+            PagerFragment frag = PagerFragment.newInstance(CONTENT[position % CONTENT.length]);
 
             Bundle args = new Bundle();
-            args.putInt(PagerFragment.ARG_INDEX, position);
+            args.putInt(PagerFragment.ARG_INDEX, position + 1);
             frag.setArguments(args);
             return frag;
+        }
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return CONTENT[position % CONTENT.length].toUpperCase();
         }
 
         @Override

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="welcome_messages">Hello, %1$s! You have %2$d new messages.</string>
 
     <string name="help0"><html><head></head><body><p><b>This</b></p> is the  <u>landing page</u> for all <strike>authenticated</strike>  PMs.\n <img src="http://www.example.com/image.gif" />	</body></html>
 </string>

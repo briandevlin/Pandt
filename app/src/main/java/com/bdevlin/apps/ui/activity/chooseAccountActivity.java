@@ -106,7 +106,7 @@ public class chooseAccountActivity  extends AccountSetupActivity implements Pand
     public void onAuthTokenAvailable(String authToken) {
         // authentication callback method
       //  AppPreferences.setAuthToken(this, authToken);
-      //  AppPreferences.setChosenAccountName(this, name);
+      //  AppPreferences.setChosenAccountName(this, baseName);
 
         if (mFinishIntent != null) {
             Log.d(TAG, "mFinishIntent: " + mFinishIntent);

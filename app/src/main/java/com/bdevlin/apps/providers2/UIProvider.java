@@ -241,7 +241,7 @@ public class UIProvider {
         public static final int DRAFT_SYNCHRONIZATION = 0x0100;
         /**
          * Does the server allow the user to compose mails (and reply) using addresses other than
-         * their account name? For instance, GMail allows users to set FROM addresses that are
+         * their account baseName? For instance, GMail allows users to set FROM addresses that are
          * different from account@gmail.com address. For instance, user@gmail.com could have another
          * FROM: address like user@android.com. If the user has enabled multiple FROM address, he
          * can compose (and reply) using either address.
@@ -315,17 +315,17 @@ public class UIProvider {
 
     public static final class AccountColumns implements BaseColumns {
         /**
-         * This string column contains the human visible name for the account.
+         * This string column contains the human visible baseName for the account.
          */
-        public static final String NAME = "name";
+        public static final String NAME = "baseName";
 
         /**
-         * This string column contains the real name associated with the account, e.g. "John Doe"
+         * This string column contains the real baseName associated with the account, e.g. "John Doe"
          */
         public static final String SENDER_NAME = "senderName";
 
         /**
-         * This string column contains the account manager name of this account.
+         * This string column contains the account manager baseName of this account.
          */
 
         public static final String ACCOUNT_MANAGER_NAME = "accountManagerName";
@@ -393,7 +393,7 @@ public class UIProvider {
          * be an update operation on the messageUri.
          * When {@link android.content.ContentResolver#update(android.net.Uri, android.content.ContentValues, String, String[])}
          * is called with this uri, the {@link android.content.ContentValues} object is expected to have
-         * {@link android.provider.BaseColumns#_ID} specified with the local message id of the message.
+         * {@link android.provider.BaseColumns#_ID} specified with the local message baseId of the message.
          */
         public static final String EXPUNGE_MESSAGE_URI = "expungeMessageUri";
 
@@ -569,7 +569,7 @@ public class UIProvider {
              */
             public static final String DEFAULT_INBOX = "default_inbox";
             /**
-             * String containing the name of the default Inbox for this account
+             * String containing the baseName of the default Inbox for this account
              */
             public static final String DEFAULT_INBOX_NAME = "default_inbox_name";
             /**
@@ -752,7 +752,7 @@ public class UIProvider {
         public static final int SPAM = 1 << 6;
         /** A system defined starred folder */
         public static final int STARRED = 1 << 7;
-        /** Any other system label that we do not have a specific name for. */
+        /** Any other system label that we do not have a specific baseName for. */
         public static final int OTHER_PROVIDER_FOLDER = 1 << 8;
         /** All mail folder */
         public static final int ALL_MAIL = 1 << 9;
@@ -846,8 +846,8 @@ public class UIProvider {
 
     public static final class FolderColumns {
         /**
-         * This string column contains an id for the folder that is constant across devices, or
-         * null if there is no constant id.
+         * This string column contains an baseId for the folder that is constant across devices, or
+         * null if there is no constant baseId.
          */
         public static final String PERSISTENT_ID = "persistentId";
         /**
@@ -855,9 +855,9 @@ public class UIProvider {
          */
         public static final String URI = "folderUri";
         /**
-         * This string column contains the human visible name for the folder.
+         * This string column contains the human visible baseName for the folder.
          */
-        public static final String NAME = "name";
+        public static final String NAME = "baseName";
         /**
          * This int column represents the capabilities of the folder specified by
          * FolderCapabilities flags.
@@ -908,11 +908,11 @@ public class UIProvider {
          */
         public static final String LAST_SYNC_RESULT  = "lastSyncResult";
         /**
-         * This int column contains the imageHolder res id for this folder, or 0 if there is none.
+         * This int column contains the imageHolder res baseId for this folder, or 0 if there is none.
          */
         public static final String ICON_RES_ID = "iconResId";
         /**
-         * This int column contains the notification imageHolder res id for this folder, or 0 if there is
+         * This int column contains the notification imageHolder res baseId for this folder, or 0 if there is
          * none.
          */
         public static final String NOTIFICATION_ICON_RES_ID = "notificationIconResId";
@@ -937,7 +937,7 @@ public class UIProvider {
 
         /**
          * Possibly empty string that describes the full hierarchy of a folder
-         * along with its name.
+         * along with its baseName.
          */
         public static final String HIERARCHICAL_DESC = "hierarchicalDesc";
 
@@ -1654,7 +1654,7 @@ public class UIProvider {
          */
         public static final String SNIPPET = "snippet";
         /**
-         * This string column contains the single email address (and optionally name) of the sender.
+         * This string column contains the single email address (and optionally baseName) of the sender.
          */
         public static final String FROM = "fromAddress";
         /**
@@ -1671,7 +1671,7 @@ public class UIProvider {
          */
         public static final String BCC = "bccAddresses";
         /**
-         * This string column contains the single email address (and optionally name) of the
+         * This string column contains the single email address (and optionally baseName) of the
          * sender's reply-to address.
          */
         public static final String REPLY_TO = "replyToAddress";
@@ -1954,7 +1954,7 @@ public class UIProvider {
 
     public static final class AttachmentColumns {
         /**
-         * This string column is the attachment's file name, intended for display in UI. It is not
+         * This string column is the attachment's file baseName, intended for display in UI. It is not
          * the full path of the file.
          */
         public static final String NAME = OpenableColumns.DISPLAY_NAME;
@@ -2298,7 +2298,7 @@ public class UIProvider {
          */
         public static final String EXTRA_SALT = "salt";
         /**
-         * Byte[] extra passed from the proxy which indicates the digest of the salted account name.
+         * Byte[] extra passed from the proxy which indicates the digest of the salted account baseName.
          */
         public static final String EXTRA_ACCOUNT_DIGEST = "digest";
     }

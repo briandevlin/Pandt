@@ -3,13 +3,17 @@ package com.bdevlin.apps.ui.activity.core;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.Preference;
-//import android.preference.Preference.OnPreferenceChangeListener;
+import android.preference.Preference.OnPreferenceChangeListener;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 import android.support.v7.app.ActionBar;
 //import android.support.v7.app.
 import android.support.v7.widget.AppCompatCheckBox;
@@ -24,8 +28,11 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
 import com.bdevlin.apps.pandt.R;
@@ -35,16 +42,40 @@ import java.util.List;
 /**
  * Created by bdevlin on 8/23/2015.
  */
-public class PreferencesActivity extends PreferenceActivity  {
+public class PreferencesActivity extends PreferenceActivity implements
+        OnSharedPreferenceChangeListener, OnPreferenceChangeListener
+{
     private static final String TAG = PreferencesActivity.class.getSimpleName();
     private static final boolean DEBUG = true;
+    public static final String KEY_MODE_CHECKBOX_PREFERENCE = "clear_chosenaccount";
     Toolbar mToolbar;
+    private SharedPreferences prefs;
+    private CheckBoxPreference mCheckBoxPreference;
+
+    private Runnable mForceCheckBoxRunnable = new Runnable() {
+        public void run() {
+            if (mCheckBoxPreference != null) {
+                mCheckBoxPreference
+                        .setChecked(!mCheckBoxPreference.isChecked());
+            }
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        PreferenceScreen root = getPreferenceManager().createPreferenceScreen(this);
        // setContentView(R.layout.settings);
+
+        // Load the XML preferences file
         addPreferencesFromResource(R.xml.fragmented_preferences);
+
+        // Get a reference to the mode checkbox preference
+        mCheckBoxPreference = (CheckBoxPreference) getPreferenceScreen()
+                .findPreference(KEY_MODE_CHECKBOX_PREFERENCE);
+
+        mForceCheckBoxRunnable.run();
 
     }
 
@@ -79,17 +110,35 @@ public class PreferencesActivity extends PreferenceActivity  {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        Toolbar bar;
+
         android.support.design.widget.AppBarLayout barcontainer;
         android.support.design.widget.CoordinatorLayout coordinator;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            LinearLayout root = (LinearLayout) findViewById(android.R.id.list).getParent().getParent().getParent();
-           // barcontainer = (android.support.design.widget.AppBarLayout) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
-            coordinator = (android.support.design.widget.CoordinatorLayout) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
-            bar = (Toolbar) coordinator.findViewById(R.id.toolbar);
-            Log.d(TAG, "some text");
-            root.addView(coordinator, 0); // insert at top
+
+            ViewGroup root = (ViewGroup) findViewById(android.R.id.content);
+            ListView list = (ListView) root.findViewById(android.R.id.list);
+           // get he lists parent which is the headers linearlayout
+            LinearLayout headers = (LinearLayout) list.getParent();
+            //((ViewGroup)headers.getParent()).removeView(headers);
+            ((ViewGroup)headers.getParent()).removeViewAt(0);
+           // headers.removeViewAt(0); //removes the listView. Not what we want.
+           // headers.removeViewAt(1);
+
+            // this layout has no parent
+//            coordinator = (android.support.design.widget.CoordinatorLayout) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, null, false);
+//            bar = (Toolbar) coordinator.findViewById(R.id.toolbar);
+//            ViewParent v = bar.getParent();
+//            root.removeAllViews();
+
+            android.support.design.widget.AppBarLayout appBarLayout = (android.support.design.widget.AppBarLayout)LayoutInflater.from(this).inflate(R.layout.prefs_bar, null, false);
+            mToolbar = (Toolbar) appBarLayout.findViewById(R.id.prefs_toolbar);
+            //ImageView img = (ImageView) appBarLayout.findViewById(R.id.tower);
+            //img.setMaxHeight(200);
+            root.addView(headers, 0);
+            headers.addView(appBarLayout,0);
+           // root.addView(coordinator, 0); // insert at top
+            Log.d(TAG, "something");
         } else {
 
             ViewGroup root = (ViewGroup) findViewById(android.R.id.content);
@@ -99,14 +148,14 @@ public class PreferencesActivity extends PreferenceActivity  {
 
            // barcontainer = (android.support.design.widget.AppBarLayout) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
             coordinator = (android.support.design.widget.CoordinatorLayout) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
-            bar =  (Toolbar) coordinator.findViewById(R.id.toolbar);
+            mToolbar =  (Toolbar) coordinator.findViewById(R.id.toolbar);
 
             int height;
             TypedValue tv = new TypedValue();
             if (getTheme().resolveAttribute(R.attr.actionBarSize, tv, true)) {
                 height = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
             } else {
-                height = bar.getHeight();
+                height = mToolbar.getHeight();
             }
 
             content.setPadding(0, height, 0, 0);
@@ -114,14 +163,15 @@ public class PreferencesActivity extends PreferenceActivity  {
             root.addView(content);
             root.addView(coordinator);
         }
-       // bar.setTitleTextColor(R.color.navdrawer_background);
-        bar.setTitle("Preferences");
+
+        mToolbar.setTitle("Preferences");
+        ;
 
        // bar.getRootView().setBackgroundColor(234567);
 
-        bar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        mToolbar.setNavigationIcon(R.drawable.ic_ab_up_ltr);
 
-        bar.setNavigationOnClickListener(new View.OnClickListener() {
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent data = new Intent();
@@ -135,5 +185,36 @@ public class PreferencesActivity extends PreferenceActivity  {
 
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Start the force toggle.
+        // mForceCheckBoxRunnable.run();
+
+        // Set up a listener whenever a key changes
+        getPreferenceScreen().getSharedPreferences()
+                .registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Unregister the listener whenever a key changes
+        getPreferenceScreen().getSharedPreferences()
+                .unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public boolean onPreferenceChange(Preference preference, Object newValue) {
+        return false;
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        Toast.makeText(this, "onSharedPreferenceChanged", Toast.LENGTH_SHORT)
+                .show();
     }
 }

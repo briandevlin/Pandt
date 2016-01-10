@@ -39,9 +39,9 @@ public class NavDrawerItemView extends LinearLayout {
                 icon=icon.mutate();
                 return icon;
             }
-            //((ImageView) findViewById(R.id.imageHolder)).setImageDrawable(imageHolder);
+            //((ImageView) findViewById(R.baseId.imageHolder)).setImageDrawable(imageHolder);
         }
-        //((TextView) findViewById(R.id.title)).setText(titleResId);
+        //((TextView) findViewById(R.baseId.title)).setText(titleResId);
         return null;
     }
 }

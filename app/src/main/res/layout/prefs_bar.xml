@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.design.widget.AppBarLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar_container"
+    android:layout_margin="0dp"
+    android:layout_height="?actionBarSize"
+    android:layout_width="match_parent"
+    >
+
+    <android.support.design.widget.CollapsingToolbarLayout
+        android:id="@+id/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_scrollFlags="scroll|exitUntilCollapsed"
+
+        app:contentScrim="@color/colorPrimaryDark"
+        android:visibility="visible">
+
+        <!--app:theme="@style/MyToolBar"-->
+        <!--app:titleTextAppearance="@style/MaterialDrawer.titleTextStyle"-->
+        <!--app:popupTheme="@style/Theme.AppCompat.NoActionBar"-->
+
+        <ImageView
+            android:src="@drawable/tower2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_collapseMode="parallax"
+            android:visibility="gone"
+            android:id="@+id/tower"
+            android:scaleType="fitXY" />
+
+        <android.support.v7.widget.Toolbar
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/prefs_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_collapseMode="pin"
+
+            app:titleTextColor="@android:color/white"
+            app:titleTextAppearance="@style/MaterialDrawer.titleTextStyle"
+            android:visibility="visible">
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.CollapsingToolbarLayout>
+
+</android.support.design.widget.AppBarLayout>
+

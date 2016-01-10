@@ -2,12 +2,15 @@ package com.bdevlin.apps.pandt.Adapters;
 import android.app.Application;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.bdevlin.apps.pandt.Cursors.ObjectCursor;
 import com.bdevlin.apps.pandt.DrawerItem.DividerDrawerItem;
 import com.bdevlin.apps.pandt.DrawerItem.IDrawerItem;
 import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
+import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.pandt.folders.Folder;
 
 import java.util.ArrayList;
@@ -28,12 +31,19 @@ public abstract class NavigationBaseRecyclerAdapter<VH extends RecyclerView.View
     protected int mRowIDColumn;
     private List<IDrawerItem> mDrawerItems = new ArrayList<>();
     public  OnItemClickListener mOnItemClickListener ;
+    public OnClickListener mOnClickListener;
     private Application application;
+    private int previousSelection = -1;
+    private static View previousView;
     // </editor-fold>
 
     // <editor-fold desc="Interfaces">
     public interface OnItemClickListener {
         void onItemClick(View itemView, int position);
+    }
+
+    public interface OnClickListener {
+        void onClick(View v, int position, IDrawerItem item);
     }
 
     // </editor-fold>
@@ -62,6 +72,11 @@ public abstract class NavigationBaseRecyclerAdapter<VH extends RecyclerView.View
     {
         this.mOnItemClickListener  = listener;
     }
+
+    public void setOnClickListener(OnClickListener mOnClickListener) {
+        this.mOnClickListener = mOnClickListener;
+    }
+
     // Called by RecyclerView to display the data at the specified position.
     @Override
     public final void onBindViewHolder (VH holder, int position) {
@@ -76,6 +91,44 @@ public abstract class NavigationBaseRecyclerAdapter<VH extends RecyclerView.View
     }
 
     public abstract void onBindViewHolder(VH holder, ObjectCursor<NavigationDrawerItem> cursor, int position);
+
+    public void handleSelection(View v, int pos) {
+        if (mDataValid && mCursor != null) {
+            if (previousSelection > -1) {
+                Log.d(TAG, "prev: " + previousSelection);
+                IDrawerItem prev = getItem(previousSelection);
+                if (prev != null) {
+                    prev.setSelected(false);
+                }
+                notifyItemChanged(previousSelection);
+            } else {
+                for (int i = 0; i < getItemCount(); i++) {
+                    if (getItem(i).isSelected()) {
+                        getItem(i).setSelected(false);
+                        notifyItemChanged(i);
+                        break;
+                    }
+                }
+            }
+
+            //highlight the new item
+            if (pos > -1) {
+                IDrawerItem cur = getItem(pos);
+                if (cur != null) {
+                    cur.setSelected(true);
+                }
+                notifyItemChanged(pos);
+
+                if (v != null) {
+                   // Log.d(TAG, "new: " + ((TextView) v.findViewById(R.baseId.baseId)).getText());
+                    Log.d(TAG, "new: " + pos);
+                    v.setSelected(true);
+                    v.invalidate();
+                }
+            }
+            previousSelection = pos;
+        }
+    }
 
     @Override
     public int getItemCount () {

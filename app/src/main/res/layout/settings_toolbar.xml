@@ -9,18 +9,9 @@
     <include
         layout="@layout/app_bar" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        app:layout_anchor="@id/toolbar_container"
-        app:layout_anchorGravity="bottom|end"
-        app:fabSize="mini"
 
-        android:src="@android:drawable/ic_dialog_email" />
 
-    <!-- As the main name view, the view below consumes the entire
+    <!-- As the main baseName view, the view below consumes the entire
     space available using match_parent in both dimensions. -->
     <FrameLayout
         android:id="@+id/main_content"
@@ -30,6 +21,18 @@
         app:layout_behavior="com.bdevlin.apps.pandt.helper.FixedScrollingViewBehavior"
         />
 
+    <!--z-order is important here so the button is not obscured by other layouts-->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        app:layout_anchor="@id/toolbar_container"
+        app:layout_anchorGravity="bottom|end"
+        app:fabSize="mini"
+        android:src="@android:drawable/ic_dialog_email" />
+
+    <!--ViewPager has to be added after the main content and visibility set to gone-->
     <include
         layout="@layout/viewpager" />
 

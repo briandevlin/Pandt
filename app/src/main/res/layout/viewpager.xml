@@ -7,22 +7,20 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:orientation="vertical">
 
-    <!--<android.support.v4.widget.NestedScrollView-->
-    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_gravity="fill_vertical"-->
-    <!--android:fillViewport="true"-->
-    <!--app:layout_behavior="com.bdevlin.apps.pandt.helper.FixedScrollingViewBehavior"-->
-    <!-->-->
+    <com.viewpagerindicator.TabPageIndicator
+        android:id="@+id/indicatorTab"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:visibility="gone"
+        />
+
     <!-- the viewpager must come after the main container-->
     <android.support.v4.view.ViewPager
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/conversation_pane"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         app:layout_scrollFlags="scroll|exitUntilCollapsed"
         android:visibility="gone"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -31,7 +29,7 @@
         <!--android:layout_weight="1"-->
     </android.support.v4.view.ViewPager>
 
-    <!--</android.support.v4.widget.NestedScrollView>-->
+
 
     <com.viewpagerindicator.LinePageIndicator
         android:id="@+id/indicator"

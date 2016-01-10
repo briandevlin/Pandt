@@ -203,7 +203,6 @@ public abstract class UIControllerBase implements ActivityController {
         setNormalStatusBarColor(getThemedStatusBarColor());
 
 
-
         if (savedInstanceState != null) {
 
         } else if (intent != null) {
@@ -249,7 +248,7 @@ public abstract class UIControllerBase implements ActivityController {
     @Override
     public void onStart() {
         if (DEBUG) Log.d(TAG, "onStart");
-          startGooglePlayLoginProcess();
+        startGooglePlayLoginProcess();
     }
 
     @Override
@@ -266,13 +265,7 @@ public abstract class UIControllerBase implements ActivityController {
             mDrawerToggle.setDrawerIndicatorEnabled(isDrawerEnabled());
             mDrawerToggle.syncState();
         }
-        View mainContent = mActivity.findViewById(R.id.main_content);
-      /*  if (mainContent != null) {
-            ViewCompat.setAlpha(mainContent,0f);
-            ViewCompat.animate(mainContent).alpha(1f).setDuration(MAIN_CONTENT_FADEIN_DURATION).start();
-        } else {
-            Log.d(TAG, "No view with ID main_content to fade in.");
-        }*/
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -376,26 +369,17 @@ public abstract class UIControllerBase implements ActivityController {
         }
     }
 
-//    private void showGlobalContextActionBar() {
-//        //ActionBar actionBar = getSupportActionBar();
-//        if (mActionBar == null) {
-//            return;
-//        }
-//        mActionBar.setDisplayShowTitleEnabled(true);
-//        // actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-//        mActionBar.setTitle(mTitle);
-//    }
 
-private void initFab() {
-    FloatingActionButton fab = (FloatingActionButton) mActivity.findViewById(R.id.fab);
-    fab.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
-        }
-    });
-}
+    private void initFab() {
+        FloatingActionButton fab = (FloatingActionButton) mActivity.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+    }
 
     public ActionBar getSupportActionBar() {
         return ((AppCompatActivity) mActivity).getSupportActionBar();
@@ -464,7 +448,7 @@ private void initFab() {
         }
         boolean handled = true;
         switch (id) {
-//            case R.id.menu_about:
+//            case R.baseId.menu_about:
 //                HelpUtils.showAbout(this);
 //                return true;
 
@@ -498,11 +482,11 @@ private void initFab() {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        // If the nav drawer is open, hide action items related to the name view
+        // If the nav drawer is open, hide action items related to the baseName view
         if (mDrawerLayout != null) {
             boolean drawerOpen = isDrawerOpen();
         }
-        // menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
+        // menu.findItem(R.baseId.action_websearch).setVisible(!drawerOpen);
         return true;
     }
 
@@ -635,6 +619,10 @@ private void initFab() {
 
     // <editor-fold desc="Intents ">
     private void handleIntent(Intent intent) {
+        String action = intent.getAction();
+        String component = intent.getComponent().getClassName();
+        Log.d(TAG, "component: " + component);
+        Log.d(TAG, "action: " + action);
 
         if (Intent.ACTION_VIEW.equals(intent.getAction())) {
 
@@ -716,7 +704,7 @@ private void initFab() {
 
             if (data == null || data.getCount() <= 0 || !data.moveToFirst()) {
                 Log.e(TAG, String.format(
-                        "Received null cursor from loader id: %d",
+                        "Received null cursor from loader baseId: %d",
                         loader.getId()));
                 return;
             }
@@ -991,7 +979,7 @@ private void initFab() {
     }
 
     private void startGooglePlayLoginProcess() {
-         if (DEBUG) Log.d(TAG, "Starting login process.");
+        if (DEBUG) Log.d(TAG, "Starting login process.");
         //GoogleAccountUtils.setActiveAccount(mActivity, null); //test only
         String accountName = accountManager.getActiveOrDefaultAccount(mActivity);
 

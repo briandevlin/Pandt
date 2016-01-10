@@ -2,18 +2,19 @@ package com.bdevlin.apps.ui.activity.core;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.bdevlin.apps.pandt.Controllers.ActivityController;
+import com.bdevlin.apps.pandt.DrawerItem.IDrawerItem;
 import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
 import com.bdevlin.apps.utils.GenericListContext;
 import com.bdevlin.apps.pandt.folders.Folder;
@@ -30,6 +31,7 @@ public class UIControllerOnePane extends UIControllerBase {
     // <editor-fold desc="Fields">
     private static final String TAG = UIControllerOnePane.class.getSimpleName();
     private static final boolean DEBUG = true;
+    private static final int MAIN_CONTENT_FADEIN_DURATION = 250;
     private ViewPager mViewPager;
 
 
@@ -50,10 +52,18 @@ public class UIControllerOnePane extends UIControllerBase {
 
         View v = (FrameLayout) mActivity.findViewById(R.id.main_content);
 
-        final MainContentFragment itemListFragment = MainContentFragment.newInstance(GenericListContext.forFolder(null), 0);
+        FragmentManager mFragmentManager = mActivity.getSupportFragmentManager();
 
-        replaceFragment(itemListFragment, FragmentTransaction.TRANSIT_FRAGMENT_OPEN,
-                TAG_MAIN_LIST, R.id.main_content);
+        MainContentFragment itemListFragment = (MainContentFragment) mFragmentManager.findFragmentByTag(
+                TAG_MAIN_LIST);
+        if (itemListFragment == null) {
+             itemListFragment = MainContentFragment.newInstance(GenericListContext.forFolder(null), 0);
+
+            replaceFragment(itemListFragment, FragmentTransaction.TRANSIT_FRAGMENT_OPEN,
+                    TAG_MAIN_LIST, R.id.main_content);
+        }
+
+
 
 //        Toolbar toolbar = getActionBarToolbar();
 //        toolbar.setSubtitle("This is the main screen");
@@ -105,7 +115,13 @@ public class UIControllerOnePane extends UIControllerBase {
     @Override
     public void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-
+        View mainContent = mActivity.findViewById(R.id.main_content);
+        if (mainContent != null) {
+            ViewCompat.setAlpha(mainContent,0);
+            ViewCompat.animate(mainContent).alpha(1).setDuration(MAIN_CONTENT_FADEIN_DURATION).start();
+        } else {
+            Log.w(TAG, "No view with ID main_content to fade in.");
+        }
     }
 
     // </editor-fold>
@@ -138,7 +154,7 @@ public class UIControllerOnePane extends UIControllerBase {
         final FragmentManager fm = mActivity.getSupportFragmentManager();
         final FragmentTransaction ft = fm.beginTransaction();
         // remove main content fragment to reveal the viewpager
-        //final Fragment f = fm.findFragmentById(R.id.main_content);
+        //final Fragment f = fm.findFragmentById(R.baseId.main_content);
         final Fragment f = fm.findFragmentByTag(TAG_MAIN_LIST);
         if (f != null && f.isAdded()) {
             //ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
@@ -156,30 +172,38 @@ public class UIControllerOnePane extends UIControllerBase {
     // <editor-fold desc="Navigation">
     /* implements NavigationDrawerFragment.NavigationDrawerCallbacks*/
     @Override
-    public void onNavigationDrawerItemSelected(int position, NavigationDrawerItem itemView) {
+    public void onNavigationDrawerItemSelected(View itemView, int position, IDrawerItem item) {
         if (DEBUG) Log.d(TAG, "onNavigationDrawerItemSelected");
-       // if (true) return;
-        toggleDrawerState();
+        Folder folder = null;
+                // if (true) return;
+       // toggleDrawerState();
+        closeDrawerIfOpen();
 
-        if (itemView == null) return;
+        if (itemView != null) {
+            NavigationDrawerItem navItem = (NavigationDrawerItem) item;
 
-        Folder folder = new Folder(itemView.getId(), itemView.getName().getText());
-
+             folder = new Folder(navItem.getNavId(), navItem.getBaseName().getText());
+        } else {
+            folder = new Folder(1, "Folder one");
+        }
         GenericListContext viewContext = GenericListContext.forFolder(folder);
         showConversationList(viewContext);
 
         mFolder = folder;
     }
 
-    public void onNavigationDrawerArraySelected(int position, NavigationDrawerItem itemView) {
+    public void onNavigationDrawerArraySelected(View itemView, int position, IDrawerItem item) {
         if (DEBUG) Log.d(TAG, "onNavigationDrawerArraySelected");
        // if (true) return;
         // toggleDrawerState();
         closeDrawerIfOpen();
 
-        String id = itemView.getName().getText();
+        TextView baseName = (TextView) itemView.findViewById(R.id.baseName);
+
+        String id = baseName.getText().toString();//FIXME shouldn't need the tostring()
+
         switch (id) {
-//            case R.id.menu_about:
+//            case R.baseId.menu_about:
 //                HelpUtils.showAbout(this);
 //                return true;
 
@@ -189,10 +213,11 @@ public class UIControllerOnePane extends UIControllerBase {
                         PreferencesActivity.class);
                 mActivity.startActivityForResult(intentPrefs, 1);
                 break;
-            case "About":
-                // HelpUtils.showDialog(mActivity);
-                break;
+//            case "About":
+//                // HelpUtils.showDialog(mActivity);
+//                break;
             case "Help":
+                // access "About" from the help screen
                 Intent intentHelp = new Intent(mActivity,
                         HelpActivity.class);
                 mActivity.startActivity(intentHelp);

@@ -33,19 +33,19 @@ public class Folders {
 
     private static void addItem(Folder item) {
         ITEMS.add(item);
-       // ITEM_MAP.put(item.id, item);
+       // ITEM_MAP.put(item.baseId, item);
     }
 
     /**
-     * A dummy item representing a piece of name.
+     * A dummy item representing a piece of baseName.
      */
     public static class Folder implements Parcelable {
-//        public String id;
-//        public String name;
+//        public String baseId;
+//        public String baseName;
 //
-//        public Folder(String id, String name) {
-//            this.id = id;
-//            this.name = name;
+//        public Folder(String baseId, String baseName) {
+//            this.baseId = baseId;
+//            this.baseName = baseName;
 //        }
 //
         @Override
@@ -61,7 +61,7 @@ public class Folders {
 //
 //        @Override
 //        public String toString() {
-//            return name;
+//            return baseName;
 //        }
     }
 }

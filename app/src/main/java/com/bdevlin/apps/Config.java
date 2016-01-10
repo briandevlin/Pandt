@@ -14,7 +14,7 @@ public class Config {
 
     // GCM config
     public static final String GCM_SERVER_URL = "http://pmosnotifierserver.appspot.com";
-    public static final String GCM_SENDER_ID = "639282159683"; // project ID from the APIs console DO NOT CHECKIN
+    public static final String GCM_SENDER_ID = "639282159683"; // project ID from the APIs console DO NOT CHECK IN
     // OAuth 2.0 related config
     public static final String APP_NAME = "Pandt-Android";
     public static final String API_KEY = "";

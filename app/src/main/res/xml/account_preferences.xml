@@ -18,7 +18,16 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory />
+    <PreferenceCategory
+        android:title="inline_preferences">
+
+        <CheckBoxPreference
+            android:key="splash_preference"
+            android:title="title_toggle_preference"
+            android:summary="summary_toggle_preference" />
+
+
+    </PreferenceCategory>
 
     <PreferenceScreen
         android:key="account_settings"

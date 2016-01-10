@@ -3,29 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingTop="0dip"
-    android:paddingBottom="0dip"
-    android:paddingLeft="0dip"
-    android:paddingRight="0dip" >
-
-
+    >
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/my_recycler_view"
-        android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
-
-
-
-    <ListView android:id="@android:id/list"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
         android:layout_weight="1"
-android:layout_gravity="bottom"
-         />
+        android:scrollbars="vertical" />
+
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="261dp"
+        android:layout_gravity="bottom"
+        android:layout_weight="1" />
 
 
     <TextView
@@ -33,9 +27,6 @@ android:layout_gravity="bottom"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="This is empty view" />
-
-
-
 
 
 </LinearLayout>

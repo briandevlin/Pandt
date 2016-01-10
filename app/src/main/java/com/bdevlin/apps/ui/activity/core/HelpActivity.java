@@ -1,6 +1,7 @@
 package com.bdevlin.apps.ui.activity.core;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -76,7 +78,7 @@ public class HelpActivity  extends AppCompatActivity {
 
     protected Toolbar getActionBarToolbar() {
         if (mToolbar == null) {
-            mToolbar = (Toolbar) findViewById(R.id.toolbar);
+            mToolbar = (Toolbar) findViewById(R.id.prefs_toolbar);
             if (mToolbar != null) {
                 setSupportActionBar(mToolbar);
             }
@@ -86,11 +88,16 @@ public class HelpActivity  extends AppCompatActivity {
 
     private void initFragments() {
         mFragments = new ArrayList<>();
+        Resources res = getResources();
 
-        String[] helpTitles = getResources().getStringArray(R.array.help_screens);
+        String[] helpTitles = res.getStringArray(R.array.help_screens);
 
-        int[] helpKeys = getResources().getIntArray(R.array.help_keys);
+        int[] helpKeys = res.getIntArray(R.array.help_keys);
         int length = helpTitles.length;
+
+        String message = String.format(res.getString(R.string.welcome_messages), "Help", length);
+        CharSequence styledText = Html.fromHtml(message);
+
         if (helpKeys.length != length) {
             if (DEBUG) Log.e(TAG, "Mismatch between keys length " + helpKeys.length
                     + " and titles " + length);
@@ -103,10 +110,11 @@ public class HelpActivity  extends AppCompatActivity {
             Bundle args = new Bundle();
             int index = helpKeys[i];
             String idKey = "help" + index;
-            int contentId = getResources().getIdentifier(idKey, "string", getPackageName());
+            int contentId = res.getIdentifier(idKey, "string", getPackageName());
             CharSequence content = getText(contentId);
             args.putCharSequence(HelpListFragment.CONTENT, content);
             args.putString(HelpListFragment.TITLE, helpTitles[index]);
+            args.putCharSequence(HelpListFragment.MESSAGE, styledText);
 
             fragment.setArguments(args);
             mFragments.add(fragment);

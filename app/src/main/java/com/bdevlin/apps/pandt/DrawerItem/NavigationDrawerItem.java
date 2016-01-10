@@ -36,13 +36,10 @@ public class NavigationDrawerItem
     private NavigationDrawerFragment.NavigationDrawerCallbacks mCallbacks;
     private static IViewHolderClicked viewHolderClicked;
     private static NavigationBaseRecyclerAdapter.OnItemClickListener drawerItemClicked;
-   // public int id;
-//    public String name;
-//    public String uriString;
-    protected int[] mTo;
-    protected int[] mFrom;
+//    protected int[] mTo;
+//    protected int[] mFrom;
     private ControllableActivity mActivity;
-    private static int mSelectedPosition = 0;
+ //   private static int mSelectedPosition = 0;
     // </editor-fold>
 
     // <editor-fold desc="Interfaces">
@@ -64,14 +61,14 @@ public class NavigationDrawerItem
         }
 
         if (c != null) {
-            id = c.getInt(MockUiProvider.FOLDER_ID_COLUMN);
-            name = new StringHolder(c.getString(MockUiProvider.FOLDER_NAME_COLUMN));
-            uriString = c.getString(MockUiProvider.FOLDER_URI_COLUMN);
+            baseId = c.getInt(MockUiProvider.FOLDER_ID_COLUMN);
+            baseName = new StringHolder(c.getString(MockUiProvider.FOLDER_NAME_COLUMN));
+            baseUri = c.getString(MockUiProvider.FOLDER_URI_COLUMN);
         }
         setPostOnBindViewListener(new OnPostBindViewListener() {
 
             public void onBindView(IDrawerItem drawerItem, View view) {
-                if (DEBUG) Log.d(TAG, "Post bind View ");
+               // if (DEBUG) Log.d(TAG, "Post bind View ");
             }
         });
 
@@ -81,94 +78,94 @@ public class NavigationDrawerItem
             }
 
             public void onImageClicked(ImageView callerImage) {
-                if (DEBUG) Log.d(TAG, "To-m8-tohs");
+               // if (DEBUG) Log.d(TAG, "To-m8-tohs");
             }
         };
 
-        drawerItemClicked = new NavigationBaseRecyclerAdapter.OnItemClickListener() {
-
-            public void onItemClick(View itemView, int position) {
-                if (DEBUG) Log.d(TAG, "onItemClick: " + position);
-                //mSelectedPosition = position;
-                ViewParent parent = null;
-                //ViewParent getclass = null;
-                NavigationDrawerItem item = null;
-
-                // this use case is when the imageview is selected on the draweritem
-                if (itemView instanceof ImageView) {
-                    //parent =  itemView.getParent().getParent();
-                     parent = itemView.getParent();
-                    LinearLayout r;
-                    if (parent == null) {
-                        if (DEBUG) Log.d("TEST", "this.getParent() is null");
-                    }
-                    else {
-                        if (parent instanceof ViewGroup) {
-                            ViewParent grandparent = ((ViewGroup) parent).getParent();
-                            if (grandparent == null) {
-                                if (DEBUG) Log.d("TEST", "((ViewGroup) this.getParent()).getParent() is null");
-
-                            }
-                            else {
-                                if (grandparent instanceof RecyclerView || grandparent instanceof ListView) {
-                                    r = (LinearLayout) parent;
-                                    item = (NavigationDrawerItem )(r.getTag());
-                                    parent = grandparent;
-                                }
-                                else {
-                                    if (DEBUG) Log.d("TEST", "((ViewGroup) this.getParent()).getParent() is not a RelativeLayout");
-                                }
-                            }
-                        }
-                        else {
-                            if (DEBUG) Log.d("TEST", "this.getParent() is not a ViewGroup");
-                        }
-                    }
-                   /* NavigationDrawerItem  nav = null;
-                    try {
-                        //getclass = itemView.getParent();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    } finally {
-                    }*/
-
-                   // item = (NavigationDrawerItem )(nav.getTag());
-                    // item = ((NavigationDrawerItem )getclass).getTag();
-                } else {
-                    parent =  itemView.getParent();
-                    item = (NavigationDrawerItem )(itemView.getTag());
-                }
-                if (parent instanceof RecyclerView) {
-                    if (DEBUG)  Log.d(TAG, "from the recycler " );
-                    if (mSelectedPosition != position) {
-                        //((RecyclerView) parent).getAdapter().notifyItemChanged(mSelectedPosition);
-                        item.setSelected(true);
-                        itemView.setSelected(true);
-                       long id =  ((RecyclerView) parent).getAdapter().getItemId(mSelectedPosition);
-                       View view =  ((RecyclerView) parent).getLayoutManager().getChildAt(mSelectedPosition);
-
-                        View viewatpos = ((RecyclerView) parent).getLayoutManager().findViewByPosition(mSelectedPosition);
-
-
-                       if (viewatpos != null) view.setSelected(false);
-                        mSelectedPosition = position;
-                        //((RecyclerView) parent).getAdapter().notifyItemChanged(position);
-                    }
-                    if (mActivity != null) {
-                        mCallbacks = mActivity.getNavigationDrawerCallbacks();
-                        mCallbacks.onNavigationDrawerItemSelected(position, item);
-                    }
-                } else {
-                    if (DEBUG)  Log.d(TAG, "from the ArrayAdapter ");
-                    if (mActivity != null) {
-                        mCallbacks = mActivity.getNavigationDrawerCallbacks();
-                        mCallbacks.onNavigationDrawerArraySelected(position, item);
-                    }
-                }
-
-            }
-        };
-    }
+//        drawerItemClicked = new NavigationBaseRecyclerAdapter.OnItemClickListener() {
+//            public void onItemClick(View itemView, int position) {
+//
+//              //  if (DEBUG) Log.d(TAG, "onItemClick: " + position);
+//                //mSelectedPosition = position;
+//                ViewParent parent = null;
+//                //ViewParent getclass = null;
+//                NavigationDrawerItem item = null;
+//
+//                // this use case is when the imageview is selected on the draweritem
+//                if (itemView instanceof ImageView) {
+//                    //parent =  itemView.getParent().getParent();
+//                     parent = itemView.getParent();
+//                    LinearLayout r;
+//                    if (parent == null) {
+//                       // if (DEBUG) Log.d("TEST", "this.getParent() is null");
+//                    }
+//                    else {
+//                        if (parent instanceof ViewGroup) {
+//                            ViewParent grandparent = ((ViewGroup) parent).getParent();
+//                            if (grandparent == null) {
+//                              //  if (DEBUG) Log.d("TEST", "((ViewGroup) this.getParent()).getParent() is null");
+//
+//                            }
+//                            else {
+//                                if (grandparent instanceof RecyclerView || grandparent instanceof ListView) {
+//                                    r = (LinearLayout) parent;
+//                                    item = (NavigationDrawerItem )(r.getTag());
+//                                    parent = grandparent;
+//                                }
+//                                else {
+//                                  //  if (DEBUG) Log.d("TEST", "((ViewGroup) this.getParent()).getParent() is not a RelativeLayout");
+//                                }
+//                            }
+//                        }
+//                        else {
+//                          //  if (DEBUG) Log.d("TEST", "this.getParent() is not a ViewGroup");
+//                        }
+//                    }
+//                   /* NavigationDrawerItem  nav = null;
+//                    try {
+//                        //getclass = itemView.getParent();
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    } finally {
+//                    }*/
+//
+//                   // item = (NavigationDrawerItem )(nav.getTag());
+//                    // item = ((NavigationDrawerItem )getclass).getTag();
+//                } else {
+//                    parent =  itemView.getParent();
+//                    item = (NavigationDrawerItem )(itemView.getTag());
+//                }
+//                if (parent instanceof RecyclerView) {
+//                  //  if (DEBUG)  Log.d(TAG, "from the recycler " );
+//                    if (mSelectedPosition != position) {
+//                        //((RecyclerView) parent).getAdapter().notifyItemChanged(mSelectedPosition);
+//                        item.setSelected(true);
+//                        itemView.setSelected(true);
+//                       long id =  ((RecyclerView) parent).getAdapter().getItemId(mSelectedPosition);
+//                       View view =  ((RecyclerView) parent).getLayoutManager().getChildAt(mSelectedPosition);
+//
+//                        View viewatpos = ((RecyclerView) parent).getLayoutManager().findViewByPosition(mSelectedPosition);
+//
+//
+//                       if (viewatpos != null) view.setSelected(false);
+//                        mSelectedPosition = position;
+//                        //((RecyclerView) parent).getAdapter().notifyItemChanged(position);
+//                    }
+//                    if (mActivity != null) {
+//                        mCallbacks = mActivity.getNavigationDrawerCallbacks();
+//                       // mCallbacks.onNavigationDrawerItemSelected(position, item);
+//                    }
+//                } else {
+//                  //  if (DEBUG)  Log.d(TAG, "from the ArrayAdapter ");
+//                    if (mActivity != null) {
+//                        mCallbacks = mActivity.getNavigationDrawerCallbacks();
+//                       // mCallbacks.onNavigationDrawerArraySelected(position, item);
+//                    }
+//                }
+//
+//            }
+//        };
+   }
 
 
     // </editor-fold>
@@ -191,24 +188,11 @@ public class NavigationDrawerItem
 
         //get our viewHolder
         ListItemViewHolder viewHolder = (ListItemViewHolder) holder;
-
+        // bind the base items
         bindViewHelper((BaseViewHolder) holder);
 
-       // NavDrawerItemView  itemView = (NavDrawerItemView)viewHolder.itemView;
+        // bind any navigation specifics items here
 
-
-       // TypedArray a = ctx.obtainStyledAttributes(attrs, R.styleable.navdraweritemview);
-
-//        if (uriString != null) {
-//            int resId = ctx.getResources().getIdentifier(uriString, "drawable", ctx.getPackageName());
-//            this.setImageHolder(resId);
-//            Drawable imageView =  itemView.setContent(resId);
-//        }
-       // bindViewHelper((BaseViewHolder) holder);
-
-      //  viewHolder.id.setText(String.valueOf(id));
-      //  viewHolder.name.setText(name);
-      // viewHolder.itemView.
         if (DEBUG) Log.d(TAG, "calling onPostBindView");
         onPostBindView(this, viewHolder.itemView);
     }
@@ -233,7 +217,7 @@ public class NavigationDrawerItem
 
     // Used to cache the views within the item layout for fast access
     public  class ListItemViewHolder extends BaseViewHolder
-            implements View.OnClickListener, ItemTouchHelperViewHolder {
+            implements /*View.OnClickListener,*/ ItemTouchHelperViewHolder {
 
         public IViewHolderClicked mViewHolderListener;
         NavigationBaseRecyclerAdapter.OnItemClickListener drawerItemListener;
@@ -241,76 +225,76 @@ public class NavigationDrawerItem
         public ListItemViewHolder(View itemLayoutView, IViewHolderClicked listener, NavigationBaseRecyclerAdapter.OnItemClickListener itemClicked) {
             super(itemLayoutView);
 
-            this.mViewHolderListener = listener;
-            this.drawerItemListener = itemClicked;
-            // Attach a click listener to the entire row view
-            itemLayoutView.setOnClickListener(this);
-
-            this.imageView.setOnClickListener(this);
+//            this.mViewHolderListener = listener;
+//            this.drawerItemListener = itemClicked;
+//            // Attach a click listener to the entire row view
+//            itemLayoutView.setOnClickListener(this);
+//            // Attach a click listener to the imageView
+//            this.imageView.setOnClickListener(this);
 
         }
 
-        @Override
-        public void onClick(View itemView) {
-
-            int position = getLayoutPosition(); // gets item position
-            int pos = getAdapterPosition();
-            ViewParent parent = null;
-            //ViewParent getclass = null;
-            NavigationDrawerItem item =null;
-
-            // this use case is when the imageview is selected on the draweritem
-            if (itemView instanceof ImageView) {
-                parent = itemView.getParent();
-                LinearLayout r;
-                if (parent == null) {
-                    if (DEBUG) Log.d("TEST", "this.getParent() is null");
-                }
-                else {
-                    if (parent instanceof ViewGroup) {
-                        ViewParent grandparent = ((ViewGroup) parent).getParent();
-                        if (grandparent == null) {
-                            if (DEBUG) Log.d("TEST", "((ViewGroup) this.getParent()).getParent() is null");
-                        }
-                        else {
-                            if (grandparent instanceof RecyclerView || grandparent instanceof ListView) {
-                                r = (LinearLayout) parent;
-                                item = (NavigationDrawerItem )(r.getTag());
-                                parent = grandparent;
-                            }
-                            else {
-                                if (DEBUG) Log.d("TEST", "((ViewGroup) this.getParent()).getParent() is not a RelativeLayout");
-                            }
-                        }
-                    }
-                    else {
-                        if (DEBUG) Log.d("TEST", "this.getParent() is not a ViewGroup");
-                    }
-                }
-
-            } else {
-                parent =  itemView.getParent();
-                item = (NavigationDrawerItem )(itemView.getTag());
-            }
-
-            if (pos == -1){
-                pos = (item.id - 1);
-            }
-
-            if (itemView instanceof ImageView) {
-                mViewHolderListener.onImageClicked((ImageView) itemView);
-            } else {
-                mViewHolderListener.onTextClicked(itemView);
-            }
-
-            if (drawerItemListener == null) {
-                throw new NullPointerException("mOnItemClickListener is null in ");
-            }
-            drawerItemListener.onItemClick(itemView, pos);
-
-            Toast.makeText(itemView.getContext(), "Id: " + pos, Toast.LENGTH_LONG).show();
-        }
-
+//        @Override
+//        public void onClick(View itemView) {
+//
+//            int position = getLayoutPosition(); // gets item position
+//            int pos = getAdapterPosition();
+//            ViewParent parent = null;
+//            //ViewParent getclass = null;
+//            NavigationDrawerItem item =null;
+//
+//            // this use case is when the imageview is selected on the draweritem
+//            if (itemView instanceof ImageView) {
+//                parent = itemView.getParent();
+//                LinearLayout r;
+//                if (parent == null) {
+//                   // if (DEBUG) Log.d("TEST", "this.getParent() is null");
+//                }
+//                else {
+//                    if (parent instanceof ViewGroup) {
+//                        ViewParent grandparent = ((ViewGroup) parent).getParent();
+//                        if (grandparent == null) {
+//                           // if (DEBUG) Log.d("TEST", "((ViewGroup) this.getParent()).getParent() is null");
+//                        }
+//                        else {
+//                            if (grandparent instanceof RecyclerView || grandparent instanceof ListView) {
+//                                r = (LinearLayout) parent;
+//                                item = (NavigationDrawerItem )(r.getTag());
+//                                parent = grandparent;
+//                            }
+//                            else {
+//                              //  if (DEBUG) Log.d("TEST", "((ViewGroup) this.getParent()).getParent() is not a RelativeLayout");
+//                            }
+//                        }
+//                    }
+//                    else {
+//                       // if (DEBUG) Log.d("TEST", "this.getParent() is not a ViewGroup");
+//                    }
+//                }
+//
+//            } else {
+//                parent =  itemView.getParent();
+//                item = (NavigationDrawerItem )(itemView.getTag());
+//            }
+//
+//            if (pos == -1){
+//                pos = (item.baseId - 1);
+//            }
+//
+//            if (itemView instanceof ImageView) {
+//                mViewHolderListener.onImageClicked((ImageView) itemView);
+//            } else {
+//                mViewHolderListener.onTextClicked(itemView);
+//            }
+//
+//            if (drawerItemListener == null) {
+//                throw new NullPointerException("mOnItemClickListener is null in ");
+//            }
+//            drawerItemListener.onItemClick(itemView, pos);
+//
+//            Toast.makeText(itemView.getContext(), "Id: " + pos, Toast.LENGTH_LONG).show();
+//        }
+//
         @Override
         public void onItemSelected() {
             itemView.setBackgroundColor(Color.LTGRAY);
@@ -321,7 +305,7 @@ public class NavigationDrawerItem
             itemView.setBackgroundColor(0);
         }
 
-    }
+   }
 
     // </editor-fold>
 

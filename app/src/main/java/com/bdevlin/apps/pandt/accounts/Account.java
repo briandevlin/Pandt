@@ -32,7 +32,7 @@ public class Account  implements Parcelable {
 
 
     public static Account newinstance(String serializedAccount) {
-        // The heavy lifting is done by Account(name, type, serializedAccount). This method
+        // The heavy lifting is done by Account(baseName, type, serializedAccount). This method
         // is a wrapper to check for errors and exceptions and return back a null in cases
         // something breaks.
         JSONObject json;

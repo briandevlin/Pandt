@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/navdrawer"
     android:layout_gravity="start"
-    android:background="@color/navdrawer_background"
+    android:background="@color/material_drawer_background"
 android:padding="0dp"
 
     >

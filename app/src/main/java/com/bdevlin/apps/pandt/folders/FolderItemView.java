@@ -36,7 +36,7 @@ public class FolderItemView  extends LinearLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        mFolderTextView = (TextView)findViewById(R.id.name);
+        mFolderTextView = (TextView)findViewById(R.id.baseName);
         mUnreadCountTextView = (TextView)findViewById(R.id.id);
         mFolderParentIcon = (ImageView) findViewById(R.id.imageview2);
     }

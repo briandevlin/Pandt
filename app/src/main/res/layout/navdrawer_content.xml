@@ -14,7 +14,7 @@
         <ImageView android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:tint="@color/session_photo_scrim"
+            android:tint="@color/profile_photo_scrim"
             android:visibility="visible"
             android:id="@+id/profile_cover_image" />
 
@@ -58,7 +58,7 @@
                 android:layout_alignParentBottom="true"
                 android:paddingBottom="16dp"
                 android:textSize="@dimen/text_size_medium"
-                android:textColor="@color/body_text_1_inverse"
+                android:textColor="@color/material_drawer_dark_primary_text"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:ellipsize="end" />
@@ -72,7 +72,7 @@
                 android:layout_toLeftOf="@id/expand_account_box_indicator"
                 android:textSize="@dimen/text_size_large"
                 android:textStyle="bold"
-                android:textColor="@color/body_text_1_inverse"
+                android:textColor="@color/material_drawer_dark_primary_text"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:ellipsize="end" />

@@ -60,14 +60,14 @@ public class MockDatabaseHelper extends SQLiteOpenHelper {
     static void createAccountTable(SQLiteDatabase db) {
         String s = " (" + Accounts._ID + " integer primary key autoincrement, "
                 + Accounts.ACCOUNT_NAME + " text, "
-                + Accounts.URI + " text, "
+                + Accounts.FOLDER_URI + " text, "
                 + Accounts.FOLDER_LIST_URI + " text, "
                 + Accounts.TYPE + " text "
                 + ");";
 
         db.execSQL("create table " + Tables.ACCOUNTS + s);
 
-        db.execSQL("INSERT INTO accounts VALUES(1,'account one', null, null, null)");
+        db.execSQL("INSERT INTO accounts VALUES(1,'account one', 'ic_speaker_notes_black_24dp', null, null)");
         db.execSQL("INSERT INTO accounts VALUES(2,'account two', null, null, null)");
         db.execSQL("INSERT INTO accounts VALUES(3,'account three', null, null, null)");
         db.execSQL("INSERT INTO accounts VALUES(4,'account one', null, null, null)");
@@ -93,9 +93,9 @@ public class MockDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO folders VALUES(1,'folder one', 'ic_speaker_notes_black_24dp' )");
         db.execSQL("INSERT INTO folders VALUES(2,'folder two', 'ic_store_black_24dp' )");
         db.execSQL("INSERT INTO folders VALUES(3,'folder three', 'ic_work_black_24dp' )");
-        db.execSQL("INSERT INTO folders VALUES(4,'folder one', 'ic_speaker_notes_black_24dp' )");
-        db.execSQL("INSERT INTO folders VALUES(5,'folder two', 'ic_store_black_24dp' )");
-        db.execSQL("INSERT INTO folders VALUES(6,'folder three', 'ic_work_black_24dp' )");
+        db.execSQL("INSERT INTO folders VALUES(4,'folder four', 'ic_speaker_notes_black_24dp' )");
+        db.execSQL("INSERT INTO folders VALUES(5,'folder five', 'ic_store_black_24dp' )");
+        db.execSQL("INSERT INTO folders VALUES(6,'folder six', 'ic_work_black_24dp' )");
 
 
     }

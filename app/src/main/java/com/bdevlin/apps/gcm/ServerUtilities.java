@@ -58,7 +58,7 @@ import java.util.Map.Entry;
 //        params.put("regId", gcmId);
 //        // params.put("gplus_id", plusProfileId);
 //        long backoff = BACKOFF_MILLI_SECONDS + sRandom.nextInt(1000);
-//        // Once GCM returns a registration id, we need to register it in the
+//        // Once GCM returns a registration baseId, we need to register it in the
 //        // demo server. As the server might be down, we will retry it a couple
 //        // times.
 //        for (int i = 1; i <= MAX_ATTEMPTS; i++) {

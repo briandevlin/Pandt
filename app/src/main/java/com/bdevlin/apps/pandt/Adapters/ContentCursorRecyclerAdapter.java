@@ -69,14 +69,14 @@ public class ContentCursorRecyclerAdapter extends ContentBaseRecyclerViewAdapter
     // <editor-fold desc="Recycler methods">
     @Override
     public MainContentDrawerItem.ContentItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (DEBUG) Log.d(TAG, "onCreateViewHolder");
+       // if (DEBUG) Log.d(TAG, "onCreateViewHolder");
         MainContentDrawerItem item = new    MainContentDrawerItem(mActivity,null);
         return (MainContentDrawerItem.ContentItemViewHolder)item.getViewHolder(parent);
     }
 
     @Override
     public void onBindViewHolder(final MainContentDrawerItem.ContentItemViewHolder holder, ObjectCursor<MainContentDrawerItem> cursor, final int position) {
-        if (DEBUG) Log.d(TAG,"onBindViewHolder");
+       // if (DEBUG) Log.d(TAG,"onBindViewHolder");
         // gets the IDrawerItem at this position then bind the viewholder to it
         getItem(position).bindView(holder);
 

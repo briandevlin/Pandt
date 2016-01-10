@@ -15,6 +15,7 @@ import com.bdevlin.apps.pandt.Interfaces.OnPostBindViewListener;
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.provider.MockUiProvider;
 import com.bdevlin.apps.ui.fragments.MainContentFragment;
+import com.bdevlin.apps.ui.widgets.StringHolder;
 
 /**
  * Created by brian on 10/12/2015.
@@ -28,9 +29,9 @@ public class MainContentDrawerItem
     private MainContentFragment.MainContentCallbacks mCallbacks;
     private static ContentBaseRecyclerViewAdapter.OnItemClickListener itemClicked;
     private static MainContentDrawerItem.IViewHolderClicked viewHolderClicked;
-    public int id;
-    public String name;
-    public String uriString;
+//    public int baseId;
+//    public String baseName;
+//    public String baseUri;
     protected int[] mTo;
     protected int[] mFrom;
     private ControllableActivity mActivity;
@@ -52,14 +53,14 @@ public class MainContentDrawerItem
         }
 
         if (c != null) {
-            id = c.getInt(MockUiProvider.FOLDER_ID_COLUMN);
-            name = c.getString(MockUiProvider.FOLDER_NAME_COLUMN);
-            uriString = c.getString(MockUiProvider.FOLDER_URI_COLUMN);
+            baseId = c.getInt(MockUiProvider.FOLDER_ID_COLUMN);
+            baseName = new StringHolder(c.getString(MockUiProvider.FOLDER_NAME_COLUMN));
+            baseUri = c.getString(MockUiProvider.FOLDER_URI_COLUMN);
         }
         setPostOnBindViewListener(new OnPostBindViewListener() {
 
             public void onBindView(IDrawerItem drawerItem, View view) {
-               if (DEBUG) Log.d(TAG, "Post bind View ");
+              // if (DEBUG) Log.d(TAG, "Post bind View ");
             }
         });
 
@@ -71,14 +72,14 @@ public class MainContentDrawerItem
 
             public void onImageClicked(ImageView callerImage) {
                 // do something as the image was clicked
-                if (DEBUG) Log.d(TAG, "Eventhoughthesoundofitissomethingquiteatrocious ");
+               // if (DEBUG) Log.d(TAG, "Eventhoughthesoundofitissomethingquiteatrocious ");
             }
         };
 
         itemClicked = new ContentBaseRecyclerViewAdapter.OnItemClickListener() {
 
             public void onItemClick(View itemView, int position) {
-                if (DEBUG) Log.d(TAG, "OnItemClickListener: " + position);
+              //  if (DEBUG) Log.d(TAG, "OnItemClickListener: " + position);
                 if (mActivity != null) {
 
                     mCallbacks = mActivity.getMainContentCallbacks();
@@ -100,7 +101,7 @@ public class MainContentDrawerItem
 
     @Override
     public int getLayoutRes() {
-        return R.layout.textview;
+        return R.layout.maincontentitemview;
     }
 
     @Override
@@ -110,14 +111,14 @@ public class MainContentDrawerItem
         ContentItemViewHolder viewHolder = (ContentItemViewHolder) holder;
        // Context context = this.mActivity.getActivityContext();
 
-        if (uriString != null) {
-            int resId = ctx.getResources().getIdentifier(uriString, "drawable", ctx.getPackageName());
-            this.setImageHolder(resId);
-        }
+//        if (baseUri != null) {
+//            int resId = ctx.getResources().getIdentifier(baseUri, "drawable", ctx.getPackageName());
+//            this.setImageHolder(resId);
+//        }
         bindViewHelper((BaseViewHolder) holder);
-        viewHolder.id.setText(String.valueOf(id));
-        viewHolder.name.setText(name);
-        viewHolder.name2.setText("some text");
+//        viewHolder.baseId.setText(String.valueOf(baseId));
+//        viewHolder.baseName.setText(baseName);
+       // viewHolder.name2.setText("some text");
 
         onPostBindView(this, viewHolder.itemView);
     }
@@ -147,7 +148,7 @@ public class MainContentDrawerItem
 
         public ContentItemViewHolder(View itemLayoutView, IViewHolderClicked listener, ContentBaseRecyclerViewAdapter.OnItemClickListener itemClicked) {
             super(itemLayoutView);
-            this.name2 = (TextView) view.findViewById(R.id.name2);
+           // this.name2 = (TextView) view.findViewById(R.baseId.name2);
             this.mListener = listener;
             this.otherListener = itemClicked;
             // Attach a click listener to the entire row view
@@ -157,7 +158,7 @@ public class MainContentDrawerItem
 
         @Override
         public void onClick(View v) {
-            if (DEBUG) Log.d(TAG, "onItemView: " + v.toString());
+           // if (DEBUG) Log.d(TAG, "onItemView: " + v.toString());
             int position = getLayoutPosition(); // gets item position
             int pos = getAdapterPosition();
 
