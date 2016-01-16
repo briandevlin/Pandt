@@ -5,19 +5,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar_container"
     android:layout_margin="0dp"
-    android:layout_height="?actionBarSize"
+    android:layout_height="?attr/actionBarSize"
     android:layout_width="match_parent"
+
     >
 
-    <android.support.design.widget.CollapsingToolbarLayout
-        android:id="@+id/toolbar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_scrollFlags="scroll|exitUntilCollapsed"
+    <!--<android.support.design.widget.CollapsingToolbarLayout-->
+        <!--android:id="@+id/toolbar_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--app:layout_scrollFlags="scroll|exitUntilCollapsed"-->
 
-        app:contentScrim="@color/colorPrimaryDark"
-        android:visibility="visible">
 
+        <!--android:visibility="visible">-->
+
+        <!--app:contentScrim="@color/colorPrimaryDark"-->
         <!--app:theme="@style/MyToolBar"-->
         <!--app:titleTextAppearance="@style/MaterialDrawer.titleTextStyle"-->
         <!--app:popupTheme="@style/Theme.AppCompat.NoActionBar"-->
@@ -37,14 +39,22 @@
             android:id="@+id/prefs_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:layout_collapseMode="pin"
+            android:minHeight="?attr/actionBarSize"
+            android:elevation="4dp"
 
-            app:titleTextColor="@android:color/white"
-            app:titleTextAppearance="@style/MaterialDrawer.titleTextStyle"
             android:visibility="visible">
+
+            <!--android:theme="?attr/actionBarTheme"-->
+            <!--app:theme="?attr/actionBarTheme"-->
+            <!--app:titleTextAppearance="@style/TextAppearance.AppCompat.Body2"-->
+            <!--android:textColor="@android:color/black"-->
+            <!--android:background="?attr/colorPrimaryDark"-->
+            <!--app:layout_collapseMode="pin"-->
+            <!--app:titleTextColor="@android:color/white"-->
+            <!--app:titleTextAppearance="@style/MaterialDrawer.titleTextStyle"-->
         </android.support.v7.widget.Toolbar>
 
-    </android.support.design.widget.CollapsingToolbarLayout>
+    <!--</android.support.design.widget.CollapsingToolbarLayout>-->
 
 </android.support.design.widget.AppBarLayout>
 

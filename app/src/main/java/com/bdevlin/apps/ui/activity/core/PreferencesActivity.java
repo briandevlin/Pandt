@@ -33,7 +33,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.support.annotation.XmlRes;
 
+import com.bdevlin.apps.pandt.Controllers.ActionBarController;
+import com.bdevlin.apps.pandt.Controllers.ActivityController;
 import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
 import com.bdevlin.apps.pandt.R;
 
@@ -61,11 +64,16 @@ public class PreferencesActivity extends PreferenceActivity implements
         }
     };
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        // this must be set before  super.onCreate(savedInstanceState) android.R.style.Theme_DeviceDefault_Light_NoActionBar
+      //  setTheme(android.R.style.Theme_DeviceDefault);
+
         super.onCreate(savedInstanceState);
+
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        PreferenceScreen root = getPreferenceManager().createPreferenceScreen(this);
+        //PreferenceScreen root = getPreferenceManager().createPreferenceScreen(this);
        // setContentView(R.layout.settings);
 
         // Load the XML preferences file
@@ -164,11 +172,8 @@ public class PreferencesActivity extends PreferenceActivity implements
             root.addView(coordinator);
         }
 
-        mToolbar.setTitle("Preferences");
-        ;
-
-       // bar.getRootView().setBackgroundColor(234567);
-
+        mToolbar.setClickable(true);
+        mToolbar.setTitle("Settings");
         mToolbar.setNavigationIcon(R.drawable.ic_ab_up_ltr);
 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -217,4 +222,5 @@ public class PreferencesActivity extends PreferenceActivity implements
         Toast.makeText(this, "onSharedPreferenceChanged", Toast.LENGTH_SHORT)
                 .show();
     }
+
 }

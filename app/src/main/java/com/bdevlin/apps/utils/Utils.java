@@ -243,4 +243,12 @@ public class Utils {
         return apply(content, new ForegroundColorSpan(color));
     }
 
+    private static int getResIdFromAttribute(final Activity activity,final int attr)
+    {
+        if(attr==0)
+            return 0;
+        final TypedValue typedValue=new TypedValue();
+        activity.getTheme().resolveAttribute(attr,typedValue,true);
+        return typedValue.resourceId;
+    }
 }
