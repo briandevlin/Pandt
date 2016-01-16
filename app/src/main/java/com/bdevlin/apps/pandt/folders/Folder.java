@@ -1,8 +1,13 @@
 package com.bdevlin.apps.pandt.folders;
 
+import android.annotation.TargetApi;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Parcel;
+//import android.os.Parcelable;
 import android.os.Parcelable;
+import android.support.v4.os.ParcelableCompat;
+import android.support.v4.os.ParcelableCompatCreatorCallbacks;
 
 import com.bdevlin.apps.pandt.Cursors.CursorCreator;
 import com.bdevlin.apps.provider.MockUiProvider;
@@ -38,23 +43,18 @@ public class Folder   implements Parcelable, Comparable<Folder> {
         }
     };
 
-    public static final ClassLoaderCreator<Folder> CREATOR = new ClassLoaderCreator<Folder>() {
-        @Override
-        public Folder createFromParcel(Parcel source) {
-            return new Folder(source, null);
-        }
 
+    public static final Parcelable.Creator<Folder> CREATOR
+            = ParcelableCompat.newCreator(new ParcelableCompatCreatorCallbacks<Folder>() {
         @Override
-        public Folder createFromParcel(Parcel source, ClassLoader loader) {
-            return new Folder(source, loader);
+        public Folder createFromParcel(Parcel in, ClassLoader loader) {
+            return new Folder(in, loader);
         }
-
         @Override
         public Folder[] newArray(int size) {
             return new Folder[size];
         }
-    };
-
+    });
 
     private Folder() {
         name = FOLDER_UNINITIALIZED;

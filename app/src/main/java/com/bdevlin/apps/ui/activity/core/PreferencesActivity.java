@@ -64,7 +64,7 @@ public class PreferencesActivity extends PreferenceActivity implements
         }
     };
 
-
+    @SuppressWarnings("deprecation")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // this must be set before  super.onCreate(savedInstanceState) android.R.style.Theme_DeviceDefault_Light_NoActionBar
@@ -109,6 +109,7 @@ public class PreferencesActivity extends PreferenceActivity implements
                     return new AppCompatRadioButton(this, attrs);
                 case "CheckedTextView":
                     return new AppCompatCheckedTextView(this, attrs);
+
             }
         }
 
@@ -155,8 +156,11 @@ public class PreferencesActivity extends PreferenceActivity implements
             root.removeAllViews();
 
            // barcontainer = (android.support.design.widget.AppBarLayout) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
-            coordinator = (android.support.design.widget.CoordinatorLayout) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
-            mToolbar =  (Toolbar) coordinator.findViewById(R.id.toolbar);
+           // coordinator = (android.support.design.widget.CoordinatorLayout) LayoutInflater.from(this).inflate(R.layout.prefs_bar, root, false);
+           // mToolbar =  (Toolbar) coordinator.findViewById(R.id.toolbar);
+            android.support.design.widget.AppBarLayout appBarLayout = (android.support.design.widget.AppBarLayout)LayoutInflater.from(this).inflate(R.layout.prefs_bar, root, false);
+
+            mToolbar = (Toolbar) appBarLayout.findViewById(R.id.prefs_toolbar);
 
             int height;
             TypedValue tv = new TypedValue();
@@ -168,11 +172,12 @@ public class PreferencesActivity extends PreferenceActivity implements
 
             content.setPadding(0, height, 0, 0);
 
+
+            root.addView(appBarLayout,0);
             root.addView(content);
-            root.addView(coordinator);
         }
 
-        mToolbar.setClickable(true);
+       // mToolbar.setClickable(true);
         mToolbar.setTitle("Settings");
         mToolbar.setNavigationIcon(R.drawable.ic_ab_up_ltr);
 

@@ -248,7 +248,7 @@ public abstract class UIControllerBase implements ActivityController {
     @Override
     public void onStart() {
         if (DEBUG) Log.d(TAG, "onStart");
-        startGooglePlayLoginProcess();
+       // startGooglePlayLoginProcess();
     }
 
     @Override
@@ -287,7 +287,7 @@ public abstract class UIControllerBase implements ActivityController {
         // the changes will always be updated in the action bar/options menu/
         mActivity.supportInvalidateOptionsMenu();
         // Verifies the proper version of Google Play Services exists on the device.
-        PlayServicesUtils.checkGooglePlaySevices(mActivity);
+       // PlayServicesUtils.checkGooglePlaySevices(mActivity);
     }
 
     @Override
