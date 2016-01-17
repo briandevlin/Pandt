@@ -13,6 +13,6 @@
     <!--<item name="android:colorPrimary">#2196F3</item>-->
 </style>
 
-<style name="Theme.IOSched" parent="Theme.IOSched.Base" />
+<style name="Theme.PandT" parent="Theme.IOSched.Base" />
 
 </resources>

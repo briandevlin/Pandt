@@ -35,6 +35,7 @@ public class HomeActivity extends AppCompatActivity implements ControllableActiv
 
     // <editor-fold desc="Fields">
     private static final String TAG = HomeActivity.class.getSimpleName();
+    private static final boolean DEBUG = true;
     /**
      * The activity controller to which we delegate most Activity lifecycle events.
      */

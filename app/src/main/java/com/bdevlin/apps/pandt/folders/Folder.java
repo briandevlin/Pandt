@@ -16,6 +16,7 @@ import com.bdevlin.apps.provider.MockUiProvider;
  * Created by brian on 8/26/2014.
  */
 public class Folder   implements Parcelable, Comparable<Folder> {
+    private static final boolean DEBUG = true;
     private static final String FOLDER_UNINITIALIZED = "Uninitialized!";
     public int id;
     public String name;

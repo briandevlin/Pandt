@@ -70,15 +70,15 @@ public class MockDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO accounts VALUES(1,'account one', 'ic_speaker_notes_black_24dp', null, null)");
         db.execSQL("INSERT INTO accounts VALUES(2,'account two', null, null, null)");
         db.execSQL("INSERT INTO accounts VALUES(3,'account three', null, null, null)");
-        db.execSQL("INSERT INTO accounts VALUES(4,'account one', null, null, null)");
-        db.execSQL("INSERT INTO accounts VALUES(5,'account two', null, null, null)");
-        db.execSQL("INSERT INTO accounts VALUES(6,'account three', null, null, null)");
-        db.execSQL("INSERT INTO accounts VALUES(7,'account one', null, null, null)");
-        db.execSQL("INSERT INTO accounts VALUES(8,'account two', null, null, null)");
-        db.execSQL("INSERT INTO accounts VALUES(9,'account three', null, null, null)");
-        db.execSQL("INSERT INTO accounts VALUES(10,'account one', null, null, null)");
-        db.execSQL("INSERT INTO accounts VALUES(11,'account two', null, null, null)");
-        db.execSQL("INSERT INTO accounts VALUES(12,'account three', null, null, null)");
+        db.execSQL("INSERT INTO accounts VALUES(4,'account four', null, null, null)");
+        db.execSQL("INSERT INTO accounts VALUES(5,'account five', null, null, null)");
+        db.execSQL("INSERT INTO accounts VALUES(6,'account six', null, null, null)");
+        db.execSQL("INSERT INTO accounts VALUES(7,'account seven', null, null, null)");
+        db.execSQL("INSERT INTO accounts VALUES(8,'account eight', null, null, null)");
+        db.execSQL("INSERT INTO accounts VALUES(9,'account nine', null, null, null)");
+        db.execSQL("INSERT INTO accounts VALUES(10,'account ten', null, null, null)");
+        db.execSQL("INSERT INTO accounts VALUES(11,'account eleven', null, null, null)");
+        db.execSQL("INSERT INTO accounts VALUES(12,'account twelve', null, null, null)");
     }
 
 

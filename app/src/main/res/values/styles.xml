@@ -14,7 +14,7 @@
 
         <!--<item baseName="toolbarStyle">@style/MyToolBar</item>-->
         <!-- MaterialDrawer specific values -->
-        <item name="material_drawer_background">@color/material_drawer_dark_background</item>
+        <item name="material_drawer_background">@drawable/hamish</item>
         <item name="material_drawer_primary_text">@color/material_drawer_dark_primary_text</item>
         <item name="material_drawer_primary_icon">@color/material_drawer_dark_primary_icon</item>
         <item name="material_drawer_secondary_text">@color/material_drawer_dark_secondary_text
@@ -39,7 +39,7 @@
         <!--<item baseName="actionBarOverlayTopOffset">?android:actionBarSize</item>-->
     </style>
 
-    <style name="Theme.IOSched" parent="Theme.IOSched.Base" />
+    <style name="Theme.PandT" parent="Theme.IOSched.Base" />
 
 
     <!-- general styles for the tool bar-->

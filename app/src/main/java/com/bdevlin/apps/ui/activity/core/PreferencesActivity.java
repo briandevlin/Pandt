@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -16,6 +19,7 @@ import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.support.v7.app.ActionBar;
 //import android.support.v7.app.
+//import android.support.v7.internal.widget.ThemeUtils;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatCheckedTextView;
 import android.support.v7.widget.AppCompatEditText;
@@ -34,11 +38,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.support.annotation.XmlRes;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 
 import com.bdevlin.apps.pandt.Controllers.ActionBarController;
 import com.bdevlin.apps.pandt.Controllers.ActivityController;
 import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
 import com.bdevlin.apps.pandt.R;
+import com.bdevlin.apps.utils.ThemeUtils;
 
 import java.util.List;
 
@@ -64,13 +71,65 @@ public class PreferencesActivity extends PreferenceActivity implements
         }
     };
 
+
     @SuppressWarnings("deprecation")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // this must be set before  super.onCreate(savedInstanceState) android.R.style.Theme_DeviceDefault_Light_NoActionBar
-      //  setTheme(android.R.style.Theme_DeviceDefault);
-
+        if (PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean("pref_dark_theme", false)) {
+            setTheme(R.style.Theme_PandT);
+        }
+        setTheme(R.style.Theme_PandT);
         super.onCreate(savedInstanceState);
+
+        final Context context = this;
+        final Resources  resources = getResources();
+        Resources.Theme theme = getTheme();
+
+
+        int[] attrs = new int[]{
+                R.styleable.MaterialDrawer_material_drawer_background//,
+               // R.attr.actionBarSize
+        };
+        final int resId = ThemeUtils.getThemeAttrColor(context, R.styleable.MaterialDrawer_material_drawer_background);
+        // same as
+        TypedArray a1 = context.obtainStyledAttributes( R.styleable.MaterialDrawer);
+         int rcId = a1.getColor(0, 9999);
+        int rid =  a1.getResourceId(R.styleable.MaterialDrawer_material_drawer_background, 0);
+        Drawable  mActivatedBackgroundDrawable = a1
+                .getDrawable(R.styleable.MaterialDrawer_material_drawer_background);
+        //a1.recycle();
+        // same as
+//        TypedArray a2 =  getTheme().obtainStyledAttributes(attrs);
+//        int rcId2 = a2.getColor(0, 0);
+//        int rid2 =  a2.getResourceId(0,0);
+//        a2.recycle();
+
+//        TypedArray a = getTheme().obtainStyledAttributes(R.style.Theme_PandT, new int[] {R.attr.material_drawer_background});
+//        TypedValue outValue = new TypedValue();
+//        getTheme().resolveAttribute(R.attr.theme, outValue, true);
+//        if ("dark".equals(outValue.string)) {
+//
+//        }
+
+       // int attributeResourceId = a.getResourceId(0, 0);
+        TypedValue outValue = new TypedValue();
+        int outdata = 0;
+        int colorInt = new ResourcesCompat().getColor(resources, R.color.colorPrimaryDark, theme);
+        resources.getValue(R.color.colorPrimaryDark,outValue,true);
+        int resourceId = outValue.resourceId;
+        String hexStr = Integer.toHexString(resourceId );
+        if(outValue.type>=TypedValue.TYPE_FIRST_INT&&outValue.type<=TypedValue.TYPE_LAST_INT)
+            outdata =  outValue.data;
+        else if(outValue.type==TypedValue.TYPE_STRING)
+            resources.getColor(outValue.resourceId);
+        //final TypedArray values1 = this.obtainStyledAttributes(attrs);
+        //final TypedArray values = getTheme().obtainStyledAttributes(attrs);
+
+
+
+
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         //PreferenceScreen root = getPreferenceManager().createPreferenceScreen(this);
@@ -146,7 +205,11 @@ public class PreferencesActivity extends PreferenceActivity implements
             //img.setMaxHeight(200);
             root.addView(headers, 0);
             headers.addView(appBarLayout,0);
-           // root.addView(coordinator, 0); // insert at top
+
+            // Check if we're running on Android 5.0 or higher
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+            }
             Log.d(TAG, "something");
         } else {
 
@@ -177,9 +240,9 @@ public class PreferencesActivity extends PreferenceActivity implements
             root.addView(content);
         }
 
-       // mToolbar.setClickable(true);
+        mToolbar.setClickable(true);
         mToolbar.setTitle("Settings");
-        mToolbar.setNavigationIcon(R.drawable.ic_ab_up_ltr);
+        mToolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
