@@ -4,8 +4,9 @@
     <View
         android:id="@+id/material_drawer_divider"
         android:layout_width="match_parent"
-        android:background="@color/colorAccent"
-        android:layout_height="1dp" />
+
+        android:layout_height="2dp" />
+    <!--android:background="@color/material_drawer_divider"-->
     <TextView
         android:id="@+id/material_drawer_name"
         android:layout_width="match_parent"

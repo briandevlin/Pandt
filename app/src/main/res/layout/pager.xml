@@ -23,6 +23,7 @@
         android:padding="5dip"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
+        android:background="@color/material_drawer_background"
         app:strokeWidth="4dp"
         app:lineWidth="30dp"
         app:unselectedColor="#FF888888"

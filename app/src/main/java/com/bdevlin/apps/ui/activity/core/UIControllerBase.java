@@ -7,32 +7,38 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.database.Cursor;
-import android.database.DataSetObservable;
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
+import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 //import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.SwipeDismissBehavior;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.graphics.Palette;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.design.widget.AppBarLayout;
 
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,39 +50,31 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
-import com.bdevlin.apps.pandt.Adapters.NavigationCursorRecyclerAdapter;
-import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
-import com.bdevlin.apps.pandt.accounts.Account;
 import com.bdevlin.apps.pandt.Controllers.ActivityController;
-import com.bdevlin.apps.pandt.Cursors.CursorCreator;
 import com.bdevlin.apps.pandt.folders.Folder;
 import com.bdevlin.apps.utils.GenericListContext;
-import com.bdevlin.apps.pandt.Loaders.MyObjectCursorLoader;
 
-import com.bdevlin.apps.ui.fragments.NavigationDrawerFragment;
-import com.bdevlin.apps.pandt.Cursors.ObjectCursor;
 import com.bdevlin.apps.pandt.Controllers.PagerController;
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.utils.ViewMode;
 import com.bdevlin.apps.provider.MockContract;
-import com.bdevlin.apps.providers2.MailAppProvider;
-import com.bdevlin.apps.providers2.UIProvider;
 import com.bdevlin.apps.utils.GoogleAccountUtils;
 
 import com.bdevlin.apps.utils.GoogleAccountManager;
-import com.bdevlin.apps.utils.GoogleDriveManager;
-import com.bdevlin.apps.utils.PlayServicesUtils;
 import com.bdevlin.apps.utils.VolleyController;
 import com.bdevlin.apps.utils.LoginAndAuthHelper;
 
 import com.bdevlin.apps.utils.Utils;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.flaviofaria.kenburnsview.KenBurnsView;
+import android.view.animation.AccelerateDecelerateInterpolator;
 
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 
 /**
@@ -87,16 +85,16 @@ public abstract class UIControllerBase implements ActivityController {
     // <editor-fold desc="Fields">
     private static final String TAG = UIControllerBase.class.getSimpleName();
     private static final boolean DEBUG = true;
-    private static final String SAVED_ACCOUNT = "saved-account";
+   // private static final String SAVED_ACCOUNT = "saved-account";
     private static final String SAVED_FOLDER = "saved-folder";
-    private static final String SAVED_ACTION = "saved-action";
-    private static final int ADD_ACCOUNT_REQUEST_CODE = 1;
+   // private static final String SAVED_ACTION = "saved-action";
+   // private static final int ADD_ACCOUNT_REQUEST_CODE = 1;
     private static final String OPENED_KEY = "OPENED_KEY";
-    private static final int ACCOUNT_BOX_EXPAND_ANIM_DURATION = 200;
-    private static final int MAIN_CONTENT_FADEIN_DURATION = 250;
+   // private static final int ACCOUNT_BOX_EXPAND_ANIM_DURATION = 200;
+   // private static final int MAIN_CONTENT_FADEIN_DURATION = 250;
 
     private final GoogleAccountManager accountManager;
-    private final GoogleDriveManager driveManager;
+   // private final GoogleDriveManager driveManager;
 
     public static final String TAG_MAIN_LIST = "tag-main-list";
     protected final HomeActivity mActivity;
@@ -107,28 +105,28 @@ public abstract class UIControllerBase implements ActivityController {
 
 
     protected View mSliderLayout;
-    private ViewGroup mDrawerItemsListContainer;
+    //private ViewGroup mDrawerItemsListContainer;
     private ActionBarDrawerToggle mDrawerToggle;
     protected CharSequence mTitle;
     protected PagerController mPagerController;
-    private Account mAccount;
+    //private Account mAccount;
     protected Folder mFolder;
-    private boolean mFolderChanged = false;
+   // private boolean mFolderChanged = false;
     protected final ViewMode mViewMode;
     protected ContentResolver mResolver;
-    private ImageLoader mImageLoader;
+    //private ImageLoader mImageLoader;
     private boolean mAccountBoxExpanded = false;
 
-    private final DataSetObservable mDrawerObservers = new DataSetObservable();
-    private final DataSetObservable mFolderObservers = new DataSetObservable();
-    private final DataSetObservable mAccountObservers = new DataSetObservable();
+//    private final DataSetObservable mDrawerObservers = new DataSetObservable();
+//    private final DataSetObservable mFolderObservers = new DataSetObservable();
+//    private final DataSetObservable mAccountObservers = new DataSetObservable();
 
-    private static final int LOADER_ACCOUNT_CURSOR = 0;
-    public static final int LOADER_FIRST_FOLDER = 1;
+//    private static final int LOADER_ACCOUNT_CURSOR = 0;
+//    public static final int LOADER_FIRST_FOLDER = 1;
 
-    private final FolderLoads mFolderCallbacks = new FolderLoads();
+    //private final FolderLoads mFolderCallbacks = new FolderLoads();
 
-    private boolean mHaveAccountList = false;
+    //private boolean mHaveAccountList = false;
 
     protected GenericListContext mConvListContext;
 
@@ -144,16 +142,31 @@ public abstract class UIControllerBase implements ActivityController {
     // private String mNextPageToken;
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
-    private AppBarLayout appBarLayout;
+   // private AppBarLayout appBarLayout;
     private ViewGroup mRootView;
+    private android.support.design.widget.CoordinatorLayout mCoordLayout;
+    protected CollapsingToolbarLayout mCollapsingToolbar;
     protected boolean mActionBarDrawerToggleEnabled = true;
     protected boolean mAnimateActionBarDrawerToggle = false;
     private boolean mShowDrawerOnFirstLaunch = true;
-    protected Drawable mSliderBackgroundDrawable = null;
-    private NavigationCursorRecyclerAdapter mRecycleCursorAdapter;
-    private int mThemedStatusBarColor;
+   // protected Drawable mSliderBackgroundDrawable = null;
+    //private NavigationCursorRecyclerAdapter mRecycleCursorAdapter;
+   // private int mThemedStatusBarColor;
 
     private int mNormalStatusBarColor;
+    KenBurnsView kenBurnsView;
+   // private ImageView mHeaderLogo;
+    private ImageView icon;
+    private RectF mRect1 = new RectF();
+    private RectF mRect2 = new RectF();
+    int[] photos={R.drawable.photo1};
+    private int mActionBarHeight;
+    private int mMinHeaderHeight;
+   // private int mHeaderHeight;
+    //private int mMinHeaderTranslation;
+    private TypedValue mTypedValue = new TypedValue();
+
+    private static AccelerateDecelerateInterpolator sSmoothInterpolator = new AccelerateDecelerateInterpolator();
 
 
 // </editor-fold>
@@ -174,7 +187,7 @@ public abstract class UIControllerBase implements ActivityController {
         mViewMode = viewMode;
         mActionBar = getSupportActionBar();
         accountManager = new GoogleAccountManager(mContext);
-        driveManager = new GoogleDriveManager(mContext);//FIXME - not really implemented fully
+       // driveManager = new GoogleDriveManager(mContext);//FIXME - not really implemented fully
 
     }
     // </editor-fold>
@@ -190,38 +203,22 @@ public abstract class UIControllerBase implements ActivityController {
 
         mViewMode.addListener(this);
         mPagerController = new PagerController(mActivity, this, mFragmentManager);
-
         // mPagerController.show(1,null);// used this for testing
 
         final Intent intent = mActivity.getIntent();
-
-        prefs = PreferenceManager.getDefaultSharedPreferences(mActivity);
-        prefs.registerOnSharedPreferenceChangeListener(this);
-
-        mThemedStatusBarColor = mContext.getResources().getColor(R.color.colorPrimaryDark);
-        mNormalStatusBarColor = mThemedStatusBarColor;
-        setNormalStatusBarColor(getThemedStatusBarColor());
-
+       // prefs = PreferenceManager.getDefaultSharedPreferences(mActivity);
 
         if (savedInstanceState != null) {
 
         } else if (intent != null) {
-            handleIntent(intent);
+           // handleIntent(intent);
         }
-
-
-//        final String[] mProjection = MockContract.ACCOUNTS_PROJECTION;
-//        final Uri contentUri = MockContract.Accounts.CONTENT_URI;
-//        final Cursor inner = (Cursor)getContext().getContentResolver().query(contentUri, mProjection,
-//                null, null, null);
-
         return true;
     }
 
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        //super.onConfigurationChanged(newConfig);
         // Forward the new configuration the drawer toggle component.
         if (mDrawerToggle != null) {
             mDrawerToggle.onConfigurationChanged(newConfig);
@@ -238,17 +235,12 @@ public abstract class UIControllerBase implements ActivityController {
         mPagerController.onDestroy();
     }
 
-
-    @Override
-    public void onPause() {
-        // mHaveAccountList = false;
-
-    }
-
     @Override
     public void onStart() {
         if (DEBUG) Log.d(TAG, "onStart");
-       // startGooglePlayLoginProcess();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            // startGooglePlayLoginProcess();
+        }
     }
 
     @Override
@@ -262,7 +254,7 @@ public abstract class UIControllerBase implements ActivityController {
     @Override
     public void onPostCreate(Bundle savedInstanceState) {
         if (mDrawerToggle != null) {
-            mDrawerToggle.setDrawerIndicatorEnabled(isDrawerEnabled());
+           // mDrawerToggle.setDrawerIndicatorEnabled(isDrawerEnabled());
             mDrawerToggle.syncState();
         }
 
@@ -286,8 +278,11 @@ public abstract class UIControllerBase implements ActivityController {
         // Invalidating the options menu so that when we make changes in settings,
         // the changes will always be updated in the action bar/options menu/
         mActivity.supportInvalidateOptionsMenu();
+
         // Verifies the proper version of Google Play Services exists on the device.
-       // PlayServicesUtils.checkGooglePlaySevices(mActivity);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            //PlayServicesUtils.checkGooglePlaySevices(mActivity);
+        }
     }
 
     @Override
@@ -306,23 +301,7 @@ public abstract class UIControllerBase implements ActivityController {
 
     @Override
     public void onViewModeChanged(int newMode) {
-        boolean isTopLevel = true;
-//        final boolean show =    getShouldShowDrawerIndicator(newMode, false);
-//        final boolean showTopLevel =    getShouldShowDrawerIndicator(newMode, true);
-
-//        // If the viewmode is not set to conversation then we are the top level
-        if (newMode == ViewMode.CONVERSATION) {
-            isTopLevel = false;
-        }
-
-        if (isDrawerEnabled()) {
-
-            if (mDrawerToggle != null) {
-                mDrawerToggle.setDrawerIndicatorEnabled(
-                        getShouldShowDrawerIndicator(newMode, isTopLevel));
-                mDrawerToggle.syncState();
-            }
-        }
+        // we get here from viewmode.dispatchModeChange()-> UIControllerOnePane.onViewModeChanged
         closeDrawerIfOpen();
     }
 
@@ -343,32 +322,10 @@ public abstract class UIControllerBase implements ActivityController {
         return handleUpPress();
     }
 
-//    private static boolean getShouldAllowDrawerPull(final int viewMode) {
-//        // if search list/conv mode, disable drawer pull
-//        // allow drawer pull everywhere except conversation mode where the list is hidden
-//        return !ViewMode.isSearchMode(viewMode) && !ViewMode.isConversationMode(viewMode);
-//    }
-
-    boolean getShouldShowDrawerIndicator(final int viewMode,
-                                         final boolean isTopLevel) {
-        return isDrawerEnabled() && !ViewMode.isSearchMode(viewMode)
-                && (viewMode == ViewMode.CONVERSATION_LIST && isTopLevel);
-    }
 
     // </editor-fold>
 
     // <editor-fold desc="Getters ">
-    public int getThemedStatusBarColor() {
-        return mThemedStatusBarColor;
-    }
-
-    public void setNormalStatusBarColor(int color) {
-        mNormalStatusBarColor = color;
-        if (mDrawerLayout != null) {
-            mDrawerLayout.setStatusBarBackgroundColor(mNormalStatusBarColor);
-        }
-    }
-
 
     private void initFab() {
         FloatingActionButton fab = (FloatingActionButton) mActivity.findViewById(R.id.fab);
@@ -382,7 +339,8 @@ public abstract class UIControllerBase implements ActivityController {
     }
 
     public ActionBar getSupportActionBar() {
-        return ((AppCompatActivity) mActivity).getSupportActionBar();
+       // return ((AppCompatActivity) mActivity).getSupportActionBar();
+      return  mActivity.getSupportActionBar();
     }
 
     public Toolbar getSupportToolBar() {
@@ -399,19 +357,17 @@ public abstract class UIControllerBase implements ActivityController {
         return null;
     }
 
-    public LoaderManager getSupportLoaderManager() {
-        return mLoaderManager;
+    public CollapsingToolbarLayout getCollapsingToolbarLayout() {
+        if (mCollapsingToolbar != null) {
+            return mCollapsingToolbar;
+        }
+        return null;
     }
 
-//    private void initializeActionBar() {
-//        // final ActionBar actionBar = getSupportActionBar();
-//        if (mActionBar == null) {
-//            return;
-//        }
-//
-//        final LayoutInflater inflater = LayoutInflater.from(mActionBar.getThemedContext());
-//
-//    }
+    private ImageView getActionBarIconView() {
+        return icon;
+    }
+
     // </editor-fold>
 
     // <editor-fold desc="Fragments ">
@@ -426,16 +382,6 @@ public abstract class UIControllerBase implements ActivityController {
     protected static boolean isValidFragment(Fragment in) {
         return !(in == null || in.getActivity() == null || in.getView() == null);
     }
-
-    // the NavigationDrawerFragment is created via the XML
-    protected NavigationDrawerFragment getNavigationDrawerFragment() {
-        final Fragment fragment = mFragmentManager.findFragmentById(R.id.navigation_drawer);
-        if (isValidFragment(fragment)) {
-            return (NavigationDrawerFragment) fragment;
-        }
-        return null;
-    }
-
 
     // </editor-fold>
 
@@ -491,6 +437,19 @@ public abstract class UIControllerBase implements ActivityController {
     }
 
 
+    public void createBackStack(Intent intent) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            TaskStackBuilder builder = TaskStackBuilder.create(mActivity);
+           // builder.addNextIntentWithParentStack(intent);
+            builder.addNextIntent(intent);
+            builder.startActivities();
+
+        } else {
+            mActivity.startActivity(intent);
+            mActivity.finish();
+        }
+    }
+
     // </editor-fold>
 
     // <editor-fold desc="Misc ">
@@ -503,14 +462,9 @@ public abstract class UIControllerBase implements ActivityController {
     }
 
     @Override
-    public void showConversationList(GenericListContext listContext) {
+    public void showMainContentItemsList(GenericListContext listContext) {
 
     }
-
-//    public void setTitle(CharSequence title) {
-//        mTitle = title;
-//        mActionBar.setTitle(mTitle);
-//    }
 
     /**
      * Returns the context.
@@ -518,33 +472,9 @@ public abstract class UIControllerBase implements ActivityController {
     public final Context getContext() {
         return mContext;
     }
-   /* @Override
-    public Folder getFolder() {
-        return mFolder;
-    }
-*/
 
+    protected void showMainContentItemPager(final int position) {
 
-    protected void showConversation(final int position) {
-
-// set the current item
-        // setTitle(listItem.content);
-    }
-
-    private void setListContext() {
-
-    }
-
-
-    @Override
-    public void onFolderChanged(Folder folder, final boolean force) {
-        changeFolder(folder, force);
-    }
-
-    private void changeFolder(Folder folder, final boolean force) {
-
-        // GenericListContext viewContext =  GenericListContext.forFolder(folder);
-        // showConversationList(viewContext);
     }
 
     @Override
@@ -572,51 +502,6 @@ public abstract class UIControllerBase implements ActivityController {
 
     // </editor-fold>
 
-    // <editor-fold desc="Register observers ">
-
-  /*  @Override
-    public void registerAccountObserver(DataSetObserver obs) {
-        mAccountObservers.registerObserver(obs);
-    }
-
-    */
-
-    /**
-     * Removes a listener from receiving current account changes.
-     * Must happen in the UI thread.
-     *//*
-    @Override
-    public void unregisterAccountObserver(DataSetObserver obs) {
-        mAccountObservers.unregisterObserver(obs);
-    }*/
-
-   /* @Override
-    public void registerDrawerClosedObserver(DataSetObserver observer) {
-        mDrawerObservers.registerObserver(observer);
-    }
-
-    @Override
-    public void unregisterDrawerClosedObserver(DataSetObserver observer) {
-        mDrawerObservers.unregisterObserver(observer);
-    }*/
-
-    /*@Override
-    public void registerFolderObserver(DataSetObserver observer) {
-        mFolderObservers.registerObserver(observer);
-    }*/
-
-  /*  @Override
-    public void unregisterFolderObserver(DataSetObserver observer) {
-        try {
-            mFolderObservers.unregisterObserver(observer);
-        } catch (IllegalStateException e) {
-            // Log instead of crash
-
-        }
-    }*/
-
-    // </editor-fold>
-
     // <editor-fold desc="Intents ">
     private void handleIntent(Intent intent) {
         String action = intent.getAction();
@@ -628,9 +513,9 @@ public abstract class UIControllerBase implements ActivityController {
 
 
 //            if (isConversationMode && mViewMode.getMode() == ViewMode.UNKNOWN) {
-//                mViewMode.enterConversationMode();
+//                mViewMode.enterMainContentItemPagerMode();
 //            } else {
-            mViewMode.enterConversationListMode();
+            mViewMode.enterMainContentListMode();
 //            }
             // Put the folder and conversation, and ask the loader to create this folder.
             final Bundle args = new Bundle();
@@ -652,100 +537,13 @@ public abstract class UIControllerBase implements ActivityController {
             args.putParcelable(Utils.EXTRA_CONVERSATION,
                     intent.getParcelableExtra(Utils.EXTRA_CONVERSATION));
             //ok all packaged up and ready to start loading, but first we need some fake query data to work with.
-            restartOptionalLoader(LOADER_FIRST_FOLDER, mFolderCallbacks, args);
+           // restartOptionalLoader(LOADER_FIRST_FOLDER, mFolderCallbacks, args);
         } else if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             // we are not ready for search yet
         }
 
 
     }
-    // </editor-fold>
-
-    // <editor-fold desc="Loaders ">
-
-    public final CursorCreator<NavigationDrawerItem> FACTORY = new CursorCreator<NavigationDrawerItem>() {
-        @Override
-        public NavigationDrawerItem createFromCursor(Cursor c) {
-            return new NavigationDrawerItem((HomeActivity) mActivity, c);
-        }
-
-        @Override
-        public String toString() {
-            return "PrimaryDrawerItem CursorCreator";
-        }
-    };
-
-    private class FolderLoads implements LoaderManager.LoaderCallbacks<ObjectCursor<NavigationDrawerItem>> {
-
-        @Override
-        public Loader<ObjectCursor<NavigationDrawerItem>> onCreateLoader(int id, Bundle args) {
-            final String[] mProjection = MockContract.FOLDERS_PROJECTION;
-            final CursorCreator<NavigationDrawerItem> mFactory = FACTORY;
-            final Uri folderListUri;
-            ;
-
-            switch (id) {
-
-                case LOADER_FIRST_FOLDER:
-
-                    // final Uri folderUri = args.getParcelable(Utils.EXTRA_FOLDER_URI);
-                    final Uri folderUri = MockContract.Folders.CONTENT_URI;
-                    // final Uri folderUri = Uri.parse( "content://com.android.mail.mockprovider/account/0/folders");
-                    return new MyObjectCursorLoader<NavigationDrawerItem>(mContext,
-                            folderUri, mProjection, mFactory);
-
-            }
-
-            return null;
-        }
-
-        @Override
-        public void onLoadFinished(Loader<ObjectCursor<NavigationDrawerItem>> loader, ObjectCursor<NavigationDrawerItem> data) {
-
-            if (data == null || data.getCount() <= 0 || !data.moveToFirst()) {
-                Log.e(TAG, String.format(
-                        "Received null cursor from loader baseId: %d",
-                        loader.getId()));
-                return;
-            }
-
-            switch (loader.getId()) {
-                case LOADER_FIRST_FOLDER:
-                    if (mRecycleCursorAdapter != null) {
-                        mRecycleCursorAdapter.swapCursor(data);
-                    }
-
-                  /*  int folderId = data.getInt(data.getColumnIndex(MockContract.Folders._ID));
-                    String folderName = data.getString(data.getColumnIndex(MockContract.Folders.FOLDER_NAME));
-
-                    Folder folder = new Folder(folderId, folderName);
-                    boolean handled = false;
-                    if (folder != null) {
-                        onFolderChanged(folder, false *//* force *//*);
-                        handled = true;
-                    }
-                    mActivity.getSupportLoaderManager().destroyLoader(LOADER_FIRST_FOLDER);*/
-                    break;
-            }
-        }
-
-
-        @Override
-        public void onLoaderReset(Loader<ObjectCursor<NavigationDrawerItem>> loader) {
-            // For whatever reason, the Loader's data is now unavailable.
-            // Remove any references to the old data by replacing it with
-            // a null Cursor.
-            // mAdapter.swapCursor(null);
-        }
-    }
-
-
-    private void restartOptionalLoader(int id, LoaderManager.LoaderCallbacks handler, Bundle args) {
-        final LoaderManager lm = mActivity.getSupportLoaderManager();
-        lm.destroyLoader(id);
-        lm.restartLoader(id, args, handler);
-    }
-
     // </editor-fold>
 
     // <editor-fold desc="Drawer ">
@@ -875,7 +673,7 @@ public abstract class UIControllerBase implements ActivityController {
         }
     }
 
-    protected Toolbar initActionBarToolbar() {
+    private Toolbar initActionBarToolbar() {
 
         if (mToolbar == null) {
             mToolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
@@ -893,19 +691,58 @@ public abstract class UIControllerBase implements ActivityController {
         return mToolbar;
     }
 
+    public void SetUpActionBarAndFAB()
+    {
+        initActionBarToolbar();
+        initFab();
+    }
+
     public void SetupDrawerLayout() {
 
         mDrawerLayout = (DrawerLayout) mActivity.findViewById(R.id.drawer_layout);
         if (mDrawerLayout == null) {
             return;
         }
-        initActionBarToolbar();
-        initFab();
-        CoordinatorLayout coordLayout = (CoordinatorLayout) mDrawerLayout.findViewById(R.id.coordinatorLayout);
-        coordLayout.setStatusBarBackgroundColor(mActivity.getResources().getColor(R.color.accent_material_light));
-        appBarLayout = (AppBarLayout) mActivity.findViewById(R.id.toolbar_container);
-        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) mActivity.findViewById(R.id.toolbar_layout);
-        // collapsingToolbar.setTitle("Setting Title");
+        mDrawerLayout.setStatusBarBackgroundColor(
+                mActivity.getResources().getColor(R.color.colorPrimaryDark));
+
+        mCoordLayout = (CoordinatorLayout) mActivity.findViewById(R.id.coordinatorLayout);
+        mCoordLayout.setStatusBarBackgroundColor(mActivity.getResources().getColor(R.color.accent_material_light));
+       // appBarLayout = (AppBarLayout) mActivity.findViewById(R.id.toolbar_container);
+        mCollapsingToolbar = (CollapsingToolbarLayout) mActivity.findViewById(R.id.toolbar_layout);
+        mCollapsingToolbar.setTitle("Main");
+        icon = (ImageView) mActivity.findViewById(R.id.icon);
+        ViewCompat.setAlpha(getActionBarIconView(), 0f);
+
+
+        kenBurnsView =(KenBurnsView) mCollapsingToolbar.findViewById(R.id.header_picture);
+       // mHeaderLogo = (ImageView) mActivity.findViewById(R.id.header_thumbnail);
+
+        mMinHeaderHeight = mActivity.getResources().getDimensionPixelSize(R.dimen.min_header_height);
+       // mHeaderHeight = mActivity.getResources().getDimensionPixelSize(R.dimen.header_height);
+       // mMinHeaderTranslation = -mMinHeaderHeight + getActionBarHeight();
+
+
+        getSupportActionBar().setBackgroundDrawable(null);
+        final Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+            int i=0;
+            public void run() {
+                // change images randomly
+                Random ran=new Random();
+                int i=ran.nextInt(photos.length);
+                //set image resources
+                kenBurnsView.setImageResource(photos[i]);
+                i++;
+                if(i>photos.length-1)
+                {
+                    i=0;
+                }
+                handler.postDelayed(this, 7000);  //for interval...
+            }
+        };
+       // handler.postDelayed(runnable, 7000); //for initial delay..
+
         mSliderLayout = mActivity.findViewById(R.id.navdrawer);
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mDrawerLayout.setStatusBarBackgroundColor(mActivity.getResources().getColor(R.color.materialize_primary_light));
@@ -916,24 +753,14 @@ public abstract class UIControllerBase implements ActivityController {
 
         handleDrawerNavigation();
         handleShowOnFirstLaunch();
+
     }
 
     boolean isDrawerOpen() {
         return mDrawerLayout != null && mSliderLayout != null && mDrawerLayout.isDrawerOpen(mSliderLayout);
     }
 
-    /*@Override
-    public  void closeDrawer(boolean hasNewFolderOrAccount, Account nextAccount, Folder nextFolder) {
-        if (!isDrawerEnabled()) {
-            mDrawerObservers.notifyChanged();
-            return;
-        }
 
-        if (DEBUG) Log.d(TAG,"CloseDrawer");
-
-        mDrawerObservers.notifyChanged();
-
-    }*/
 
     protected void toggleDrawerState() {
         if (!isDrawerEnabled()) {
@@ -955,9 +782,23 @@ public abstract class UIControllerBase implements ActivityController {
         }
     }
 
+    @Override
+    public void onMainContentScrolled(RecyclerView recyclerView, int dx, int dy) {
+    }
+
+    @Override
+    public void onMainContentItemSwipe(final CardView cardView, final SwipeDismissBehavior<CardView> swipe) {
+
+    Log.i(TAG, "onMainContentItemSwipe");
+
+    }
     // </editor-fold>
 
     // <editor-fold desc="Google Play Services">
+
+    public static float clamp(float value, float max, float min) {
+        return Math.max(Math.min(value, min), max);
+    }
 
 
     /**
@@ -1086,6 +927,24 @@ public abstract class UIControllerBase implements ActivityController {
                             R.drawable.person_image_empty));
         }
 
+        // testing only
+        Bitmap bitmap = ((BitmapDrawable)profileImageView.getDrawable()).getBitmap();
+        if (bitmap != null && !bitmap.isRecycled()) {
+            Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                public void onGenerated(Palette palette) {
+
+                    int vibrant = palette.getVibrantColor(0x000000);
+                    int vibrantLight = palette.getLightVibrantColor(0x000000);
+                    int vibrantDark = palette.getDarkVibrantColor(0x000000);
+                    int muted = palette.getMutedColor(0x000000);
+                    int mutedLight = palette.getLightMutedColor(0x000000);
+                    int mutedDark = palette.getDarkMutedColor(0x000000);
+                }
+            });
+        }
+        // Asynchronous
+
+
         String coverImageUrl = GoogleAccountUtils.getPlusCoverUrl(mActivity);
 
         if (coverImageUrl != null) {
@@ -1181,9 +1040,6 @@ public abstract class UIControllerBase implements ActivityController {
     }
 
 
-    // </editor-fold>
-
-    // <editor-fold desc="Folding template">
     // </editor-fold>
 
 }

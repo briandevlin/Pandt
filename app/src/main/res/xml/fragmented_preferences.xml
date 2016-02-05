@@ -16,16 +16,17 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="AddingItems"
-        android:key="pref_key_storage_settings">
+        android:title="Material Preferences"
+        android:key="pref_key_material_settings">
 
         <ListPreference
-            android:key="pref_key_new_items"
-            android:title="LocationOfNewItems"
-            android:summary="LocationOfNewItemsSummary"
-            android:entries="@array/new_items_entry"
-            android:entryValues="@array/new_items_entry_values"
-            android:defaultValue="1"/>
+            android:defaultValue="dark"
+            android:key="@string/pref_theme"
+            android:summary="This will change the settings them only"
+            android:title="Theme"
+            android:dialogTitle="@string/dialog_title"
+            android:entries="@array/pref_theme_list_entries"
+            android:entryValues="@array/pref_theme_list_values"/>
 
     </PreferenceCategory>
 

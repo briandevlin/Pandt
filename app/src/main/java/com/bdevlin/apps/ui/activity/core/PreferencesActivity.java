@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
@@ -58,6 +61,7 @@ public class PreferencesActivity extends PreferenceActivity implements
     private static final String TAG = PreferencesActivity.class.getSimpleName();
     private static final boolean DEBUG = true;
     public static final String KEY_MODE_CHECKBOX_PREFERENCE = "clear_chosenaccount";
+    private static final int[] RES_IDS_ACTION_BAR_SIZE = { R.attr.actionBarSize };
     Toolbar mToolbar;
     private SharedPreferences prefs;
     private CheckBoxPreference mCheckBoxPreference;
@@ -78,27 +82,62 @@ public class PreferencesActivity extends PreferenceActivity implements
         // this must be set before  super.onCreate(savedInstanceState) android.R.style.Theme_DeviceDefault_Light_NoActionBar
         if (PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean("pref_dark_theme", false)) {
-            setTheme(R.style.Theme_PandT);
+            //setTheme(R.style.Theme.PandT.Lite);
         }
-        setTheme(R.style.Theme_PandT);
+
+        final String themePrefKey = getString(R.string.pref_theme), defaultTheme=getResources().getString(R.string.pref_theme_default);
+        final String themePref = PreferenceManager.getDefaultSharedPreferences(this).getString(themePrefKey,defaultTheme);
+        //setTheme(R.style.Theme.PandT.Lite);
+        switch(themePref)
+        {
+            case "dark":
+               // setTheme(R.style.Theme_PandT_Dark);
+                break;
+            case "light":
+               // setTheme(R.style.Theme_PandT_Light);
+                break;
+        }
         super.onCreate(savedInstanceState);
 
         final Context context = this;
         final Resources  resources = getResources();
         Resources.Theme theme = getTheme();
+        Resources.Theme curTheme = context.getTheme();
+
 
 
         int[] attrs = new int[]{
                 R.styleable.MaterialDrawer_material_drawer_background//,
                // R.attr.actionBarSize
         };
-        final int resId = ThemeUtils.getThemeAttrColor(context, R.styleable.MaterialDrawer_material_drawer_background);
+        final int resId = ThemeUtils.getThemeAttrColor(context, R.attr.colorPrimaryDark);
         // same as
-        TypedArray a1 = context.obtainStyledAttributes( R.styleable.MaterialDrawer);
-         int rcId = a1.getColor(0, 9999);
+        TypedArray a1 = theme.obtainStyledAttributes(new int[]{R.attr.colorPrimaryDark});
+        int resIdColor = a1.getResourceId(0, 0);
+        String colorhexStr = Integer.toHexString(resIdColor);
+        int colorPrimaryDark = a1.getColor(0, 0);
+
+//        TypedArray a2 = theme.obtainStyledAttributes( new int[]{R.attr.colorPrimaryDark});
+//        int item = a2.getResourceId(0, 0);
+//        String itemhexStr = Integer.toHexString(item);
+
+        TypedArray a = context.obtainStyledAttributes(null, R.styleable.NavDrawerItemView);
+        if (a.hasValue(R.styleable.NavDrawerItemView_iconTints)) {
+            ColorStateList mIconTints = a1.getColorStateList(R.styleable.NavDrawerItemView_iconTints);
+        }
         int rid =  a1.getResourceId(R.styleable.MaterialDrawer_material_drawer_background, 0);
-        Drawable  mActivatedBackgroundDrawable = a1
-                .getDrawable(R.styleable.MaterialDrawer_material_drawer_background);
+        a1.recycle();
+
+        TypedArray att = curTheme.obtainStyledAttributes(RES_IDS_ACTION_BAR_SIZE);
+        float size = att.getDimension(0, 0);
+        att.recycle();
+
+        final float size2 = ThemeUtils.getThemeAttrDimension(context, R.attr.actionBarSize);
+
+        // int rcId = a1.getColor(0, 9999);
+
+//        Drawable  mActivatedBackgroundDrawable = a1
+//                .getDrawable(R.styleable.MaterialDrawer_material_drawer_background);
         //a1.recycle();
         // same as
 //        TypedArray a2 =  getTheme().obtainStyledAttributes(attrs);
@@ -242,8 +281,8 @@ public class PreferencesActivity extends PreferenceActivity implements
 
         mToolbar.setClickable(true);
         mToolbar.setTitle("Settings");
-        mToolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
-
+        String name = ThemeUtils.getThemeName(this);
+        mToolbar.setNavigationIcon(R.drawable.ic_close_black_24dp);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

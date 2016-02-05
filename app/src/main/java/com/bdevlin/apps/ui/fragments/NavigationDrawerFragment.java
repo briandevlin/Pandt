@@ -27,12 +27,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
 import com.bdevlin.apps.pandt.Cursors.CursorCreator;
 import com.bdevlin.apps.pandt.Adapters.NavigationBaseRecyclerAdapter;
-import com.bdevlin.apps.pandt.DrawerItem.NavDrawerItemView;
+
 import com.bdevlin.apps.provider.MockUiProvider;
 import com.bdevlin.apps.ui.widgets.DividerItemDecoration;
 //import com.bdevlin.apps.pandt.DrawerClosedObserver;
@@ -145,19 +144,6 @@ public class NavigationDrawerFragment
 
     // <editor-fold desc="Interfaces">
 
-    public final CursorCreator<NavigationDrawerItem> FACTORY = new CursorCreator<NavigationDrawerItem>() {
-        @Override
-        public NavigationDrawerItem createFromCursor(Cursor c) {
-            return new NavigationDrawerItem((HomeActivity) mActivity, c);
-        }
-
-        @Override
-        public String toString() {
-            return "PrimaryDrawerItem CursorCreator";
-        }
-    };
-
-
     /**
      * Callbacks interface that all activities using this fragment must implement.
      * we use this interface to replace the fragments baseName in the HomeActivity via UIControllerBase
@@ -205,7 +191,6 @@ public class NavigationDrawerFragment
         super();
     }
 
-
     // </editor-fold>
 
     // <editor-fold desc="Create methods">
@@ -232,6 +217,7 @@ public class NavigationDrawerFragment
 
     @Override
     public void onViewModeChanged(int newMode) {
+        // we get here from viewmode.dispatchModeChange()
         if (DEBUG) Log.v(TAG, "NavigationDrawerFragment: in onViewModeChanged  " + newMode);
     }
 
@@ -242,42 +228,10 @@ public class NavigationDrawerFragment
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
 
-        if (mRecyclerView == null) {
-            mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
-
-            mRecyclerView.setHasFixedSize(true);
-            //some style improvements on older devices
-            mRecyclerView.setFadingEdgeLength(0);
-            mRecyclerView.setClipToPadding(false);
-
-            mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-            mLayoutManager.scrollToPosition(0);
-            mRecyclerView.setLayoutManager(mLayoutManager);
-            //Cursor cursor = getActivity().getContentResolver().query(MockContract.Folders.CONTENT_URI, MockContract.FOLDERS_PROJECTION, null, null, null);
-
-
-            RecyclerView.ItemDecoration itemDecoration =
-                    new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST);
-
-            mRecyclerView.addItemDecoration(itemDecoration);
-
-            if (mItemAnimator == null) {
-                mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-            } else {
-                mRecyclerView.setItemAnimator(mItemAnimator);
-            }
-
-
-            ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mRecycleCursorAdapter);
-            mItemTouchHelper = new ItemTouchHelper(callback);
-            mItemTouchHelper.attachToRecyclerView(mRecyclerView);
-        }
-
+        SetupNavigationDrawerRecyclerView(rootView);
 
         if (savedInstanceState != null
                 && savedInstanceState.containsKey(BUNDLE_LIST_STATE)) {
-//            mRecyclerView.onRestoreInstanceState(savedInstanceState
-//                    .getParcelable(BUNDLE_LIST_STATE));
         }
 
         return rootView;
@@ -286,7 +240,7 @@ public class NavigationDrawerFragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        final ListView lv = getListView();
+
         final Activity activity = getActivity();
 
         if (!(activity instanceof ControllableActivity)) {
@@ -306,42 +260,55 @@ public class NavigationDrawerFragment
                 this);
 
 
-//        mRecycleCursorAdapter.setOnItemClickListener(
-//                new NavigationBaseRecyclerAdapter.OnItemClickListener() {
-//                    public void onItemClick(View itemView, int position) {
-//                        Log.d(TAG, "mRecycleCursorAdapter.setOnItemClickListener");
-//                        // mCurrentSelection = position;
-//                        mCallbacks = mActivity.getNavigationDrawerCallbacks();
-//
-//                        //mCallbacks.onNavigationDrawerItemSelected(position, null);
-//                    }
-//
-//                });
-
         mRecycleCursorAdapter.setOnClickListener(new NavigationBaseRecyclerAdapter.OnClickListener() {
             @Override
             public void onClick(final View view, final int position, final IDrawerItem item) {
-
                 //call the listener
                 boolean consumed = false;
                 mCallbacks = mActivity.getNavigationDrawerCallbacks();
                 mCallbacks.onNavigationDrawerItemSelected(view, position, item);
             }
         });
+        if (mRecyclerView != null) {
+            mRecyclerView.setAdapter(mRecycleCursorAdapter);
+        }
 
-        mRecyclerView.setAdapter(mRecycleCursorAdapter);
-
-
+        //These menu items are setup using an arrayadapter
         initStaticNavMenuItems();
 
-
         // Indicate that this fragment would like to influence the set of actions in the action bar.
-        setHasOptionsMenu(true);
+        //setHasOptionsMenu(true);
 
         LoaderManager lm = getLoaderManager();
         lm.initLoader(LOADER_ID, null, this);
     }
 
+    private void SetupNavigationDrawerRecyclerView(View rootView)
+    {
+        if (mRecyclerView == null) {
+            mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
+
+            mRecyclerView.setHasFixedSize(true);
+            //some style improvements on older devices
+            mRecyclerView.setFadingEdgeLength(0);
+            mRecyclerView.setClipToPadding(false);
+
+            mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+            mLayoutManager.scrollToPosition(0);
+            mRecyclerView.setLayoutManager(mLayoutManager);
+
+            RecyclerView.ItemDecoration itemDecoration =
+                    new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST);
+
+            mRecyclerView.addItemDecoration(itemDecoration);
+
+            if (mItemAnimator == null) {
+                mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+            } else {
+                mRecyclerView.setItemAnimator(mItemAnimator);
+            }
+        }
+    }
     public void initStaticNavMenuItems() {
 
         ArrayList<IDrawerItem> mDrawerItems = new ArrayList<>();
@@ -379,11 +346,6 @@ public class NavigationDrawerFragment
 
         setListAdapter(mCursorAdapter);
     }
-
-
-    // </editor-fold>
-
-    // <editor-fold desc="Misc">
 
 
     // </editor-fold>
@@ -450,6 +412,17 @@ public class NavigationDrawerFragment
 
     // <editor-fold desc="Loader callbacks">
 
+    public final CursorCreator<NavigationDrawerItem> FACTORY = new CursorCreator<NavigationDrawerItem>() {
+        @Override
+        public NavigationDrawerItem createFromCursor(Cursor c) {
+            return new NavigationDrawerItem((HomeActivity) mActivity, c);
+        }
+
+        @Override
+        public String toString() {
+            return "PrimaryDrawerItem CursorCreator";
+        }
+    };
 
     @Override
     public Loader<ObjectCursor<NavigationDrawerItem>> onCreateLoader(int id, Bundle bundle) {
@@ -487,9 +460,6 @@ public class NavigationDrawerFragment
 
         switch (loader.getId()) {
             case LOADER_ID:
-                // The asynchronous load is complete and the data
-                // is now available for use. Only now can we associate
-                // the queried Cursor with the NavigationCursorRecyclerAdapter.
                 if (mRecycleCursorAdapter != null) {
                     mRecycleCursorAdapter.swapCursor(data);
                     mRecycleCursorAdapter.handleSelection(null, 0);
@@ -510,7 +480,7 @@ public class NavigationDrawerFragment
         // Remove any references to the old data by replacing it with
         // a null Cursor.
         if (mRecycleCursorAdapter != null) {
-            mRecycleCursorAdapter.swapCursor(null);
+           // mRecycleCursorAdapter.swapCursor(null);
         }
     }
 
@@ -522,8 +492,7 @@ public class NavigationDrawerFragment
     public void onListItemClick(ListView l, View v, int pos, long id) {
         super.onListItemClick(l, v, pos, id);
         getListView().setItemChecked(pos, true);
-       // Toast.makeText(getActivity(), "Item " + pos + " was clicked", Toast.LENGTH_SHORT).show();
-        if (mActivity != null) {
+         if (mActivity != null) {
             mCallbacks = mActivity.getNavigationDrawerCallbacks();
              mCallbacks.onNavigationDrawerArraySelected(v, pos, null);
         }
@@ -550,13 +519,15 @@ public class NavigationDrawerFragment
 
             if (nav.getType() == "DIVIDER_ITEM") {
                 if (convertView == null) {
-                    convertView = mInflater.inflate(R.layout.drawer_divider, parent, false);
+                   // convertView = mInflater.inflate(R.layout.drawer_divider, parent, false);
 //                    holder = new ViewHolder();
 //                    holder.name = (TextView) convertView.findViewById(R.id.baseName);
 //                    holder.id = (TextView) convertView.findViewById(R.id.id);
 //                    holder.imageView = (ImageView) convertView.findViewById(R.id.imageview2);
 //                    convertView.setTag(holder);
-                    return convertView;
+                   // return convertView;
+                    View view = nav.generateView(getContext(), parent);
+                    return view;
                 } else {
 
                     return convertView;

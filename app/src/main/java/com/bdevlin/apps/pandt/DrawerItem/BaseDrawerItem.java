@@ -22,9 +22,9 @@ public abstract class BaseDrawerItem<T> extends AbstractDrawerItem<T> {
     protected boolean iconTinted = true;
     protected ColorHolder selectedColor = ColorHolder.fromColorRes(R.color.material_drawer_selected);
     protected ColorHolder textColor = ColorHolder.fromColorRes(R.color.material_drawer_primary_text);
-    protected ColorHolder selectedTextColor = ColorHolder.fromColorRes(R.color.cyan_a700_plus);
+    protected ColorHolder selectedTextColor = ColorHolder.fromColorRes(R.color.material_drawer_selected_text);
     protected ColorHolder disabledTextColor;
-    protected ColorHolder selectedIconColor = ColorHolder.fromColorRes(R.color.cyan_a700_plus);
+    protected ColorHolder selectedIconColor = ColorHolder.fromColorRes(R.color.material_drawer_selected_icon);
     protected ColorHolder disabledIconColor;
 
     public void setImageHolder(@DrawableRes int iconRes) {

@@ -22,6 +22,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.support.v4.view.ViewCompat;
 
+import com.bdevlin.apps.pandt.Adapters.ContentCursorRecyclerAdapter;
 import com.bdevlin.apps.pandt.Adapters.NavigationCursorRecyclerAdapter;
 
 /**
@@ -38,20 +39,25 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     public static final float ALPHA_FULL = 1.0f;
 
-    private final NavigationCursorRecyclerAdapter mAdapter;
+//    private final NavigationCursorRecyclerAdapter mAdapter;
+//
+//    public SimpleItemTouchHelperCallback(NavigationCursorRecyclerAdapter adapter) {
+//        mAdapter = adapter;
+//    }
+private final ContentCursorRecyclerAdapter mAdapter;
 
-    public SimpleItemTouchHelperCallback(NavigationCursorRecyclerAdapter adapter) {
+    public SimpleItemTouchHelperCallback(ContentCursorRecyclerAdapter adapter) {
         mAdapter = adapter;
     }
 
     @Override
     public boolean isLongPressDragEnabled() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isItemViewSwipeEnabled() {
-        return false;
+        return true;
     }
 
     @Override

@@ -10,12 +10,14 @@ import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
 import com.bdevlin.apps.pandt.Cursors.ObjectCursor;
 import com.bdevlin.apps.pandt.DrawerItem.IDrawerItem;
 import com.bdevlin.apps.pandt.DrawerItem.MainContentDrawerItem;
+import com.bdevlin.apps.pandt.helper.ItemTouchHelperAdapter;
 import com.bdevlin.apps.ui.fragments.MainContentFragment;
 
 /**
  * Created by brian on 10/12/2015.
  */
 public class ContentCursorRecyclerAdapter extends ContentBaseRecyclerViewAdapter<MainContentDrawerItem.ContentItemViewHolder>
+        implements /*NavigationBaseRecyclerAdapter.OnItemClickListener,*/ ItemTouchHelperAdapter
 {
     // <editor-fold desc="Fields">
     private static final String TAG = ContentCursorRecyclerAdapter.class.getSimpleName();
@@ -28,6 +30,16 @@ public class ContentCursorRecyclerAdapter extends ContentBaseRecyclerViewAdapter
     private ControllableActivity mActivity;
     private MainContentFragment.MainContentCallbacks mCallbacks;
     private static IViewHolderClicked viewHolderClicked;
+
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        return false;
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+
+    }
 
     // </editor-fold>
 
@@ -43,13 +55,12 @@ public class ContentCursorRecyclerAdapter extends ContentBaseRecyclerViewAdapter
 
     public ContentCursorRecyclerAdapter(ControllableActivity activity,
                                         ObjectCursor<MainContentDrawerItem> c,
-                                        String[] from,
-                                        int[] to) {
+                                        String[] from ) {
         super(c);
         this.mActivity = activity;
         /*mDragStartListener = dragStartListener;*/
         mContext = mActivity.getActivityContext();
-        mTo = to;
+       // mTo = to;
         mOriginalFrom = from;
         findColumns(c, from);
 
@@ -100,6 +111,7 @@ public class ContentCursorRecyclerAdapter extends ContentBaseRecyclerViewAdapter
                 if (mActivity != null) {
                     mCallbacks = mActivity.getMainContentCallbacks();
                     mCallbacks.onMainContentItemSelected(position);
+                    //mCallbacks.onMainContentScrolled(()v);
                 }
 
 

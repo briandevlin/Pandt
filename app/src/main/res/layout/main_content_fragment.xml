@@ -7,13 +7,6 @@
     android:paddingLeft="0dip"
     android:paddingRight="0dip" >
 
-  <!--  <ListView android:id="@android:id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:choiceMode="singleChoice"
-
-        android:background="#fff"/>-->
 
 
     <android.support.v7.widget.RecyclerView
@@ -28,7 +21,6 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:text="This is an empty view" />
-
 
 
 </LinearLayout>

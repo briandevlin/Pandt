@@ -6,14 +6,16 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.SwipeDismissBehavior;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.support.v7.app.ActionBar;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,7 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 //import android.widget.ListView;
-import android.widget.ListView;
+import android.widget.TextView;
 
 import com.bdevlin.apps.pandt.Controllers.ActionBarController;
 import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
@@ -30,90 +32,50 @@ import com.bdevlin.apps.pandt.Adapters.ContentCursorRecyclerAdapter;
 import com.bdevlin.apps.pandt.Cursors.CursorCreator;
 import com.bdevlin.apps.pandt.Loaders.MyObjectCursorLoader;
 import com.bdevlin.apps.pandt.Cursors.ObjectCursor;
-import com.bdevlin.apps.pandt.Adapters.SimpleAdapter;
-import com.bdevlin.apps.pandt.folders.Folder;
-import com.bdevlin.apps.ui.widgets.DividerItemDecoration;
 import com.bdevlin.apps.pandt.DrawerItem.MainContentDrawerItem;
+import com.bdevlin.apps.pandt.helper.SimpleItemTouchHelperCallback;
 import com.bdevlin.apps.utils.GenericListContext;
 //import com.bdevlin.apps.pandt.Items;
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.utils.ViewMode;
-import com.bdevlin.apps.pandt.folders.FolderController;
 import com.bdevlin.apps.provider.MockContract;
 import com.bdevlin.apps.ui.activity.core.HomeActivity;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public  class MainContentFragment extends /*ListFragment*/ Fragment
-        implements ViewMode.ModeChangeListener/*, AdapterViewCompat.OnItemClickListener*/ {
+        implements ViewMode.ModeChangeListener//,
+//        ListView.OnScrollListener
+        /*, AdapterViewCompat.OnItemClickListener*/ {
 
     // <editor-fold desc="Fields">
     private static final String TAG = MainContentFragment.class.getSimpleName();
     private static final boolean DEBUG = true;
-
-   // private static final int LOADER_ID = 1;
-
     private static final String CONVERSATION_LIST_KEY = "conversation-list";
-    /**
-     * The fragment argument representing the section number for this
-     * fragment.
-     */
     private static final String ARG_SECTION_NUMBER = "section_number";
-    /**
-     * Remember the position of the selected item.
-     */
     private static final String STATE_SELECTED_POSITION = "selected_position";
     private static final int LOADER_ID_MESSAGES_LOADER = 1;
-    private ListView mListView;
-    private View mFragmentContainerView;
-
     private int mCurrentSelectedPosition = 0;
     private int mSectionNumber = 0;
-    private boolean mFromSavedInstanceState;
-    private boolean mUserLearnedDrawer;
-    private final Handler mHandler = new Handler();
-
     private GenericListContext mViewContext;
     private  ControllableActivity mActivity;
-    private FolderController folderController = null;
     private ActionBarController actionBarController = null;
-
     private  MainContentCallbacks mCallbacks;
-
-    // True if we are on a tablet device
-    private static boolean mTabletDevice;
-
     private final CursorLoads mCursorCallbacks = new CursorLoads();
-
-
-
-
-    private  SimpleAdapter simpleAdapter = null;
-
-    //private  SimpleCursorAdapter mAdapter = null;
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ContentCursorRecyclerAdapter mRecycleCursorAdapter;
-    private Folder folder = null;
-
-   /* @Override
-    public void onItemClick(AdapterViewCompat<?> parent, View view, int position, long baseId) {
-        Toast.makeText(getActivity(),
-                parent.getItemAtPosition(position).toString(),
-                Toast.LENGTH_LONG).show();
-    }*/
-
+    private ItemTouchHelper mItemTouchHelper;
+    private boolean mFromSavedInstanceState;
     // </editor-fold>
 
     // <editor-fold desc="Interfaces">
 
     public interface MainContentCallbacks {
         void onMainContentItemSelected(final int position);
+        void onMainContentScrolled(RecyclerView recyclerView, int dx, int dy);
+        void onMainContentItemSwipe(CardView cardView,SwipeDismissBehavior<CardView> swipe);
     }
 
     /**
@@ -123,6 +85,14 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
     private static MainContentCallbacks sDummyCallbacks = new MainContentCallbacks() {
         @Override
         public void onMainContentItemSelected(final int position) {
+        }
+        public void onMainContentScrolled(RecyclerView recyclerView, int dx, int dy)
+        {
+
+        }
+        public void onMainContentItemSwipe(CardView cardView,SwipeDismissBehavior<CardView> swipe)
+        {
+
         }
     };
     // </editor-fold>
@@ -144,7 +114,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
 
     // </editor-fold>
 
-   // <editor-fold desc="Mandatory empty constructor">
+    // <editor-fold desc="Mandatory empty constructor">
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -162,10 +132,8 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
              final Bundle args = getArguments();
             mViewContext = GenericListContext.forBundle(args.getBundle(CONVERSATION_LIST_KEY));
         }
-       // setRetainInstance(false);
     }
-
-
+    
     @Override
     public void onViewModeChanged(int newMode) {
       //  Log.v(TAG, "in onViewModeChanged  " + newMode);
@@ -176,58 +144,9 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        View rootView = inflater.inflate(R.layout.main_content_fragment, container, false);
 
-
-       // mListView = Utils.getViewOrNull(rootView, android.R.baseId.list);
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.main_recycler_view);
-
-
-//         use this setting to improve performance if you know that changes
-//         in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            /** The heights of all items. */
-            private Map<Integer, Integer> heights = new HashMap<>();
-            private int lastCurrentScrollY = 0;
-            int firstVisibleItem, visibleItemCount, totalItemCount;
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-
-                View firstVisibleItemView = recyclerView.getChildAt(0);
-                if (firstVisibleItemView == null) {
-                    return;
-                }
-                visibleItemCount = mLayoutManager.getChildCount();
-                totalItemCount = mLayoutManager.getItemCount();
-                //firstVisibleItem = mLayoutManager.findFirstVisibleItemPosition();
-
-                // Save the height of the visible item.
-                heights.put(0, firstVisibleItemView.getHeight());
-
-                if(dy > 0) //check for scroll down
-                {
-
-                }
-            }
-        });
-
-        mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-        mLayoutManager.scrollToPosition(0);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        RecyclerView.ItemDecoration itemDecoration =
-                new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST);
-
-        mRecyclerView.addItemDecoration(itemDecoration);
-
-        //TODO
-      /*  ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mRecycleCursorAdapter);
-        mItemTouchHelper = new ItemTouchHelper(callback);
-        mItemTouchHelper.attachToRecyclerView(mRecyclerView);*/
+        SetupMainContentRecyclerView(rootView);
 
         return rootView;
     }
@@ -241,50 +160,26 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
         if (!(activity instanceof ControllableActivity)) {
             return;
         }
-        int[] toId = new int[]{
-                R.id.id,
-                R.id.profile_email_text
-        };
-        mActivity = (HomeActivity) activity;
 
+       // mActivity = (HomeActivity) activity;
         mActivity = (ControllableActivity) activity;
 
         onViewModeChanged(mActivity.getViewMode().getMode());
         ViewMode mode = mActivity.getViewMode();
-        mode.enterConversationListMode();
+        mode.enterMainContentListMode();
         mode.addListener(this);
-
-        actionBarController = mActivity.getActionBarController();
-        Toolbar toolbar = actionBarController.getSupportToolBar();
-        if (toolbar != null && mViewContext.folder != null ) {
-            toolbar.setSubtitle("Main " + mViewContext.folder.name);
-            toolbar.setTitle("Main " + mViewContext.folder.name);
-        }
-        else {
-            if (toolbar != null) {
-                toolbar.setSubtitle("Main");
-                toolbar.setTitle("Main ");
-            }
-        }
-
-       ActionBar ab =  actionBarController.getSupportActionBar();
-        if (ab != null) {
-            ab.setDisplayHomeAsUpEnabled(false);
-            if (mViewContext.folder != null ) {
-                ab.setSubtitle("Main " + mViewContext.folder.name);
-                ab.setTitle("");
-            }
-        }
-
+        SetupActionToolbar();
+        
         mRecycleCursorAdapter = new ContentCursorRecyclerAdapter(mActivity,
-               /* R.layout.maincontentitemview,*/
                 null,
-                MockContract.FOLDERS_PROJECTION, // string[] column names
-                toId
+                MockContract.FOLDERS_PROJECTION
                 );
-
-
+        
         mRecyclerView.setAdapter(mRecycleCursorAdapter);
+        //TODO
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mRecycleCursorAdapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
 
         // Indicate that this fragment would like to influence the set of actions in the action bar.
         setHasOptionsMenu(true);
@@ -295,15 +190,52 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         // Restore the previously serialized activated item position.
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
             mSectionNumber = savedInstanceState.getInt(ARG_SECTION_NUMBER);
             mFromSavedInstanceState = true;
         }
+    }
 
+    private void SetupMainContentRecyclerView(View rootView)
+    {
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.main_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            }
 
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+               //     Log.i(TAG, "onScrolled");
+                mCallbacks = mActivity.getMainContentCallbacks();
+                mCallbacks.onMainContentScrolled(recyclerView,dx,dy);
+            }
+        });
+        mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        mLayoutManager.scrollToPosition(0);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+    }
+
+    private void SetupActionToolbar()
+    {
+        actionBarController = mActivity.getActionBarController();
+        Toolbar toolbar = actionBarController.getSupportToolBar();
+        CollapsingToolbarLayout ctl = actionBarController.getCollapsingToolbarLayout();
+        if (ctl != null && mViewContext.folder != null ) {
+            ctl.setTitle("Main Content");
+            ctl.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
+           TextView subTitle =  (TextView)ctl.findViewById(R.id.subTitle);
+            subTitle.setText(mViewContext.folder.name);
+        }
+        else {
+            if (ctl != null) {
+                TextView subTitle =  (TextView)ctl.findViewById(R.id.subTitle);
+                subTitle.setText("" );
+            }
+        }
     }
 
     // </editor-fold
@@ -319,28 +251,18 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
         }
 
         try {
-
             mActivity = (ControllableActivity) activity;
-           // actionBarController = mActivity.getActionBarController();
-//            folderController = mActivity.getFolderController();
-//            if (folderController != null) {
-//               // folderController.onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
-//            }
             mCallbacks = mActivity.getMainContentCallbacks();
-
         } catch (ClassCastException e) {
             throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
         }
     }
 
-
     @Override
     public void onDetach() {
         super.onDetach();
-
         mCallbacks = sDummyCallbacks;
     }
-
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -350,30 +272,19 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
     public void onDestroyView() {
-
         mActivity.getViewMode().removeListener(this);
-
         super.onDestroyView();
     }
 
     // </editor-fold>
-
 
     // <editor-fold desc="Option menus">
 
     // remember these methods don't get called if the activity handles it and return true
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-       // Log.d("onOptionsItemSelected","yes");
         switch (item.getItemId()) {
-
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -400,14 +311,13 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
     private void startLoading() {
         final LoaderManager lm = getLoaderManager();
         final Bundle args = createLoaderArgs(getActivity().getIntent());
-        //showSendCommand(false);
         // Prepare the loader. starts or reconnects
         lm.initLoader(LOADER_ID_MESSAGES_LOADER, args, mCursorCallbacks);
     }
+
     private Bundle createLoaderArgs(Intent intent) {
         Uri data = intent.getData();
         // long contextId = ContentUris.parseId(data);
-
         Bundle args = new Bundle();
         // args.putLong(INITIAL_ID, 0L);
         // args.putInt(INITIAL_POSITION, intent.getIntExtra(INITIAL_POSITION,
@@ -440,9 +350,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
 
             switch (id) {
                 case LOADER_ID_MESSAGES_LOADER:
-                 /*   return new CursorLoader(getActivity().getApplicationContext(), contentUri,
-                            mProjection , null, null, null);*/
-                    return new MyObjectCursorLoader<MainContentDrawerItem>(getActivity().getApplicationContext(),
+                    return new MyObjectCursorLoader<>(getActivity().getApplicationContext(),
                             contentUri, mProjection, mFactory);
             }
             return null;
@@ -454,12 +362,8 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
             if (data == null || data.getCount() <=0 || !data.moveToFirst()) {
                  return;
             }
-
-            int count = data.getCount();
-
             switch (loader.getId()) {
                 case LOADER_ID_MESSAGES_LOADER:
-                  //  mAdapter.swapCursor(data);
                     if (mRecycleCursorAdapter != null) {
                         mRecycleCursorAdapter.swapCursor(data);
                     }
@@ -467,12 +371,8 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
             }
         }
 
-
         @Override
         public void onLoaderReset(Loader<ObjectCursor<MainContentDrawerItem>> loader) {
-            // For whatever reason, the Loader's data is now unavailable.
-            // Remove any references to the old data by replacing it with
-            // a null Cursor.
             if (mRecycleCursorAdapter != null) {
                 mRecycleCursorAdapter.swapCursor(null);
             }

@@ -3,53 +3,98 @@
 
     <style name="FrameworkRoot.Theme" parent="Theme.AppCompat.NoActionBar" >
 
-        <item name="drawerArrowStyle">@style/MaterialDrawer.DrawerArrowStyle</item>
+        <!--<item name="drawerArrowStyle">@style/MaterialDrawer.DrawerArrowStyle</item>-->
+        <!--&lt;!&ndash;<item name="actionOverflowButtonStyle">@style/MaterialDrawer.actionOverflowButtonStyle</item>&ndash;&gt;-->
+        <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
+        <!--<item name="colorControlNormal">#000</item>-->
 
-        <!--<item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>-->
-
-        <!-- ...and here we setting appcompat’s color theming attrs -->
+         <!--...and here we setting appcompat’s color theming attrs-->
         <item name="colorPrimary">@color/material_drawer_primary</item>
         <item name="colorPrimaryDark">@color/material_drawer_primary_dark</item>
         <item name="colorAccent">@color/material_drawer_accent</item>
 
         <!--<item baseName="toolbarStyle">@style/MyToolBar</item>-->
-        <!-- MaterialDrawer specific values -->
-        <item name="material_drawer_background">@drawable/hamish</item>
-        <item name="material_drawer_primary_text">@color/material_drawer_dark_primary_text</item>
-        <item name="material_drawer_primary_icon">@color/material_drawer_dark_primary_icon</item>
-        <item name="material_drawer_secondary_text">@color/material_drawer_dark_secondary_text
-        </item>
-        <item name="material_drawer_hint_text">@color/material_drawer_dark_hint_text</item>
-        <item name="material_drawer_hint_icon">@color/material_drawer_dark_hint_icon</item>
-        <item name="material_drawer_divider">@color/material_drawer_dark_divider</item>
-        <item name="material_drawer_selected">@color/material_drawer_dark_selected</item>
-        <item name="material_drawer_selected_text">@color/material_drawer_dark_selected_text</item>
-        <item name="material_drawer_header_selection_text">
-            @color/material_drawer_header_selection_text
-        </item>
+         <!--MaterialDrawer specific values -->
+        <!--<item name="material_drawer_background">@drawable/hamish</item>-->
+        <!--<item name="material_drawer_primary_text">@color/material_drawer_dark_primary_text</item>-->
+        <!--<item name="material_drawer_primary_icon">@color/material_drawer_dark_primary_icon</item>-->
+        <!--<item name="material_drawer_secondary_text">@color/material_drawer_dark_secondary_text</item>-->
+        <!--<item name="material_drawer_hint_text">@color/material_drawer_dark_hint_text</item>-->
+        <!--<item name="material_drawer_hint_icon">@color/material_drawer_dark_hint_icon</item>-->
+        <item name="material_drawer_divider">@color/material_drawer_divider</item>
+        <!--<item name="material_drawer_selected">@color/material_drawer_dark_selected</item>-->
+        <!--<item name="material_drawer_selected_text">@color/material_drawer_dark_selected_text</item>-->
+        <!--<item name="material_drawer_header_selection_text">@color/material_drawer_header_selection_text</item>-->
     </style>
+
+    <!--<style name="FrameworkRoot.Theme.Light" parent="Theme.AppCompat.Light.NoActionBar" >-->
+
+        <!--<item name="drawerArrowStyle">@style/MaterialDrawer.DrawerArrowStyle</item>-->
+
+        <!--&lt;!&ndash;<item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>&ndash;&gt;-->
+
+        <!--&lt;!&ndash; ...and here we setting appcompat’s color theming attrs &ndash;&gt;-->
+        <!--<item name="colorPrimary">@color/material_drawer_primary</item>-->
+        <!--<item name="colorPrimaryDark">@color/material_drawer_primary_dark</item>-->
+        <!--<item name="colorAccent">@color/material_drawer_accent</item>-->
+
+        <!--&lt;!&ndash;<item baseName="toolbarStyle">@style/MyToolBar</item>&ndash;&gt;-->
+        <!--&lt;!&ndash; MaterialDrawer specific values &ndash;&gt;-->
+        <!--<item name="material_drawer_background">@drawable/hamish</item>-->
+        <!--<item name="material_drawer_primary_text">@color/material_drawer_dark_primary_text</item>-->
+        <!--<item name="material_drawer_primary_icon">@color/material_drawer_dark_primary_icon</item>-->
+        <!--<item name="material_drawer_secondary_text">@color/material_drawer_dark_secondary_text-->
+        <!--</item>-->
+        <!--<item name="material_drawer_hint_text">@color/material_drawer_dark_hint_text</item>-->
+        <!--<item name="material_drawer_hint_icon">@color/material_drawer_dark_hint_icon</item>-->
+        <!--<item name="material_drawer_divider">@color/material_drawer_dark_divider</item>-->
+        <!--<item name="material_drawer_selected">@color/material_drawer_dark_selected</item>-->
+        <!--<item name="material_drawer_selected_text">@color/material_drawer_dark_selected_text</item>-->
+        <!--<item name="material_drawer_header_selection_text">-->
+            <!--@color/material_drawer_header_selection_text-->
+        <!--</item>-->
+    <!--</style>-->
+
 
     <style name="Theme" parent="FrameworkRoot.Theme">
         <item name="windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
     </style>
+    <!--<style name="Theme.Light" parent="FrameworkRoot.Theme.Light">-->
+        <!--<item name="windowActionBar">false</item>-->
+        <!--<item name="android:windowNoTitle">true</item>-->
+    <!--</style>-->
 
-    Base application theme.
-    <style name="Theme.IOSched.Base" parent="Theme">
+    <!--Base application theme.-->
+    <style name="Theme.IOSched.Base" parent="FrameworkRoot.Theme">
         <!--<item baseName="actionBarOverlayTopOffset">?android:actionBarSize</item>-->
     </style>
+    <!--<style name="Theme.PandT.Base" parent="Theme.Light">-->
+        <!--&lt;!&ndash;<item baseName="actionBarOverlayTopOffset">?android:actionBarSize</item>&ndash;&gt;-->
+    <!--</style>-->
 
     <style name="Theme.PandT" parent="Theme.IOSched.Base" />
+    <!--<style name="Theme.PandT.light.Base" parent="Theme.PandT.Base" />-->
 
+    <style name="Theme.PandT.WithNavDrawer" parent="Theme.PandT" />
+    <style name="Theme.PandT.Preferences" parent="Theme.PandT" />
+
+    <style name="Theme.PandT.Dark" parent="@style/Theme.PandT">
+
+    </style>
+
+    <!--<style name="Theme.PandT.Light" parent="@style/Theme.PandT.light.Base">-->
+
+    <!--</style>-->
 
     <!-- general styles for the tool bar-->
-    <!--<style baseName="MyToolBar" parent="Theme.AppCompat.NoActionBar">-->
-        <!--<item baseName="drawerArrowStyle">@style/Material.DrawerArrowStyle</item>-->
-        <!--<item baseName="titleTextStyle">@style/Material.titleTextStyle</item>-->
-        <!--<item baseName="subtitleTextStyle">@style/Material.subtitleTextStyle</item>-->
-        <!--<item baseName="actionMenuTextColor">@color/abc_primary_text_material_light</item>-->
-        <!--<item baseName="colorControlNormal">#FFff11</item>-->
-    <!--</style>-->
+    <style name="MyToolBar" parent="Theme.PandT.Dark">
+        <!--<item name="drawerArrowStyle">@style/Material.DrawerArrowStyle</item>-->
+        <!--<item name="titleTextStyle">@style/Material.titleTextStyle</item>-->
+        <!--<item name="subtitleTextStyle">@style/Material.subtitleTextStyle</item>-->
+        <!--<item name="actionMenuTextColor">@color/abc_primary_text_material_light</item>-->
+        <!--<item name="colorControlNormal">#FFff11</item>-->
+    </style>
 
     <style name="Material.titleTextStyle" parent="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title">
         <!--<item baseName="android:textColor">#FFff00</item>-->
@@ -61,33 +106,44 @@
     <!--</style>-->
 
     <!-- DrawerArrowStyles -->
-    <style name="MaterialDrawer.DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
-        <item name="spinBars">false</item>
-        <item name="color">@android:color/white</item>
-    </style>
+    <!--<style name="MaterialDrawer.DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">-->
+        <!--<item name="spinBars">false</item>-->
+        <!--<item name="color">@android:color/white</item>-->
+    <!--</style>-->
 
-    <style name="MaterialDrawer.Light.DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+    <style name="MaterialDrawer.DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">false</item>
         <item name="color">@android:color/black</item>
     </style>
 
-    <!--<style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">-->
-        <!--<item name="android:background">@drawable/custom_tab_indicator</item>-->
-        <!--<item name="android:textAppearance">@style/CustomTabPageIndicator.Text</item>-->
-        <!--<item name="android:textColor">#FF555555</item>-->
-        <!--<item name="android:textSize">16sp</item>-->
-        <!--<item name="android:divider">@drawable/custom_tab_indicator_divider</item>-->
-        <!--&lt;!&ndash;<item name="android:dividerPadding">10dp</item>&ndash;&gt;-->
-        <!--&lt;!&ndash;<item name="android:showDividers">middle</item>&ndash;&gt;-->
-        <!--<item name="android:paddingLeft">8dp</item>-->
-        <!--<item name="android:paddingRight">8dp</item>-->
-        <!--<item name="android:fadingEdge">horizontal</item>-->
-        <!--<item name="android:fadingEdgeLength">8dp</item>-->
-    <!--</style>-->
+    <style name="MaterialDrawer.actionOverflowButtonStyle" parent="Widget.AppCompat.ActionButton.Overflow">
+    <item name="android:src">@drawable/ic_item_overflow</item>
+    </style>
 
-    <!--<style name="CustomTabPageIndicator.Text" parent="android:TextAppearance.Medium">-->
-        <!--<item name="android:typeface">monospace</item>-->
-    <!--</style>-->
+    <style name="TextAppearance.Body2" parent="TextAppearance.AppCompat.Body2">
+        <item name="android:textSize">14sp</item>
+
+        <item name="android:textColor">?android:textColorSecondary</item>
+    </style>
+
+
+    <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
+        <item name="android:background">@drawable/custom_tab_indicator</item>
+        <item name="android:textAppearance">@style/CustomTabPageIndicator.Text</item>
+        <item name="android:textColor">#FF555555</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:divider">@drawable/custom_tab_indicator_divider</item>
+        <!--<item name="android:dividerPadding">10dp</item>-->
+        <!--<item name="android:showDividers">middle</item>-->
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:fadingEdge">horizontal</item>
+        <item name="android:fadingEdgeLength">8dp</item>
+    </style>
+
+    <style name="CustomTabPageIndicator.Text" parent="android:TextAppearance.Medium">
+        <item name="android:typeface">monospace</item>
+    </style>
 
 
 

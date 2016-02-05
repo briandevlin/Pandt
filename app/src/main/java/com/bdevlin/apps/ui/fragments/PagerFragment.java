@@ -12,7 +12,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bdevlin.apps.pandt.Controllers.ActionBarController;
@@ -80,12 +79,15 @@ Log.d(TAG, "Pager Fragment: onCreate");
       //  List<String> list = getRandomSublist(sCheeseStrings, 130);
 
         TextView name1 = (TextView)rootView.findViewById(R.id.info_text);
+        TextView name2 = (TextView)rootView.findViewById(R.id.textView2);
 //        String added ="";
 //        for(String item : list){
 //           added += item;
 //        }
 
-        name1.setText("page: " + mParam1);
+        name1.setText("pager fagment: " + mParam1);
+
+        name2.setText("This fragment uses fragment_slide_view.xml which contains layouts for NestedScrollView -> CardView -> RelativeLayout ->TextView(s) ");
         //ScrollView scrolled = (ScrollView)rootView.findViewById(R.baseId.scrollView);
        // scrolled.addView(name1);
 
@@ -112,7 +114,7 @@ Log.d(TAG, "Pager Fragment: onCreate");
         mActivity = (ControllableActivity) activity;
 
         ViewMode mode = mActivity.getViewMode();
-        mode.enterConversationMode();
+        mode.enterMainContentItemPagerMode();
 
         controller = mActivity.getActionBarController();
         ActionBar ab = controller.getSupportActionBar();

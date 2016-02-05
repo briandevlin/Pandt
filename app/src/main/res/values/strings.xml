@@ -54,6 +54,18 @@
     <string name="account_setup_failed_dlg_title">Couldn\'t finish</string>
     <string name="account_setup_failed_dlg_edit_details_action">Edit details</string>
     <string name="title_activity_google_play_services">GooglePlayServicesActivity</string>
+    <!-- Material theme -->
+    <string name="pref_theme">theme</string>
+    <string name="pref_theme_default">dark</string>
+    <string name="dialog_title">Select a theme</string>
+    <string-array name="pref_theme_list_entries">
+        <item>Dark</item>
+        <item>Light</item>
+    </string-array>
+    <string-array name="pref_theme_list_values">
+        <item>dark</item>
+        <item>light</item>
+    </string-array>
 
     <string-array name="new_items_entry">
         <item msgid="7546335612189115615">"Work"</item>

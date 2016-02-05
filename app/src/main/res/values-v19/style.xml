@@ -1,32 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="FrameworkRoot.Theme" parent="Theme.AppCompat.Light.NoActionBar" >
+    <!--<style name="FrameworkRoot.Theme" parent="Theme.AppCompat.Light.NoActionBar" >-->
 
-        <item name="android:actionBarStyle">@style/MyToolBar</item>
-        <item name="actionBarStyle">@style/MyToolBar</item>
-        <item name="windowActionBar">false</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="drawerArrowStyle">@style/MaterialDrawer.DrawerArrowStyle</item>
-        <item name="titleTextStyle">@style/MaterialDrawer.titleTextStyle</item>
-        <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
-    </style>
-    <style name="Theme" parent="FrameworkRoot.Theme">
+        <!--&lt;!&ndash;<item name="android:actionBarStyle">@style/MyToolBar</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="actionBarStyle">@style/MyToolBar</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="windowActionBar">false</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="android:windowNoTitle">true</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="drawerArrowStyle">@style/MaterialDrawer.DrawerArrowStyle</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="titleTextStyle">@style/MaterialDrawer.titleTextStyle</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>&ndash;&gt;-->
+    <!--</style>-->
+    <!--<style name="Theme" parent="FrameworkRoot.Theme">-->
 
-    </style>
+    <!--</style>-->
 
-    <!-- Base application theme. -->
-    <style name="Theme.IOSched.Base" parent="Theme">
-        <!--<item name="actionBarOverlayTopOffset">?android:actionBarSize</item>-->
-        <!--<item name="android:colorPrimary">#2196F3</item>-->
-    </style>
+    <!--&lt;!&ndash; Base application theme. &ndash;&gt;-->
+    <!--<style name="Theme.IOSched.Base" parent="Theme">-->
+        <!--&lt;!&ndash;<item name="actionBarOverlayTopOffset">?android:actionBarSize</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="android:colorPrimary">#2196F3</item>&ndash;&gt;-->
+    <!--</style>-->
 
-    <style name="Theme.PandT" parent="Theme.IOSched.Base" />
+    <style name="Theme.PandT" parent="Theme.IOSched.Base" >
 
-    <style name="MyToolBar" parent="Widget.AppCompat.ActionBar.Solid">
-        <item name="android:titleTextStyle">@style/MaterialDrawer.titleTextStyle</item>
-        <item name="titleTextStyle">@style/MaterialDrawer.titleTextStyle</item>
-    </style>
+</style>
+
+    <style name="Theme.PandT.WithNavDrawer" parent="Theme.PandT" >
+
+</style>
+
+    <!--<style name="MyToolBar" parent="Widget.AppCompat.ActionBar.Solid">-->
+        <!--<item name="android:titleTextStyle">@style/MaterialDrawer.titleTextStyle</item>-->
+        <!--<item name="titleTextStyle">@style/MaterialDrawer.titleTextStyle</item>-->
+    <!--</style>-->
     <!--<style name="MyToolBar" parent="Theme.AppCompat.NoActionBar">-->
         <!--<item name="drawerArrowStyle">@style/Material.DrawerArrowStyle</item>-->
         <!--&lt;!&ndash;<item name="subtitleTextColor">#FF96FF</item>&ndash;&gt;-->
@@ -47,45 +53,16 @@
 
     <!--</style>-->
 
-    <style name="MaterialDrawer.titleTextStyle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textColor">#FF3433</item>
-    </style>
+    <!--<style name="MaterialDrawer.titleTextStyle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">-->
+        <!--<item name="android:textColor">#FF3433</item>-->
+    <!--</style>-->
 
     <!--<style name="Material.subtitleTextStyle" parent="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Subtitle">-->
         <!--<item name="android:textColor">#FF3433</item>-->
     <!--</style>-->
 
-    <!--<style name="Material.DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">-->
-        <!--<item name="spinBars">true</item>-->
-        <!--<item name="color">#FF3433</item>-->
-    <!--</style>-->
 
-    <style name="MaterialDrawer.DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
-        <item name="spinBars">false</item>
-        <item name="color">@android:color/black</item>
-    </style>
 
-    <style name="MaterialDrawer.Light.DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
-        <item name="spinBars">false</item>
-        <item name="color">@android:color/black</item>
-    </style>
 
-    <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
-        <item name="android:background">@drawable/custom_tab_indicator</item>
-        <item name="android:textAppearance">@style/CustomTabPageIndicator.Text</item>
-        <item name="android:textColor">#FF555555</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:divider">@drawable/custom_tab_indicator_divider</item>
-        <item name="android:dividerPadding">10dp</item>
-        <item name="android:showDividers">middle</item>
-        <item name="android:paddingLeft">8dp</item>
-        <item name="android:paddingRight">8dp</item>
-        <item name="android:fadingEdge">horizontal</item>
-        <item name="android:fadingEdgeLength">8dp</item>
-    </style>
-
-    <style name="CustomTabPageIndicator.Text" parent="android:TextAppearance.Medium">
-        <item name="android:typeface">monospace</item>
-    </style>
 
 </resources>

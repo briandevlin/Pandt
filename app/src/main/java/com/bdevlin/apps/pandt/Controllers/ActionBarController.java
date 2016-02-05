@@ -2,6 +2,7 @@ package com.bdevlin.apps.pandt.Controllers;
 
 import android.database.DataSetObservable;
 import android.database.DataSetObserver;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
@@ -13,6 +14,8 @@ public interface ActionBarController {
     ActionBar getSupportActionBar();
 
     Toolbar getSupportToolBar();
+
+    CollapsingToolbarLayout getCollapsingToolbarLayout();
     /**
      * Registers to receive changes upon drawer closing when a changeAccount is called.
      */

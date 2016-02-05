@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-<style name="FrameworkRoot.Theme" parent="Theme.AppCompat.Light.NoActionBar" >
+<!--<style name="FrameworkRoot.Theme" parent="Theme.AppCompat.Light.NoActionBar" >-->
 
-    <!--<item name="toolbarStyle">@style/MyToolBar</item>-->
+    <!--&lt;!&ndash;<item name="toolbarStyle">@style/MyToolBar</item>&ndash;&gt;-->
 
-   <!-- <item name="android:colorPrimary">@color/materialize_primary</item>
-    <item name="android:colorPrimaryDark">@color/materialize_primary_dark</item>
-    <item name="android:colorAccent">@color/materialize_accent</item>-->
-
-
-    <!--<item name="colorPrimary">@color/materialize_primary</item>-->
-    <!--<item name="colorPrimaryDark">@color/materialize_primary_dark</item>-->
-   <!--&lt;!&ndash; <item name="colorPrimaryLight">@color/materialize_primary_light</item>&ndash;&gt;-->
-    <!--<item name="colorAccent">@color/materialize_accent</item>-->
+   <!--&lt;!&ndash; <item name="android:colorPrimary">@color/materialize_primary</item>-->
+    <!--<item name="android:colorPrimaryDark">@color/materialize_primary_dark</item>-->
+    <!--<item name="android:colorAccent">@color/materialize_accent</item>&ndash;&gt;-->
 
 
-    </style>
+    <!--&lt;!&ndash;<item name="colorPrimary">@color/materialize_primary</item>&ndash;&gt;-->
+    <!--&lt;!&ndash;<item name="colorPrimaryDark">@color/materialize_primary_dark</item>&ndash;&gt;-->
+   <!--&lt;!&ndash;&lt;!&ndash; <item name="colorPrimaryLight">@color/materialize_primary_light</item>&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;<item name="colorAccent">@color/materialize_accent</item>&ndash;&gt;-->
+
+
+    <!--</style>-->
 <style name="Theme" parent="FrameworkRoot.Theme">
 
 </style>
@@ -29,27 +29,27 @@
 
 <style name="Theme.PandT" parent="Theme.IOSched.Base" />
 
-    <style name="MyToolBar" parent="Theme.AppCompat.NoActionBar">
-        <!--<item name="drawerArrowStyle">@style/Material.DrawerArrowStyle</item>-->
-        <!--&lt;!&ndash;<item name="subtitleTextColor">#FF96FF</item>&ndash;&gt;-->
-        <!--<item name="android:titleTextStyle">@style/Material.titleTextStyle</item>-->
-        <!--<item name="android:subtitleTextStyle">@style/Material.subtitleTextStyle</item>-->
-        <!--<item name="titleTextStyle">@style/Material.titleTextStyle</item>-->
-        <!--<item name="subtitleTextStyle">@style/Material.subtitleTextStyle</item>-->
-        <!--<item name="android:textColorPrimary">#00FF33</item>-->
-        <!--<item name="android:textColorSecondary">#ffaa00</item>-->
-        <!--<item name="android:textColorPrimaryInverse">#ff33ff</item>-->
-        <!--&lt;!&ndash;<item name="actionMenuTextColor">@color/abc_primary_text_material_light</item>&ndash;&gt;-->
+    <!--<style name="MyToolBar" parent="Theme.AppCompat.NoActionBar">-->
+        <!--&lt;!&ndash;<item name="drawerArrowStyle">@style/Material.DrawerArrowStyle</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<item name="subtitleTextColor">#FF96FF</item>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="android:titleTextStyle">@style/Material.titleTextStyle</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="android:subtitleTextStyle">@style/Material.subtitleTextStyle</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="titleTextStyle">@style/Material.titleTextStyle</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="subtitleTextStyle">@style/Material.subtitleTextStyle</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="android:textColorPrimary">#00FF33</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="android:textColorSecondary">#ffaa00</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="android:textColorPrimaryInverse">#ff33ff</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<item name="actionMenuTextColor">@color/abc_primary_text_material_light</item>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<item name="textColorSecondary">#000000</item>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="colorControlNormal">#FFff11</item>&ndash;&gt;-->
+
+       <!--&lt;!&ndash; <item name="android:textColorPrimary">#00ff00</item>-->
+        <!--<item name="android:textColorSecondary">#f0f00f</item>-->
+        <!--<item name="android:textColorPrimaryInverse">#3333</item>-->
+        <!--<item name="actionMenuTextColor">@color/abc_primary_text_material_light</item>&ndash;&gt;-->
         <!--&lt;!&ndash;<item name="textColorSecondary">#000000</item>&ndash;&gt;-->
-        <!--<item name="colorControlNormal">#FFff11</item>-->
 
-       <!-- <item name="android:textColorPrimary">#00ff00</item>
-        <item name="android:textColorSecondary">#f0f00f</item>
-        <item name="android:textColorPrimaryInverse">#3333</item>
-        <item name="actionMenuTextColor">@color/abc_primary_text_material_light</item>-->
-        <!--<item name="textColorSecondary">#000000</item>-->
-
-    </style>
+    <!--</style>-->
 
     <!--<style name="Material.titleTextStyle" parent="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title">-->
         <!--<item name="android:textColor">#FFff00</item>-->

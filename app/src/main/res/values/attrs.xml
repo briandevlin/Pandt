@@ -6,14 +6,14 @@
     </declare-styleable>
 
     <declare-styleable name="MaterialDrawer">
-        <attr name="material_drawer_window_background" format="color|reference" />
+        <!--<attr name="material_drawer_window_background" format="color|reference" />-->
         <attr name="material_drawer_background" format="color|reference" />
 
         <attr name="material_drawer_primary_text" format="color|reference" />
         <attr name="material_drawer_primary_icon" format="color|reference" />
-        <attr name="material_drawer_secondary_text" format="color|reference" />
-        <attr name="material_drawer_hint_text" format="color|reference" />
-        <attr name="material_drawer_hint_icon" format="color|reference" />
+        <!--<attr name="material_drawer_secondary_text" format="color|reference" />-->
+        <!--<attr name="material_drawer_hint_text" format="color|reference" />-->
+        <!--<attr name="material_drawer_hint_icon" format="color|reference" />-->
         <attr name="material_drawer_divider" format="color|reference" />
 
         <attr name="material_drawer_selected" format="color|reference" />

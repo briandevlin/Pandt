@@ -118,10 +118,10 @@ public class HomeActivity extends AppCompatActivity implements ControllableActiv
         return mUIController;
     }*/
 
-    @Override
-    public FolderChangeListener getFolderChangeListener() {
-        return mUIController;
-    }
+//    @Override
+//    public FolderChangeListener getFolderChangeListener() {
+//        return mUIController;
+//    }
 
 
     /*@Override
@@ -145,6 +145,11 @@ public class HomeActivity extends AppCompatActivity implements ControllableActiv
         if (!mUIController.onBackPressed(true)) {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void createBackStack(Intent intent) {
+        mUIController.createBackStack(intent);
     }
 
     // </editor-fold>

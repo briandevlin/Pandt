@@ -43,7 +43,7 @@ public class ViewMode {
      * Mode when showing a list of conversations
      */
 
-    public static final int CONVERSATION_LIST = 2;
+    public static final int MAINCONTENT_LIST = 2;
 
     /**
      *
@@ -153,12 +153,8 @@ public class ViewMode {
         Collections.addAll(list, elements);
         return list;
     }
-//	public boolean isListMode() {
-//
-//		return isListMode(mMode);
-//
-//	}
-//
+
+
 //	public static boolean isListMode(final int mode) {
 //
 //		return mode == LISTING || mode == SEARCH_RESULTS_LIST;
@@ -204,7 +200,7 @@ public class ViewMode {
 
     }
 
-    public void enterConversationMode() {
+    public void enterMainContentItemPagerMode() {
 
         setModeInternal(CONVERSATION);
 
@@ -229,9 +225,9 @@ public class ViewMode {
     }
 
 
-    public void enterConversationListMode() {
+    public void enterMainContentListMode() {
 
-        setModeInternal(CONVERSATION_LIST);
+        setModeInternal(MAINCONTENT_LIST);
 
     }
 
@@ -248,7 +244,7 @@ public class ViewMode {
 
     public static boolean isListMode(final int mode) {
 
-        return mode == CONVERSATION_LIST || mode == SEARCH_RESULTS_LIST;
+        return mode == MAINCONTENT_LIST || mode == SEARCH_RESULTS_LIST;
 
     }
 

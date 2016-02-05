@@ -4,13 +4,10 @@ import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import com.bdevlin.apps.pandt.Cursors.ObjectCursor;
-import com.bdevlin.apps.pandt.DrawerItem.DividerDrawerItem;
-import com.bdevlin.apps.pandt.DrawerItem.IDrawerItem;
 import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
-import com.bdevlin.apps.pandt.R;
+import com.bdevlin.apps.pandt.DrawerItem.IDrawerItem;
 import com.bdevlin.apps.pandt.folders.Folder;
 
 import java.util.ArrayList;

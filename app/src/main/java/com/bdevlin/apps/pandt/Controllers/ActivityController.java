@@ -19,7 +19,7 @@ import com.bdevlin.apps.utils.LoginAndAuthHelper;
  * Created by brian on 7/20/2014.
  */
 public interface ActivityController extends ActionBarController,
-        FolderChangeListener,/*AccountController,*/
+//        FolderChangeListener,/*AccountController,*/
        /* FolderController,*/
         ViewMode.ModeChangeListener,
         NavigationDrawerFragment.NavigationDrawerCallbacks,
@@ -37,15 +37,17 @@ public interface ActivityController extends ActionBarController,
     //void onNewIntent(Intent intent);
     boolean onBackPressed(boolean isSystemBackKey);
     boolean onUpPressed();
+
     void onSaveInstanceState(Bundle outState);
     void onRestoreInstanceState(Bundle inState);
-    void onPause();
+   // void onPause();
     void onResume();
     void onStart();
     void onStop();
     void onPostCreate(Bundle savedInstanceState);
     //Account getCurrentAccount();
     GenericListContext getCurrentListContext();
-    void showConversationList(GenericListContext listContext);
+    void showMainContentItemsList(GenericListContext listContext);
     void onActivityResult(int requestCode, int resultCode, Intent data);
+    void createBackStack(Intent intent);
 }

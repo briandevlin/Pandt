@@ -2,9 +2,15 @@ package com.bdevlin.apps.pandt.DrawerItem;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.SwipeDismissBehavior;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,17 +29,13 @@ import com.bdevlin.apps.ui.widgets.StringHolder;
 public class MainContentDrawerItem
         extends BaseNavigationDrawerItem<MainContentDrawerItem>  {
 
+
+    // <editor-fold desc="Fields">
     private static final String TAG = MainContentDrawerItem.class.getSimpleName();
     private static final boolean DEBUG = true;
-    // <editor-fold desc="Fields">
     private MainContentFragment.MainContentCallbacks mCallbacks;
     private static ContentBaseRecyclerViewAdapter.OnItemClickListener itemClicked;
     private static MainContentDrawerItem.IViewHolderClicked viewHolderClicked;
-//    public int baseId;
-//    public String baseName;
-//    public String baseUri;
-    protected int[] mTo;
-    protected int[] mFrom;
     private ControllableActivity mActivity;
     // </editor-fold>
 
@@ -59,8 +61,31 @@ public class MainContentDrawerItem
         }
         setPostOnBindViewListener(new OnPostBindViewListener() {
 
-            public void onBindView(IDrawerItem drawerItem, View view) {
+            public void onBindView(IDrawerItem drawerItem, final View view) {
               // if (DEBUG) Log.d(TAG, "Post bind View ");
+                if (view instanceof CardView) {
+
+                    final SwipeDismissBehavior<CardView> swipe
+                            = new SwipeDismissBehavior();
+
+                    swipe.setSwipeDirection(
+                            SwipeDismissBehavior.SWIPE_DIRECTION_START_TO_END);
+                    swipe.setListener(
+                            new SwipeDismissBehavior.OnDismissListener() {
+                                @Override public void onDismiss(View view) {
+                                    Toast.makeText(mActivity.getActivityContext(),
+                                            "Card swiped !!", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onDragStateChanged(int state) {}
+                            });
+
+
+                    mCallbacks = mActivity.getMainContentCallbacks();
+                    mCallbacks.onMainContentItemSwipe(((CardView)view),swipe);
+
+                }
             }
         });
 

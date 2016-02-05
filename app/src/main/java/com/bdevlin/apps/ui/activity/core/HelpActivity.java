@@ -19,6 +19,7 @@ import android.view.View;
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.ui.fragments.HelpListFragment;
 import com.bdevlin.apps.utils.HelpUtils;
+import com.bdevlin.apps.utils.Utils;
 import com.viewpagerindicator.LinePageIndicator;
 
 import java.util.ArrayList;
@@ -49,20 +50,11 @@ public class HelpActivity  extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.pager);
-        getActionBarToolbar();
-        ActionBar ab =  getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
 
-        if (mToolbar != null) {
-            this.mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                 finish();
-                }
-            });
-        }
+        setActionBarToolbar();
 
         initFragments();
+
         TestFragmentAdapter adapter = new TestFragmentAdapter(
                 getSupportFragmentManager());
 
@@ -76,13 +68,22 @@ public class HelpActivity  extends AppCompatActivity {
         mPager.setCurrentItem(position);
     }
 
-    protected Toolbar getActionBarToolbar() {
+    protected Toolbar setActionBarToolbar() {
         if (mToolbar == null) {
             mToolbar = (Toolbar) findViewById(R.id.prefs_toolbar);
             if (mToolbar != null) {
                 setSupportActionBar(mToolbar);
+              //  mToolbar.setOverflowIcon(Utils.getCompatDrawable(this,R.drawable.ic_more_vert_white_18dp));
+                mToolbar.setNavigationIcon(R.drawable.ic_close_black_24dp);
+                mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
             }
         }
+
         return mToolbar;
     }
 

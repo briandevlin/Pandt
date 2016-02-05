@@ -14,7 +14,7 @@ import com.bdevlin.apps.utils.Utils;
 public class DividerDrawerItem extends AbstractDrawerItem<DividerDrawerItem>  {
     @Override
     public ViewHolderFactory getFactory() {
-        return null;
+        return new ItemFactory();
     }
 
     @Override
@@ -42,7 +42,9 @@ public class DividerDrawerItem extends AbstractDrawerItem<DividerDrawerItem>  {
 
         //set the color for the divider
         viewHolder.divider.setBackgroundColor(Utils.getThemeColorFromAttrOrRes(ctx, R.attr.material_drawer_divider, R.color.material_drawer_divider));
-       // viewHolder.divider.setBackgroundColor( ctx.getResources().getColor(R.color.colorPrimaryDark));
+       // int accent = ctx.getResources().getColor(R.color.colorAccent);
+
+       // viewHolder.divider.setBackgroundColor( ctx.getResources().getColor(R.color.colorAccent));
         //call the onPostBindView method to trigger post bind view actions (like the listener to modify the item if required)
         onPostBindView(this, holder.itemView);
     }

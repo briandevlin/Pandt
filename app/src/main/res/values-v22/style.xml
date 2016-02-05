@@ -3,7 +3,7 @@
 
 <style name="FrameworkRoot.Theme" parent="Theme.AppCompat.Light.NoActionBar" >
 
-    <item name="toolbarStyle">@style/MyToolBar</item>
+    <!--<item name="toolbarStyle">@style/MyToolBar</item>-->
 
     <!--<item name="android:colorPrimary">@color/materialize_primary</item>
     <item name="android:colorPrimaryDark">@color/materialize_primary_dark</item>

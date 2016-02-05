@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-<style name="FrameworkRoot.Theme" parent="Theme.AppCompat.Light.NoActionBar" />
+<!--<style name="FrameworkRoot.Theme" parent="Theme.AppCompat.Light.NoActionBar" />-->
 
 <style name="Theme" parent="FrameworkRoot.Theme">
 
@@ -9,7 +9,7 @@
 
 <!-- Base application theme. -->
 <style name="Theme.IOSched.Base" parent="Theme">
-    <item name="actionBarOverlayTopOffset">?android:actionBarSize</item>
+    <!--<item name="actionBarOverlayTopOffset">?android:actionBarSize</item>-->
 
 </style>
 

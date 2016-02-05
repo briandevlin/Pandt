@@ -1,6 +1,8 @@
 package com.bdevlin.apps.utils;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
@@ -21,6 +23,31 @@ public class ThemeUtils {
             return a.getColor(0, 0);
         } finally {
             a.recycle();
+        }
+    }
+    public static float getThemeAttrDimension(Context context, int attr) {
+        TEMP_ARRAY[0] = attr;
+        TypedArray a = context.obtainStyledAttributes(null, TEMP_ARRAY);
+        try {
+            return a.getDimension(0, 0);
+        } finally {
+            a.recycle();
+        }
+    }
+
+    public static String getThemeName(Context context)
+    {
+        PackageInfo packageInfo;
+        try
+        {
+            String packageName =  context.getPackageName();
+             packageInfo = context.getPackageManager().getPackageInfo(packageName, PackageManager.GET_META_DATA);
+            int theme = packageInfo.applicationInfo.theme;
+            return  context.getResources().getResourceEntryName(theme);
+        }
+        catch (PackageManager.NameNotFoundException e)
+        {
+            return null;
         }
     }
 

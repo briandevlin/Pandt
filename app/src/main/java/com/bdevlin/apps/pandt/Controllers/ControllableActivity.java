@@ -1,6 +1,7 @@
 package com.bdevlin.apps.pandt.Controllers;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.bdevlin.apps.utils.ViewMode;
 import com.bdevlin.apps.pandt.folders.FolderChangeListener;
@@ -15,11 +16,12 @@ public interface ControllableActivity {
     ActionBarController getActionBarController();
     //FolderController getFolderController();
     //AccountController getAccountController();
-    FolderChangeListener getFolderChangeListener();
+//    FolderChangeListener getFolderChangeListener();
     NavigationDrawerFragment.NavigationDrawerCallbacks getNavigationDrawerCallbacks();
     MainContentFragment.MainContentCallbacks getMainContentCallbacks();
     Context getActivityContext();
     Context getApplicationContext();
     ViewMode getViewMode();
+    void createBackStack(Intent intent);
 
 }

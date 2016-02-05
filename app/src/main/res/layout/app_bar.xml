@@ -7,27 +7,63 @@
     android:layout_margin="0dp"
     android:layout_height="@dimen/app_bar_height"
     android:layout_width="match_parent"
-    android:background="@color/colorPrimaryDark">
+    android:fitsSystemWindows="true"
+    >
 
     <android.support.design.widget.CollapsingToolbarLayout
         android:id="@+id/toolbar_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_scrollFlags="scroll|exitUntilCollapsed"
-        app:theme="@style/MyToolBar"
-        app:titleTextAppearance="@style/MaterialDrawer.titleTextStyle"
-        app:popupTheme="@style/Theme.AppCompat.NoActionBar"
-        app:contentScrim="@color/colorPrimaryDark"
-        android:visibility="visible">
+        app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap"
+
+        android:fitsSystemWindows="true"
+        app:contentScrim="@color/colorPrimary">
+        <!--app:expandedTitleMarginBottom="60dp"-->
+        <!--app:expandedTitleMarginEnd="32dp"-->
+        <!--app:expandedTitleMarginStart="32dp"-->
+
+        <com.flaviofaria.kenburnsview.KenBurnsView
+            android:id="@+id/header_picture"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_collapseMode="parallax"
+            android:src="@drawable/tower2"
+            />
 
         <ImageView
             android:src="@drawable/tower2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_collapseMode="parallax"
-            android:visibility="visible"
+            android:visibility="gone"
             android:id="@+id/tower"
             android:scaleType="fitXY" />
+        <ImageView
+            android:id="@+id/header_thumbnail"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:src="@drawable/header_thumbnail" />
+        <TextView
+            android:id="@+id/subTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/abc_text_size_subhead_material"
+            android:textColor="@android:color/white"
+            android:layout_marginLeft="32dp"
+
+            app:layout_collapseMode="parallax"
+            android:layout_gravity="bottom"
+            android:visibility="visible"
+            android:text="Lorem Ipsum Iran Lorem  "/>
+
+        <!--android:layout_marginBottom="32dp"-->
+        <!--android:layout_marginEnd="32dp"-->
+        <!--android:layout_marginStart="48dp"-->
+        <!--android:layout_marginRight="24dp"-->
+        <!--android:layout_marginLeft="48dp"-->
+
 
         <android.support.v7.widget.Toolbar
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -35,14 +71,25 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:layout_collapseMode="pin"
-            app:theme="@style/MyToolBar"
-            app:titleTextColor="@android:color/white"
-            app:titleTextAppearance="@style/MaterialDrawer.titleTextStyle"
-            android:visibility="visible">
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:layout_collapseMode="parallax">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal" >
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    app:layout_collapseMode="parallax"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp" />
+
+            </LinearLayout>
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.CollapsingToolbarLayout>
 
 </android.support.design.widget.AppBarLayout>
-

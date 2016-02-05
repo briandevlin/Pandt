@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="FrameworkRoot.Theme" parent="Theme.AppCompat.NoActionBar" >
+    <!--<style name="FrameworkRoot.Theme" parent="Theme.AppCompat.NoActionBar" >-->
 
-        <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
-        <item name="drawerArrowStyle">@style/MaterialDrawer.DrawerArrowStyle</item>
-        <item name="actionOverflowButtonStyle">@style/MaterialDrawer.actionOverflowButtonStyle</item>
-    </style>
+        <!--<item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>-->
+        <!--<item name="drawerArrowStyle">@style/MaterialDrawer.DrawerArrowStyle</item>-->
+        <!--<item name="actionOverflowButtonStyle">@style/MaterialDrawer.actionOverflowButtonStyle</item>-->
+    <!--</style>-->
     <style name="Theme" parent="FrameworkRoot.Theme">
 
     </style>
@@ -20,31 +20,31 @@
     <style name="Theme.PandT" parent="Theme.IOSched.Base" />
 
 
-    <style name="MaterialDrawer.DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
-        <item name="spinBars">false</item>
-        <item name="color">@android:color/black</item>
-    </style>
+    <!--<style name="MaterialDrawer.DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">-->
+        <!--<item name="spinBars">false</item>-->
+        <!--<item name="color">@android:color/black</item>-->
+    <!--</style>-->
 
-    <style name="MaterialDrawer.actionOverflowButtonStyle" parent="Widget.AppCompat.ActionButton.Overflow">
-        <item name="android:src">@drawable/ic_item_overflow</item>
-    </style>
+    <!--<style name="MaterialDrawer.actionOverflowButtonStyle" parent="Widget.AppCompat.ActionButton.Overflow">-->
+        <!--<item name="android:src">@drawable/ic_item_overflow</item>-->
+    <!--</style>-->
 
-    <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
-        <item name="android:background">@drawable/custom_tab_indicator</item>
-        <item name="android:textAppearance">@style/CustomTabPageIndicator.Text</item>
-        <item name="android:textColor">#FF555555</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:divider">@drawable/custom_tab_indicator_divider</item>
-        <item name="android:dividerPadding">10dp</item>
-        <item name="android:showDividers">middle</item>
-        <item name="android:paddingLeft">8dp</item>
-        <item name="android:paddingRight">8dp</item>
-        <item name="android:fadingEdge">horizontal</item>
-        <item name="android:fadingEdgeLength">8dp</item>
-    </style>
+    <!--<style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">-->
+        <!--<item name="android:background">@drawable/custom_tab_indicator</item>-->
+        <!--<item name="android:textAppearance">@style/CustomTabPageIndicator.Text</item>-->
+        <!--<item name="android:textColor">#FF555555</item>-->
+        <!--<item name="android:textSize">16sp</item>-->
+        <!--<item name="android:divider">@drawable/custom_tab_indicator_divider</item>-->
+        <!--<item name="android:dividerPadding">10dp</item>-->
+        <!--<item name="android:showDividers">middle</item>-->
+        <!--<item name="android:paddingLeft">8dp</item>-->
+        <!--<item name="android:paddingRight">8dp</item>-->
+        <!--<item name="android:fadingEdge">horizontal</item>-->
+        <!--<item name="android:fadingEdgeLength">8dp</item>-->
+    <!--</style>-->
 
-    <style name="CustomTabPageIndicator.Text" parent="android:TextAppearance.Medium">
-        <item name="android:typeface">monospace</item>
-    </style>
+    <!--<style name="CustomTabPageIndicator.Text" parent="android:TextAppearance.Medium">-->
+        <!--<item name="android:typeface">monospace</item>-->
+    <!--</style>-->
 
 </resources>
