@@ -174,8 +174,9 @@ public class ViewMode {
     // }
 
     public void addListener(ModeChangeListener listener) {
-
-        mListeners.add(listener);
+        if (!mListeners.contains(listener)){
+            mListeners.add(listener);
+        }
 
     }
 

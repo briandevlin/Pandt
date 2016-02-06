@@ -136,7 +136,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
     
     @Override
     public void onViewModeChanged(int newMode) {
-      //  Log.v(TAG, "in onViewModeChanged  " + newMode);
+        Log.v(TAG, "in onViewModeChanged  " + newMode);
     }
 
     @Override
@@ -155,19 +155,17 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        final Activity activity = getActivity();
-
-        if (!(activity instanceof ControllableActivity)) {
-            return;
-        }
+//        final Activity activity = getActivity();
+//
+//        if (!(activity instanceof ControllableActivity)) {
+//            return;
+//        }
 
        // mActivity = (HomeActivity) activity;
-        mActivity = (ControllableActivity) activity;
+       // mActivity = (ControllableActivity) activity;
 
-        onViewModeChanged(mActivity.getViewMode().getMode());
-        ViewMode mode = mActivity.getViewMode();
-        mode.enterMainContentListMode();
-        mode.addListener(this);
+        SetupViewMode();
+
         SetupActionToolbar();
         
         mRecycleCursorAdapter = new ContentCursorRecyclerAdapter(mActivity,
@@ -176,10 +174,8 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
                 );
         
         mRecyclerView.setAdapter(mRecycleCursorAdapter);
-        //TODO
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mRecycleCursorAdapter);
-        mItemTouchHelper = new ItemTouchHelper(callback);
-        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+
+        SetupTouchHelper();
 
         // Indicate that this fragment would like to influence the set of actions in the action bar.
         setHasOptionsMenu(true);
@@ -196,6 +192,24 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
             mSectionNumber = savedInstanceState.getInt(ARG_SECTION_NUMBER);
             mFromSavedInstanceState = true;
         }
+    }
+
+    private void SetupViewMode()
+    {
+        onViewModeChanged(mActivity.getViewMode().getMode());
+        ViewMode mode = mActivity.getViewMode();
+        mode.enterMainContentListMode();
+        mode.addListener(this);
+    }
+
+    private void SetupTouchHelper()
+    {
+        if (mRecyclerView != null) {
+            ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mRecycleCursorAdapter);
+            mItemTouchHelper = new ItemTouchHelper(callback);
+            mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+        }
+
     }
 
     private void SetupMainContentRecyclerView(View rootView)
