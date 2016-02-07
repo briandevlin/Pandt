@@ -3,8 +3,6 @@ package com.bdevlin.apps.ui.fragments;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,10 +16,6 @@ import com.bdevlin.apps.pandt.Controllers.ActionBarController;
 import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.utils.ViewMode;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 /**
  * Created by brian on 7/26/2014.
@@ -79,8 +73,8 @@ public class PagerFragment extends Fragment {
         TextView name1 = (TextView)rootView.findViewById(R.id.info_text);
         TextView name2 = (TextView)rootView.findViewById(R.id.textView2);
 
-        name1.setText("pager fagment: " + mParam1);
-        name2.setText("This fragment uses fragment_slide_view.xml which contains layouts for NestedScrollView -> CardView -> RelativeLayout ->TextView(s) ");
+        name1.setText(R.string.pagerfragment_param + mParam1);
+        name2.setText(R.string.pagerFragmentText);
         //ScrollView scrolled = (ScrollView)rootView.findViewById(R.baseId.scrollView);
        // scrolled.addView(name1);
 

@@ -1,6 +1,7 @@
 package com.bdevlin.apps.pandt.Adapters;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -60,9 +61,11 @@ public class NavigationCursorRecyclerAdapter
     //// Create new views (invoked by the layout manager)
     @Override
     public  NavigationDrawerItem.ListItemViewHolder onCreateViewHolder (ViewGroup parent, int viewType) {
-       // Log.d(TAG,"onCreateViewHolder");
-        NavigationDrawerItem drawerItem = new NavigationDrawerItem(mActivity, null);
-        //AbstractDrawerItem.getViewHolder inflates the view item and returns the ListItemViewHolder(view)
+       if (DEBUG)  Log.d(TAG, "onCreateViewHolder");
+
+        int pos =  getCursor().getPosition();
+        IDrawerItem drawerItem = this.getItem(pos);
+
        final  NavigationDrawerItem.ListItemViewHolder holder =  (NavigationDrawerItem.ListItemViewHolder)drawerItem.getViewHolder(parent);
         // do here rather than on bind
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -147,6 +150,7 @@ public class NavigationCursorRecyclerAdapter
       //  Toast.makeText(mContext, "onItemDismiss " , Toast.LENGTH_LONG).show();
         notifyItemRemoved(position);
     }
+
 
 //    @Override
 //    public void onItemClick(View itemView, int position) {

@@ -2,15 +2,11 @@ package com.bdevlin.apps.pandt.DrawerItem;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.SwipeDismissBehavior;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,9 +51,10 @@ public class MainContentDrawerItem
         }
 
         if (c != null) {
-            baseId = c.getInt(MockUiProvider.FOLDER_ID_COLUMN);
-            baseName = new StringHolder(c.getString(MockUiProvider.FOLDER_NAME_COLUMN));
-            baseUri = c.getString(MockUiProvider.FOLDER_URI_COLUMN);
+            baseId = c.getInt(MockUiProvider.ACCOUNT_ID_COLUMN);
+            baseName = new StringHolder(c.getString(MockUiProvider.ACCOUNT_NAME_COLUMN));
+            baseIcon = c.getString(MockUiProvider.ACCOUNT_URI_COLUMN);
+            baseListUri = new StringHolder(c.getString(MockUiProvider.ACCOUNT_LISTURI_COLUMN));
         }
         setPostOnBindViewListener(new OnPostBindViewListener() {
 
@@ -136,8 +133,8 @@ public class MainContentDrawerItem
         ContentItemViewHolder viewHolder = (ContentItemViewHolder) holder;
        // Context context = this.mActivity.getActivityContext();
 
-//        if (baseUri != null) {
-//            int resId = ctx.getResources().getIdentifier(baseUri, "drawable", ctx.getPackageName());
+//        if (baseIcon != null) {
+//            int resId = ctx.getResources().getIdentifier(baseIcon, "drawable", ctx.getPackageName());
 //            this.setImageHolder(resId);
 //        }
         bindViewHelper((BaseViewHolder) holder);

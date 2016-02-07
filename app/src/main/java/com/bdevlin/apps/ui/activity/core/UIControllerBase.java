@@ -140,7 +140,7 @@ public abstract class UIControllerBase implements ActivityController {
     private ImageView mExpandAccountBoxIndicator;
 
     // private String mNextPageToken;
-    private DrawerLayout mDrawerLayout;
+    public DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
    // private AppBarLayout appBarLayout;
     private ViewGroup mRootView;
@@ -723,7 +723,7 @@ public abstract class UIControllerBase implements ActivityController {
        // mMinHeaderTranslation = -mMinHeaderHeight + getActionBarHeight();
 
 
-        getSupportActionBar().setBackgroundDrawable(null);
+      //  getSupportActionBar().setBackgroundDrawable(null);
         final Handler handler = new Handler();
         Runnable runnable = new Runnable() {
             int i=0;
@@ -789,7 +789,7 @@ public abstract class UIControllerBase implements ActivityController {
     @Override
     public void onMainContentItemSwipe(final CardView cardView, final SwipeDismissBehavior<CardView> swipe) {
 
-    Log.i(TAG, "onMainContentItemSwipe");
+   // Log.i(TAG, "onMainContentItemSwipe");
 
     }
     // </editor-fold>

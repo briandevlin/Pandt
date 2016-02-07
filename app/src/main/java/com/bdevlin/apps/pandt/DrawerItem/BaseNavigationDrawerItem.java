@@ -39,7 +39,7 @@ public abstract class BaseNavigationDrawerItem<T> extends BaseDrawerItem<T> {
         if (this instanceof NavigationDrawerItem) {
             Utils.setBackground(viewHolder.view, Utils.getSelectableBackground(ctx, selectedColor));
         } else {
-
+            viewHolder.name2.setTextColor(Utils.getTextColorStateList(color, selectedTextColor));
         }
        // Utils.setBackground(viewHolder.view, Utils.getSelectableBackground(ctx, selectedColor));
 
@@ -51,9 +51,12 @@ public abstract class BaseNavigationDrawerItem<T> extends BaseDrawerItem<T> {
         //set the text for the baseName
         StringHolder.applyTo(this.getBaseName(), viewHolder.name);
 
+       //set the text for the subName
+        StringHolder.applyTo(this.getListuriString(), viewHolder.name2);
+
         // this takes care of the cursor icons
-        if (baseUri != null) {
-            int resId = ctx.getResources().getIdentifier(baseUri, "drawable", ctx.getPackageName());
+        if (baseIcon != null) {
+            int resId = ctx.getResources().getIdentifier(baseIcon, "drawable", ctx.getPackageName());
             this.setImageHolder(resId);
         }
         int iconColor = getIconColor(ctx);
@@ -72,7 +75,8 @@ public abstract class BaseNavigationDrawerItem<T> extends BaseDrawerItem<T> {
         protected View view;
         protected ImageView imageView;
         protected TextView name;
-        //protected TextView name2;
+        protected TextView name2;
+
         protected TextView id;
 
 
@@ -83,6 +87,7 @@ public abstract class BaseNavigationDrawerItem<T> extends BaseDrawerItem<T> {
 
             this.imageView = (ImageView) view.findViewById(R.id.imageview2);
             this.name = (TextView) view.findViewById(R.id.baseName);
+            this.name2 = (TextView) view.findViewById(R.id.name2);
             this.id = (TextView) view.findViewById(R.id.id);
         }
     }

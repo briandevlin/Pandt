@@ -98,6 +98,7 @@ public final class MockContract {
          * <P>Type: TEXT</P>
          */
         public static final String FOLDER_NAME = "name";
+        public static final String FOLDER_ICON = "icon";
         public static final String FOLDER_URI = "uri";
 
 
@@ -107,6 +108,7 @@ public final class MockContract {
     public static final String[] FOLDERS_PROJECTION = {
             BaseColumns._ID,
             FolderColumns.FOLDER_NAME,
+            FolderColumns.FOLDER_ICON,
             FolderColumns.FOLDER_URI
 
     };

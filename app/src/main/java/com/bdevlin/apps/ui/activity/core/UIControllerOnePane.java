@@ -1,6 +1,8 @@
     package com.bdevlin.apps.ui.activity.core;
 
     import android.content.Intent;
+    import android.database.Cursor;
+    import android.net.Uri;
     import android.os.Bundle;
     import android.support.design.widget.SwipeDismissBehavior;
     import android.support.v4.app.Fragment;
@@ -18,6 +20,8 @@
     import com.bdevlin.apps.pandt.Controllers.ActivityController;
     import com.bdevlin.apps.pandt.DrawerItem.IDrawerItem;
     import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
+    import com.bdevlin.apps.provider.MockContract;
+    import com.bdevlin.apps.provider.MockUiProvider;
     import com.bdevlin.apps.utils.GenericListContext;
     import com.bdevlin.apps.pandt.folders.Folder;
     import com.bdevlin.apps.ui.fragments.MainContentFragment;
@@ -82,7 +86,15 @@
         @Override
         public void onStart() {
             super.onStart();
-
+        final String[] mProjection = MockContract.ACCOUNTS_PROJECTION;
+        final Uri contentUri = MockContract.Accounts.CONTENT_URI.buildUpon().appendPath("1").build();
+        final Cursor inner = (Cursor)getContext().getContentResolver().query(contentUri, mProjection,null,null,null);
+               // "_id=?", new String[] { String.valueOf(2) }, null);
+            Log.d(TAG,"count: " + inner.getCount());
+            Log.d(TAG, "position: " + inner.getPosition());
+            inner.moveToFirst();
+            Log.d(TAG, "position: " + inner.getPosition());
+            //Log.d(TAG,"column 1: " + inner.getInt(MockUiProvider.ACCOUNT_ID_COLUMN));
         }
 
         @Override
@@ -180,10 +192,13 @@
 
             if (itemView != null) {
                 NavigationDrawerItem navItem = (NavigationDrawerItem) item;
-
-                 folder = new Folder(navItem.getNavId(), navItem.getBaseName().getText());
+               String baseName =  navItem.getBaseName().getText();
+                if (baseName.equals(mActivity.getResources().getString(R.string.Grammar))) {
+                    baseName =    baseName.concat(mActivity.getString(R.string.patrsofSpeech));
+                }
+                folder = new Folder(navItem.getNavId(), baseName);
             } else {
-                folder = new Folder(1, "Folder one");
+                folder = new Folder(1,mActivity.getString(R.string.completepartsofspeech));
             }
             GenericListContext viewContext = GenericListContext.forFolder(folder);
             showMainContentItemsList(viewContext);
@@ -338,6 +353,7 @@
 
         // </editor-fold>
 
+        // <editor-fold desc="fragments">
         @Override
         public void onViewModeChanged(int newMode) {
             // we get here from viewmode.dispatchModeChange()
@@ -377,6 +393,8 @@
             }
 
         }
+
+        // </editor-fold>
 
         @Override
         public boolean isDrawerEnabled() {

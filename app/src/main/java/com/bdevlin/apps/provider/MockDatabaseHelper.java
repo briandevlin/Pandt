@@ -67,35 +67,36 @@ public class MockDatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("create table " + Tables.ACCOUNTS + s);
 
-        db.execSQL("INSERT INTO accounts VALUES(1,'account one', 'ic_speaker_notes_black_24dp', null, null)");
-        db.execSQL("INSERT INTO accounts VALUES(2,'account two', null, null, null)");
-        db.execSQL("INSERT INTO accounts VALUES(3,'account three', null, null, null)");
-        db.execSQL("INSERT INTO accounts VALUES(4,'account four', null, null, null)");
-        db.execSQL("INSERT INTO accounts VALUES(5,'account five', null, null, null)");
-        db.execSQL("INSERT INTO accounts VALUES(6,'account six', null, null, null)");
-        db.execSQL("INSERT INTO accounts VALUES(7,'account seven', null, null, null)");
-        db.execSQL("INSERT INTO accounts VALUES(8,'account eight', null, null, null)");
-        db.execSQL("INSERT INTO accounts VALUES(9,'account nine', null, null, null)");
-        db.execSQL("INSERT INTO accounts VALUES(10,'account ten', null, null, null)");
-        db.execSQL("INSERT INTO accounts VALUES(11,'account eleven', null, null, null)");
-        db.execSQL("INSERT INTO accounts VALUES(12,'account twelve', null, null, null)");
+        db.execSQL("INSERT INTO accounts VALUES(1,'Nouns', 'ic_speaker_notes_black_24dp', 'Nouns are the names of persons, places or things.', null)");
+        db.execSQL("INSERT INTO accounts VALUES(2,'Verbs', null, 'Verbs show action or state of being.', null)");
+        db.execSQL("INSERT INTO accounts VALUES(3,'Adjectives', '', 'Adjectives (And adjectival phrases) modify ONLY nouns or pronouns and tell WHICH, WHOSE, WHAT KIND, and HOW MANY.', null)");
+        db.execSQL("INSERT INTO accounts VALUES(4,'Pronouns', '', 'Pronouns take the place of nouns.', null)");
+        db.execSQL("INSERT INTO accounts VALUES(5,'Adverbs', '', 'Adverbs (And adverbial phrases) modify verbs, adjectives, and other adverbs and tell HOW, WHEN, WHERE, and HOW MUCH.', null)");
+        db.execSQL("INSERT INTO accounts VALUES(6,'Prepositions', '', 'Prepositions must have an object and show a relationship between its object and some other word in the sentence.', null)");
+        db.execSQL("INSERT INTO accounts VALUES(7,'Conjunctions', '', 'Conjunctions join words, phrases, and clauses.', null)");
+        db.execSQL("INSERT INTO accounts VALUES(8,'Interjections', '', 'Interjections show feeling and are punctuated with either a comma or an exclamation point.', null)");
+//        db.execSQL("INSERT INTO accounts VALUES(9,'account nine', null, null, null)");
+//        db.execSQL("INSERT INTO accounts VALUES(10,'account ten', null, null, null)");
+//        db.execSQL("INSERT INTO accounts VALUES(11,'account eleven', null, null, null)");
+//        db.execSQL("INSERT INTO accounts VALUES(12,'account twelve', null, null, null)");
     }
 
 
     static void createFolderTable(SQLiteDatabase db) {
         String s = " (" + Folders._ID + " integer primary key autoincrement, "
                 + Folders.FOLDER_NAME + " text, "
+                + Folders.FOLDER_ICON + " text, "
                 + Folders.FOLDER_URI + " text "
                 + ");";
 
         db.execSQL("create table " + Tables.FOLDERS + s);
 
-        db.execSQL("INSERT INTO folders VALUES(1,'folder one', 'ic_speaker_notes_black_24dp' )");
-        db.execSQL("INSERT INTO folders VALUES(2,'folder two', 'ic_store_black_24dp' )");
-        db.execSQL("INSERT INTO folders VALUES(3,'folder three', 'ic_work_black_24dp' )");
-        db.execSQL("INSERT INTO folders VALUES(4,'folder four', 'ic_speaker_notes_black_24dp' )");
-        db.execSQL("INSERT INTO folders VALUES(5,'folder five', 'ic_store_black_24dp' )");
-        db.execSQL("INSERT INTO folders VALUES(6,'folder six', 'ic_work_black_24dp' )");
+        db.execSQL("INSERT INTO folders VALUES(1,'Grammar', 'ic_speaker_notes_black_24dp', 'content://com.bdevlin.apps.pandt.MockUiProvider/folder/1/subject/1' )");
+        db.execSQL("INSERT INTO folders VALUES(2,'Practise', 'ic_store_black_24dp', 'content://com.bdevlin.apps.pandt.MockUiProvider/folder/2/subject/2' )");
+        db.execSQL("INSERT INTO folders VALUES(3,'Elementary', 'ic_work_black_24dp','content://com.bdevlin.apps.pandt.MockUiProvider/folder/3/subject/3' )");
+        db.execSQL("INSERT INTO folders VALUES(4,'Intermediate', 'ic_speaker_notes_black_24dp','content://com.bdevlin.apps.pandt.MockUiProvider/folder/4/subject/4' )");
+        db.execSQL("INSERT INTO folders VALUES(5,'Advanced', 'ic_store_black_24dp','content://com.bdevlin.apps.pandt.MockUiProvider/folder/5/subject/5' )");
+        db.execSQL("INSERT INTO folders VALUES(6,'Quiz', 'ic_work_black_24dp','content://com.bdevlin.apps.pandt.MockUiProvider/folder/6/subject/6' )");
 
 
     }
@@ -120,7 +121,9 @@ public class MockDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.v(TAG, "upgrade() called");
+        Log.w(MockDatabaseHelper.class.getName(),
+                "Upgrading database from version " + oldVersion + " to "
+                        + newVersion + ", which will destroy all old data");
 //        if (oldVersion == 1) {
 //            // Message Tables: Add SyncColumns.SERVER_TIMESTAMP
 //            try {

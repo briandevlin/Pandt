@@ -467,8 +467,9 @@ public class NavigationDrawerFragment
                 }
 
                 Log.e(TAG, String.format(
-                        "Received cursor from loader baseId: %d",
-                        loader.getId()));
+                        "Received cursor from loader baseId: %d ",
+                        loader.getId()
+                ));
                 break;
         }
     }

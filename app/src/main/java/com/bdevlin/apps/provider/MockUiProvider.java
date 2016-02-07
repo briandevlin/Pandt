@@ -46,7 +46,13 @@ public class MockUiProvider extends ContentProvider {
 
     public static final int FOLDER_ID_COLUMN = 0;
     public static final int FOLDER_NAME_COLUMN = 1;
-    public static final int FOLDER_URI_COLUMN = 2;
+    public static final int FOLDER_ICON_COLUMN = 2;
+    public static final int FOLDER_URI_COLUMN = 3;
+
+    public static final int ACCOUNT_ID_COLUMN = 0;
+    public static final int ACCOUNT_NAME_COLUMN = 1;
+    public static final int ACCOUNT_URI_COLUMN = 2;
+    public static final int ACCOUNT_LISTURI_COLUMN = 3;
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
 
@@ -60,7 +66,9 @@ public class MockUiProvider extends ContentProvider {
         final String authority = AUTHORITY;
 
         matcher.addURI(authority, "folders", FOLDER);
+        matcher.addURI(authority, "folders/*", FOLDER_ID);
         matcher.addURI(authority, "accounts", ACCOUNT);
+        matcher.addURI(authority, "accounts/#", ACCOUNT_ID);
 
         return matcher;
     }
@@ -216,7 +224,7 @@ public class MockUiProvider extends ContentProvider {
                 + ")");
         final SQLiteDatabase db = mOpenHelper.getDatabase(false);
        // final int match = sUriMatcher.match(uri);
-        final int match = findMatch(uri,"query");
+        final int match = findMatch(uri, "query");
         switch (match) {
             default: {
                 // Most cases are handled with simple SelectionBuilder
@@ -304,10 +312,17 @@ public class MockUiProvider extends ContentProvider {
             case ACCOUNT: {
                 return builder.table(Tables.ACCOUNTS);
             }
-
+            case ACCOUNT_ID: {
+                // get the pmid number from the uri
+               // final String pmidId = uri.getPathSegments().get(1);
+                final String pmidId = uri.getLastPathSegment();
+                return builder.table(Tables.ACCOUNTS).where(
+                         "_id=?", pmidId);
+            }
             default: {
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
             }
         }
     }
+
 }

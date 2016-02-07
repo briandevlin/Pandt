@@ -7,12 +7,7 @@
     import android.support.annotation.LayoutRes;
     import android.util.Log;
     import android.view.View;
-    import android.view.ViewGroup;
-    import android.view.ViewParent;
     import android.widget.ImageView;
-    import android.widget.LinearLayout;
-    import android.widget.ListView;
-    import android.widget.Toast;
 
     import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
     import com.bdevlin.apps.pandt.Adapters.NavigationBaseRecyclerAdapter;
@@ -20,7 +15,6 @@
     import com.bdevlin.apps.pandt.R;
     import com.bdevlin.apps.pandt.helper.ItemTouchHelperViewHolder;
     import com.bdevlin.apps.provider.MockUiProvider;
-    import com.bdevlin.apps.ui.fragments.NavigationDrawerFragment;
     import com.bdevlin.apps.ui.widgets.ColorHolder;
     import com.bdevlin.apps.ui.widgets.StringHolder;
 
@@ -63,7 +57,9 @@
             if (c != null) {
                 baseId = c.getInt(MockUiProvider.FOLDER_ID_COLUMN);
                 baseName = new StringHolder(c.getString(MockUiProvider.FOLDER_NAME_COLUMN));
+                baseIcon = c.getString(MockUiProvider.FOLDER_ICON_COLUMN);
                 baseUri = c.getString(MockUiProvider.FOLDER_URI_COLUMN);
+               //baseListUri = c.getString(MockUiProvider.Folder)
             }
             setPostOnBindViewListener(new OnPostBindViewListener() {
 

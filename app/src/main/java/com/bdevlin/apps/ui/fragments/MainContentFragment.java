@@ -247,7 +247,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
         else {
             if (ctl != null) {
                 TextView subTitle =  (TextView)ctl.findViewById(R.id.subTitle);
-                subTitle.setText("" );
+                subTitle.setText(R.string.empty );
             }
         }
     }

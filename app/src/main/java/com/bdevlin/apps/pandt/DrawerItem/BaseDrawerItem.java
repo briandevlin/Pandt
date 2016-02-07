@@ -17,7 +17,9 @@ public abstract class BaseDrawerItem<T> extends AbstractDrawerItem<T> {
     protected ImageHolder selectedIcon;
     protected int baseId;
     protected StringHolder baseName;
+    protected String baseIcon;
     protected String baseUri;
+    protected StringHolder baseListUri;
     protected ColorHolder iconColor = ColorHolder.fromColorRes(R.color.material_drawer_primary_icon);
     protected boolean iconTinted = true;
     protected ColorHolder selectedColor = ColorHolder.fromColorRes(R.color.material_drawer_selected);
@@ -48,9 +50,12 @@ public abstract class BaseDrawerItem<T> extends AbstractDrawerItem<T> {
     }
 
     public String geturiString() {
-        return baseUri;
+        return baseIcon;
     }
 
+    public StringHolder getListuriString() {
+        return baseListUri;
+    }
 
     public int getNavId() {
         return baseId;
