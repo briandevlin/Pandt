@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -19,7 +18,6 @@ import android.view.View;
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.ui.fragments.HelpListFragment;
 import com.bdevlin.apps.utils.HelpUtils;
-import com.bdevlin.apps.utils.Utils;
 import com.viewpagerindicator.LinePageIndicator;
 
 import java.util.ArrayList;
@@ -33,7 +31,7 @@ import java.util.Random;
 public class HelpActivity  extends AppCompatActivity {
 
     // <editor-fold desc="Fields">
-    private static final String TAG = HomeActivity.class.getSimpleName();
+    private static final String TAG = PandtActivity.class.getSimpleName();
     private static final boolean DEBUG = true;
     public static final String QUERY_NAME = "queryName";
     private static final Random RANDOM = new Random();

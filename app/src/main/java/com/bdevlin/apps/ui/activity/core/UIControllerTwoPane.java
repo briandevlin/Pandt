@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.bdevlin.apps.pandt.DrawerItem.IDrawerItem;
-import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
 
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.ui.fragments.MainContentFragment;
@@ -26,7 +25,7 @@ public class UIControllerTwoPane extends UIControllerBase {
     private boolean mConversationListVisible = false;
     // </editor-fold>
 
-    public UIControllerTwoPane(HomeActivity activity, ViewMode viewMode) {
+    public UIControllerTwoPane(PandtActivity activity, ViewMode viewMode) {
         super(activity, viewMode);
     }
 

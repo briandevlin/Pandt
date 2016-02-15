@@ -99,7 +99,7 @@ public abstract class UIControllerBase implements ActivityController {
    // private final GoogleDriveManager driveManager;
 
     public static final String TAG_MAIN_LIST = "tag-main-list";
-    protected final HomeActivity mActivity;
+    protected final PandtActivity mActivity;
     protected final Context mContext;
     private final FragmentManager mFragmentManager;
     private final LoaderManager mLoaderManager;
@@ -175,7 +175,7 @@ public abstract class UIControllerBase implements ActivityController {
 
     // <editor-fold desc="Constructor">
 
-    public UIControllerBase(HomeActivity activity, ViewMode viewMode) {
+    public UIControllerBase(PandtActivity activity, ViewMode viewMode) {
         mActivity = activity;
 
         mContext = activity.getApplicationContext();

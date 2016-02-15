@@ -1,6 +1,5 @@
 package com.bdevlin.apps.utils;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
@@ -13,10 +12,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +23,6 @@ import android.widget.TextView;
 
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.ui.activity.core.HelpActivity;
-import com.bdevlin.apps.ui.activity.core.HomeActivity;
 
 
 /**

@@ -2,8 +2,6 @@
 
     import android.content.Intent;
     import android.content.res.Resources;
-    import android.database.Cursor;
-    import android.net.Uri;
     import android.os.Bundle;
     import android.support.design.widget.SwipeDismissBehavior;
     import android.support.v4.app.Fragment;
@@ -21,13 +19,10 @@
     import com.bdevlin.apps.pandt.Controllers.ActivityController;
     import com.bdevlin.apps.pandt.DrawerItem.IDrawerItem;
     import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
-    import com.bdevlin.apps.provider.MockContract;
-    import com.bdevlin.apps.provider.MockUiProvider;
     import com.bdevlin.apps.utils.GenericListContext;
     import com.bdevlin.apps.pandt.folders.Folder;
     import com.bdevlin.apps.ui.fragments.MainContentFragment;
     import com.bdevlin.apps.pandt.R;
-    import com.bdevlin.apps.utils.Utils;
     import com.bdevlin.apps.utils.ViewMode;
 
 
@@ -45,7 +40,7 @@
         // </editor-fold>
 
         // <editor-fold desc="Constructor">
-        public UIControllerOnePane(HomeActivity activity, ViewMode viewMode) {
+        public UIControllerOnePane(PandtActivity activity, ViewMode viewMode) {
             super(activity, viewMode);
         }
         // </editor-fold>

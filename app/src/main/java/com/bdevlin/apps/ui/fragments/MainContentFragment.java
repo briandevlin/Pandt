@@ -40,7 +40,7 @@ import com.bdevlin.apps.utils.GenericListContext;
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.utils.ViewMode;
 import com.bdevlin.apps.provider.MockContract;
-import com.bdevlin.apps.ui.activity.core.HomeActivity;
+import com.bdevlin.apps.ui.activity.core.PandtActivity;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -337,7 +337,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
     public  final CursorCreator<MainContentDrawerItem> FACTORY = new CursorCreator<MainContentDrawerItem>() {
         @Override
         public MainContentDrawerItem createFromCursor(Cursor c) {
-            return new MainContentDrawerItem((HomeActivity)mActivity, c);
+            return new MainContentDrawerItem((PandtActivity)mActivity, c);
         }
 
         @Override

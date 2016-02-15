@@ -35,7 +35,7 @@
 
         <activity
             android:label="@string/app_name"
-            android:name="com.bdevlin.apps.ui.activity.core.HomeActivity"
+            android:name="com.bdevlin.apps.ui.activity.core.PandtActivity"
             android:theme="@style/Theme.PandT.WithNavDrawer"
             android:windowSoftInputMode="adjustPan|stateUnspecified" >
             <intent-filter>

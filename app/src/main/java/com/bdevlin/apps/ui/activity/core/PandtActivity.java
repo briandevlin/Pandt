@@ -18,7 +18,6 @@ import com.bdevlin.apps.pandt.Controllers.ActivityController;
 import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
 import com.bdevlin.apps.utils.ViewMode;
 //import com.bdevlin.mymodule.lib.gcm.ServerUtilities;
-import com.bdevlin.apps.pandt.folders.FolderChangeListener;
 import com.bdevlin.apps.ui.fragments.MainContentFragment;
 import com.bdevlin.apps.ui.fragments.NavigationDrawerFragment;
 import com.bdevlin.apps.utils.Utils;
@@ -31,10 +30,10 @@ import com.google.android.gcm.GCMRegistrar;
  * Because this activity is device agnostic, so most of the UI aren't owned by this, but by
  * the UIController.
  */
-public class HomeActivity extends AppCompatActivity implements ControllableActivity {
+public class PandtActivity extends AppCompatActivity implements ControllableActivity {
 
     // <editor-fold desc="Fields">
-    private static final String TAG = HomeActivity.class.getSimpleName();
+    private static final String TAG = PandtActivity.class.getSimpleName();
     private static final boolean DEBUG = true;
     /**
      * The activity controller to which we delegate most Activity lifecycle events.
@@ -249,10 +248,10 @@ public class HomeActivity extends AppCompatActivity implements ControllableActiv
          * Create the appropriate type of ActivityController.
          *
          * @return the appropriate {@link ActivityController} to control
-         * {@link HomeActivity}.
+         * {@link PandtActivity}.
          */
 
-        public static ActivityController forActivity(HomeActivity activity, ViewMode mViewMode, boolean isTabletDevice) {
+        public static ActivityController forActivity(PandtActivity activity, ViewMode mViewMode, boolean isTabletDevice) {
 
             return isTabletDevice ? new UIControllerTwoPane(activity, mViewMode)
                     : new UIControllerOnePane(activity, mViewMode);
@@ -308,7 +307,7 @@ public class HomeActivity extends AppCompatActivity implements ControllableActiv
                             // it is restarted. Note that GCM will send an
                             // unregistered callback upon completion, but
                             // GCMIntentService.onUnregistered() will ignore it.
-                            GCMRegistrar.unregister(HomeActivity.this);
+                            GCMRegistrar.unregister(PandtActivity.this);
                         }
                         return null;
                     }

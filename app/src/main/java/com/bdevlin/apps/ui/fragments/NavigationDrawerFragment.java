@@ -32,14 +32,13 @@ import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
 import com.bdevlin.apps.pandt.Cursors.CursorCreator;
 import com.bdevlin.apps.pandt.Adapters.NavigationBaseRecyclerAdapter;
 
-import com.bdevlin.apps.provider.MockUiProvider;
 import com.bdevlin.apps.ui.widgets.DividerItemDecoration;
 //import com.bdevlin.apps.pandt.DrawerClosedObserver;
 import com.bdevlin.apps.pandt.DrawerItem.DividerDrawerItem;
 import com.bdevlin.apps.pandt.DrawerItem.IDrawerItem;
 import com.bdevlin.apps.ui.widgets.StringHolder;
 import com.bdevlin.apps.utils.ViewMode;
-import com.bdevlin.apps.ui.activity.core.HomeActivity;
+import com.bdevlin.apps.ui.activity.core.PandtActivity;
 import com.bdevlin.apps.pandt.Loaders.MyObjectCursorLoader;
 import com.bdevlin.apps.pandt.Cursors.ObjectCursor;
 import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
@@ -47,7 +46,6 @@ import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.pandt.Adapters.NavigationCursorRecyclerAdapter;
 //import com.bdevlin.apps.pandt.folders.FolderObserver;
 import com.bdevlin.apps.pandt.helper.OnStartDragListener;
-import com.bdevlin.apps.pandt.helper.SimpleItemTouchHelperCallback;
 import com.bdevlin.apps.provider.MockContract;
 
 import java.util.ArrayList;
@@ -250,7 +248,7 @@ public class NavigationDrawerFragment
                 R.id.id,
                 R.id.baseName
         };
-        mActivity = (HomeActivity) activity;
+        mActivity = (PandtActivity) activity;
 
         mRecycleCursorAdapter = new NavigationCursorRecyclerAdapter(mActivity,
                /* R.layout.maincontentitemview,*/
@@ -415,7 +413,7 @@ public class NavigationDrawerFragment
     public final CursorCreator<NavigationDrawerItem> FACTORY = new CursorCreator<NavigationDrawerItem>() {
         @Override
         public NavigationDrawerItem createFromCursor(Cursor c) {
-            return new NavigationDrawerItem((HomeActivity) mActivity, c);
+            return new NavigationDrawerItem((PandtActivity) mActivity, c);
         }
 
         @Override

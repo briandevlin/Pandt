@@ -13,7 +13,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.bdevlin.apps.pandt.R;
-import com.bdevlin.apps.ui.activity.core.HomeActivity;
+import com.bdevlin.apps.ui.activity.core.PandtActivity;
 import com.bdevlin.apps.ui.fragments.PagerFragment;
 import com.bdevlin.apps.ui.widgets.PageMarginDrawable;
 import com.viewpagerindicator.LinePageIndicator;
@@ -33,7 +33,7 @@ public class PagerController {
     private SlidePagerAdapter mPagerAdapter;
     private FragmentManager mFragmentManager;
     private ActivityController mActivityController;
-    private HomeActivity mActivity;
+    private PandtActivity mActivity;
     private LinePageIndicator mIndicator;
     private TabPageIndicator mIndicatorTab;
     private static final String[] CONTENT = new String[] { "Recent", "Artists", "Albums", "Songs", "Playlists", "Genres" };
@@ -45,7 +45,7 @@ public class PagerController {
 
     // <editor-fold desc="Constructor">
 
-    public PagerController(HomeActivity activity,
+    public PagerController(PandtActivity activity,
                                        ActivityController controller, FragmentManager fragmentManager) {
         mActivity = activity;
         mPager = (ViewPager) activity.findViewById(R.id.conversation_pane);
