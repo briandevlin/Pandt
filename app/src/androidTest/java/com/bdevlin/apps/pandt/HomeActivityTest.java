@@ -8,7 +8,7 @@ import android.widget.ImageView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-import com.bdevlin.apps.ui.activity.core.MailActivityEmail;
+import com.bdevlin.apps.ui.activity.core.PandTActivity;
 import com.bdevlin.apps.utils.VolleyController;
 
 import junit.framework.Assert;
@@ -19,15 +19,15 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by brian on 10/9/2014.
  */
-public class HomeActivityTest  extends ActivityInstrumentationTestCase2<MailActivityEmail> {
+public class HomeActivityTest  extends ActivityInstrumentationTestCase2<PandTActivity> {
 
     public static final String TAG = ApplicationTest.class.getSimpleName();
-    private MailActivityEmail activity;
+    private PandTActivity activity;
     private Context context;
     private ImageLoader mImageLoader;
 
     public HomeActivityTest() {
-        super(MailActivityEmail.class);
+        super(PandTActivity.class);
     }
 
     @Override

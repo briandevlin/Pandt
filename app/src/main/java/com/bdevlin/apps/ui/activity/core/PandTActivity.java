@@ -11,7 +11,7 @@ import com.bdevlin.apps.ui.activity.core.HomeActivity;
 /**
  * Created by brian on 9/9/2014.
  */
-public class MailActivityEmail extends HomeActivity {
+public class PandTActivity extends HomeActivity {
 
     public static final String EXTRA_ACCOUNT = "account";
     public static final String EXTRA_ACCOUNT_URI = "accountUri";
