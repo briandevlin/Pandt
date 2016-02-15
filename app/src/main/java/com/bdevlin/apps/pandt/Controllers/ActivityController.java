@@ -9,8 +9,6 @@ import android.view.MenuItem;
 
 import com.bdevlin.apps.utils.GenericListContext;
 import com.bdevlin.apps.utils.ViewMode;
-import com.bdevlin.apps.pandt.accounts.Account;
-import com.bdevlin.apps.pandt.folders.FolderChangeListener;
 import com.bdevlin.apps.ui.fragments.MainContentFragment;
 import com.bdevlin.apps.ui.fragments.NavigationDrawerFragment;
 import com.bdevlin.apps.utils.LoginAndAuthHelper;
