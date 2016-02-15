@@ -52,6 +52,8 @@ import android.widget.Toast;
 import com.android.volley.toolbox.ImageLoader;
 import com.bdevlin.apps.pandt.Controllers.ActivityController;
 import com.bdevlin.apps.pandt.folders.Folder;
+import com.bdevlin.apps.ui.fragments.MainContentFragment;
+import com.bdevlin.apps.ui.fragments.NavigationDrawerFragment;
 import com.bdevlin.apps.utils.GenericListContext;
 
 import com.bdevlin.apps.pandt.Controllers.PagerController;
@@ -383,6 +385,21 @@ public abstract class UIControllerBase implements ActivityController {
         return !(in == null || in.getActivity() == null || in.getView() == null);
     }
 
+    protected NavigationDrawerFragment getNavigationDrawerFragment() {
+        final Fragment fragment = mFragmentManager.findFragmentById(R.id.navigation_drawer_fragment);
+        if (isValidFragment(fragment)) {
+            return (NavigationDrawerFragment) fragment;
+        }
+        return null;
+    }
+
+    protected MainContentFragment getMainContentFragment() {
+        final Fragment fragment = mFragmentManager.findFragmentById(R.id.main_content_fragment);
+        if (isValidFragment(fragment)) {
+            return (MainContentFragment) fragment;
+        }
+        return null;
+    }
     // </editor-fold>
 
     // <editor-fold desc="Option menus">

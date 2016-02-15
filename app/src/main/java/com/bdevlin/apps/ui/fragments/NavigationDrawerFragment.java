@@ -454,9 +454,9 @@ public class NavigationDrawerFragment
                     loader.getId()));
             return;
         }
-        int id = data.getInt(MockUiProvider.FOLDER_ID_COLUMN);
-        String name = data.getString(MockUiProvider.FOLDER_NAME_COLUMN);
-        String uri = data.getString(MockUiProvider.FOLDER_URI_COLUMN);
+        int id = data.getInt(MockContract.Folders.FOLDER_ID_COLUMN);
+        String name = data.getString(MockContract.Folders.FOLDER_NAME_COLUMN);
+        String uri = data.getString(MockContract.Folders.FOLDER_URI_COLUMN);
 
         switch (loader.getId()) {
             case LOADER_ID:

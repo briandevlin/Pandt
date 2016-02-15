@@ -10,6 +10,7 @@ import android.support.v4.os.ParcelableCompat;
 import android.support.v4.os.ParcelableCompatCreatorCallbacks;
 
 import com.bdevlin.apps.pandt.Cursors.CursorCreator;
+import com.bdevlin.apps.provider.MockContract;
 import com.bdevlin.apps.provider.MockUiProvider;
 
 /**
@@ -61,15 +62,16 @@ public class Folder   implements Parcelable, Comparable<Folder> {
         name = FOLDER_UNINITIALIZED;
     }
 
-    public Folder(int id, String name) {
+    public Folder(int id, String name, String uri) {
         this.id = id;
         this.name = name;
+        this.uri = uri;
     }
 
     public Folder(Cursor cursor) {
-         id = cursor.getInt(MockUiProvider.FOLDER_ID_COLUMN);
-        name = cursor.getString(MockUiProvider.FOLDER_NAME_COLUMN);
-        uri = cursor.getString(MockUiProvider.FOLDER_URI_COLUMN);
+         id = cursor.getInt(MockContract.Folders.FOLDER_ID_COLUMN);
+        name = cursor.getString(MockContract.Folders.FOLDER_NAME_COLUMN);
+        uri = cursor.getString(MockContract.Folders.FOLDER_URI_COLUMN);
     }
 
     public static Folder newUnsafeInstance() {

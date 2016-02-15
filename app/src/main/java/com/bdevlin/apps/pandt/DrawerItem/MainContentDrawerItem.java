@@ -15,6 +15,7 @@ import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
 import com.bdevlin.apps.pandt.Adapters.ContentBaseRecyclerViewAdapter;
 import com.bdevlin.apps.pandt.Interfaces.OnPostBindViewListener;
 import com.bdevlin.apps.pandt.R;
+import com.bdevlin.apps.provider.MockContract;
 import com.bdevlin.apps.provider.MockUiProvider;
 import com.bdevlin.apps.ui.fragments.MainContentFragment;
 import com.bdevlin.apps.ui.widgets.StringHolder;
@@ -51,10 +52,10 @@ public class MainContentDrawerItem
         }
 
         if (c != null) {
-            baseId = c.getInt(MockUiProvider.ACCOUNT_ID_COLUMN);
-            baseName = new StringHolder(c.getString(MockUiProvider.ACCOUNT_NAME_COLUMN));
-            baseIcon = c.getString(MockUiProvider.ACCOUNT_URI_COLUMN);
-            baseListUri = new StringHolder(c.getString(MockUiProvider.ACCOUNT_LISTURI_COLUMN));
+            baseId = c.getInt(MockContract.Accounts.ACCOUNT_ID_COLUMN);
+            baseName = new StringHolder(c.getString(MockContract.Accounts.ACCOUNT_NAME_COLUMN));
+            baseIcon = c.getString(6);
+            baseListUri = new StringHolder(c.getString(MockContract.Accounts.ACCOUNT_LISTURI_COLUMN));
         }
         setPostOnBindViewListener(new OnPostBindViewListener() {
 

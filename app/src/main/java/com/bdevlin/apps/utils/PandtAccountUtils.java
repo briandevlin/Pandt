@@ -8,7 +8,6 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.bdevlin.apps.ui.activity.chooseAccountActivity;
 import com.google.android.gms.auth.GoogleAuthUtil;
 
 /**
@@ -64,14 +63,4 @@ public class PandtAccountUtils {
         return true;
     }
 
-    public static void startAuthenticationFlow(final Context context,
-                                               final Intent finishIntent) {
-        Log.w(TAG, "starting authentication flow. Choose Account!");
-        Intent loginFlowIntent = new Intent(context,
-                chooseAccountActivity.class);
-        loginFlowIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        loginFlowIntent.putExtra(chooseAccountActivity.EXTRA_FINISH_INTENT,
-                finishIntent);
-        context.startActivity(loginFlowIntent);
-    }
 }

@@ -33,6 +33,7 @@ import com.bdevlin.apps.pandt.Cursors.CursorCreator;
 import com.bdevlin.apps.pandt.Loaders.MyObjectCursorLoader;
 import com.bdevlin.apps.pandt.Cursors.ObjectCursor;
 import com.bdevlin.apps.pandt.DrawerItem.MainContentDrawerItem;
+import com.bdevlin.apps.pandt.folders.Folder;
 import com.bdevlin.apps.pandt.helper.SimpleItemTouchHelperCallback;
 import com.bdevlin.apps.utils.GenericListContext;
 //import com.bdevlin.apps.pandt.Items;
@@ -55,19 +56,20 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
     private static final String CONVERSATION_LIST_KEY = "conversation-list";
     private static final String ARG_SECTION_NUMBER = "section_number";
     private static final String STATE_SELECTED_POSITION = "selected_position";
-    private static final int LOADER_ID_MESSAGES_LOADER = 1;
+    private static final int LOADER_ID_SUBJECT_LOADER   = 1;
     private int mCurrentSelectedPosition = 0;
     private int mSectionNumber = 0;
     private GenericListContext mViewContext;
     private  ControllableActivity mActivity;
     private ActionBarController actionBarController = null;
     private  MainContentCallbacks mCallbacks;
-    private final CursorLoads mCursorCallbacks = new CursorLoads();
+    private final SubjectCursorLoaderCallbacks mSubjectListLoaderCallbacks = new SubjectCursorLoaderCallbacks();
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private ContentCursorRecyclerAdapter mRecycleCursorAdapter;
     private ItemTouchHelper mItemTouchHelper;
     private boolean mFromSavedInstanceState;
+    private Folder mFolder;
     // </editor-fold>
 
     // <editor-fold desc="Interfaces">
@@ -131,6 +133,10 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
         if (getArguments() != null) {
              final Bundle args = getArguments();
             mViewContext = GenericListContext.forBundle(args.getBundle(CONVERSATION_LIST_KEY));
+            if (mViewContext !=  null){
+                mFolder =  mViewContext.folder;
+            }
+            Log.v(TAG, "in MainContentFragment getArguments");
         }
     }
     
@@ -155,23 +161,11 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-//        final Activity activity = getActivity();
-//
-//        if (!(activity instanceof ControllableActivity)) {
-//            return;
-//        }
-
-       // mActivity = (HomeActivity) activity;
-       // mActivity = (ControllableActivity) activity;
-
         SetupViewMode();
 
         SetupActionToolbar();
         
-        mRecycleCursorAdapter = new ContentCursorRecyclerAdapter(mActivity,
-                null,
-                MockContract.FOLDERS_PROJECTION
-                );
+        mRecycleCursorAdapter = new ContentCursorRecyclerAdapter(mActivity, null, null);
         
         mRecyclerView.setAdapter(mRecycleCursorAdapter);
 
@@ -306,7 +300,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu,inflater);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
 
@@ -326,7 +320,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
         final LoaderManager lm = getLoaderManager();
         final Bundle args = createLoaderArgs(getActivity().getIntent());
         // Prepare the loader. starts or reconnects
-        lm.initLoader(LOADER_ID_MESSAGES_LOADER, args, mCursorCallbacks);
+        lm.initLoader(LOADER_ID_SUBJECT_LOADER, args, mSubjectListLoaderCallbacks);
     }
 
     private Bundle createLoaderArgs(Intent intent) {
@@ -352,18 +346,23 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
         }
     };
 
-    private class CursorLoads implements LoaderManager.LoaderCallbacks<ObjectCursor<MainContentDrawerItem>> {
+    private class SubjectCursorLoaderCallbacks implements LoaderManager.LoaderCallbacks<ObjectCursor<MainContentDrawerItem>> {
 
         @Override
         public Loader<ObjectCursor<MainContentDrawerItem>> onCreateLoader(int id, Bundle args) {
-            // change these
+             Uri contentUri = null;
             final String[] mProjection = MockContract.ACCOUNTS_PROJECTION;
-            final Uri contentUri = MockContract.Accounts.CONTENT_URI;
+
+            if (mFolder != null) {
+                 contentUri = Uri.parse(mFolder.uri);
+            }
+            else {
+                 contentUri =  MockContract.Accounts.buildAccountDirUri(getResources().getString(R.string.default_uri_key));
+            }
             final CursorCreator<MainContentDrawerItem> mFactory = FACTORY;
 
-
             switch (id) {
-                case LOADER_ID_MESSAGES_LOADER:
+                case LOADER_ID_SUBJECT_LOADER:
                     return new MyObjectCursorLoader<>(getActivity().getApplicationContext(),
                             contentUri, mProjection, mFactory);
             }
@@ -377,7 +376,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
                  return;
             }
             switch (loader.getId()) {
-                case LOADER_ID_MESSAGES_LOADER:
+                case LOADER_ID_SUBJECT_LOADER:
                     if (mRecycleCursorAdapter != null) {
                         mRecycleCursorAdapter.swapCursor(data);
                     }

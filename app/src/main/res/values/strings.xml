@@ -94,6 +94,8 @@
     <string name="Grammar">Grammar</string>
     <string name="patrsofSpeech">": The eight parts of speech "</string>
     <string name="completepartsofspeech">"Grammar: The eight parts of speech "</string>
+    <string name="default_uri">content://com.bdevlin.apps.pandt.MockUiProvider/accounts/11</string>
+    <string name="default_uri_key" >11</string>
     <string name="empty" />
     <string name="pagerfragment_param">"pager fagment: "</string>
     <string name="pagerFragmentText"><![CDATA["This fragment uses fragment_slide_view.xml which contains layouts for NestedScrollView -> CardView -> RelativeLayout ->TextView(s) "]]></string>

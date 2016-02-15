@@ -50,7 +50,7 @@ public abstract class BaseDrawerItem<T> extends AbstractDrawerItem<T> {
     }
 
     public String geturiString() {
-        return baseIcon;
+        return baseUri;
     }
 
     public StringHolder getListuriString() {

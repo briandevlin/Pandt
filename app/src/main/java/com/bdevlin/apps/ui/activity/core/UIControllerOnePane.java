@@ -1,6 +1,7 @@
     package com.bdevlin.apps.ui.activity.core;
 
     import android.content.Intent;
+    import android.content.res.Resources;
     import android.database.Cursor;
     import android.net.Uri;
     import android.os.Bundle;
@@ -26,6 +27,7 @@
     import com.bdevlin.apps.pandt.folders.Folder;
     import com.bdevlin.apps.ui.fragments.MainContentFragment;
     import com.bdevlin.apps.pandt.R;
+    import com.bdevlin.apps.utils.Utils;
     import com.bdevlin.apps.utils.ViewMode;
 
 
@@ -86,15 +88,24 @@
         @Override
         public void onStart() {
             super.onStart();
-        final String[] mProjection = MockContract.ACCOUNTS_PROJECTION;
-        final Uri contentUri = MockContract.Accounts.CONTENT_URI.buildUpon().appendPath("1").build();
-        final Cursor inner = (Cursor)getContext().getContentResolver().query(contentUri, mProjection,null,null,null);
-               // "_id=?", new String[] { String.valueOf(2) }, null);
-            Log.d(TAG,"count: " + inner.getCount());
-            Log.d(TAG, "position: " + inner.getPosition());
-            inner.moveToFirst();
-            Log.d(TAG, "position: " + inner.getPosition());
-            //Log.d(TAG,"column 1: " + inner.getInt(MockUiProvider.ACCOUNT_ID_COLUMN));
+         //   final String[] mProjection = MockContract.SUBJECTMANAGER_PROJECTION;
+          //  final Uri contentUri = MockContract.SubjectManager.CONTENT_URI;
+          //  final Cursor inner = (Cursor)getContext().getContentResolver().query(contentUri, mProjection,null,null,null);
+          //  Log.d(TAG,"count: " + inner.getCount());
+          //  inner.moveToFirst();
+          //  Log.d(TAG, "column 1: " + inner.getInt(MockContract.SUBJECTMANGER_SID_COLUMN));
+         //   Log.d(TAG, Utils.dumpCursor(inner));
+//        final String[] mProjection = MockContract.ACCOUNTS_PROJECTION;
+//        final Uri contentUri = MockContract.Accounts.buildAccountDirUri("11");
+//        final Cursor inner = (Cursor)getContext().getContentResolver().query(contentUri, mProjection,null,null,null);
+//               // "_id=?", new String[] { String.valueOf(2) }, null);
+//            Log.d(TAG,"count: " + inner.getCount());
+//            Log.d(TAG, "position: " + inner.getPosition());
+         //   inner.moveToFirst();
+//            Log.d(TAG, "position: " + inner.getPosition());
+//            int id = inner.getInt(MockContract.Accounts.ACCOUNT_ID_COLUMN);
+//            String name = inner.getString(MockContract.Accounts.ACCOUNT_NAME_COLUMN);
+//            Log.d(TAG,"column 1: " + id);
         }
 
         @Override
@@ -189,16 +200,20 @@
                     // if (true) return;
            // toggleDrawerState();
             closeDrawerIfOpen();
-
+            final Resources res = mActivity.getResources();
             if (itemView != null) {
                 NavigationDrawerItem navItem = (NavigationDrawerItem) item;
                String baseName =  navItem.getBaseName().getText();
-                if (baseName.equals(mActivity.getResources().getString(R.string.Grammar))) {
-                    baseName =    baseName.concat(mActivity.getString(R.string.patrsofSpeech));
+                String baseruri = navItem.geturiString();
+                if (baseName.equals(res.getString(R.string.Grammar))) {
+                    baseName =    baseName.concat(res.getString(R.string.patrsofSpeech));
                 }
-                folder = new Folder(navItem.getNavId(), baseName);
+                folder = new Folder(navItem.getNavId(), baseName, baseruri);
             } else {
-                folder = new Folder(1,mActivity.getString(R.string.completepartsofspeech));
+
+                folder = new Folder(1,
+                        res.getString(R.string.completepartsofspeech),
+                        res.getString(R.string.default_uri));
             }
             GenericListContext viewContext = GenericListContext.forFolder(folder);
             showMainContentItemsList(viewContext);
@@ -353,7 +368,7 @@
 
         // </editor-fold>
 
-        // <editor-fold desc="fragments">
+        // <editor-fold desc="ViewMode">
         @Override
         public void onViewModeChanged(int newMode) {
             // we get here from viewmode.dispatchModeChange()

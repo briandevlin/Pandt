@@ -3,6 +3,7 @@ package com.bdevlin.apps.utils;
 /**
  * Created by brian on 7/20/2014.
  */
+import com.bdevlin.apps.pandt.Cursors.CursorWrapper;
 import com.bdevlin.apps.pandt.R;
 
 import android.annotation.SuppressLint;
@@ -10,6 +11,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -250,5 +252,29 @@ public class Utils {
         final TypedValue typedValue=new TypedValue();
         activity.getTheme().resolveAttribute(attr,typedValue,true);
         return typedValue.resourceId;
+    }
+
+    /**
+     * Stringify a cursor for logging purpose.
+     */
+    public static String dumpCursor(Cursor c) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        while (c != null) {
+            sb.append(c.getClass()); // Class name may not be available if toString() is overridden
+            sb.append("/");
+            sb.append(c.toString());
+            if (c.isClosed()) {
+                sb.append(" (closed)");
+            }
+            if (c instanceof CursorWrapper) {
+                c = ((CursorWrapper) c).getWrappedCursor();
+                sb.append(", ");
+            } else {
+                break;
+            }
+        }
+        sb.append("]");
+        return sb.toString();
     }
 }

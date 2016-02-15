@@ -2,7 +2,9 @@ package com.bdevlin.apps.provider;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.UriMatcher;
+import android.content.ContentUris;
 import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
@@ -31,33 +33,30 @@ public class MockUiProvider extends ContentProvider {
 
     public static final boolean LOGD;
 
+    private MockDatabaseHelper mOpenHelper;
+
+    private static final UriMatcher sUriMatcher = buildUriMatcher();
+
+
     public static final String AUTHORITY = MockContract.CONTENT_AUTHORITY;
 
     // The starting uri used by the account loader and MyObjectCursorLoader
     private static final Uri MOCK_ACCOUNTS_URI = Uri.parse("name://" + AUTHORITY + "/accounts");
 
    private static Map<String, List<Map<String, Object>>> MOCK_QUERY_RESULTS;
+    private static final String WHERE_ID = MockContract.RECORD_ID + "=?";
 
 
     private static final int FOLDER = 100;
     private static final int FOLDER_ID = 101;
     private static final int ACCOUNT = 102;
     private static final int ACCOUNT_ID = 103;
+    private static final int SUBJECT = 104;
 
-    public static final int FOLDER_ID_COLUMN = 0;
-    public static final int FOLDER_NAME_COLUMN = 1;
-    public static final int FOLDER_ICON_COLUMN = 2;
-    public static final int FOLDER_URI_COLUMN = 3;
 
-    public static final int ACCOUNT_ID_COLUMN = 0;
-    public static final int ACCOUNT_NAME_COLUMN = 1;
-    public static final int ACCOUNT_URI_COLUMN = 2;
-    public static final int ACCOUNT_LISTURI_COLUMN = 3;
-
-    private static final UriMatcher sUriMatcher = buildUriMatcher();
 
     static {
-        LOGD = true; // DO NOT CHECK IN WITH TRUE
+        LOGD = true;
     }
 
     private static UriMatcher buildUriMatcher() {
@@ -65,23 +64,37 @@ public class MockUiProvider extends ContentProvider {
 
         final String authority = AUTHORITY;
 
-        matcher.addURI(authority, "folders", FOLDER);
-        matcher.addURI(authority, "folders/*", FOLDER_ID);
-        matcher.addURI(authority, "accounts", ACCOUNT);
-        matcher.addURI(authority, "accounts/#", ACCOUNT_ID);
+        // All folders
+        matcher.addURI(authority, Tables.FOLDERS, FOLDER);
+        // A specific folder
+        matcher.addURI(authority, Tables.FOLDERS + "/*", FOLDER_ID);
+        // All accounts
+        matcher.addURI(authority, Tables.ACCOUNTS, ACCOUNT);
+        // A specific account
+        matcher.addURI(authority, Tables.ACCOUNTS + "/#", ACCOUNT_ID);
+        // All subjects
+        matcher.addURI(authority, "subjects", SUBJECT);
 
         return matcher;
     }
 
-    private MockDatabaseHelper mOpenHelper;
+
+    private static MockUiProvider sInstance;
+
 
     @Override
     public boolean onCreate() {
-        initializeMockProvider();
+        sInstance = this;
+       // initializeMockProvider();
 
         mOpenHelper = new MockDatabaseHelper( getContext() );
 
-        return true;
+        return null != mOpenHelper;
+    }
+
+    @Override
+    public void shutdown() {
+        sInstance = null;
     }
 
     // <editor-fold desc="MockData">
@@ -231,7 +244,12 @@ public class MockUiProvider extends ContentProvider {
                 final SelectionBuilder builder = buildExpandedSelection(uri, match);
                 Cursor cursor =  builder.where(selection, selectionArgs).query(db,
                         projection, sortOrder);
-                // return null;
+
+                Context context = getContext();
+                if (null != context) {
+                    cursor.setNotificationUri(context.getContentResolver(), uri);
+                }
+
                 return cursor;
             }
 
@@ -245,7 +263,14 @@ public class MockUiProvider extends ContentProvider {
         switch (match) {
             case FOLDER:
                 return MockContract.Folders.CONTENT_TYPE;
-
+            case FOLDER_ID:
+                return MockContract.Folders.CONTENT_ITEM_TYPE;
+            case ACCOUNT:
+                return MockContract.Accounts.CONTENT_TYPE;
+            case ACCOUNT_ID:
+                return MockContract.Accounts.CONTENT_ITEM_TYPE;
+            case SUBJECT    :
+                return MockContract.SubjectManager.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -273,6 +298,20 @@ public class MockUiProvider extends ContentProvider {
         return MOCK_ACCOUNTS_URI;
     }
 
+    public static int getSubjectManagerCount(Context c, long Id) {
+        Cursor cursor = c.getContentResolver().query(
+                ContentUris.withAppendedId(MockContract.SubjectManager.CONTENT_URI, Id), null, null, null, null);
+        if (cursor != null) {
+            try {
+                if (cursor.moveToFirst()) {
+                    return cursor.getInt(0);
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        return 0;
+    }
 
     /**
      * Build a simple {@link SelectionBuilder} to match the requested
@@ -307,22 +346,23 @@ public class MockUiProvider extends ContentProvider {
         switch (match) {
             case FOLDER: {
                 return builder.table(Tables.FOLDERS);
-
             }
             case ACCOUNT: {
                 return builder.table(Tables.ACCOUNTS);
             }
+            case SUBJECT: {
+                return builder.table(Tables.SUBJECTMANAGER);
+            }
             case ACCOUNT_ID: {
-                // get the pmid number from the uri
-               // final String pmidId = uri.getPathSegments().get(1);
-                final String pmidId = uri.getLastPathSegment();
-                return builder.table(Tables.ACCOUNTS).where(
-                         "_id=?", pmidId);
+                final String accoutId = uri.getLastPathSegment();
+                return builder.table(Tables.ACCOUNT_JOIN_ICON)
+                        .mapToTable(MockContract.Accounts._ID, Tables.ACCOUNTS)
+                        .where(
+                                MockContract.Accounts.FOLDER_ID + "=?", accoutId);
             }
             default: {
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
             }
         }
     }
-
 }

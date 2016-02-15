@@ -61,8 +61,8 @@ public class ContentCursorRecyclerAdapter extends ContentBaseRecyclerViewAdapter
         /*mDragStartListener = dragStartListener;*/
         mContext = mActivity.getActivityContext();
        // mTo = to;
-        mOriginalFrom = from;
-        findColumns(c, from);
+       // mOriginalFrom = from;
+        //findColumns(c, from);
 
         viewHolderClicked = new IViewHolderClicked() {
 
@@ -138,19 +138,19 @@ public class ContentCursorRecyclerAdapter extends ContentBaseRecyclerViewAdapter
 
     // <editor-fold desc="Cursor methods">
 
-    private void findColumns(ObjectCursor<MainContentDrawerItem> c, String[] from) {
-        if (c != null) {
-            int i;
-            int count = from.length;
-            if (mFrom == null || mFrom.length != count) {
-                mFrom = new int[count];
-            }
-            for (i = 0; i < count; i++) {
-                mFrom[i] = c.getColumnIndexOrThrow(from[i]);
-            }
-        } else {
-            mFrom = null;
-        }
-    }
+//    private void findColumns(ObjectCursor<MainContentDrawerItem> c, String[] from) {
+//        if (c != null) {
+//            int i;
+//            int count = from.length;
+//            if (mFrom == null || mFrom.length != count) {
+//                mFrom = new int[count];
+//            }
+//            for (i = 0; i < count; i++) {
+//                mFrom[i] = c.getColumnIndexOrThrow(from[i]);
+//            }
+//        } else {
+//            mFrom = null;
+//        }
+//    }
     // </editor-fold>
 }
