@@ -10,7 +10,6 @@ import android.support.v4.content.AsyncTaskLoader;
 
 import com.bdevlin.apps.pandt.Cursors.CursorCreator;
 import com.bdevlin.apps.pandt.Cursors.ObjectCursor;
-import com.bdevlin.apps.provider.MockUiProvider;
 
 public class MyObjectCursorLoader<T> extends AsyncTaskLoader<ObjectCursor<T>>{
 

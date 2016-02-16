@@ -46,7 +46,7 @@ import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.pandt.Adapters.NavigationCursorRecyclerAdapter;
 //import com.bdevlin.apps.pandt.folders.FolderObserver;
 import com.bdevlin.apps.pandt.helper.OnStartDragListener;
-import com.bdevlin.apps.provider.MockContract;
+import com.bdevlin.apps.provider.PandTContract;
 
 import java.util.ArrayList;
 
@@ -253,7 +253,7 @@ public class NavigationDrawerFragment
         mRecycleCursorAdapter = new NavigationCursorRecyclerAdapter(mActivity,
                /* R.layout.maincontentitemview,*/
                 null,
-                MockContract.FOLDERS_PROJECTION, // string[] column names
+                PandTContract.FOLDERS_PROJECTION, // string[] column names
                 toId,// resource baseId's from the itemview
                 this);
 
@@ -424,14 +424,14 @@ public class NavigationDrawerFragment
 
     @Override
     public Loader<ObjectCursor<NavigationDrawerItem>> onCreateLoader(int id, Bundle bundle) {
-        final String[] mProjection = MockContract.FOLDERS_PROJECTION;
+        final String[] mProjection = PandTContract.FOLDERS_PROJECTION;
         final CursorCreator<NavigationDrawerItem> mFactory = FACTORY;
         final Uri folderListUri;
         // we only have one loader but...
         switch (id) {
 
             case LOADER_ID:
-                final Uri folderUri = MockContract.Folders.CONTENT_URI;
+                final Uri folderUri = PandTContract.Folders.CONTENT_URI;
 
                 // I have disabled the account loader: this needs the account loaders to run
                 // folderListUri = mCurrentAccount.folderListUri;
@@ -452,9 +452,9 @@ public class NavigationDrawerFragment
                     loader.getId()));
             return;
         }
-        int id = data.getInt(MockContract.Folders.FOLDER_ID_COLUMN);
-        String name = data.getString(MockContract.Folders.FOLDER_NAME_COLUMN);
-        String uri = data.getString(MockContract.Folders.FOLDER_URI_COLUMN);
+        int id = data.getInt(PandTContract.Folders.FOLDER_ID_COLUMN);
+        String name = data.getString(PandTContract.Folders.FOLDER_NAME_COLUMN);
+        String uri = data.getString(PandTContract.Folders.FOLDER_URI_COLUMN);
 
         switch (loader.getId()) {
             case LOADER_ID:

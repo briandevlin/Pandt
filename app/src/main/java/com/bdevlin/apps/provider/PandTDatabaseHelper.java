@@ -1,13 +1,12 @@
 package com.bdevlin.apps.provider;
 
 import android.content.Context;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import com.bdevlin.apps.provider.MockContract.Accounts;
-import com.bdevlin.apps.provider.MockContract.Folders;
-import com.bdevlin.apps.provider.MockContract.SubjectManager;
+import com.bdevlin.apps.provider.PandTContract.Accounts;
+import com.bdevlin.apps.provider.PandTContract.Folders;
+import com.bdevlin.apps.provider.PandTContract.SubjectManager;
 
 
 import java.util.HashSet;
@@ -16,9 +15,9 @@ import java.util.HashSet;
 /**
  * Created by brian on 8/29/2014.
  */
-public class MockDatabaseHelper extends SQLiteOpenHelper {
+public class PandTDatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String TAG = MockDatabaseHelper.class.getSimpleName();
+    private static final String TAG = PandTDatabaseHelper.class.getSimpleName();
 
     protected static final String DATABASE_NAME = "mydatabase.db";
 
@@ -48,7 +47,7 @@ public class MockDatabaseHelper extends SQLiteOpenHelper {
     }
 
     // constructor
-    public MockDatabaseHelper(Context context) {
+    public PandTDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         mContext = context;
         Log.v(TAG, "Creating the database " + DATABASE_NAME);
@@ -133,9 +132,9 @@ public class MockDatabaseHelper extends SQLiteOpenHelper {
     static void createIconLookupTable(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE "
                 + Tables.ICONLOOKUP + " ("
-                + MockContract.Icons._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + MockContract.Icons.ICON_ID + " INTEGER, "
-                + MockContract.Icons.ICON_NAME + " TEXT "
+                + PandTContract.Icons._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + PandTContract.Icons.ICON_ID + " INTEGER, "
+                + PandTContract.Icons.ICON_NAME + " TEXT "
 
                 + ");");
 
@@ -160,7 +159,7 @@ public class MockDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.w(MockDatabaseHelper.class.getName(),
+        Log.w(PandTDatabaseHelper.class.getName(),
                 "Upgrading database from version " + oldVersion + " to "
                         + newVersion + ", which will destroy all old data");
 //        if (oldVersion == 1) {

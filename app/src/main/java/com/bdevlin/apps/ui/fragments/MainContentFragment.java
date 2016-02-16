@@ -39,7 +39,7 @@ import com.bdevlin.apps.utils.GenericListContext;
 //import com.bdevlin.apps.pandt.Items;
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.utils.ViewMode;
-import com.bdevlin.apps.provider.MockContract;
+import com.bdevlin.apps.provider.PandTContract;
 import com.bdevlin.apps.ui.activity.core.PandtActivity;
 
 /**
@@ -351,13 +351,13 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
         @Override
         public Loader<ObjectCursor<MainContentDrawerItem>> onCreateLoader(int id, Bundle args) {
              Uri contentUri = null;
-            final String[] mProjection = MockContract.ACCOUNTS_PROJECTION;
+            final String[] mProjection = PandTContract.ACCOUNTS_PROJECTION;
 
             if (mFolder != null) {
                  contentUri = Uri.parse(mFolder.uri);
             }
             else {
-                 contentUri =  MockContract.Accounts.buildAccountDirUri(getResources().getString(R.string.default_uri_key));
+                 contentUri =  PandTContract.Accounts.buildAccountDirUri(getResources().getString(R.string.default_uri_key));
             }
             final CursorCreator<MainContentDrawerItem> mFactory = FACTORY;
 

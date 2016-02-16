@@ -104,7 +104,7 @@
             android:exported="false"
             android:label="MockUiProvider"
             android:multiprocess="false"
-            android:name="com.bdevlin.apps.provider.MockUiProvider" >
+            android:name="com.bdevlin.apps.provider.PandTUiProvider" >
             <grant-uri-permission android:pathPattern=".*" />
         </provider>
 

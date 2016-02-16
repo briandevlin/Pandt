@@ -20,31 +20,31 @@ import java.util.Set;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
-import com.bdevlin.apps.provider.MockDatabaseHelper.Tables;
+import com.bdevlin.apps.provider.PandTDatabaseHelper.Tables;
 
 
 
 /**
  * Created by brian on 8/24/2014.
  */
-public class MockUiProvider extends ContentProvider {
+public class PandTUiProvider extends ContentProvider {
 
-    private static final String TAG = MockUiProvider.class.getSimpleName();
+    private static final String TAG = PandTUiProvider.class.getSimpleName();
 
     public static final boolean LOGD;
 
-    private MockDatabaseHelper mOpenHelper;
+    private PandTDatabaseHelper mOpenHelper;
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
 
 
-    public static final String AUTHORITY = MockContract.CONTENT_AUTHORITY;
+    public static final String AUTHORITY = PandTContract.CONTENT_AUTHORITY;
 
     // The starting uri used by the account loader and MyObjectCursorLoader
     private static final Uri MOCK_ACCOUNTS_URI = Uri.parse("name://" + AUTHORITY + "/accounts");
 
    private static Map<String, List<Map<String, Object>>> MOCK_QUERY_RESULTS;
-    private static final String WHERE_ID = MockContract.RECORD_ID + "=?";
+    private static final String WHERE_ID = PandTContract.RECORD_ID + "=?";
 
 
     private static final int FOLDER = 100;
@@ -79,7 +79,7 @@ public class MockUiProvider extends ContentProvider {
     }
 
 
-    private static MockUiProvider sInstance;
+    private static PandTUiProvider sInstance;
 
 
     @Override
@@ -87,7 +87,7 @@ public class MockUiProvider extends ContentProvider {
         sInstance = this;
        // initializeMockProvider();
 
-        mOpenHelper = new MockDatabaseHelper( getContext() );
+        mOpenHelper = new PandTDatabaseHelper( getContext() );
 
         return null != mOpenHelper;
     }
@@ -262,15 +262,15 @@ public class MockUiProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case FOLDER:
-                return MockContract.Folders.CONTENT_TYPE;
+                return PandTContract.Folders.CONTENT_TYPE;
             case FOLDER_ID:
-                return MockContract.Folders.CONTENT_ITEM_TYPE;
+                return PandTContract.Folders.CONTENT_ITEM_TYPE;
             case ACCOUNT:
-                return MockContract.Accounts.CONTENT_TYPE;
+                return PandTContract.Accounts.CONTENT_TYPE;
             case ACCOUNT_ID:
-                return MockContract.Accounts.CONTENT_ITEM_TYPE;
+                return PandTContract.Accounts.CONTENT_ITEM_TYPE;
             case SUBJECT    :
-                return MockContract.SubjectManager.CONTENT_TYPE;
+                return PandTContract.SubjectManager.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -300,7 +300,7 @@ public class MockUiProvider extends ContentProvider {
 
     public static int getSubjectManagerCount(Context c, long Id) {
         Cursor cursor = c.getContentResolver().query(
-                ContentUris.withAppendedId(MockContract.SubjectManager.CONTENT_URI, Id), null, null, null, null);
+                ContentUris.withAppendedId(PandTContract.SubjectManager.CONTENT_URI, Id), null, null, null, null);
         if (cursor != null) {
             try {
                 if (cursor.moveToFirst()) {
@@ -356,9 +356,9 @@ public class MockUiProvider extends ContentProvider {
             case ACCOUNT_ID: {
                 final String accoutId = uri.getLastPathSegment();
                 return builder.table(Tables.ACCOUNT_JOIN_ICON)
-                        .mapToTable(MockContract.Accounts._ID, Tables.ACCOUNTS)
+                        .mapToTable(PandTContract.Accounts._ID, Tables.ACCOUNTS)
                         .where(
-                                MockContract.Accounts.FOLDER_ID + "=?", accoutId);
+                                PandTContract.Accounts.FOLDER_ID + "=?", accoutId);
             }
             default: {
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

@@ -59,7 +59,7 @@ import com.bdevlin.apps.utils.GenericListContext;
 import com.bdevlin.apps.pandt.Controllers.PagerController;
 import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.utils.ViewMode;
-import com.bdevlin.apps.provider.MockContract;
+import com.bdevlin.apps.provider.PandTContract;
 import com.bdevlin.apps.utils.GoogleAccountUtils;
 
 import com.bdevlin.apps.utils.GoogleAccountManager;
@@ -545,7 +545,7 @@ public abstract class UIControllerBase implements ActivityController {
             } else {
                 final Bundle extras = intent.getExtras();
                 // folderUri = Uri.EMPTY;
-                folderUri = MockContract.Folders.CONTENT_URI;
+                folderUri = PandTContract.Folders.CONTENT_URI;
 
             }
 

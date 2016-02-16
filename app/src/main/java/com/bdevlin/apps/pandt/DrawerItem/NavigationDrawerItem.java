@@ -14,8 +14,7 @@
     import com.bdevlin.apps.pandt.Interfaces.OnPostBindViewListener;
     import com.bdevlin.apps.pandt.R;
     import com.bdevlin.apps.pandt.helper.ItemTouchHelperViewHolder;
-    import com.bdevlin.apps.provider.MockContract;
-    import com.bdevlin.apps.provider.MockUiProvider;
+    import com.bdevlin.apps.provider.PandTContract;
     import com.bdevlin.apps.ui.widgets.ColorHolder;
     import com.bdevlin.apps.ui.widgets.StringHolder;
 
@@ -56,10 +55,10 @@
             }
 
             if (c != null) {
-                baseId = c.getInt(MockContract.Folders.FOLDER_ID_COLUMN);
-                baseName = new StringHolder(c.getString(MockContract.Folders.FOLDER_NAME_COLUMN));
-                baseIcon = c.getString(MockContract.Folders.FOLDER_ICON_COLUMN);
-                baseUri = c.getString(MockContract.Folders.FOLDER_URI_COLUMN);
+                baseId = c.getInt(PandTContract.Folders.FOLDER_ID_COLUMN);
+                baseName = new StringHolder(c.getString(PandTContract.Folders.FOLDER_NAME_COLUMN));
+                baseIcon = c.getString(PandTContract.Folders.FOLDER_ICON_COLUMN);
+                baseUri = c.getString(PandTContract.Folders.FOLDER_URI_COLUMN);
                //baseListUri = c.getString(MockUiProvider.Folder)
             }
             setPostOnBindViewListener(new OnPostBindViewListener() {

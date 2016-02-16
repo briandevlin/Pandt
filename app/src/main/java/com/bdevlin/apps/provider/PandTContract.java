@@ -7,12 +7,12 @@ import android.provider.BaseColumns;
 
 /**
  * Created by brian on 8/24/2014.
- * Contract class for interacting with {@link MockUiProvider}.
+ * Contract class for interacting with {@link PandTUiProvider}.
  */
-public final class MockContract {
+public final class PandTContract {
 
     // <editor-fold desc="Fields">
-    private static final String TAG = MockContract.class.getSimpleName();
+    private static final String TAG = PandTContract.class.getSimpleName();
 
 
     public static final int VERSION = 1;
@@ -53,7 +53,7 @@ public final class MockContract {
 
     // <editor-fold desc="Constructor">
     // private constructor i.e this class cannot be instantiated
-    private MockContract() {
+    private PandTContract() {
     }
     // </editor-fold>
 
@@ -140,7 +140,7 @@ public final class MockContract {
         private SubjectManager() {
         }
 
-        public static final String TABLE_NAME = MockDatabaseHelper.Tables.SUBJECTMANAGER;
+        public static final String TABLE_NAME = PandTDatabaseHelper.Tables.SUBJECTMANAGER;
 
         public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_SUBJECTS);
 
@@ -159,7 +159,7 @@ public final class MockContract {
         private Folders() {
         }
 
-        public static final String TABLE_NAME = MockDatabaseHelper.Tables.FOLDERS;
+        public static final String TABLE_NAME = PandTDatabaseHelper.Tables.FOLDERS;
 
         //"content://com.bdevlin.apps.pandt.MockUiProvider/folders"
         public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_FOLDERS);
@@ -178,7 +178,7 @@ public final class MockContract {
         private Accounts() {
         }
 
-        public static final String TABLE_NAME = MockDatabaseHelper.Tables.ACCOUNTS;
+        public static final String TABLE_NAME = PandTDatabaseHelper.Tables.ACCOUNTS;
 
         //"content://com.bdevlin.apps.pandt.MockUiProvider/accounts"
         public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_ACCOUNTS);
@@ -206,7 +206,7 @@ public final class MockContract {
         private Icons() {
         }
 
-        public static final String TABLE_NAME = MockDatabaseHelper.Tables.ICONLOOKUP;
+        public static final String TABLE_NAME = PandTDatabaseHelper.Tables.ICONLOOKUP;
 
         public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_ICONS);
 

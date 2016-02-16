@@ -1,8 +1,6 @@
 package com.bdevlin.apps.pandt.folders;
 
-import android.annotation.TargetApi;
 import android.database.Cursor;
-import android.os.Build;
 import android.os.Parcel;
 //import android.os.Parcelable;
 import android.os.Parcelable;
@@ -10,8 +8,7 @@ import android.support.v4.os.ParcelableCompat;
 import android.support.v4.os.ParcelableCompatCreatorCallbacks;
 
 import com.bdevlin.apps.pandt.Cursors.CursorCreator;
-import com.bdevlin.apps.provider.MockContract;
-import com.bdevlin.apps.provider.MockUiProvider;
+import com.bdevlin.apps.provider.PandTContract;
 
 /**
  * Created by brian on 8/26/2014.
@@ -69,9 +66,9 @@ public class Folder   implements Parcelable, Comparable<Folder> {
     }
 
     public Folder(Cursor cursor) {
-         id = cursor.getInt(MockContract.Folders.FOLDER_ID_COLUMN);
-        name = cursor.getString(MockContract.Folders.FOLDER_NAME_COLUMN);
-        uri = cursor.getString(MockContract.Folders.FOLDER_URI_COLUMN);
+         id = cursor.getInt(PandTContract.Folders.FOLDER_ID_COLUMN);
+        name = cursor.getString(PandTContract.Folders.FOLDER_NAME_COLUMN);
+        uri = cursor.getString(PandTContract.Folders.FOLDER_URI_COLUMN);
     }
 
     public static Folder newUnsafeInstance() {
