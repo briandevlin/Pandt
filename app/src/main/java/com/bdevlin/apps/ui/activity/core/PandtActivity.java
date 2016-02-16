@@ -50,7 +50,7 @@ public class PandtActivity extends AppCompatActivity implements ControllableActi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.d(TAG,"Starting HomeActivity");
+        Log.d(TAG,"Starting PandtActivity");
         if (isFinishing()) {
             return;
         }
@@ -112,21 +112,6 @@ public class PandtActivity extends AppCompatActivity implements ControllableActi
     public ActionBarController getActionBarController() {
         return mUIController;
     }
-  /*  @Override
-    public FolderController getFolderController() {
-        return mUIController;
-    }*/
-
-//    @Override
-//    public FolderChangeListener getFolderChangeListener() {
-//        return mUIController;
-//    }
-
-
-    /*@Override
-    public AccountController getAccountController() {
-        return mUIController;
-    }*/
 
     @Override
     public NavigationDrawerFragment.NavigationDrawerCallbacks getNavigationDrawerCallbacks() {
