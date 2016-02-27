@@ -1,17 +1,13 @@
     <!-- A DrawerLayout is intended to be used as the top-level baseName view using match_parent for both width and height to consume the full space available. -->
     <android.support.v4.widget.DrawerLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
+        >
 
-        tools:context=".HomeActivity">
-
-        <!-- Toolbar-->
-        <include layout="@layout/settings_toolbar" />
+        <!-- Toolbar and main page||pager-->
+        <include layout="@layout/coordinatorlayout" />
 
         <!-- Nav drawer-->
         <include layout="@layout/navigation_drawer" />

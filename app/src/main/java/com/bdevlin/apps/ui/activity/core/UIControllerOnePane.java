@@ -83,6 +83,7 @@
         @Override
         public void onStart() {
             super.onStart();
+
          //   final String[] mProjection = MockContract.SUBJECTMANAGER_PROJECTION;
           //  final Uri contentUri = MockContract.SubjectManager.CONTENT_URI;
           //  final Cursor inner = (Cursor)getContext().getContentResolver().query(contentUri, mProjection,null,null,null);

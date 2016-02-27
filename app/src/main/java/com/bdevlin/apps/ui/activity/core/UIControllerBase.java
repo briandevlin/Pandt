@@ -498,6 +498,8 @@ public abstract class UIControllerBase implements ActivityController {
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         mActivity.supportInvalidateOptionsMenu();
     }
+
+
     // </editor-fold>
 
     // <editor-fold desc="State ">

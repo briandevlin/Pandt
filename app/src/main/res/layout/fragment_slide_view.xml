@@ -1,97 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- fragment_screen_slide_page.authenticator -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:iosched="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
-    <!--<TextView style="?android:textAppearanceMedium"-->
-        <!--android:id="@+id/text1"-->
-        <!--android:padding="16dp"-->
-        <!--android:lineSpacingMultiplier="1.2"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="@string/PaneText" />-->
 
-    <!--<com.bdevlin.apps.ui.widgets.BezelImageView-->
-        <!--android:id="@+id/imageview2"-->
-        <!--android:layout_marginLeft="@dimen/keyline_1"-->
-        <!--android:layout_marginStart="@dimen/keyline_1"-->
-        <!--android:layout_width="34dp"-->
-        <!--android:layout_height="34dp"-->
-        <!--android:layout_gravity="center_vertical"-->
-        <!--android:src="@drawable/person_image_empty"-->
-        <!--android:scaleType="centerCrop"-->
-        <!--iosched:maskDrawable="@drawable/circle_mask" />-->
-    <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="New label"-->
-        <!--android:padding="8dp"-->
-        <!--android:textSize="20sp"-->
-        <!--android:id="@+id/id1" />-->
+    <!--<FrameLayout-->
+        <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--xmlns:iosched="http://schemas.android.com/apk/res-auto"-->
+        <!--xmlns:card_view="http://schemas.android.com/apk/res-auto"-->
+        <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+        <!--android:id="@+id/content"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:visibility="visible"-->
 
-    <!--<Button-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="New Button"-->
-        <!--android:id="@+id/show"-->
-        <!--android:layout_gravity="center_horizontal" />-->
+        <!--&gt;-->
+    <!--<android.support.v4.widget.NestedScrollView-->
+        <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:id="@+id/scrollView"-->
+        <!--android:fillViewport="true"-->
 
-    <android.support.v4.widget.NestedScrollView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/scrollView"
-        android:fillViewport="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:scrollbarStyle="insideInset"
-        android:scrollbars="vertical" >
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
+        <!--android:scrollbarStyle="insideInset"-->
+        <!--android:scrollbars="vertical" >-->
 
-            <!--android:padding="8dp"-->
-            <!--android:textSize="20sp"-->
-            <!--android:text="New Text"-->
-            <!--android:id="@+id/name1" />-->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+           >
+
+            <com.bdevlin.apps.ui.widgets.CollectionView
+            android:id="@+id/videos_collection_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/spacing_normal"
+            android:clipToPadding="false"
+            android:clipChildren="false"
+                android:scrollbars="vertical"
+
+            android:visibility="visible"/>
+
+            <!-- Empty Collection view -->
+            <TextView
+            android:id="@android:id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingTop="?actionBarSize"
+            android:text="no_matching_videos"
+
+            android:textSize="@dimen/text_size_medium"
+            android:visibility="gone" />
+        <!--</FrameLayout>-->
         <!-- A CardView that contains a TextView -->
-        <android.support.v7.widget.CardView
-            android:id="@+id/card_view"
-            android:layout_gravity="center"
-            android:layout_width="@dimen/pagerfragment_width"
-            android:layout_height="180dp"
-            android:layout_margin="5dp"
-            card_view:cardElevation="10dp"
-            card_view:cardCornerRadius="2dp"
-            card_view:contentPadding="10dp">
+        <!--<android.support.v7.widget.CardView-->
+            <!--android:id="@+id/card_view"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_width="@dimen/pagerfragment_width"-->
+            <!--android:layout_height="180dp"-->
+            <!--android:layout_margin="5dp"-->
+            <!--card_view:cardElevation="10dp"-->
+            <!--card_view:cardCornerRadius="2dp"-->
+            <!--card_view:contentPadding="10dp">-->
 
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+            <!--<RelativeLayout-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="fill_parent">-->
 
-                <TextView
-                    android:id="@+id/info_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    android:layout_alignParentTop="true"/>
+                <!--<TextView-->
+                    <!--android:id="@+id/info_text"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textStyle="bold"-->
+                    <!--android:textColor="@android:color/black"-->
+                    <!--android:layout_alignParentTop="true"/>-->
 
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:textColor="@android:color/black"
-                    android:layout_below="@+id/info_text"/>
-            </RelativeLayout>
-        </android.support.v7.widget.CardView>
-    </android.support.v4.widget.NestedScrollView>
-
+                <!--<TextView-->
+                    <!--android:id="@+id/textView2"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="10dp"-->
+                    <!--android:textColor="@android:color/black"-->
+                    <!--android:layout_below="@+id/info_text"/>-->
+            <!--</RelativeLayout>-->
+        <!--</android.support.v7.widget.CardView>-->
+        </FrameLayout>
+    <!--</android.support.v4.widget.NestedScrollView>-->
+<!--</FrameLayout>-->
 </LinearLayout>

@@ -9,7 +9,7 @@
     android:paddingRight="0dip" >
 
 
-
+    <!--Scroll events in the RecyclerView trigger changes inside views declared within AppBarLayout by using the app:layout_scrollFlags attribute:-->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/main_recycler_view"
         android:scrollbars="vertical"

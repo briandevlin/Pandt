@@ -1,7 +1,7 @@
 <resources>
 
 
-    <style name="FrameworkRoot.Theme" parent="Theme.AppCompat.NoActionBar" >
+    <style name="FrameworkRoot.Theme" parent="Theme.AppCompat.Light.NoActionBar" >
 
         <!--<item name="drawerArrowStyle">@style/MaterialDrawer.DrawerArrowStyle</item>-->
         <!--&lt;!&ndash;<item name="actionOverflowButtonStyle">@style/MaterialDrawer.actionOverflowButtonStyle</item>&ndash;&gt;-->

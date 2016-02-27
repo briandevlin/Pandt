@@ -3,13 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinatorLayout"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- AppBarLayout should be the first child of CoordinatorLayout-->
     <include
         layout="@layout/app_bar" />
-
 
 
     <!-- As the main baseName view, the view below consumes the entire
@@ -21,7 +20,7 @@
         android:visibility="visible"
         app:layout_behavior="com.bdevlin.apps.pandt.helper.FixedScrollingViewBehavior"
         />
-    <!--app:layout_behavior="com.bdevlin.apps.pandt.helper.FixedScrollingViewBehavior"-->
+
     <!--z-order is important here so the button is not obscured by other layouts-->
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

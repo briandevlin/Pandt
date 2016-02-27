@@ -3,6 +3,7 @@ package com.bdevlin.apps.ui.activity.core;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.AsyncTask;
 //import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -11,6 +12,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import com.bdevlin.apps.Config;
 import com.bdevlin.apps.pandt.Controllers.ActionBarController;
@@ -143,7 +146,6 @@ public class PandtActivity extends AppCompatActivity implements ControllableActi
     @Override
     public void onPause() {
         super.onPause();
-
 
     }
 
@@ -308,5 +310,39 @@ public class PandtActivity extends AppCompatActivity implements ControllableActi
     }
 
     // </editor-fold>
+    public void sessionDetailItemClicked(View viewClicked) {
+        Log.d(TAG, "clicked: " + viewClicked + " " +
+                ((viewClicked != null) ? viewClicked.getTag() : ""));
+//        Object tag = null;
+//        if (viewClicked != null) {
+//            tag = viewClicked.getTag();
+//        }
+//        if (tag instanceof SessionData) {
+//            SessionData sessionData = (SessionData)viewClicked.getTag();
+//            if (!TextUtils.isEmpty(sessionData.getSessionId())) {
+//                Intent intent = new Intent(getApplicationContext(), SessionDetailActivity.class);
+//                Uri sessionUri = ScheduleContract.Sessions.buildSessionUri(sessionData.getSessionId());
+//                intent.setData(sessionUri);
+//                startActivity(intent);
+//            } else {
+//                LOGE(TAG, "Theme item clicked but session data was null:" + sessionData);
+//                Toast.makeText(this, R.string.unknown_error, Toast.LENGTH_LONG).show();
+//            }
+//        }
+    }
+    public void cardHeaderClicked(View viewClicked) {
+        Log.d(TAG, "clicked: " + viewClicked + " " +
+                ((viewClicked != null) ? viewClicked.getTag() : ""));
+//        View moreButton = viewClicked.findViewById(android.R.id.button1);
+//        Object tag = moreButton != null ? moreButton.getTag() : null;
+//        Intent intent = new Intent(getApplicationContext(), ExploreSessionsActivity.class);
+//        if (tag instanceof LiveStreamData) {
+//            intent.setData(ScheduleContract.Sessions.buildSessionsAfterUri(UIUtils.getCurrentTime(this)));
+//            intent.putExtra(ExploreSessionsActivity.EXTRA_SHOW_LIVE_STREAM_SESSIONS, true);
+//        } else if (tag instanceof ItemGroup) {
+//            intent.putExtra(ExploreSessionsActivity.EXTRA_FILTER_TAG, ((ItemGroup)tag).getId());
+//        }
+//        startActivity(intent);
+    }
 
 }

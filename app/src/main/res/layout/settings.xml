@@ -7,6 +7,6 @@
 
     <include
         android:id="@+id/toolbar_container"
-        layout="@layout/settings_toolbar" />
+        layout="@layout/coordinatorlayout" />
 
  </LinearLayout>

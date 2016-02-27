@@ -9,13 +9,12 @@
     android:layout_width="match_parent"
     android:fitsSystemWindows="true"
     >
-
+<!--Scroll events in the RecyclerView trigger changes inside views declared within AppBarLayout by using the app:layout_scrollFlags attribute:-->
     <android.support.design.widget.CollapsingToolbarLayout
         android:id="@+id/toolbar_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap"
-
         android:fitsSystemWindows="true"
         app:contentScrim="@color/colorPrimary">
         <!--app:expandedTitleMarginBottom="60dp"-->
@@ -64,7 +63,7 @@
         <!--android:layout_marginRight="24dp"-->
         <!--android:layout_marginLeft="48dp"-->
 
-
+        <!--Scroll events in the RecyclerView trigger changes inside views declared within AppBarLayout by using the app:layout_scrollFlags attribute:-->
         <android.support.v7.widget.Toolbar
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"

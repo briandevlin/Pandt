@@ -233,7 +233,7 @@ public class PreferencesActivity extends PreferenceActivity implements
            // headers.removeViewAt(1);
 
             // this layout has no parent
-//            coordinator = (android.support.design.widget.CoordinatorLayout) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, null, false);
+//            coordinator = (android.support.design.widget.coordinatorlayout) LayoutInflater.from(this).inflate(R.layout.coordinatorlayout, null, false);
 //            bar = (Toolbar) coordinator.findViewById(R.id.toolbar);
 //            ViewParent v = bar.getParent();
 //            root.removeAllViews();
@@ -257,8 +257,8 @@ public class PreferencesActivity extends PreferenceActivity implements
 
             root.removeAllViews();
 
-           // barcontainer = (android.support.design.widget.AppBarLayout) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
-           // coordinator = (android.support.design.widget.CoordinatorLayout) LayoutInflater.from(this).inflate(R.layout.prefs_bar, root, false);
+           // barcontainer = (android.support.design.widget.AppBarLayout) LayoutInflater.from(this).inflate(R.layout.coordinatorlayout, root, false);
+           // coordinator = (android.support.design.widget.coordinatorlayout) LayoutInflater.from(this).inflate(R.layout.prefs_bar, root, false);
            // mToolbar =  (Toolbar) coordinator.findViewById(R.id.toolbar);
             android.support.design.widget.AppBarLayout appBarLayout = (android.support.design.widget.AppBarLayout)LayoutInflater.from(this).inflate(R.layout.prefs_bar, root, false);
 

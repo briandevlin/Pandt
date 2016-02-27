@@ -71,9 +71,8 @@ public class PagerController {
     public void show(final int position)
     {
         if (DEBUG) Log.d(TAG, "PagerController: Show");
-        int visible = mPager.getVisibility();
+
         mPager.setVisibility(View.VISIBLE);
-         visible = mPager.getVisibility();
 
         mPagerAdapter = new SlidePagerAdapter(mPager.getResources(), mFragmentManager);
 
