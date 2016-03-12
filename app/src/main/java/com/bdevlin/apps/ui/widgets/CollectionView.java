@@ -52,11 +52,6 @@ public class CollectionView extends android.support.v7.widget.RecyclerView {
     public CollectionView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setAdapter(new MyAdapter());
-//        setDivider(null);
-//        setDividerHeight(0);
-//        setItemsCanFocus(false);
-//        setChoiceMode(ListView.CHOICE_MODE_NONE);
-//        setSelector(android.R.color.transparent);
 
         if (attrs != null) {
             final TypedArray xmlArgs = context.obtainStyledAttributes(attrs,
@@ -360,9 +355,9 @@ public class CollectionView extends android.support.v7.widget.RecyclerView {
             view = mCallbacks.newCollectionItemView(getContext(), rowInfo.groupId, parent);
         }
 
-//        mCallbacks.bindCollectionItemView(getContext(), view, rowInfo.groupId,
-//                indexInGroup, rowInfo.group.getDataIndex(indexInGroup),
-//                rowInfo.group.getItemTag(rowInfo.groupOffset + column));
+        mCallbacks.bindCollectionItemView(getContext(), view, rowInfo.groupId,
+                indexInGroup, rowInfo.group.getDataIndex(indexInGroup),
+                rowInfo.group.getItemTag(rowInfo.groupOffset + column));
         return view;
     }
 
@@ -382,9 +377,9 @@ public class CollectionView extends android.support.v7.widget.RecyclerView {
             viewLayoutParams = new LinearLayout.LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         }
-        viewLayoutParams.leftMargin = mInternalPadding / 2;
-        viewLayoutParams.rightMargin = mInternalPadding / 2;
-        viewLayoutParams.bottomMargin = mInternalPadding;
+//        viewLayoutParams.leftMargin = mInternalPadding / 2;
+//        viewLayoutParams.rightMargin = mInternalPadding / 2;
+//        viewLayoutParams.bottomMargin = mInternalPadding;
         viewLayoutParams.width = LayoutParams.MATCH_PARENT;
         viewLayoutParams.weight = 1.0f;
         view.setLayoutParams(viewLayoutParams);
@@ -656,8 +651,8 @@ public class CollectionView extends android.support.v7.widget.RecyclerView {
                                                        int viewType) {
            View ll =  getRowView(row++, null, parent);
             // create a new view
-            TextView v = (TextView)LayoutInflater.from(parent.getContext())
-                    .inflate(android.R.layout.simple_list_item_1, parent, false);
+//            TextView v = (TextView)LayoutInflater.from(parent.getContext())
+//                    .inflate(android.R.layout.simple_list_item_1, parent, false);
 
             ViewHolder vh = new ViewHolder(ll);
             return vh;

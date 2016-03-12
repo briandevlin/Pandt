@@ -96,7 +96,8 @@ public class ContentCursorRecyclerAdapter extends ContentBaseRecyclerViewAdapter
             public void onClick(View v) {
                 int pos = holder.getAdapterPosition();
                 IDrawerItem drawerItem = getItem(pos);
-
+                MainContentDrawerItem item = (MainContentDrawerItem)drawerItem;
+                Log.d(TAG,"item count" + item.getBaseCount());
                 if (v instanceof ImageView) {
                     viewHolderClicked.onImageClicked((ImageView) v);
                 } else {
@@ -110,7 +111,7 @@ public class ContentCursorRecyclerAdapter extends ContentBaseRecyclerViewAdapter
                 }
                 if (mActivity != null) {
                     mCallbacks = mActivity.getMainContentCallbacks();
-                    mCallbacks.onMainContentItemSelected(position);
+                    mCallbacks.onMainContentItemSelected(position,  item.getBaseCount());
                     //mCallbacks.onMainContentScrolled(()v);
                 }
 

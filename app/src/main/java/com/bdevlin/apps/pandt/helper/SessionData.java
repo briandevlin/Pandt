@@ -9,19 +9,26 @@ public class SessionData {
     private String mSessionId;
     private String mImageUrl;
     private String mMainTag;
+    private String mTags;
 
-    public SessionData(String sessionName, String details, String sessionId, String imageUrl,
-                       String mainTag) {
-        updateData(sessionName, details, sessionId,imageUrl,mainTag);
+    public SessionData() { }
+//    BaseColumns._ID,
+//    SessionsColumns.SESSION_ID,
+//    SessionsColumns.SESSION_TITLE,
+//    SessionsColumns.SESSION_TAGS,
+//    SessionsColumns.SESSION_MAIN_TAG,
+    public SessionData(String sessionId, String sessionName, String tags, String mainTag) {
+        updateData(sessionId, sessionName, tags,mainTag);
     }
 
-    public void updateData(String sessionName, String details, String sessionId, String imageUrl,
-                           String mainTag) {
-        mSessionName = sessionName;
-        mDetails = details;
+    public void updateData(String sessionId, String sessionName, String tags, String mainTag) {
         mSessionId = sessionId;
-        mImageUrl = imageUrl;
+        mSessionName = sessionName;
+//        mDetails = details;
+
+//        mImageUrl = imageUrl;
         mMainTag = mainTag;
+        mTags = tags;
     }
 
     public String getSessionName() {
@@ -43,4 +50,6 @@ public class SessionData {
     public String getMainTag() {
         return mMainTag;
     }
+
+    public String getTags() { return mTags; }
 }

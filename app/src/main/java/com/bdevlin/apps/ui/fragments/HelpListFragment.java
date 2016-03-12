@@ -76,20 +76,28 @@ public class HelpListFragment extends Fragment {
 
         CharSequence text = Utils.bold(Utils.italic(getResources().getString(R.string.about_eula)),
                 Utils.color(Color.RED, getResources().getString(R.string.about_licenses)));
-        
+        CharSequence yourHtml = "<table>table</table>";
+
+
         CharSequence content = getContent();
         ;
         SpannedString sstr = SpannedString.valueOf(content);
         SpannedString message = SpannedString.valueOf(mMessage);
         SpannedString message2 = SpannedString.valueOf(text);
+        SpannedString message3 = SpannedString.valueOf(yourHtml);
+
 
         SpannableStringBuilder aboutBody = new SpannableStringBuilder();
         aboutBody.append(Html.fromHtml(Html.toHtml(message)));
         aboutBody.append(Html.fromHtml(Html.toHtml(message2)));
+        aboutBody.append(Html.fromHtml(Html.toHtml(message3)));
         aboutBody.append(Html.fromHtml(Html.toHtml(sstr)));
         aboutBody.setSpan(new StyleSpan(Typeface.ITALIC), 0, aboutBody.length(), 0);
        // mHelpText.setText(aboutBody);
-        mHelpText.loadData(Html.toHtml(aboutBody), "text/html", null);
+       // mHelpText.loadData(Html.toHtml(aboutBody), "text/html", null);
+
+        mHelpText.loadUrl("file:///android_asset/" + mTitle + ".html", null);
+
         //mHelpText.loadUrl("http://www.choosemyplate.gov/tools-supertracker");
 
     }

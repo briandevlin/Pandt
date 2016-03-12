@@ -52,6 +52,8 @@ public class PandTUiProvider extends ContentProvider {
     private static final int ACCOUNT = 102;
     private static final int ACCOUNT_ID = 103;
     private static final int SUBJECT = 104;
+    private static final int SESSION = 105;
+    private static final int SESSION_ID = 106;
 
 
 
@@ -74,6 +76,10 @@ public class PandTUiProvider extends ContentProvider {
         matcher.addURI(authority, Tables.ACCOUNTS + "/#", ACCOUNT_ID);
         // All subjects
         matcher.addURI(authority, "subjects", SUBJECT);
+        // All folders
+        matcher.addURI(authority, Tables.SESSIONS, SESSION);
+        // A specific folder
+        matcher.addURI(authority, Tables.SESSIONS + "/*", SESSION_ID);
 
         return matcher;
     }
@@ -271,6 +277,10 @@ public class PandTUiProvider extends ContentProvider {
                 return PandTContract.Accounts.CONTENT_ITEM_TYPE;
             case SUBJECT    :
                 return PandTContract.SubjectManager.CONTENT_TYPE;
+            case SESSION:
+                return PandTContract.Sessions.CONTENT_TYPE;
+            case SESSION_ID:
+                return PandTContract.Sessions.CONTENT_ITEM_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -359,6 +369,9 @@ public class PandTUiProvider extends ContentProvider {
                         .mapToTable(PandTContract.Accounts._ID, Tables.ACCOUNTS)
                         .where(
                                 PandTContract.Accounts.FOLDER_ID + "=?", accoutId);
+            }
+            case SESSION: {
+                return builder.table(Tables.SESSIONS);
             }
             default: {
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

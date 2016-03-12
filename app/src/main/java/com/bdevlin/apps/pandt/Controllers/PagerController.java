@@ -19,6 +19,11 @@ import com.bdevlin.apps.ui.widgets.PageMarginDrawable;
 import com.viewpagerindicator.LinePageIndicator;
 import com.viewpagerindicator.TabPageIndicator;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by brian on 7/26/2014.
  */
@@ -36,12 +41,72 @@ public class PagerController {
     private PandtActivity mActivity;
     private LinePageIndicator mIndicator;
     private TabPageIndicator mIndicatorTab;
-    private static final String[] CONTENT = new String[] { "Recent", "Artists", "Albums", "Songs", "Playlists", "Genres" };
-    // </editor-fold>
+    private Map<String, Collection<String>> mTopics = new HashMap<>();
+    private ArrayList<String> listArray = new ArrayList<String>();
+    public interface QueryEnum {
 
-    // <editor-fold desc="">
-    // </editor-fold>
 
+        public int getId();
+        public int getTabCount();
+        public String getTopic();
+
+        public String[] getProjection();
+
+    }
+    public static enum ExploreQueryEnum implements QueryEnum {
+
+        SESSIONONE(0x1, "Nouns", 6, new String[]{
+                "Proper", "Common", "Material", "Countable", "Uncountable", "Collective"
+        }),
+
+        SESSIONTWO(0x2, "Verbs", 4, new String[]{
+            "Regular", "Irregular", "Modal", "Auxillary"/*, "UncountableTwo", "CollectiveTwo"*/
+        }),
+
+        SESSIONTHREE(0x3, "Adjectives", 2, new String[]{
+            "Articles", "Possessives"/*, "MaterialThree", "CountableThree", "UncountableThree", "CollectiveThree"*/
+        });
+
+
+//        TAGS(0x2, new String[] {
+//                ScheduleContract.Tags.TAG_ID,
+//                ScheduleContract.Tags.TAG_NAME,
+//        });
+
+
+        private int id;
+        private int tabCount;
+        String topic;
+        private String[] projection;
+
+        ExploreQueryEnum(int id, String topic, int tabCount, String[] projection) {
+            this.id = id;
+            this.topic = topic;
+            this.tabCount = tabCount;
+            this.projection = projection;
+
+        }
+
+        @Override
+        public int getId() {
+            return id;
+        }
+        @Override
+        public int getTabCount() {
+            return tabCount;
+        }
+        @Override
+        public String getTopic() {
+            return topic;
+        }
+        @Override
+        public String[] getProjection() {
+            return projection;
+        }
+    }
+
+    QueryEnum[] qe;
+    // </editor-fold>
 
     // <editor-fold desc="Constructor">
 
@@ -53,9 +118,16 @@ public class PagerController {
         mActivityController = controller;
         mFragmentManager = fragmentManager;
         setupPageMargin(activity.getActivityContext());
+
+         qe = new QueryEnum[]{
+                ExploreQueryEnum.SESSIONONE,
+                ExploreQueryEnum.SESSIONTWO,
+                ExploreQueryEnum.SESSIONTHREE};
     }
+
     // </editor-fold>
 
+    // <editor-fold desc="setupPageMargin">
     private void setupPageMargin(Context c) {
         final TypedArray a = c.obtainStyledAttributes(new int[] {android.R.attr.listDivider});
         final Drawable divider = a.getDrawable(0);
@@ -67,23 +139,29 @@ public class PagerController {
         mPager.setPageMargin(gutterDrawable.getIntrinsicWidth() + 2 * padding);
         mPager.setPageMarginDrawable(gutterDrawable);
     }
+    // </editor-fold>
 
-    public void show(final int position)
+    // <editor-fold desc="show/hide">
+    public void show(final int selectedCard, final int count)
     {
         if (DEBUG) Log.d(TAG, "PagerController: Show");
 
         mPager.setVisibility(View.VISIBLE);
-
-        mPagerAdapter = new SlidePagerAdapter(mPager.getResources(), mFragmentManager);
+        mPager.setCurrentItem(0);
+        mPagerAdapter = new SlidePagerAdapter(mPager.getResources(), mFragmentManager, qe[selectedCard].getTabCount(), qe[selectedCard].getProjection(), qe[selectedCard].getTopic());
+       // mPagerAdapter.setCount(qe[position].getTabCount());
 
         mPager.setAdapter(mPagerAdapter);
 
-        mPager.setCurrentItem(position);
-
-        mIndicator = (LinePageIndicator)mActivity.findViewById(R.id.indicator);
         mIndicatorTab = (TabPageIndicator)mActivity.findViewById(R.id.indicatorTab);
         mIndicatorTab.setViewPager(mPager);
+        mIndicatorTab.notifyDataSetChanged();
+        mIndicatorTab.setCurrentItem(0);
         mIndicatorTab.setVisibility(View.VISIBLE);
+
+
+
+
 
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -106,12 +184,21 @@ public class PagerController {
 
     public void hide(boolean changeVisibility) {
         if (DEBUG) Log.d(TAG, "PagerController: Hide");
-
+        mPager.setCurrentItem(0);
         mPager.setVisibility(View.GONE);
-        if (mIndicator != null) mIndicator.setVisibility(View.GONE);
-        if (mIndicatorTab != null) mIndicatorTab.setVisibility(View.GONE);
-       // mPager.setAdapter(null);
+       // if (mIndicator != null) mIndicator.setVisibility(View.GONE);
+        if (mIndicatorTab != null && mIndicatorTab.getVisibility() == View.VISIBLE ) {
+            mPagerAdapter.setCount(0);
+            mIndicatorTab.notifyDataSetChanged();
+            mIndicatorTab.setVisibility(View.GONE);
+        }
+
+        mPager.setAdapter(null);
+
+
     }
+
+    // </editor-fold>
 
     public void onDestroy() {
         // need to release resources before a configuration change kills the activity and controller
@@ -121,6 +208,7 @@ public class PagerController {
     private void cleanup() {
         if (mPagerAdapter != null) {
             mPagerAdapter = null;
+
         }
     }
 
@@ -128,34 +216,46 @@ public class PagerController {
 
     public class SlidePagerAdapter extends FragmentStatePagerAdapter {
 
-        private  final int NUM_PAGES = 6;
+        private  int NUM_PAGES = 0;
+        private QueryEnum[] qe;
+        private String[] projection;
+        private String topic;
 
-        //  private static final String ARG_INDEX = " com.bdevlin.apps.pandt.arg_position";
-
-        public SlidePagerAdapter(Resources res, FragmentManager fm) {
+        public SlidePagerAdapter(Resources res, FragmentManager fm, int count, String[] projection, final String topic) {
             super(fm);
+            NUM_PAGES = count;
+            this.projection =  projection;
+            this.topic = topic;
         }
 
         @Override
         public Fragment getItem(int position) {
 
-            // return new PagerFragment();
+            String content = projection[position % projection.length];
 
-            PagerFragment frag = PagerFragment.newInstance(CONTENT[position % CONTENT.length]);
+            PagerFragment frag = PagerFragment.newInstance(content, topic);
 
             Bundle args = new Bundle();
-            args.putInt(PagerFragment.ARG_INDEX, position + 1);
+            args.putInt(PagerFragment.ARG_INDEX, position);
             frag.setArguments(args);
             return frag;
         }
         @Override
         public CharSequence getPageTitle(int position) {
-            return CONTENT[position % CONTENT.length].toUpperCase();
+//            if (projection == null){
+//                projection = qe[position].getProjection();
+//            }
+
+            return projection[position % projection.length].toUpperCase();
         }
 
         @Override
         public int getCount() {
             return NUM_PAGES;
+        }
+
+        public void setCount(final int count) {
+            NUM_PAGES = count;
         }
 
 

@@ -16,6 +16,7 @@ public abstract class BaseDrawerItem<T> extends AbstractDrawerItem<T> {
     protected ImageHolder imageHolder;
     protected ImageHolder selectedIcon;
     protected int baseId;
+    protected int baseCount;
     protected StringHolder baseName;
     protected String baseIcon;
     protected String baseUri;
@@ -64,7 +65,9 @@ public abstract class BaseDrawerItem<T> extends AbstractDrawerItem<T> {
     public void setBaseId(int baseId) {
         this.baseId = baseId;
     }
-
+    public int getBaseCount() {
+        return baseCount;
+    }
     public ColorHolder getSelectedColor() {
         return selectedColor;
     }

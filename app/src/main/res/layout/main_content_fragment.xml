@@ -4,6 +4,7 @@
     android:id="@+id/main_content_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/conversation_view_border_color"
     android:orientation="vertical"
     android:paddingLeft="0dip"
     android:paddingRight="0dip" >

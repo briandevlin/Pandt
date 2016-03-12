@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.SwipeDismissBehavior;
 import android.support.v4.app.Fragment;
@@ -56,6 +58,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
     private static final String CONVERSATION_LIST_KEY = "conversation-list";
     private static final String ARG_SECTION_NUMBER = "section_number";
     private static final String STATE_SELECTED_POSITION = "selected_position";
+    private static final String BUNDLE_RECYCLER_LAYOUT = "classname.recycler.layout";
     private static final int LOADER_ID_SUBJECT_LOADER   = 1;
     private int mCurrentSelectedPosition = 0;
     private int mSectionNumber = 0;
@@ -75,7 +78,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
     // <editor-fold desc="Interfaces">
 
     public interface MainContentCallbacks {
-        void onMainContentItemSelected(final int position);
+        void onMainContentItemSelected(final int position, final int count);
         void onMainContentScrolled(RecyclerView recyclerView, int dx, int dy);
         void onMainContentItemSwipe(CardView cardView,SwipeDismissBehavior<CardView> swipe);
     }
@@ -86,7 +89,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
      */
     private static MainContentCallbacks sDummyCallbacks = new MainContentCallbacks() {
         @Override
-        public void onMainContentItemSelected(final int position) {
+        public void onMainContentItemSelected(final int position, final int count) {
         }
         public void onMainContentScrolled(RecyclerView recyclerView, int dx, int dy)
         {
@@ -275,8 +278,20 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-         outState.putInt(STATE_SELECTED_POSITION, mCurrentSelectedPosition);
+        outState.putInt(STATE_SELECTED_POSITION, mCurrentSelectedPosition);
         outState.putInt(ARG_SECTION_NUMBER, mSectionNumber);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if(savedInstanceState != null)
+        {
+            Parcelable savedRecyclerLayoutState = savedInstanceState.getParcelable(LinearLayoutManager.class.getClassLoader().toString());
+            if (savedRecyclerLayoutState != null) {
+                mRecyclerView.getLayoutManager().onRestoreInstanceState(savedRecyclerLayoutState);
+            }
+        }
     }
 
     @Override
@@ -353,8 +368,8 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
              Uri contentUri = null;
             final String[] mProjection = PandTContract.ACCOUNTS_PROJECTION;
 
-            if (mFolder != null) {
-                 contentUri = Uri.parse(mFolder.uri);
+            if (mFolder != null && mFolder.uri != null) {
+                 contentUri = Uri.parse(mFolder.uri); //FIXME why is the folder.uri null
             }
             else {
                  contentUri =  PandTContract.Accounts.buildAccountDirUri(getResources().getString(R.string.default_uri_key));

@@ -6,10 +6,12 @@ import android.app.Activity;
 //import android.content.Loader;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,6 +36,7 @@ import com.bdevlin.apps.pandt.R;
 import com.bdevlin.apps.pandt.helper.ItemGroup;
 import com.bdevlin.apps.pandt.helper.SessionData;
 import com.bdevlin.apps.pandt.helper.TopicGroup;
+import com.bdevlin.apps.provider.PandTContract;
 import com.bdevlin.apps.ui.widgets.CollectionView;
 import com.bdevlin.apps.ui.widgets.CollectionViewCallbacks;
 import com.bdevlin.apps.utils.ViewMode;
@@ -43,6 +46,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 /**
  * Created by brian on 7/26/2014.
@@ -67,24 +71,23 @@ public class PagerFragment extends Fragment
 
     private ControllableActivity mActivity;
     private ActionBarController controller = null;
-    private  int  mParam1;
+    private  int  mPosition;
     private CollectionView mCollectionView = null;
     private ActionBarController actionBarController = null;
     private View mEmptyView = null;
-    private ImageLoader mImageLoader;
+   // private ImageLoader mImageLoader;
     private RecyclerView.LayoutManager mLayoutManager;
-    private static final String[] CONTENT = new String[] { "Recent", "Artists", "Albums", "Songs", "Playlists", "Genres" };
-    String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
-            "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-            "Linux", "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux",
-            "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux", "OS/2",
-            "Android", "iPhone", "WindowsMobile" };
+    private static String mTopic;
+    private  String mContent = "";
+    private Map<String, TopicGroup> mTopics = new HashMap<>();
+
     // </editor-fold>
 
     // <editor-fold desc="New Instance">
-    public static PagerFragment newInstance(String content) {
+    public static PagerFragment newInstance(String content, String topic) {
         PagerFragment fragment = new PagerFragment();
         fragment.setModel(content);
+        fragment.setTopic(topic);
         return fragment;
     }
     // </editor-fold>
@@ -93,12 +96,17 @@ public class PagerFragment extends Fragment
     public PagerFragment() {
     }
     public void setModel(String content) {
-        Log.d(TAG, "Pager Fragment: setModel for : " + content);
+       // if (DEBUG) Log.d(TAG, "Pager Fragment: setModel for : " + content);
+        this.mContent = content;
+    }
+    public void setTopic(String topic) {
+      // if (DEBUG) Log.d(TAG, "Pager Fragment: setTopic for : " + topic);
+        this.mTopic = topic;
     }
     protected void parseArguments() {
         final Bundle args = getArguments();
         if (args != null) {
-            mParam1 = args.getInt(ARG_INDEX);
+            mPosition = args.getInt(ARG_INDEX);
         }
     }
 // </editor-fold>
@@ -106,14 +114,14 @@ public class PagerFragment extends Fragment
     // <editor-fold desc="Create">
     @Override
     public void onViewModeChanged(int newMode) {
-        Log.v(TAG, "in onViewModeChanged  " + newMode);
+       // Log.v(TAG, "in onViewModeChanged  " + newMode);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "Pager Fragment: onCreate");
         parseArguments();
+        if (DEBUG) Log.d(TAG, "Pager Fragment: onCreate : " + mPosition);
 
     }
 
@@ -132,23 +140,11 @@ public class PagerFragment extends Fragment
         mEmptyView = rootView.findViewById(android.R.id.empty);
        // getActivity().overridePendingTransition(0, 0);
 
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-//                android.R.layout.simple_list_item_1, android.R.id.text1, values);
-
-      //  mCollectionView.setAdapter(adapter);
-
         SetupViewMode();
 
         SetupActionToolbar();
 
        // mEmptyView.setVisibility(View.VISIBLE);
-
-//        TextView name1 = (TextView)rootView.findViewById(R.id.info_text);
-//        TextView name2 = (TextView)rootView.findViewById(R.id.textView2);
-//
-//        name1.setText(R.string.pagerfragment_param + mParam1);
-//        name2.setText(R.string.pagerFragmentText);
-
 
         return rootView;
     }
@@ -169,15 +165,15 @@ public class PagerFragment extends Fragment
 
         if (ctl != null /*&& mViewContext.folder != null*/ ) {
            // ctl.setVisibility(View.GONE);
-//            ctl.setTitle("Pager Content");
+          //  ctl.setTitle(topic);
 //            ctl.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
-//            TextView subTitle =  (TextView)ctl.findViewById(R.id.subTitle);
-            /*subTitle.setText(mViewContext.folder.name);*/
+            TextView subTitle =  (TextView)ctl.findViewById(R.id.subTitle);
+            subTitle.setText(mTopic + " -> " + mContent);
         }
         else {
             if (ctl != null) {
                 TextView subTitle =  (TextView)ctl.findViewById(R.id.subTitle);
-                subTitle.setText(R.string.empty );
+                subTitle.setText(R.string.empty);
             }
         }
     }
@@ -185,7 +181,7 @@ public class PagerFragment extends Fragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.d(TAG, "Pager Fragment: onActivityCreated ");
+       // Log.d(TAG, "Pager Fragment: onActivityCreated ");
 
        final Activity activity = getActivity();
 
@@ -196,22 +192,18 @@ public class PagerFragment extends Fragment
 
         ViewMode mode = mActivity.getViewMode();
         mode.enterMainContentItemPagerMode();
-         mImageLoader = VolleyController.getInstance(activity).getImageLoader();
-        updateCollectionView();
-//        controller = mActivity.getActionBarController();
-//        ActionBar ab = controller.getSupportActionBar();
-//        Toolbar toolbar = controller.getSupportToolBar();
-//        if (toolbar != null) {
-//            toolbar.setSubtitle("ViewPager " + mParam1);
-//        }
-//
-//        if (ab != null) {
-//            ab.setDisplayHomeAsUpEnabled(true);
-//            ab.setDisplayShowHomeEnabled(false);
-//        }
+        // mImageLoader = VolleyController.getInstance(activity).getImageLoader();
+        startLoading();
 
         // Indicate that this fragment would like to influence the set of actions in the action bar.
         setHasOptionsMenu(true);
+    }
+
+    private void startLoading() {
+        final LoaderManager lm = getLoaderManager();
+      //  final Bundle args = createLoaderArgs(getActivity().getIntent());
+        // Prepare the loader. starts or reconnects
+        lm.initLoader(0, null, this);
     }
 
     private void setContentTopClearance(int clearance) {
@@ -280,8 +272,9 @@ public class PagerFragment extends Fragment
 
     // </editor-fold>
 
+    // <editor-fold desc="updateCollectionView">
     private void updateCollectionView(/*ExploreModel model*/) {
-        Log.d(TAG, "Updating collection view.");
+      //  if (DEBUG) Log.d(TAG, "Updating collection view.");
         CollectionView.Inventory inventory = new CollectionView.Inventory();
         CollectionView.InventoryGroup inventoryGroup;
 
@@ -299,45 +292,45 @@ public class PagerFragment extends Fragment
 
 
         // lets add some dummy cursor data
-        Map<String, TopicGroup> topicGroupsMap = new HashMap<>();
-
-        SessionData session = new SessionData("session one","session one details","1",null, null);
-        SessionData session2 = new SessionData("session two","session two details","1",null, null);
-
-        TopicGroup topicGroup1 = new TopicGroup();
-        topicGroup1.setTitle("TopicGroup one");
-        topicGroup1.setId("1");
-        topicGroup1.addSessionData(session);
-        topicGroup1.addSessionData(session2);
-        topicGroupsMap.put("TopicGroup one", topicGroup1);
-
-        TopicGroup topicGroup2 = new TopicGroup();
-        topicGroup2.setTitle("TopicGroup two");
-        topicGroup2.setId("2");
-        topicGroup2.addSessionData(session);
-        topicGroup2.addSessionData(session2);
-        topicGroupsMap.put("TopicGroup two", topicGroup2);
-
-        TopicGroup topicGroup3 = new TopicGroup();
-        topicGroup3.setTitle("TopicGroup three");
-        topicGroup3.setId("3");
-        topicGroup3.addSessionData(session);
-        topicGroup3.addSessionData(session2);
-        topicGroupsMap.put("TopicGroup three", topicGroup3);
-
-        TopicGroup topicGroup4 = new TopicGroup();
-        topicGroup4.setTitle("TopicGroup four");
-        topicGroup4.setId("4");
-        topicGroup4.addSessionData(session);
-        topicGroup4.addSessionData(session2);
-        topicGroupsMap.put("TopicGroup four", topicGroup4);
-
-        TopicGroup topicGroup5 = new TopicGroup();
-        topicGroup5.setTitle("TopicGroup five");
-        topicGroup5.setId("4");
-        topicGroup5.addSessionData(session);
-        topicGroup5.addSessionData(session2);
-        topicGroupsMap.put("TopicGroup five", topicGroup5);
+//        Map<String, TopicGroup> topicGroupsMap = new HashMap<>();
+//
+//        SessionData session = new SessionData("session one","session one details","1",null, null);
+//        SessionData session2 = new SessionData("session two","session two details","1",null, null);
+//
+//        TopicGroup topicGroup1 = new TopicGroup();
+//        topicGroup1.setTitle("TopicGroup one");
+//        topicGroup1.setId("1");
+//        topicGroup1.addSessionData(session);
+//        topicGroup1.addSessionData(session2);
+//        topicGroupsMap.put("TopicGroup one", topicGroup1);
+//
+//        TopicGroup topicGroup2 = new TopicGroup();
+//        topicGroup2.setTitle("TopicGroup two");
+//        topicGroup2.setId("2");
+//        topicGroup2.addSessionData(session);
+//        topicGroup2.addSessionData(session2);
+//        topicGroupsMap.put("TopicGroup two", topicGroup2);
+//
+//        TopicGroup topicGroup3 = new TopicGroup();
+//        topicGroup3.setTitle("TopicGroup three");
+//        topicGroup3.setId("3");
+//        topicGroup3.addSessionData(session);
+//        topicGroup3.addSessionData(session2);
+//        topicGroupsMap.put("TopicGroup three", topicGroup3);
+//
+//        TopicGroup topicGroup4 = new TopicGroup();
+//        topicGroup4.setTitle("TopicGroup four");
+//        topicGroup4.setId("4");
+//        topicGroup4.addSessionData(session);
+//        topicGroup4.addSessionData(session2);
+//        topicGroupsMap.put("TopicGroup four", topicGroup4);
+//
+//        TopicGroup topicGroup5 = new TopicGroup();
+//        topicGroup5.setTitle("TopicGroup five");
+//        topicGroup5.setId("4");
+//        topicGroup5.addSessionData(session);
+//        topicGroup5.addSessionData(session2);
+//        topicGroupsMap.put("TopicGroup five", topicGroup5);
         //end dummy data
 
 
@@ -347,9 +340,9 @@ public class PagerFragment extends Fragment
         ArrayList<CollectionView.InventoryGroup> themeGroups = new ArrayList<>();
         ArrayList<CollectionView.InventoryGroup> topicGroups = new ArrayList<>();
 
-    //   for (TopicGroup topic : model.getTopics()) {
-        for (TopicGroup topic : topicGroupsMap.values()) {
-            Log.d(TAG, topic.getTitle() + ": number of sessions = " + topic.getSessions().size());
+       for (TopicGroup topic : mTopics.values()) {
+       /* for (TopicGroup topic : topicGroupsMap.values()) {*/
+         //  if (DEBUG) Log.d(TAG, topic.getTitle() + ": number of sessions = " + topic.getSessions().size());
             if (topic.getSessions().size() > 0) {
                 inventoryGroup = new CollectionView.InventoryGroup(GROUP_ID_TOPIC_CARDS);
                 inventoryGroup.addItemWithTag(topic);
@@ -374,22 +367,169 @@ public class PagerFragment extends Fragment
         mCollectionView.setCollectionAdapter(this);
         mCollectionView.updateInventory(inventory, false);
     }
+// </editor-fold>
 
     // <editor-fold desc="Loader">
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return null;
+        final String[] mProjection = PandTContract.SESSIONS_PROJECTION;
+
+        final Uri contentUri = PandTContract.Sessions.CONTENT_URI;
+        return new CursorLoader(getActivity(), contentUri,
+                mProjection, null, null,
+                null);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
+        if (data == null || data.getCount() <=0 || !data.moveToFirst()) {
+            return;
+        }
+        if (DEBUG) Log.d(TAG,"");
+        readDataFromCursor(data);
+        updateCollectionView();
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
     }
+    // </editor-fold>
+
+    // <editor-fold desc="readDataFromCursor">
+    public boolean readDataFromCursor(Cursor cursor/*, QueryEnum query*/)
+    {
+      //  if (DEBUG) Log.d(TAG, "readDataFromCursor");
+        if (cursor != null) {
+         //   if (DEBUG) Log.d(TAG, "Reading session data from cursor.");
+
+            // As we go through the session query results we will be collecting X numbers of session
+            // data per Topic and Y numbers of sessions per Theme. When new topics or themes are
+            // seen a group will be created.
+
+            // As we iterate through the list of sessions we are also watching out for the
+            // keynote and any live sessions streaming right now.
+
+            // The following adjusts the theme and topic limits based on whether the attendee is at
+            // the venue.
+//            boolean atVenue = SettingsUtils.isAttendeeAtVenue(mContext);
+//            int themeSessionLimit = getThemeSessionLimit(mContext);
+//
+//            int topicSessionLimit = getTopicSessionLimit(mContext);
+//
+//            LiveStreamData liveStreamData = new LiveStreamData();
+            Map<String, TopicGroup> topicGroups = new HashMap<>();
+           // Map<String, ThemeGroup> themeGroups = new HashMap<>();
+
+            // Iterating through rows in Sessions query.
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    SessionData session = new SessionData();
+                    populateSessionFromCursorRow(session, cursor);
+
+                    // Sessions missing titles, descriptions, ids, or images aren't eligible for the
+                    // Explore screen.
+//                    if (TextUtils.isEmpty(session.getSessionName()) ||
+//                          //  TextUtils.isEmpty(session.getDetails()) ||
+//                            TextUtils.isEmpty(session.getSessionId()) //||
+//                           /* TextUtils.isEmpty(session.getImageUrl()*/)) {
+//                        continue;
+//                    }
+
+//                    if (!atVenue &&
+//                            (!session.isLiveStreamAvailable()) && !session.isVideoAvailable()) {
+//                        // Skip the opportunity to present the session for those not on site since it
+//                        // won't be viewable as there is neither a live stream nor video available.
+//                        continue;
+//                    }
+
+                    String tags = session.getTags();
+
+//                    if (Config.Tags.SPECIAL_KEYNOTE.equals(session.getMainTag())) {
+//                        SessionData keynoteData = new SessionData();
+//                        populateSessionFromCursorRow(keynoteData, cursor);
+//                        rewriteKeynoteDetails(keynoteData);
+//                        mKeynoteData = keynoteData;
+//                    } else if (session.isLiveStreamNow(mContext)) {
+//                        liveStreamData.addSessionData(session);
+//                    }
+
+                    // TODO: Refactor into a system wide way of parsing these tags.
+                    if (!TextUtils.isEmpty(tags)) {
+                        StringTokenizer tagsTokenizer = new StringTokenizer(tags, ",");
+                        while (tagsTokenizer.hasMoreTokens()) {
+                            String rawTag = tagsTokenizer.nextToken();
+                            if (rawTag.startsWith("TOPIC_")) {
+                                TopicGroup topicGroup = topicGroups.get(rawTag);
+                                if (topicGroup == null) {
+                                    topicGroup = new TopicGroup();
+                                    topicGroup.setTitle(rawTag);
+                                    topicGroup.setId(rawTag);
+                                    topicGroups.put(rawTag, topicGroup);
+                                }
+                                topicGroup.addSessionData(session);
+
+//                            } else if (rawTag.startsWith("THEME_")) {
+//                                ThemeGroup themeGroup = themeGroups.get(rawTag);
+//                                if (themeGroup == null) {
+//                                    themeGroup = new ThemeGroup();
+//                                    themeGroup.setTitle(rawTag);
+//                                    themeGroup.setId(rawTag);
+//                                    themeGroups.put(rawTag, themeGroup);
+//                                }
+//                                themeGroup.addSessionData(session);
+                            }
+                        }
+                    }
+                } while (cursor.moveToNext());
+            }
+
+//            for (ItemGroup group : themeGroups.values()) {
+//                group.trimSessionData(themeSessionLimit);
+//            }
+//            for (ItemGroup group : topicGroups.values()) {
+//                group.trimSessionData(topicSessionLimit);
+//            }
+//            if (liveStreamData.getSessions().size() > 0) {
+//                mLiveStreamData = liveStreamData;
+//            }
+//            mThemes = themeGroups;
+            mTopics = topicGroups;
+            return true;
+        }
+        return false;
+    }
+
+    private void populateSessionFromCursorRow(SessionData session, Cursor cursor) {
+        session.updateData(
+                cursor.getString(cursor.getColumnIndex(
+                        PandTContract.Sessions.SESSION_ID)),
+                cursor.getString(cursor.getColumnIndex(
+                        PandTContract.Sessions.SESSION_TITLE)),
+                cursor.getString(cursor.getColumnIndex(
+                        PandTContract.Sessions.SESSION_TAGS)),
+//                cursor.getString(cursor.getColumnIndex(
+//                        PandTContract.Sessions.SESSION_ABSTRACT)),
+//                cursor.getString(cursor.getColumnIndex(
+//                        PandTContract.Sessions.SESSION_ID)),
+//                cursor.getString(cursor.getColumnIndex(
+//                        PandTContract.Sessions.SESSION_PHOTO_URL)),
+                cursor.getString(cursor.getColumnIndex(
+                        PandTContract.Sessions.SESSION_MAIN_TAG))//,
+//                cursor.getLong(cursor.getColumnIndex(
+//                        PandTContract.Sessions.SESSION_START)),
+//                cursor.getLong(cursor.getColumnIndex(
+//                        PandTContract.Sessions.SESSION_END)),
+//                cursor.getString(cursor.getColumnIndex(
+//                        PandTContract.Sessions.SESSION_LIVESTREAM_ID)),
+//                cursor.getString(cursor.getColumnIndex(
+//                        PandTContract.Sessions.SESSION_YOUTUBE_URL)),
+
+                /*cursor.getLong(cursor.getColumnIndex(
+                        PandTContract.Sessions.SESSION_IN_MY_SCHEDULE)) == 1L*/);
+    }
+
     // </editor-fold>
 
     // <editor-fold desc="CollectionView callbacks">

@@ -1,7 +1,10 @@
     package com.bdevlin.apps.ui.activity.core;
 
     import android.content.Intent;
+    import android.content.pm.ActivityInfo;
     import android.content.res.Resources;
+    import android.database.Cursor;
+    import android.net.Uri;
     import android.os.Bundle;
     import android.support.design.widget.SwipeDismissBehavior;
     import android.support.v4.app.Fragment;
@@ -19,6 +22,7 @@
     import com.bdevlin.apps.pandt.Controllers.ActivityController;
     import com.bdevlin.apps.pandt.DrawerItem.IDrawerItem;
     import com.bdevlin.apps.pandt.DrawerItem.NavigationDrawerItem;
+    import com.bdevlin.apps.provider.PandTContract;
     import com.bdevlin.apps.utils.GenericListContext;
     import com.bdevlin.apps.pandt.folders.Folder;
     import com.bdevlin.apps.ui.fragments.MainContentFragment;
@@ -42,6 +46,7 @@
         // <editor-fold desc="Constructor">
         public UIControllerOnePane(PandtActivity activity, ViewMode viewMode) {
             super(activity, viewMode);
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
         // </editor-fold>
 
@@ -91,11 +96,12 @@
           //  inner.moveToFirst();
           //  Log.d(TAG, "column 1: " + inner.getInt(MockContract.SUBJECTMANGER_SID_COLUMN));
          //   Log.d(TAG, Utils.dumpCursor(inner));
-//        final String[] mProjection = MockContract.ACCOUNTS_PROJECTION;
-//        final Uri contentUri = MockContract.Accounts.buildAccountDirUri("11");
-//        final Cursor inner = (Cursor)getContext().getContentResolver().query(contentUri, mProjection,null,null,null);
+        final String[] mProjection = PandTContract.SESSIONS_PROJECTION;
+       // final Uri contentUri = PandTContract.Accounts.buildAccountDirUri("11");
+            final Uri contentUri = PandTContract.Sessions.CONTENT_URI;
+       // final Cursor inner = (Cursor)getContext().getContentResolver().query(contentUri, mProjection,null,null,null);
 //               // "_id=?", new String[] { String.valueOf(2) }, null);
-//            Log.d(TAG,"count: " + inner.getCount());
+ //           Log.d(TAG,"count: " + inner.getCount());
 //            Log.d(TAG, "position: " + inner.getPosition());
          //   inner.moveToFirst();
 //            Log.d(TAG, "position: " + inner.getPosition());
@@ -164,8 +170,8 @@
 
         // when the main content fragment list item is selected we end up here
         @Override
-        protected void showMainContentItemPager(final int position) {
-            super.showMainContentItemPager(position);
+        protected void showMainContentItemPager(final int position, final int count) {
+            super.showMainContentItemPager(position, count);
             if (DEBUG) Log.d(TAG, "showMainContentItemPager");
             mViewMode.enterMainContentItemPagerMode();
 
@@ -183,7 +189,7 @@
                 fm.executePendingTransactions();
             }
 
-            mPagerController.show(position);
+            mPagerController.show(position, count);
         }
     // </editor-fold>
 
@@ -255,9 +261,9 @@
         }
 
         @Override
-        public final void onMainContentItemSelected(final int position) {
+        public final void onMainContentItemSelected(final int position, final int count) {
             if (DEBUG) Log.d(TAG, "onMainContentItemSelected");
-            showMainContentItemPager(position);
+            showMainContentItemPager(position, count);
         }
 
         @Override

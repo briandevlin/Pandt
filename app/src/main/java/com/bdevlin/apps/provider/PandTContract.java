@@ -39,11 +39,13 @@ public final class PandTContract {
     private static final String PATH_FOLDERS = "folders";
     private static final String PATH_ACCOUNTS = "accounts";
     private static final String PATH_ICONS = "icons";
+    private static final String PATH_SESSIONS = "sessions";
     public static final String[] PATHS = {
             PATH_SUBJECTS,
             PATH_FOLDERS,
             PATH_ACCOUNTS,
-            PATH_ICONS
+            PATH_ICONS,
+            PATH_SESSIONS
     };
 
 
@@ -83,7 +85,7 @@ public final class PandTContract {
           String ACCOUNT_ID = "account_id";
           String ACCOUNT_NAME = "account_name";
           String FOLDER_LIST_URI = "folderListUri";
-          String FOLDER_URI = "uri";
+          String FOLDER_URI = "subjectmangersid";
           String FOLDER_TYPE = "type";
     }
 
@@ -95,6 +97,65 @@ public final class PandTContract {
         String ICON_ID = "iconId";
         String ICON_NAME = "iconName";
     }
+
+    protected interface SessionsColumns {
+
+        /** Unique string identifying this session. */
+        String SESSION_ID = "session_id";
+        /** Difficulty level of the session. */
+        String SESSION_LEVEL = "session_level";
+        /** Start time of this track. */
+        String SESSION_START = "session_start";
+        /** End time of this track. */
+        String SESSION_END = "session_end";
+        /** Title describing this track. */
+        String SESSION_TITLE = "session_title";
+        /** Body of text explaining this session in detail. */
+        String SESSION_ABSTRACT = "session_abstract";
+        /** Requirements that attendees should meet. */
+        String SESSION_REQUIREMENTS = "session_requirements";
+        /** Kewords/tags for this session. */
+        String SESSION_KEYWORDS = "session_keywords";
+        /** Hashtag for this session. */
+        String SESSION_HASHTAG = "session_hashtag";
+        /** Full URL to session online. */
+        String SESSION_URL = "session_url";
+        /** Full URL to YouTube. */
+        String SESSION_YOUTUBE_URL = "session_youtube_url";
+        /** Full URL to PDF. */
+        String SESSION_PDF_URL = "session_pdf_url";
+        /** Full URL to official session notes. */
+        String SESSION_NOTES_URL = "session_notes_url";
+        /** User-specific flag indicating starred status. */
+        String SESSION_IN_MY_SCHEDULE = "session_in_my_schedule";
+        /** Key for session Calendar event. (Used in ICS or above) */
+        String SESSION_CAL_EVENT_ID = "session_cal_event_id";
+        /** The YouTube live stream URL. */
+        String SESSION_LIVESTREAM_ID = "session_livestream_url";
+        /** The Moderator URL. */
+        String SESSION_MODERATOR_URL = "session_moderator_url";
+        /** The set of tags the session has. This is a comma-separated list of tags. */
+        String SESSION_TAGS = "session_tags";
+        /** The names of the speakers on this session, formatted for display. */
+        String SESSION_SPEAKER_NAMES = "session_speaker_names";
+        /** The order (for sorting) of this session's type. */
+        String SESSION_GROUPING_ORDER = "session_grouping_order";
+        /** The hashcode of the data used to create this record. */
+        String SESSION_IMPORT_HASHCODE = "session_import_hashcode";
+        /** The session's main tag. */
+        String SESSION_MAIN_TAG = "session_main_tag";
+        /** The session's branding color. */
+        String SESSION_COLOR = "session_color";
+        /** The session's captions URL (for livestreamed sessions). */
+        String SESSION_CAPTIONS_URL = "session_captions_url";
+        /** The session interval when using the interval counter query. */
+        String SESSION_INTERVAL_COUNT = "session_interval_count";
+        /** The session's photo URL. */
+        String SESSION_PHOTO_URL = "session_photo_url";
+        /** The session's related content (videos and call to action links). */
+        String SESSION_RELATED_CONTENT = "session_related_content";
+    }
+
     // </editor-fold>
 
     // <editor-fold desc="Projections">
@@ -115,7 +176,8 @@ public final class PandTContract {
             AccountColumns.ACCOUNT_NAME,
             AccountColumns.FOLDER_URI,
             AccountColumns.FOLDER_LIST_URI,
-            IconColumns.ICON_NAME
+            IconColumns.ICON_NAME,
+            SubjectManager.SUBJECTMANAGER_SID
 
     };
 
@@ -130,6 +192,17 @@ public final class PandTContract {
             BaseColumns._ID,
             IconColumns.ICON_ID,
             IconColumns.ICON_NAME
+
+    };
+
+    public static final String[] SESSIONS_PROJECTION = {
+            BaseColumns._ID,
+            SessionsColumns.SESSION_ID,
+            SessionsColumns.SESSION_TITLE,
+            SessionsColumns.SESSION_TAGS,
+            SessionsColumns.SESSION_MAIN_TAG,
+           // SessionsColumns.FOLDER_LIST_URI,
+           // SessionsColumns.ICON_NAME
 
     };
 
@@ -218,6 +291,25 @@ public final class PandTContract {
         public static final int ICON_ID_COLUMN = 0;
         public static final int ICON_NAME_COLUMN = 1;
 
+    }
+
+    public static class Sessions implements BaseColumns, SessionsColumns {
+
+        private Sessions() {
+        }
+
+        public static final String TABLE_NAME = PandTDatabaseHelper.Tables.SESSIONS;
+
+        //"content://com.bdevlin.apps.pandt.MockUiProvider/folders"
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_SESSIONS);
+
+        public static final String CONTENT_TYPE = "vnd.android.cursor.dir/session";
+        public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/session";
+
+        public static final int SESSION_ID_COLUMN = 1;
+        public static final int SESSION_TITLE_COLUMN = 2;
+        public static final int SESSION_TAGS_COLUMN = 3;
+        public static final int SESSION_MAIN_TAGS_COLUMN = 4;
     }
 
     // </editor-fold>

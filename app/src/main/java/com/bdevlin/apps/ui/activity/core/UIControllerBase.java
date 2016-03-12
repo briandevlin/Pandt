@@ -241,7 +241,7 @@ public abstract class UIControllerBase implements ActivityController {
     public void onStart() {
         if (DEBUG) Log.d(TAG, "onStart");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            // startGooglePlayLoginProcess();
+             startGooglePlayLoginProcess();
         }
     }
 
@@ -490,7 +490,7 @@ public abstract class UIControllerBase implements ActivityController {
         return mContext;
     }
 
-    protected void showMainContentItemPager(final int position) {
+    protected void showMainContentItemPager(final int position, final int count) {
 
     }
 
