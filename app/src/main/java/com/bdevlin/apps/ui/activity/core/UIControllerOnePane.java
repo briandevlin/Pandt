@@ -170,8 +170,8 @@
 
         // when the main content fragment list item is selected we end up here
         @Override
-        protected void showMainContentItemPager(final int position, final int count) {
-            super.showMainContentItemPager(position, count);
+        protected void showMainContentItemPager(final int position, final int count, final int folderId) {
+            super.showMainContentItemPager(position, count, folderId);
             if (DEBUG) Log.d(TAG, "showMainContentItemPager");
             mViewMode.enterMainContentItemPagerMode();
 
@@ -189,7 +189,7 @@
                 fm.executePendingTransactions();
             }
 
-            mPagerController.show(position, count);
+            mPagerController.show(position, count, folderId);
         }
     // </editor-fold>
 
@@ -261,9 +261,9 @@
         }
 
         @Override
-        public final void onMainContentItemSelected(final int position, final int count) {
+        public final void onMainContentItemSelected(final int position, final int count, final int folderId) {
             if (DEBUG) Log.d(TAG, "onMainContentItemSelected");
-            showMainContentItemPager(position, count);
+            showMainContentItemPager(position, count, folderId);
         }
 
         @Override

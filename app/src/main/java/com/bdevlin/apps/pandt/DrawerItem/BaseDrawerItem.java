@@ -16,6 +16,7 @@ public abstract class BaseDrawerItem<T> extends AbstractDrawerItem<T> {
     protected ImageHolder imageHolder;
     protected ImageHolder selectedIcon;
     protected int baseId;
+    protected int folderId;
     protected int baseCount;
     protected StringHolder baseName;
     protected String baseIcon;
@@ -61,9 +62,15 @@ public abstract class BaseDrawerItem<T> extends AbstractDrawerItem<T> {
     public int getNavId() {
         return baseId;
     }
+    public int getFolderId() {
+        return folderId;
+    }
 
     public void setBaseId(int baseId) {
         this.baseId = baseId;
+    }
+    public void setFolderId(int folderId) {
+        this.folderId = folderId;
     }
     public int getBaseCount() {
         return baseCount;

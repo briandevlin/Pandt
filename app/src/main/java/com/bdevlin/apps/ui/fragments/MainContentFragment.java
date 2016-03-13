@@ -78,7 +78,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
     // <editor-fold desc="Interfaces">
 
     public interface MainContentCallbacks {
-        void onMainContentItemSelected(final int position, final int count);
+        void onMainContentItemSelected(final int position, final int count, final int folderId);
         void onMainContentScrolled(RecyclerView recyclerView, int dx, int dy);
         void onMainContentItemSwipe(CardView cardView,SwipeDismissBehavior<CardView> swipe);
     }
@@ -89,7 +89,7 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
      */
     private static MainContentCallbacks sDummyCallbacks = new MainContentCallbacks() {
         @Override
-        public void onMainContentItemSelected(final int position, final int count) {
+        public void onMainContentItemSelected(final int position, final int count, final int folderId) {
         }
         public void onMainContentScrolled(RecyclerView recyclerView, int dx, int dy)
         {
@@ -287,10 +287,10 @@ public  class MainContentFragment extends /*ListFragment*/ Fragment
         super.onViewStateRestored(savedInstanceState);
         if(savedInstanceState != null)
         {
-            Parcelable savedRecyclerLayoutState = savedInstanceState.getParcelable(LinearLayoutManager.class.getClassLoader().toString());
-            if (savedRecyclerLayoutState != null) {
-                mRecyclerView.getLayoutManager().onRestoreInstanceState(savedRecyclerLayoutState);
-            }
+//            Parcelable savedRecyclerLayoutState = savedInstanceState.getParcelable(LinearLayoutManager.class.getClassLoader().toString());
+//            if (savedRecyclerLayoutState != null) {
+//                mRecyclerView.getLayoutManager().onRestoreInstanceState(savedRecyclerLayoutState);
+//            }
         }
     }
 

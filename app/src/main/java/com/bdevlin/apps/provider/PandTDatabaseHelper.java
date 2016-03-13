@@ -78,23 +78,26 @@ public class PandTDatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("create table " + Tables.ACCOUNTS + s);
 
-        db.execSQL("INSERT INTO accounts VALUES(1,11,11,'Nouns', '1', 'Nouns are the names of persons, places or things.', null)");
-        db.execSQL("INSERT INTO accounts VALUES(2,11,12,'Verbs', '2', 'Verbs show action or state of being. But it''s better to think of a verb as something with a subject', null)");
-        db.execSQL("INSERT INTO accounts VALUES(3,11,13,'Adjectives', '3', 'Adjectives (And adjectival phrases) modify ONLY nouns or pronouns and tell WHICH, WHOSE, WHAT KIND, and HOW MANY.', null)");
-        db.execSQL("INSERT INTO accounts VALUES(4,11,14,'Pronouns', '4', 'Pronouns take the place of nouns.', null)");
-        db.execSQL("INSERT INTO accounts VALUES(5,11,15,'Adverbs', '5', 'Adverbs (And adverbial phrases) modify verbs, adjectives, and other adverbs and tell HOW, WHEN, WHERE, and HOW MUCH.', null)");
-        db.execSQL("INSERT INTO accounts VALUES(6,11,16,'Prepositions', '6', 'Prepositions must have an object and show a relationship between its object and some other word in the sentence.', null)");
-        db.execSQL("INSERT INTO accounts VALUES(7,11,17,'Conjunctions', '6', 'Conjunctions join words, phrases, and clauses.', null)");
-        db.execSQL("INSERT INTO accounts VALUES(8,11, 18,'Interjections', '6', 'Interjections show feeling and are punctuated with either a comma or an exclamation point.', null)");
+        db.execSQL("INSERT INTO accounts VALUES(null,1,11,'Nouns', '1', 'Nouns are the names of persons, places or things.', null)");
+        db.execSQL("INSERT INTO accounts VALUES(null,1,12,'Verbs', '2', 'Verbs show action or state of being. But it''s better to think of a verb as something with a subject', null)");
+        db.execSQL("INSERT INTO accounts VALUES(null,1,13,'Adjectives', '3', 'Adjectives (And adjectival phrases) modify ONLY nouns or pronouns and tell WHICH, WHOSE, WHAT KIND, and HOW MANY.', null)");
+        db.execSQL("INSERT INTO accounts VALUES(null,1,14,'Pronouns', '4', 'Pronouns take the place of nouns.', null)");
+        db.execSQL("INSERT INTO accounts VALUES(null,1,15,'Adverbs', '5', 'Adverbs (And adverbial phrases) modify verbs, adjectives, and other adverbs and tell HOW, WHEN, WHERE, and HOW MUCH.', null)");
+        db.execSQL("INSERT INTO accounts VALUES(null,1,16,'Prepositions', '6', 'Prepositions must have an object and show a relationship between its object and some other word in the sentence.', null)");
+        db.execSQL("INSERT INTO accounts VALUES(null,1,17,'Conjunctions', '6', 'Conjunctions join words, phrases, and clauses.', null)");
+        db.execSQL("INSERT INTO accounts VALUES(null,1, 18,'Interjections', '6', 'Interjections show feeling and are punctuated with either a comma or an exclamation point.', null)");
 
-        db.execSQL("INSERT INTO accounts VALUES(9,22,21,'Nouns', '1', 'Nouns are the names of persons, places or things.', null)");
-        db.execSQL("INSERT INTO accounts VALUES(10,22,22,'Verbs', '2', 'Verbs show action or state of being. But it''s better to think of a verb as something with a subject', null)");
-        db.execSQL("INSERT INTO accounts VALUES(11,22,23,'Adjectives', '3', 'Adjectives (And adjectival phrases) modify ONLY nouns or pronouns and tell WHICH, WHOSE, WHAT KIND, and HOW MANY.', null)");
-        db.execSQL("INSERT INTO accounts VALUES(12,33,24,'Pronouns', '4', 'Pronouns take the place of nouns.', null)");
-        db.execSQL("INSERT INTO accounts VALUES(13,33,25,'Adverbs', '5', 'Adverbs (And adverbial phrases) modify verbs, adjectives, and other adverbs and tell HOW, WHEN, WHERE, and HOW MUCH.', null)");
-        db.execSQL("INSERT INTO accounts VALUES(14,44,26,'Prepositions', '6', 'Prepositions must have an object and show a relationship between its object and some other word in the sentence.', null)");
-        db.execSQL("INSERT INTO accounts VALUES(15,44,27,'Conjunctions', '6', 'Conjunctions join words, phrases, and clauses.', null)");
-        db.execSQL("INSERT INTO accounts VALUES(16,55, 28,'Interjections', '6', 'Interjections show feeling and are punctuated with either a comma or an exclamation point.', null)");
+        db.execSQL("INSERT INTO accounts VALUES(null,2,21,'Practice one', '1', 'Practice one.', null)");
+        db.execSQL("INSERT INTO accounts VALUES(null,2,22,'Practice two', '2', 'Practice two.', null)");
+        db.execSQL("INSERT INTO accounts VALUES(null,2,23,'Practice three', '3', 'Practice three.', null)");
+
+        db.execSQL("INSERT INTO accounts VALUES(null,3,24,'Elementary one', '4', 'Elementary one.', null)");
+        db.execSQL("INSERT INTO accounts VALUES(null,3,25,'Elementary two', '5', 'Elementary two.', null)");
+
+        db.execSQL("INSERT INTO accounts VALUES(null,4,26,'Intermediate one', '6', 'Intermediate one.', null)");
+        db.execSQL("INSERT INTO accounts VALUES(null,4,27,'Intermediate two', '6', 'Intermediate two.', null)");
+
+        db.execSQL("INSERT INTO accounts VALUES(null,5, 28,'Advanced one', '6', 'Advanced one.', null)");
 
     }
 
@@ -110,12 +113,12 @@ public class PandTDatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("create table " + Tables.FOLDERS + s);
 
-        db.execSQL("INSERT INTO folders VALUES(1,11,'Grammar', 'ic_speaker_notes_black_24dp', 'content://com.bdevlin.apps.pandt.MockUiProvider/accounts/11' )");
-        db.execSQL("INSERT INTO folders VALUES(2,22,'Practice', 'ic_store_black_24dp', 'content://com.bdevlin.apps.pandt.MockUiProvider/accounts/22' )");
-        db.execSQL("INSERT INTO folders VALUES(3,33,'Elementary', 'ic_work_black_24dp','content://com.bdevlin.apps.pandt.MockUiProvider/accounts/33' )");
-        db.execSQL("INSERT INTO folders VALUES(4,44,'Intermediate', 'ic_speaker_notes_black_24dp','content://com.bdevlin.apps.pandt.MockUiProvider/accounts/44' )");
-        db.execSQL("INSERT INTO folders VALUES(5,55,'Advanced', 'ic_store_black_24dp','content://com.bdevlin.apps.pandt.MockUiProvider/accounts/55' )");
-        db.execSQL("INSERT INTO folders VALUES(6,66,'Quiz', 'ic_work_black_24dp','content://com.bdevlin.apps.pandt.MockUiProvider/accounts/11' )");
+        db.execSQL("INSERT INTO folders VALUES(1,1,'Grammar', 'ic_speaker_notes_black_24dp', 'content://com.bdevlin.apps.pandt.MockUiProvider/accounts/1' )");
+        db.execSQL("INSERT INTO folders VALUES(2,2,'Practice', 'ic_store_black_24dp', 'content://com.bdevlin.apps.pandt.MockUiProvider/accounts/2' )");
+        db.execSQL("INSERT INTO folders VALUES(3,3,'Elementary', 'ic_work_black_24dp','content://com.bdevlin.apps.pandt.MockUiProvider/accounts/3' )");
+        db.execSQL("INSERT INTO folders VALUES(4,4,'Intermediate', 'ic_speaker_notes_black_24dp','content://com.bdevlin.apps.pandt.MockUiProvider/accounts/4' )");
+        db.execSQL("INSERT INTO folders VALUES(5,5,'Advanced', 'ic_store_black_24dp','content://com.bdevlin.apps.pandt.MockUiProvider/accounts/5' )");
+        db.execSQL("INSERT INTO folders VALUES(6,6,'Quiz', 'ic_work_black_24dp','content://com.bdevlin.apps.pandt.MockUiProvider/accounts/1' )");
 
 
     }

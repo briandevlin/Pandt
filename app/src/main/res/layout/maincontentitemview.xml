@@ -48,7 +48,7 @@
 
             android:padding="8dp"
             android:text="New label"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/baseName"

@@ -53,6 +53,7 @@ public class MainContentDrawerItem
         if (c != null) {
             baseId = c.getInt(PandTContract.Accounts.ACCOUNT_ID_COLUMN);
             baseName = new StringHolder(c.getString(PandTContract.Accounts.ACCOUNT_NAME_COLUMN));
+            folderId = c.getInt(PandTContract.Accounts.ACCOUNT_FOLDER_ID_COLUMN);
             baseIcon = c.getString(6);
             baseCount = c.getInt(7);
             baseListUri = new StringHolder(c.getString(PandTContract.Accounts.ACCOUNT_LISTURI_COLUMN));
@@ -106,7 +107,7 @@ public class MainContentDrawerItem
                 if (mActivity != null) {
 
                     mCallbacks = mActivity.getMainContentCallbacks();
-                   mCallbacks.onMainContentItemSelected(position, 0);
+                   mCallbacks.onMainContentItemSelected(position, 0, 0);
                 }
             }
 

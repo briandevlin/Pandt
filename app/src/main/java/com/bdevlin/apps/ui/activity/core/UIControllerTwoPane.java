@@ -113,7 +113,7 @@ public class UIControllerTwoPane extends UIControllerBase {
 
 
     @Override
-    public void onMainContentItemSelected(int position, int count) {
+    public void onMainContentItemSelected(int position, int count, int folderId) {
 
     }
 }

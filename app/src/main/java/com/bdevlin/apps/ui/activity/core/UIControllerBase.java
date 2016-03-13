@@ -490,7 +490,7 @@ public abstract class UIControllerBase implements ActivityController {
         return mContext;
     }
 
-    protected void showMainContentItemPager(final int position, final int count) {
+    protected void showMainContentItemPager(final int position, final int count, final int folderId) {
 
     }
 

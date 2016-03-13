@@ -111,7 +111,7 @@ public class ContentCursorRecyclerAdapter extends ContentBaseRecyclerViewAdapter
                 }
                 if (mActivity != null) {
                     mCallbacks = mActivity.getMainContentCallbacks();
-                    mCallbacks.onMainContentItemSelected(position,  item.getBaseCount());
+                    mCallbacks.onMainContentItemSelected(position,  item.getBaseCount(), item.getFolderId());
                     //mCallbacks.onMainContentScrolled(()v);
                 }
 

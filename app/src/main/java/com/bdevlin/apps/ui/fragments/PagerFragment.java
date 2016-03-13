@@ -81,6 +81,7 @@ public class PagerFragment extends Fragment
     private  String mContent = "";
     private Map<String, TopicGroup> mTopics = new HashMap<>();
 
+
     // </editor-fold>
 
     // <editor-fold desc="New Instance">
@@ -404,23 +405,7 @@ public class PagerFragment extends Fragment
         if (cursor != null) {
          //   if (DEBUG) Log.d(TAG, "Reading session data from cursor.");
 
-            // As we go through the session query results we will be collecting X numbers of session
-            // data per Topic and Y numbers of sessions per Theme. When new topics or themes are
-            // seen a group will be created.
-
-            // As we iterate through the list of sessions we are also watching out for the
-            // keynote and any live sessions streaming right now.
-
-            // The following adjusts the theme and topic limits based on whether the attendee is at
-            // the venue.
-//            boolean atVenue = SettingsUtils.isAttendeeAtVenue(mContext);
-//            int themeSessionLimit = getThemeSessionLimit(mContext);
-//
-//            int topicSessionLimit = getTopicSessionLimit(mContext);
-//
-//            LiveStreamData liveStreamData = new LiveStreamData();
             Map<String, TopicGroup> topicGroups = new HashMap<>();
-           // Map<String, ThemeGroup> themeGroups = new HashMap<>();
 
             // Iterating through rows in Sessions query.
             if (cursor != null && cursor.moveToFirst()) {
@@ -428,34 +413,8 @@ public class PagerFragment extends Fragment
                     SessionData session = new SessionData();
                     populateSessionFromCursorRow(session, cursor);
 
-                    // Sessions missing titles, descriptions, ids, or images aren't eligible for the
-                    // Explore screen.
-//                    if (TextUtils.isEmpty(session.getSessionName()) ||
-//                          //  TextUtils.isEmpty(session.getDetails()) ||
-//                            TextUtils.isEmpty(session.getSessionId()) //||
-//                           /* TextUtils.isEmpty(session.getImageUrl()*/)) {
-//                        continue;
-//                    }
-
-//                    if (!atVenue &&
-//                            (!session.isLiveStreamAvailable()) && !session.isVideoAvailable()) {
-//                        // Skip the opportunity to present the session for those not on site since it
-//                        // won't be viewable as there is neither a live stream nor video available.
-//                        continue;
-//                    }
-
                     String tags = session.getTags();
 
-//                    if (Config.Tags.SPECIAL_KEYNOTE.equals(session.getMainTag())) {
-//                        SessionData keynoteData = new SessionData();
-//                        populateSessionFromCursorRow(keynoteData, cursor);
-//                        rewriteKeynoteDetails(keynoteData);
-//                        mKeynoteData = keynoteData;
-//                    } else if (session.isLiveStreamNow(mContext)) {
-//                        liveStreamData.addSessionData(session);
-//                    }
-
-                    // TODO: Refactor into a system wide way of parsing these tags.
                     if (!TextUtils.isEmpty(tags)) {
                         StringTokenizer tagsTokenizer = new StringTokenizer(tags, ",");
                         while (tagsTokenizer.hasMoreTokens()) {
@@ -470,31 +429,12 @@ public class PagerFragment extends Fragment
                                 }
                                 topicGroup.addSessionData(session);
 
-//                            } else if (rawTag.startsWith("THEME_")) {
-//                                ThemeGroup themeGroup = themeGroups.get(rawTag);
-//                                if (themeGroup == null) {
-//                                    themeGroup = new ThemeGroup();
-//                                    themeGroup.setTitle(rawTag);
-//                                    themeGroup.setId(rawTag);
-//                                    themeGroups.put(rawTag, themeGroup);
-//                                }
-//                                themeGroup.addSessionData(session);
                             }
                         }
                     }
                 } while (cursor.moveToNext());
             }
 
-//            for (ItemGroup group : themeGroups.values()) {
-//                group.trimSessionData(themeSessionLimit);
-//            }
-//            for (ItemGroup group : topicGroups.values()) {
-//                group.trimSessionData(topicSessionLimit);
-//            }
-//            if (liveStreamData.getSessions().size() > 0) {
-//                mLiveStreamData = liveStreamData;
-//            }
-//            mThemes = themeGroups;
             mTopics = topicGroups;
             return true;
         }
