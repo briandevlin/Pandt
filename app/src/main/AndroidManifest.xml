@@ -86,6 +86,11 @@
             >
         </activity>
         <activity
+            android:name="com.bdevlin.apps.ui.activity.core.SessionDetailActivity"
+            android:label="SessionDetailActivity"
+            >
+        </activity>
+        <activity
             android:name="com.bdevlin.apps.ui.activity.core.PreferencesActivity"
             android:theme="@style/Theme.PandT.Preferences"
             android:label="@string/app_name" >

@@ -1,0 +1,6 @@
+<fragment
+    android:name="com.bdevlin.apps.ui.fragments.SessionDetailFragment"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/session_detail_frag"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />

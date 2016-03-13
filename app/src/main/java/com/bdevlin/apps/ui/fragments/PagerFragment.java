@@ -80,6 +80,7 @@ public class PagerFragment extends Fragment
     private static String mTopic;
     private  String mContent = "";
     private Map<String, TopicGroup> mTopics = new HashMap<>();
+    TextView subTitle;
 
 
     // </editor-fold>
@@ -156,7 +157,22 @@ public class PagerFragment extends Fragment
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        onVisibilityChange();
+    }
+    private void onVisibilityChange() {
+        if (getUserVisibleHint()) {
+            updateTitle();
+        }
 
+    }
+    private void updateTitle() {
+       // getActivity().setTitle(getString(R.string.title_help) + " > " + getTitle());
+        // getActivity().setTitle(mMessage);
+        subTitle.setText(mTopic + " -> " + mContent);
+    }
     private void SetupActionToolbar()
     {
         actionBarController = mActivity.getActionBarController();
@@ -168,7 +184,7 @@ public class PagerFragment extends Fragment
            // ctl.setVisibility(View.GONE);
           //  ctl.setTitle(topic);
 //            ctl.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
-            TextView subTitle =  (TextView)ctl.findViewById(R.id.subTitle);
+             subTitle =  (TextView)ctl.findViewById(R.id.subTitle);
             subTitle.setText(mTopic + " -> " + mContent);
         }
         else {

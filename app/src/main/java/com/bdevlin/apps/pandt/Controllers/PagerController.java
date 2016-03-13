@@ -42,7 +42,7 @@ public class PagerController {
     private PandtActivity mActivity;
     private LinePageIndicator mIndicator;
     private TabPageIndicator mIndicatorTab;
-    private Map<String, Collection<String>> mTopics = new HashMap<>();
+    //private Map<String, Collection<String>> mTopics = new HashMap<>();
     private Map<String, ArrayList> mEnums = new HashMap<>();
     private ArrayList<QueryEnum> posArray = new ArrayList<QueryEnum>();
     private ArrayList<QueryEnum> pracArray = new ArrayList<QueryEnum>();
@@ -51,14 +51,18 @@ public class PagerController {
     private ArrayList<QueryEnum> advanArray = new ArrayList<QueryEnum>();
     private ArrayList<QueryEnum> quizArray = new ArrayList<QueryEnum>();
     EnumMap<Grammar, ArrayList<QueryEnum>> subjectsMap = new EnumMap<Grammar, ArrayList<QueryEnum>>(Grammar.class);
+
     enum Grammar {
         PartsOfSpeech, Practice, Elementary, Intermediate, Advanced, Quiz
     }
+
     public interface QueryEnum {
 
 
         public int getId();
+
         public int getTabCount();
+
         public String getTopic();
 
         public String[] getProjection();
@@ -72,7 +76,7 @@ public class PagerController {
         }),
 
         SESSIONTWO(0x2, "Verbs", 4, new String[]{
-            "Regular", "Irregular", "Modal", "Auxillary"/*, "UncountableTwo", "CollectiveTwo"*/
+                "Regular", "Irregular", "Modal", "Auxillary"/*, "UncountableTwo", "CollectiveTwo"*/
         }),
         SESSIONTHREE(0x3, "Adjectives", 4, new String[]{
                 "Articles", "Possessives", "Modal", "Auxillary"/*, "UncountableTwo", "CollectiveTwo"*/
@@ -90,7 +94,7 @@ public class PagerController {
                 "Articles", "Possessives", "Modal", "Auxillary"/*, "UncountableTwo", "CollectiveTwo"*/
         }),
         SESSIONEIGHT(0x8, "Interjections", 2, new String[]{
-            "Articles", "Possessives"/*, "MaterialThree", "CountableThree", "UncountableThree", "CollectiveThree"*/
+                "Articles", "Possessives"/*, "MaterialThree", "CountableThree", "UncountableThree", "CollectiveThree"*/
         });
 
 
@@ -118,19 +122,23 @@ public class PagerController {
         public int getId() {
             return id;
         }
+
         @Override
         public int getTabCount() {
             return tabCount;
         }
+
         @Override
         public String getTopic() {
             return topic;
         }
+
         @Override
         public String[] getProjection() {
             return projection;
         }
     }
+
     public static enum PracticeEnum implements QueryEnum {
 
         SESSIONONE(0x1, "PracticeOne", 2, new String[]{
@@ -168,19 +176,23 @@ public class PagerController {
         public int getId() {
             return id;
         }
+
         @Override
         public int getTabCount() {
             return tabCount;
         }
+
         @Override
         public String getTopic() {
             return topic;
         }
+
         @Override
         public String[] getProjection() {
             return projection;
         }
     }
+
     public static enum ElementaryEnum implements QueryEnum {
 
         SESSIONONE(0x1, "ElementaryOne", 2, new String[]{
@@ -218,19 +230,23 @@ public class PagerController {
         public int getId() {
             return id;
         }
+
         @Override
         public int getTabCount() {
             return tabCount;
         }
+
         @Override
         public String getTopic() {
             return topic;
         }
+
         @Override
         public String[] getProjection() {
             return projection;
         }
     }
+
     public static enum IntermediateEnum implements QueryEnum {
 
         SESSIONONE(0x1, "IntermediateOne", 2, new String[]{
@@ -268,19 +284,23 @@ public class PagerController {
         public int getId() {
             return id;
         }
+
         @Override
         public int getTabCount() {
             return tabCount;
         }
+
         @Override
         public String getTopic() {
             return topic;
         }
+
         @Override
         public String[] getProjection() {
             return projection;
         }
     }
+
     public static enum AdvancedEnum implements QueryEnum {
 
         SESSIONONE(0x1, "AdvancedOne", 2, new String[]{
@@ -318,19 +338,23 @@ public class PagerController {
         public int getId() {
             return id;
         }
+
         @Override
         public int getTabCount() {
             return tabCount;
         }
+
         @Override
         public String getTopic() {
             return topic;
         }
+
         @Override
         public String[] getProjection() {
             return projection;
         }
     }
+
     public static enum QuizEnum implements QueryEnum {
 
         SESSIONONE(0x1, "QuizOne", 2, new String[]{
@@ -368,28 +392,29 @@ public class PagerController {
         public int getId() {
             return id;
         }
+
         @Override
         public int getTabCount() {
             return tabCount;
         }
+
         @Override
         public String getTopic() {
             return topic;
         }
+
         @Override
         public String[] getProjection() {
             return projection;
         }
     }
 
-    QueryEnum[] posEnum;
-    QueryEnum[] elementaryEnum;
     // </editor-fold>
 
     // <editor-fold desc="Constructor">
 
     public PagerController(PandtActivity activity,
-                                       ActivityController controller, FragmentManager fragmentManager) {
+                           ActivityController controller, FragmentManager fragmentManager) {
         mActivity = activity;
         mPager = (ViewPager) activity.findViewById(R.id.conversation_pane);
 
@@ -401,8 +426,8 @@ public class PagerController {
 
     // </editor-fold>
 
-    private void initializeEnums()
-    {
+    // <editor-fold desc="Constructor">
+    private void initializeEnums() {
         posArray.add(PartsOfSpeechEnum.SESSIONONE);
         posArray.add(PartsOfSpeechEnum.SESSIONTWO);
         posArray.add(PartsOfSpeechEnum.SESSIONTHREE);
@@ -439,10 +464,11 @@ public class PagerController {
         subjectsMap.put(Grammar.Advanced, advanArray);
         subjectsMap.put(Grammar.Quiz, quizArray);
     }
+    // </editor-fold>
 
     // <editor-fold desc="setupPageMargin">
     private void setupPageMargin(Context c) {
-        final TypedArray a = c.obtainStyledAttributes(new int[] {android.R.attr.listDivider});
+        final TypedArray a = c.obtainStyledAttributes(new int[]{android.R.attr.listDivider});
         final Drawable divider = a.getDrawable(0);
         a.recycle();
         final int padding = c.getResources().getDimensionPixelOffset(
@@ -455,44 +481,39 @@ public class PagerController {
     // </editor-fold>
 
     // <editor-fold desc="show/hide">
-    public void show(final int selectedCard, final int count,  int folderId)
-    {
-
+    public void show(final int selectedCard, final int count, int folderId) {
         if (DEBUG) Log.d(TAG, "PagerController: Show");
-       //int o =  Importance.Medium.ordinal();
-        Grammar selected =  Grammar.PartsOfSpeech;
-        folderId = folderId - 1;
 
-                for (Grammar item : Grammar.values()
+        Grammar selected = Grammar.PartsOfSpeech;
+        folderId = folderId - 1;
+        for (Grammar item : Grammar.values()
                 ) {
-                    if (item.ordinal() == folderId) {
-                        selected = item;
-                        break;
-                    }
-                }
+            if (item.ordinal() == folderId) {
+                selected = item;
+                break;
+            }
+        }
         ArrayList list = subjectsMap.get(selected);
-        QueryEnum e = (QueryEnum)list.get(selectedCard);
+        QueryEnum e = (QueryEnum) list.get(selectedCard);
         mPager.setVisibility(View.VISIBLE);
         mPager.setCurrentItem(0);
+        mPager.setOffscreenPageLimit(1);
         mPagerAdapter = new SlidePagerAdapter(mPager.getResources(), mFragmentManager, e.getTabCount(), e.getProjection(), e.getTopic());
-       // mPagerAdapter.setCount(posEnum[position].getTabCount());
+        // mPagerAdapter.setCount(e.getTabCount());
 
         mPager.setAdapter(mPagerAdapter);
 
-        mIndicatorTab = (TabPageIndicator)mActivity.findViewById(R.id.indicatorTab);
+        mIndicatorTab = (TabPageIndicator) mActivity.findViewById(R.id.indicatorTab);
         mIndicatorTab.setViewPager(mPager);
         mIndicatorTab.notifyDataSetChanged();
         mIndicatorTab.setCurrentItem(0);
         mIndicatorTab.setVisibility(View.VISIBLE);
 
 
-
-
-
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-               // if (DEBUG) Log.d(TAG, "onPageScrolled");
+                // if (DEBUG) Log.d(TAG, "onPageScrolled");
             }
 
             @Override
@@ -502,7 +523,7 @@ public class PagerController {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-               // if (DEBUG) Log.d(TAG, "onPageScrollStateChanged");
+                // if (DEBUG) Log.d(TAG, "onPageScrollStateChanged");
             }
         });
 
@@ -512,8 +533,8 @@ public class PagerController {
         if (DEBUG) Log.d(TAG, "PagerController: Hide");
         mPager.setCurrentItem(0);
         mPager.setVisibility(View.GONE);
-       // if (mIndicator != null) mIndicator.setVisibility(View.GONE);
-        if (mIndicatorTab != null && mIndicatorTab.getVisibility() == View.VISIBLE ) {
+        // if (mIndicator != null) mIndicator.setVisibility(View.GONE);
+        if (mIndicatorTab != null && mIndicatorTab.getVisibility() == View.VISIBLE) {
             mPagerAdapter.setCount(0);
             mIndicatorTab.notifyDataSetChanged();
             mIndicatorTab.setVisibility(View.GONE);
@@ -542,7 +563,7 @@ public class PagerController {
 
     public class SlidePagerAdapter extends FragmentStatePagerAdapter {
 
-        private  int NUM_PAGES = 0;
+        private int NUM_PAGES = 0;
         private QueryEnum[] qe;
         private String[] projection;
         private String topic;
@@ -550,7 +571,7 @@ public class PagerController {
         public SlidePagerAdapter(Resources res, FragmentManager fm, int count, String[] projection, final String topic) {
             super(fm);
             NUM_PAGES = count;
-            this.projection =  projection;
+            this.projection = projection;
             this.topic = topic;
         }
 
@@ -566,6 +587,7 @@ public class PagerController {
             frag.setArguments(args);
             return frag;
         }
+
         @Override
         public CharSequence getPageTitle(int position) {
 //            if (projection == null){

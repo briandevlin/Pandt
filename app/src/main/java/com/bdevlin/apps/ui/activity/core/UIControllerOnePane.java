@@ -99,9 +99,10 @@
         final String[] mProjection = PandTContract.SESSIONS_PROJECTION;
        // final Uri contentUri = PandTContract.Accounts.buildAccountDirUri("11");
             final Uri contentUri = PandTContract.Sessions.CONTENT_URI;
-       // final Cursor inner = (Cursor)getContext().getContentResolver().query(contentUri, mProjection,null,null,null);
+            Uri sessionUri = PandTContract.Sessions.buildSessionUri("1");
+        final Cursor inner = (Cursor)getContext().getContentResolver().query(sessionUri, mProjection,null,null,null);
 //               // "_id=?", new String[] { String.valueOf(2) }, null);
- //           Log.d(TAG,"count: " + inner.getCount());
+            Log.d(TAG,"count: " + inner.getCount());
 //            Log.d(TAG, "position: " + inner.getPosition());
          //   inner.moveToFirst();
 //            Log.d(TAG, "position: " + inner.getPosition());

@@ -310,6 +310,10 @@ public final class PandTContract {
         public static final int SESSION_TITLE_COLUMN = 2;
         public static final int SESSION_TAGS_COLUMN = 3;
         public static final int SESSION_MAIN_TAGS_COLUMN = 4;
+
+        public static Uri buildSessionUri(String sessionId) {
+            return CONTENT_URI.buildUpon().appendPath(sessionId).build();
+        }
     }
 
     // </editor-fold>

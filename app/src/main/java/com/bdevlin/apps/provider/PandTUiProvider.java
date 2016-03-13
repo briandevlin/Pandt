@@ -371,7 +371,13 @@ public class PandTUiProvider extends ContentProvider {
                                 PandTContract.Accounts.FOLDER_ID + "=?", accoutId);
             }
             case SESSION: {
+
                 return builder.table(Tables.SESSIONS);
+            }
+            case SESSION_ID: {
+                final String sessionId = uri.getLastPathSegment();
+                return builder.table(Tables.SESSIONS).where(
+                        PandTContract.Sessions.SESSION_ID + "=?", sessionId);
             }
             default: {
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

@@ -19,6 +19,8 @@ import com.bdevlin.apps.Config;
 import com.bdevlin.apps.pandt.Controllers.ActionBarController;
 import com.bdevlin.apps.pandt.Controllers.ActivityController;
 import com.bdevlin.apps.pandt.Controllers.ControllableActivity;
+import com.bdevlin.apps.pandt.helper.SessionData;
+import com.bdevlin.apps.provider.PandTContract;
 import com.bdevlin.apps.utils.ViewMode;
 //import com.bdevlin.mymodule.lib.gcm.ServerUtilities;
 import com.bdevlin.apps.ui.fragments.MainContentFragment;
@@ -313,22 +315,22 @@ public class PandtActivity extends AppCompatActivity implements ControllableActi
     public void sessionDetailItemClicked(View viewClicked) {
         Log.d(TAG, "clicked: " + viewClicked + " " +
                 ((viewClicked != null) ? viewClicked.getTag() : ""));
-//        Object tag = null;
-//        if (viewClicked != null) {
-//            tag = viewClicked.getTag();
-//        }
-//        if (tag instanceof SessionData) {
-//            SessionData sessionData = (SessionData)viewClicked.getTag();
-//            if (!TextUtils.isEmpty(sessionData.getSessionId())) {
-//                Intent intent = new Intent(getApplicationContext(), SessionDetailActivity.class);
-//                Uri sessionUri = ScheduleContract.Sessions.buildSessionUri(sessionData.getSessionId());
-//                intent.setData(sessionUri);
-//                startActivity(intent);
-//            } else {
-//                LOGE(TAG, "Theme item clicked but session data was null:" + sessionData);
-//                Toast.makeText(this, R.string.unknown_error, Toast.LENGTH_LONG).show();
-//            }
-//        }
+        Object tag = null;
+        if (viewClicked != null) {
+            tag = viewClicked.getTag();
+        }
+        if (tag instanceof SessionData) {
+            SessionData sessionData = (SessionData)viewClicked.getTag();
+            if (!TextUtils.isEmpty(sessionData.getSessionId())) {
+                Intent intent = new Intent(getApplicationContext(), SessionDetailActivity.class);
+                Uri sessionUri = PandTContract.Sessions.buildSessionUri(sessionData.getSessionId());
+                intent.setData(sessionUri);
+                startActivity(intent);
+            } else {
+                Log.e(TAG, "Theme item clicked but session data was null:" + sessionData);
+
+            }
+        }
     }
     public void cardHeaderClicked(View viewClicked) {
         Log.d(TAG, "clicked: " + viewClicked + " " +
